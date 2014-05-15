@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
@@ -1153,6 +1154,22 @@ namespace DigitalBeacon.SiteBase.Web
 		protected ActionResult HtmlToPdfAction(bool landscape, string options, string filename, string url, params string[] additionalUrls)
 		{
 			url.Guard("url");
+
+			if (!WebConstants.IsPdfGenerationEnabled)
+			{
+				var webClient = new WebClient();
+				using (var stream = webClient.OpenRead(url))
+				using (var ms = new MemoryStream())
+				{
+					stream.CopyTo(ms);
+					var result = new FileContentResult(ms.ToArray(), MediaTypeNames.Text.Html);
+					if (filename.HasText())
+					{
+						result.FileDownloadName = filename;
+					}
+					return result;
+				}
+			}
 
 			var p = new System.Diagnostics.Process();
 

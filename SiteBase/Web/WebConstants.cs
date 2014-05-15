@@ -76,5 +76,10 @@ namespace DigitalBeacon.SiteBase.Web
 		{
 			get { return ConfigurationManager.AppSettings[UseEmailForUsernameKey].ToBoolean() ?? false; }
 		}
+
+		public static bool IsPdfGenerationEnabled
+		{
+			get { return ConfigurationManager.AppSettings[HtmlToPdfExePathKey].HasText(); }
+		}
 	}
 }
