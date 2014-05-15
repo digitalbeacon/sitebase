@@ -1,6 +1,18 @@
+@echo off
+
 SET Configuration=Release
-SET BuildTarget=ResolveReferences;_CopyWebApplication
+SET BuildTarget=_CopyWebApplication
 SET NoPause=
+SET Version=
+
+for %%a in (.) do set Project=%%~na
+
+SETLOCAL EnableDelayedExpansion
+FOR /F "tokens=2" %%i IN (SiteBase\CommonAssemblyInfo.cs) DO (
+	SET token=%%i
+	SET token=!token:")]=!
+	IF "!token:~0,19!"=="AssemblyFileVersion" SET Version=-!token:~21!
+)
 
 :setargs
 if "%1"=="" goto doneargs
@@ -9,25 +21,52 @@ if "%1"=="/debug" SET Configuration=Debug
 if "%1"=="/clean" SET BuildTarget=Clean
 if "%1"=="/compress" SET BuildTarget=CompressWebAssets
 if "%1"=="/nopause" SET NoPause=nopause
+if "%1"=="/version" (
+	SET Version=-%2
+	SHIFT
+)
+if "%1"=="/project" (
+	SET Project=%2
+	SHIFT
+)
 SHIFT
 goto setargs
 
 :doneargs
 
-rmdir /s /q SiteBase\Publish\Site
+rmdir /s /q Publish
 
-%SystemRoot%\Microsoft.NET\Framework\v3.5\msbuild SiteBase\Site\DigitalBeacon.SiteBase.csproj /t:%BuildTarget% "/p:Configuration=%Configuration%;WebProjectOutputDir=%cd%\SiteBase\Publish\Site\;OutDir=%cd%\SiteBase\Publish\Site\Bin\;BuildingProject=true"
+for %%i in (SiteBase\Site\*.csproj) do (
+	%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\msbuild %%i /t:%BuildTarget% /p:Configuration=%Configuration%;WebProjectOutputDir=%cd%\Publish\Site\;OutDir=%cd%\Publish\Site\Bin\
+)
 
-del /q SiteBase\Publish\Site\web.config
+copy /y SiteBase\Site\Bin\*.dll Publish\Site\Bin
+copy /y SiteBase\Site\Bin\*.pdb Publish\Site\Bin
 
-mkdir SiteBase\Publish\Site\Temp
+mkdir Publish\Config\Config
+xcopy /Y SiteBase\Site\web.config Publish\Config
+xcopy SiteBase\Config\*.config Publish\Config\Config
+if exist Publish\Config\Config\web.config del Publish\Config\Config\web.config
 
-move SiteBase\Publish\Site\Bin\DigitalBeacon*.dll SiteBase\Publish\Site\Temp
+if exist "%ProgramFiles%\7-Zip\7z.exe" set zipexe=%ProgramFiles%\7-Zip\7z.exe
+if not defined zipexe if exist "%PROGRAMW6432%\7-Zip\7z.exe" set zipexe=%PROGRAMW6432%\7-Zip\7z.exe
 
-del /q SiteBase\Publish\Site\Bin\*.*
+if defined zipexe (
+	cd Publish\Site
+	"%zipexe%" a -r ..\%Project%%Version%.zip *
+	cd ..\Config
+	"%zipexe%" a -r ..\Config%Version%.zip *
+	cd ..\..
+)
 
-move SiteBase\Publish\Site\Temp\*.* SiteBase\Publish\Site\Bin
+if not defined zipexe (
+	echo.
+	echo Could not find 7-zip.
+	echo.
+)
 
-rmdir /s /q SiteBase\Publish\Site\Temp
+echo.
+echo Deployment files are located in the Publish folder.
+echo.
 
 if not "%NoPause%"=="nopause" pause

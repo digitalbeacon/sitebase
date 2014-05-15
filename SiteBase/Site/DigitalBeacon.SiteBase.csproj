@@ -422,7 +422,6 @@
     <Content Include="Resources\Base\Scripts\sitebase.min.js" />
     <Content Include="Resources\Base\Users\styles.css" />
     <Content Include="Resources\Base\Users\styles.min.css" />
-    <Content Include="Resources\Css\phonecat.css" />
     <Content Include="Resources\Images\background.gif" />
     <Content Include="Resources\Images\header.jpg" />
     <Content Include="Resources\Images\stock.gif" />
@@ -733,9 +732,9 @@
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zu.js" />
-    <Content Include="Web.config">
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <EmbeddedResource Include="Views\Shared\_sbSiteTypeSelector.spark" />
     <EmbeddedResource Include="Views\Shared\Mobile.spark">
       <SubType>Designer</SubType>
@@ -758,10 +757,11 @@
     <Folder Include="Config\" />
     <Folder Include="Controllers\Mobile\" />
     <Folder Include="Resources\Base\telerik\" />
+    <Folder Include="Resources\Css\" />
     <Folder Include="Resources\Scripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Base\DigitalBeacon.csproj">
