@@ -1,0 +1,3 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.Modules" />
+
+<global module="'base/modules'" type="string" />

@@ -1,0 +1,41 @@
+﻿#// model must be a list model
+	#// currentPage and pages variables required if model is not a list model
+	#//<default isListModel="typeof(ListModelBase).IsAssignableFrom(Model.GetType())" />
+	#//<default currentPage="Model.GetPropertyValue<int>('Page')" if="isListModel" />
+	#//<default pages="Model.GetPropertyValue<int>('Pages')" if="isListModel" />
+<default currentPage="Model.Page" />
+<default pages="Model.Pages" />
+<default action="ViewContext.RouteData.Values['action'].ToString()" />
+<default id="ViewContext.RouteData.Values['id'].ToSafeString()" />
+
+<div id="pager" if="pages > 1">
+	<if condition="currentPage > 1">
+		<a href="${Url.Action(action, new { id = id, page = 1 })}"
+			 class="item" id="first"><span class="text">${Text("Common.Pager.First.Label")}</span></a>
+		<a href="${Url.Action(action, new { id = id, page = currentPage - 1 })}"
+			 class="item" id="previous"><span class="text">${Text("Common.Pager.Previous.Label")}</span></a>
+	</if>
+	<else>
+		<span class="item disabled" id="first"><span class="text">${Text("Common.Pager.First.Label")}</span></span>
+		<span class="item disabled" id="previous"><span class="text">${Text("Common.Pager.Previous.Label")}</span></span>
+	</else>
+	<for each="var p in new int[pages]">
+		<if condition="currentPage != pIndex + 1">
+			<a href="${Url.Action(action, new { id = id, page = pIndex + 1 })}"
+				 class="item page"><span class="text">${pIndex + 1}</span></a>
+		</if>
+		<else>
+			<span class="item page disabled"><span class="text">${pIndex + 1}</span></span>
+		</else>
+	</for>
+	<if condition="currentPage < pages">
+		<a href="${Url.Action(action, new { id = id, page = currentPage + 1 })}"
+			 class="item" id="next"><span class="text">${Text("Common.Pager.Next.Label")}</span></a>
+		<a href="${Url.Action(action, new { id = id, page = pages })}"
+			 class="item" id="last"><span class="text">${Text("Common.Pager.Last.Label")}</span></a>
+	</if>
+	<else>
+		<span class="item disabled" id="next"><span class="text">${Text("Common.Pager.Next.Label")}</span></span>
+		<span class="item disabled" id="last"><span class="text">${Text("Common.Pager.Last.Label")}</span></span>
+	</else>
+</div>

@@ -1,0 +1,116 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<var keysReadOnly="ViewContext.RouteData.Values['action'].ToSafeString().EqualsIgnoreCase('manage')" />
+
+<sbFormPanel panelId="'permissionEditPanel'" enableDelete="false" enableBulkCreate="false">
+	${Html.Hidden(WebConstants.RenderTypeKey, RenderPartial ? WebConstants.RenderTypePartial : WebConstants.RenderTypeDefault)}
+	<sbFormRow property="'Key1'" inputType="textBox" inputReadOnly="keysReadOnly" />
+	<sbFormRow property="'Key2'" inputType="textBox" inputReadOnly="keysReadOnly" />
+	<sbFormRow property="'Key3'" inputType="textBox" inputReadOnly="keysReadOnly" />
+	<div class="form-row">
+		<div id="permissionError" class="error-summary" style="display:none"></div>
+		<sbListPanel nestedPanelId="'permissionItemListPanel'"
+			listModel="Model.PermissionsListModel"
+			displaySearchPanel="false"
+			enableAjaxBinding="false"
+			enableSequencer="false"
+			enableRemove="true"
+			itemName="Text('Permissions.Singular.Label')"
+			itemNames="Text('Permissions.Plural.Label')">
+		<%
+grid.Columns(columns =>
+{
+	columns.Template(x => { Response.Write("<span data-type='{0}' data-id='{1}'></span>".FormatWith(x.EntityType, x.EntityId)); })
+	.HtmlAttributes(new { @class = "data" })
+	.Hidden(true);
+	columns.Bound(x => x.EntityTypeName)
+	.HeaderHtmlAttributes(new { @class = "type" })
+	.HtmlAttributes(new { @class = "type" });
+	columns.Bound(x => x.EntityName)
+	.HeaderHtmlAttributes(new { @class = "name" })
+	.HtmlAttributes(new { @class = "name" });
+	columns.Bound(x => x.AccessPermission)
+	.HeaderHtmlAttributes(new { @class = "permission" })
+	.HtmlAttributes(new { @class = "permission access" });
+	columns.Bound(x => x.CreatePermission)
+	.HeaderHtmlAttributes(new { @class = "permission" })
+	.HtmlAttributes(new { @class = "permission create" });
+	columns.Bound(x => x.UpdatePermission)
+	.HeaderHtmlAttributes(new { @class = "permission" })
+	.HtmlAttributes(new { @class = "permission update" });
+	columns.Bound(x => x.DeletePermission)
+	.HeaderHtmlAttributes(new { @class = "permission" })
+	.HtmlAttributes(new { @class = "permission del" });
+	columns.Bound(x => x.AdminPermission)
+	.HeaderHtmlAttributes(new { @class = "permission" })
+	.HtmlAttributes(new { @class = "permission admin" });
+	columns.Template(x => { Response.Write("&nbsp;"); })
+	.HeaderHtmlAttributes(new { @class = "icon" })
+	.HtmlAttributes(new { @class = "icon" });
+	columns.Template(x => { Response.Write("&nbsp;"); })
+	.HeaderHtmlAttributes(new { @class = "icon" })
+	.HtmlAttributes(new { @class = "icon" });
+})
+.Footer(false)
+.Sortable(sorting => sorting.Enabled(false))
+.Render();
+		%>			
+		</sbListPanel>	
+	</div>
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<table style="display:none">
+	<tr id="newTemplate">
+		<td class="delete icon link"><a href="#"></a></td>
+		<td class="data" style="display:none"><span data-type="0" data-id="-1"></span></td>
+		<td class="type">&nbsp;</td>
+		<td class="name">&nbsp;</td>
+		<td class="permission access"><input type="checkbox" disabled="disabled" checked="checked"></td>
+		<td class="permission create"><input type="checkbox" disabled="disabled"></td>
+		<td class="permission update"><input type="checkbox" disabled="disabled"></td>
+		<td class="permission del"><input type="checkbox" disabled="disabled"></td>
+		<td class="permission admin"><input type="checkbox" disabled="disabled"></td>
+		<td class="icon">&nbsp;</td>
+		<td class="icon">&nbsp;</td>
+	</tr>
+	<tr id="editorTemplate">
+		<td class="delete icon link"><a href="#"></a></td>
+		<td class="type">${this.Select(PermissionEntity.EntityTypeProperty).Options(Model.ListItems[PermissionEntity.EntityTypeProperty]).FirstOption(String.Empty)}</td>
+		<td class="name">
+			${this.Select(EntityType.Role.ToString())
+				.Options(Model.ListItems[EntityType.Role.ToString()])
+				.FirstOption(String.Empty)
+				.Styles(display => "none")}
+			${this.Select(EntityType.RoleGroup.ToString())
+				.Options(Model.ListItems[EntityType.RoleGroup.ToString()])
+				.FirstOption(String.Empty)
+				.Styles(display => "none")}
+			${Html.Hidden("EntityId")}
+		</td>
+		<td class="permission">${this.CheckBox("Access")}</td>
+		<td class="permission">${this.CheckBox("Create")}</td>
+		<td class="permission">${this.CheckBox("Update")}</td>
+		<td class="permission">${this.CheckBox("Delete")}</td>
+		<td class="permission">${this.CheckBox("Admin")}</td>
+		<td class="accept icon"><a id="accept" href="#"></a></td>
+		<td class="cancel icon"><a href="#"></a></td>
+	</tr>
+</table>
+
+<content name="readyScript">
+	initPermissionEditPanel({
+		access: ${(int)Permission.Access},
+		create: ${(int)Permission.Create},
+		update: ${(int)Permission.Update},
+		del: ${(int)Permission.Delete},
+		admin: ${(int)Permission.Admin},
+		roleId: ${(long)EntityType.Role},
+		roleGroupId: ${(long)EntityType.RoleGroup},	
+		errorRequired: '${Text("Permissions.Error.Target.Required").EscapeForJavaScript()}',
+		errorDuplicate: '${Text("Permissions.Error.Target.Duplicate").EscapeForJavaScript()}',
+		permissions: ${Model.PermissionsJson}
+	}); 
+</content>

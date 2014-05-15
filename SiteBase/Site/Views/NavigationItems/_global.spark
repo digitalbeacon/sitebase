@@ -1,0 +1,3 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.NavigationItems" />
+
+<global module="'base/navigationItems'" type="string" />

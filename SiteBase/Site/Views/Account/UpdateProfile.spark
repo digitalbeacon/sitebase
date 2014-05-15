@@ -1,0 +1,72 @@
+﻿<viewdata model="UpdateProfileModel" />
+
+<content name="header">${Text("Account.UpdateProfile.Heading")}</content>
+
+<var countryVisible="Model.ListItems.ContainsKey(AddressEntity.CountryProperty)" />
+
+<sbFormPanel panelId="'updateProfilePanel'">
+	<div class="multi-col">
+		<div id="col1" class="col">
+			<sbFormRow property="'FirstName'" />
+			<sbFormRow property="'MiddleName'" if="Model.ShowMiddleName" />
+			<sbFormRow property="'LastName'" />
+			<sbFormRow property="'Email'" inputReadOnly="WebConstants.UseEmailForUsername" required="!WebConstants.UseEmailForUsername" />
+			<if condition="Model.ListItems.ContainsKey(UserEntity.LanguageProperty)">
+				<sbFormRow property="'Language'" includeEmptyOption="false" />
+			</if>
+			<else>
+				${Html.HiddenFor(m => m.Language)}
+			</else>
+			#//<sbFormRow property="'NotificationPreference'" />
+			<sbFormRow inputType="submit" />
+		</div>
+		<div id="col2" class="col">
+			<if condition="countryVisible">
+				<sbFormRow property="'Country'" required="Model.RequireAddress" />
+			</if>
+			<else>
+				${Html.HiddenFor(m => m.Country)}
+			</else>
+			<sbFormRow property="'Line1'" required="Model.RequireAddress" />
+			<sbFormRow property="'Line2'" />
+			<sbFormRow property="'City'" required="Model.RequireAddress" />
+			<sbFormRow property="'State'" required="Model.RequireState && !countryVisible" />
+			<sbFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
+		</div>
+	</div>			
+</sbFormPanel>
+
+<content name="readyScript">
+	var updateProfilePanel = $('#updateProfilePanel').data('sbFormPanel');
+	${ValidationRule("Email", "updateProfilePanel", "remote", "'{0}'".FormatWith(Url.Action("ValidateEmail", "Account")), "Account.Error.DuplicateEmail")}
+	<if condition="Model.RequireAddress">
+		<if condition="countryVisible">
+			${ValidationRule("Country", "updateProfilePanel", "required", true, "Validation.Error.Required", "Common.Country.Label")}
+		</if>
+		${ValidationRule("Line1", "updateProfilePanel", "required", true, "Validation.Error.Required", "Common.Line1.Label")}
+		${ValidationRule("City", "updateProfilePanel", "required", true, "Validation.Error.Required", "Common.City.Label")}
+	</if>
+	<if condition="Model.RequireState && !countryVisible">
+		${ValidationRule("State", "updateProfilePanel", "required", true, "Validation.Error.Required", "Common.State.Label")}
+	</if>
+	<if condition="Model.RequirePostalCode && !countryVisible">
+		${ValidationRule("PostalCode", "updateProfilePanel", "required", true, "Validation.Error.Required", "Common.PostalCode.Label")}
+	</if>
+	var country = $('#Country', updateProfilePanel.element);
+	var state = $('#State', updateProfilePanel.element);
+	country.change(function() {
+		if (this.value) {
+			$.post($.digitalbeacon.resolveUrl('~/states/list'), { country: this.value }, function(data) {
+				state.find('option:not(:first)').remove();
+				if (data) {
+					$.each(data, function(i, x) {
+						state.append($('<option/>').attr('value', x.Id).text(x.Name));
+					});
+				}
+			});
+		}
+		else {
+			state.find('option:not(:first)').remove();
+		}
+	});
+</content>

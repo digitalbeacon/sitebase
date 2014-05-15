@@ -1,0 +1,18 @@
+/* contentGroupListPanel */
+#contentGroupListPanel .entries a {
+	background-image: url(../images/icon-content.png);
+}
+/* contentGroupEditPanel */
+#contentGroupEditPanel {
+	width: 24em;
+}
+#contentGroupEditPanel .form-row-label {
+	width: 8em;
+}
+/* contentEntryEditPanel */
+#contentEntryEditPanel .form-row-label {
+	width: 8em;
+}
+#contentEntryEditPanel #form-row-body .form-row-content {
+	width: 48em;
+} 

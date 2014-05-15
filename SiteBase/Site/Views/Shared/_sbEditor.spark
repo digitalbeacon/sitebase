@@ -1,0 +1,45 @@
+﻿<default defaultToTextBox="false" />
+<default handleSiteRelativeUrls="true" />
+<default allowModeSwitch="true" />
+<default propertyName="property" />
+<default wrapperId="propertyName + '-editorWrapper'" />
+<default panelId="string.Empty" />
+<default suppressPrepareFormScript="false" />
+
+<div id="${wrapperId}" class="sb-editor">
+	${this.TextArea(propertyName).Styles(display => (defaultToTextBox ? string.Empty : "none"))}
+	${Html.Telerik().Editor()
+		.Name(propertyName + "-editor")
+		.HtmlAttributes(new { style = (defaultToTextBox ? "display:none" : string.Empty) })
+		.Tools(tools => tools.Clear()
+			.Bold()
+			.Italic()
+			.Underline()
+			.Strikethrough()
+			.Separator()
+			.JustifyLeft()
+			.JustifyCenter()
+			.JustifyRight()
+			.Separator()
+			.InsertOrderedList()
+			.InsertUnorderedList()
+			.Separator()
+			.CreateLink()
+			.Unlink())}
+	<a class="useEditor" href="#" style="display:none?{!defaultToTextBox}" if="allowModeSwitch">${Text("Common.UseEditor.Label")}</a>
+	<a class="useTextBox" href="#" style="display:none?{defaultToTextBox}" if="allowModeSwitch">${Text("Common.UseTextBox.Label")}</a>
+</div>
+
+<content name="readyScript">
+	<var editorOptions="new Dictionary[[string, object]]()" />
+	<sbSet dictionary="editorOptions" key="'handleSiteRelativeUrls'" value="handleSiteRelativeUrls" />
+	<sbSet dictionary="editorOptions" key="'defaultToTextBox'" value="defaultToTextBox" />
+	$('#${propertyName}').sbEditor(!{Json(editorOptions)});
+</content>
+
+<content name="readyScript" if="panelId.HasText() && !suppressPrepareFormScript">
+	$('#${panelId}').data('sbFormPanel').prepareForm = function(form) {
+		$('#${panelId} #${propertyName}').sbEditor().prepareForSubmission();
+	};
+</content>
+

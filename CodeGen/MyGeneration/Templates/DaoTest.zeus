@@ -1,0 +1,430 @@
+﻿##|TYPE Template
+##|UNIQUEID 0be212b1-3627-4dcb-b700-8e2de991445a
+##|TITLE DAO Test
+##|NAMESPACE DigitalBeacon.Dal
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|GUI_BEGIN
+using System.Text;
+using Microsoft.Win32;
+
+public class GeneratedGui : DotNetScriptGui
+{
+	public GeneratedGui(ZeusGuiContext context) : base(context) {}
+
+	GuiTextBox _tfBaseNamespace;
+	GuiTextBox _tfBaseOutputPath;
+	GuiTextBox _tfBaseAssemblyName;
+	GuiTextBox _tfLogicalGroupName;
+	GuiTextBox _tfMemberPrefix;
+	GuiTextBox _tfVersionColumnName;
+	GuiComboBox _cbDatabase;
+	GuiListBox _lbxTables;
+	GuiListBox _lbxViews;
+	GuiCheckBox _chkGenNhModels;
+	GuiCheckBox _chkGenNhMappings;
+	GuiCheckBox _chkGenDtos;
+	GuiCheckBox _chkGenDaoInterfaces;
+	GuiCheckBox _chkGenDaos;
+	GuiCheckBox _chkGenAdapter;
+	GuiCheckBox _chkGenEnums;
+	GuiCheckBox _chkUseNull;
+	GuiCheckBox _chkClassRefForFk;
+	GuiCheckBox _chkEqualsHashCode;
+	GuiCheckBox _chkReadOnly;
+	GuiCheckBox _chkLazyClass;
+	
+	public override void Setup()
+	{
+		RegistryKey reg ;
+		reg = Registry.CurrentUser;
+		reg = reg.CreateSubKey("Software");
+		reg = reg.CreateSubKey("MyGeneration");
+		reg = reg.CreateSubKey("Templates");
+		reg = reg.CreateSubKey("NHibernate");
+	
+		if (!input.Contains("database"))
+		{
+			ui.Title = "NHibernate Data Access Layer Generation";
+			ui.Width = 710;
+			ui.Height = 590;
+	
+			// Grab default output path
+			string sOutputPath = "";
+			
+			if (input.Contains("defaultOutputPath")) 
+			{
+				sOutputPath = input["defaultOutputPath"].ToString();
+			}
+
+			// Setup registry key
+			reg = Registry.CurrentUser;
+			reg = reg.OpenSubKey("Software\\MyGeneration\\Templates\\NHibernate");
+			
+			// Values not currently displayed
+			GuiTextBox hiddenField = ui.AddTextBox("hiddenField", "HiddenValue", "");
+			hiddenField.Visible = false;
+			hiddenField.Top = 0;
+			hiddenField.Height = 0;
+
+			// Setup Folder selection input control.
+			GuiLabel lblBaseOutputPath = ui.AddLabel("lblBaseOutputPath", "Base Output Path:", "Select the output path in the field below.");
+			lblBaseOutputPath.Width = 200;
+			_tfBaseOutputPath = ui.AddTextBox("baseOutputPath", sOutputPath, "Select the base output path.");
+			_tfBaseOutputPath.Width = 450;
+			_tfBaseOutputPath.Text = (string)reg.GetValue("BaseOutputPath", sOutputPath);
+			
+			GuiFilePicker selectPath = ui.AddFilePicker("selectPath", "Select Path", "Select the base output path.", "outputPath", true);
+			selectPath.Top = _tfBaseOutputPath.Top - 2;
+			selectPath.Width = 100;
+			selectPath.Left = _tfBaseOutputPath.Left + _tfBaseOutputPath.Width + 10;
+			
+			GuiLabel lblNamespace = ui.AddLabel("lblNamespace", "Base Namespace: ",  "Provide your objects namespace.");
+			lblNamespace.Top = _tfBaseOutputPath.Top + 30;
+			lblNamespace.Width = 220;
+			_tfBaseNamespace = ui.AddTextBox("baseNamespace", "com.acme", "Provide your objects namespace.");				
+			_tfBaseNamespace.Top = lblNamespace.Top + 20;
+			_tfBaseNamespace.Width = lblNamespace.Width;
+			_tfBaseNamespace.Text = (string)reg.GetValue("BaseNamespace", _tfBaseNamespace.Text);
+			
+			GuiLabel lblLogicalGroupName = ui.AddLabel("lblLogicalGroupName", "Logical Group Name: ",  "Provide your logical group name. Individual templates will use this information to compute the actual output paths and namespaces.");
+			lblLogicalGroupName.Top = _tfBaseNamespace.Top + 30;
+			lblLogicalGroupName.Left = lblNamespace.Left;
+			lblLogicalGroupName.Width = lblNamespace.Width;
+			_tfLogicalGroupName = ui.AddTextBox("logicalGroupName", "foo", "");
+			_tfLogicalGroupName.Top = lblLogicalGroupName.Top + 20;
+			_tfLogicalGroupName.Left = lblNamespace.Left;
+			_tfLogicalGroupName.Width = lblNamespace.Width;
+			_tfLogicalGroupName.Text = (string)reg.GetValue("LogicalGroupName", _tfLogicalGroupName.Text);
+
+			GuiLabel lblBaseAssemblyName = ui.AddLabel("lblBaseAssemblyName", "Assembly Name: ",  "Provide your assembly name.");
+			lblBaseAssemblyName.Top = _tfLogicalGroupName.Top + 30;
+			lblBaseAssemblyName.Width = lblNamespace.Width;
+			_tfBaseAssemblyName = ui.AddTextBox("baseAssemblyName", "acme.data", "Provide your base assembly name.");				
+			_tfBaseAssemblyName.Top = lblBaseAssemblyName.Top + 20;
+			_tfBaseAssemblyName.Width = lblBaseAssemblyName.Width;
+			_tfBaseAssemblyName.Text = (string)reg.GetValue("BaseAssemblyName", _tfBaseAssemblyName.Text);
+			
+			GuiLabel lblMemberPrefix = ui.AddLabel("lblMemberPrefix", "Member variable prefix: ", "Provide your Prefix.");
+			lblMemberPrefix.Width = lblNamespace.Width;
+			lblMemberPrefix.Top = _tfBaseAssemblyName.Top + 30;
+			lblMemberPrefix.Left = lblNamespace.Left;
+			_tfMemberPrefix = ui.AddTextBox("memberPrefix", "_", "");
+			_tfMemberPrefix.Width = lblNamespace.Width;
+			_tfMemberPrefix.Top = lblMemberPrefix.Top + 20;
+			_tfMemberPrefix.Left = lblNamespace.Left;
+			_tfMemberPrefix.Text = (string)reg.GetValue("MemberPrefix", _tfMemberPrefix.Text);
+
+			GuiLabel lblVersionColumn = ui.AddLabel("lblVersionColumn", "Version Column Name: ", "Provide your version column name. Leave empty for no version column.");
+			lblVersionColumn.Width = lblNamespace.Width;
+			lblVersionColumn.Top = _tfMemberPrefix.Top + 30;
+			lblVersionColumn.Left = lblNamespace.Left;
+			_tfVersionColumnName = ui.AddTextBox("versionColumnName", "VERSION_COL", "");
+			_tfVersionColumnName.Width = lblNamespace.Width;
+			_tfVersionColumnName.Top = lblVersionColumn.Top + 20;
+			_tfVersionColumnName.Left = lblVersionColumn.Left;
+			_tfVersionColumnName.Text = (string)reg.GetValue("VersionColumnName", _tfVersionColumnName.Text);
+
+			// Setup Database selection combobox.
+			GuiLabel lblChooseDatabase = ui.AddLabel("lblChooseDatabase", "Select a database:", "Select a database in the dropdown below.");
+			lblChooseDatabase.Width = lblNamespace.Width;
+			_cbDatabase = ui.AddComboBox("database", "Select a database.");
+			_cbDatabase.Top = lblChooseDatabase.Top + 20;
+			_cbDatabase.Width = lblNamespace.Width;
+			
+			GuiLabel lblOptions = ui.AddLabel("lblOptions", "Options:", String.Empty);
+			lblOptions.Width = 210;
+			lblOptions.Top = lblNamespace.Top;
+			lblOptions.Left = lblNamespace.Width + 20;
+/*
+			_chkGenNhModels = ui.AddCheckBox("chkGenNhModels", "Generate NHibernate models", getBool(reg.GetValue("GenerateNhModels", "true")), "Generate an NHibernate model class file for each table. (*.cs)");
+			_chkGenNhModels.Width = lblOptions.Width;
+			_chkGenNhModels.Top = lblOptions.Top + 20;
+			_chkGenNhModels.Left = lblOptions.Left;
+*/			
+			_chkGenDtos = ui.AddCheckBox("chkGenDtos", "Generate entities", getBool(reg.GetValue("GenerateDtos", "true")), "Generate an entity class for each table. (*.cs)");
+			_chkGenDtos.Left = lblOptions.Left;
+			_chkGenDtos.Width = lblOptions.Width;
+			_chkGenDtos.Top = lblOptions.Top + 20;
+
+			_chkGenNhMappings = ui.AddCheckBox("chkGenNhMappings", "Generate NHibernate mapping files", getBool(reg.GetValue("GenerateNhMappings", "true")), "Generate an XML file for each table. (*.hbm.xml)");
+			_chkGenNhMappings.Left = lblOptions.Left;
+			_chkGenNhMappings.Width = lblOptions.Width;
+			_chkGenNhMappings.Top = _chkGenDtos.Top + 20;
+/*
+			_chkGenDaoInterfaces = ui.AddCheckBox("chkGenDaoInterfaces", "Generate DAO Interfaces", getBool(reg.GetValue("GenerateDaoInterfaces", "true")), "Generate a DAO interface for each table. (*.cs)");
+			_chkGenDaoInterfaces.Left = lblOptions.Left;
+			_chkGenDaoInterfaces.Width = lblOptions.Width;
+			_chkGenDaoInterfaces.Top = _chkGenDtos.Top + 20;
+
+			_chkGenDaos = ui.AddCheckBox("chkGenDaos", "Generate data access objects", getBool(reg.GetValue("GenerateDaos", "true")), "Generate a data access class for each table. (*.cs)");
+			_chkGenDaos.Left = lblOptions.Left;
+			_chkGenDaos.Width = lblOptions.Width;
+			_chkGenDaos.Top = _chkGenDaoInterfaces.Top + 20;
+
+			_chkGenAdapter = ui.AddCheckBox("chkGenAdapter", "Generate data adapter", getBool(reg.GetValue("GenerateAdapter", "true")), "Generate a data adapter for all selected tables and views. (*.cs)");
+			_chkGenAdapter.Left = lblOptions.Left;
+			_chkGenAdapter.Width = lblOptions.Width;
+			_chkGenAdapter.Top = _chkGenDaos.Top + 20;
+*/
+			_chkGenEnums = ui.AddCheckBox("chkGenEnums", "Generate enumerations", getBool(reg.GetValue("GenerateEnums", "false")), "Generate enumerations for lookup tables. (*.cs)");
+			_chkGenEnums.Left = lblOptions.Left;
+			_chkGenEnums.Width = lblOptions.Width;
+			_chkGenEnums.Top = _chkGenNhMappings.Top + 20;
+/*
+			_chkClassRefForFk = ui.AddCheckBox("chkClassRefForFk", "Create class refs for foreign keys by default", getBool(reg.GetValue("ClassRefForFk", "false")), "Create class references for foreign keys by default.");
+			_chkClassRefForFk.Left = _chkGenDtos.Left + _chkGenDtos.Width + 10;
+			_chkClassRefForFk.Width = 240;
+			_chkClassRefForFk.Top = _chkGenDtos.Top;
+
+			_chkReadOnly = ui.AddCheckBox("chkReadOnly", "Generate as read-only", getBool(reg.GetValue("ReadOnly", "false")), "Create object and mapping to have read-only access.");
+			_chkReadOnly.Left = _chkClassRefForFk.Left;
+			_chkReadOnly.Width = _chkClassRefForFk.Width;
+			_chkReadOnly.Top = _chkClassRefForFk.Top + 20;
+
+			GuiLabel lblEntityOptions = ui.AddLabel("lblEntityOptions", "Entity Options:", string.Empty);
+			lblEntityOptions.Left = lblOptions.Left;
+			lblEntityOptions.Width = 300;
+			lblEntityOptions.Top = _chkGenEnums.Top + 25;
+
+			_chkEqualsHashCode = ui.AddCheckBox("chkGenEqualsHashCode", "Generate Equals and GetHashCode methods", getBool(reg.GetValue("EqualsHashCode", "true")), "Generate Equals and GetHashCode methods.");
+			_chkEqualsHashCode.Left = lblEntityOptions.Left;
+			_chkEqualsHashCode.Width = lblEntityOptions.Width;
+			_chkEqualsHashCode.Top = lblEntityOptions.Top + 20;
+			
+			_chkUseNull = ui.AddCheckBox("chkConstructorUseNull", "Use null in the constructor", getBool(reg.GetValue("UseNull", "true")), "User type = null in the Constructor.");
+			_chkUseNull.Left = lblEntityOptions.Left;
+			_chkUseNull.Width = lblEntityOptions.Width;
+			_chkUseNull.Top = _chkEqualsHashCode.Top + 20;
+	
+			GuiLabel lblNhMappingOptions = ui.AddLabel("lblNhMappingOptions", "NHibernate Mapping Options:", string.Empty);
+			lblNhMappingOptions.Left = lblOptions.Left;
+			lblNhMappingOptions.Width = lblOptions.Width;
+			lblNhMappingOptions.Top = _chkUseNull.Top + 25;
+
+			_chkLazyClass = ui.AddCheckBox("chkLazyClass", "Enable lazy class", getBool(reg.GetValue("LazyClass", "true")), "Enable Lazy Class.");
+			_chkLazyClass.Left = lblOptions.Left;
+			_chkLazyClass.Width = lblOptions.Width;
+			_chkLazyClass.Top = lblNhMappingOptions.Top + 20;
+*/			
+			// Setup Tables selection multi-select listbox.
+			GuiLabel lblChooseTables = ui.AddLabel("lblChooseTables", "Select tables:", "Select tables from the listbox below.");
+			lblChooseTables.Top = _cbDatabase.Top + 30;
+			lblChooseTables.Width = lblNamespace.Width;
+			_lbxTables = ui.AddListBox("tables", "Select tables.");
+			_lbxTables.Width = lblChooseTables.Width;
+			_lbxTables.Height = 100;
+			_lbxTables.Top = lblChooseTables.Top + 20;
+	
+			// Setup Views selection multi-select listbox.
+			GuiLabel lblChooseViews = ui.AddLabel("lblChooseViews", "Select views:", "Select views from the listbox below.");
+			lblChooseViews.Top = lblChooseTables.Top ;
+			lblChooseViews.Left =  lblChooseTables.Width + 20;
+			lblChooseViews.Width = _lbxTables.Width;
+			lblChooseViews.Visible = false;
+			_lbxViews = ui.AddListBox("views", "Select views.");
+			_lbxViews.Top = lblChooseViews.Top + 20;
+			_lbxViews.Left = lblChooseViews.Left;
+			_lbxViews.Width = lblChooseViews.Width;
+			_lbxViews.Height = _lbxTables.Height;
+			_lbxViews.Visible = false;
+			
+			GuiButton btnSave = ui.AddButton("btnSave", "Save", "Save all changes.");
+			btnSave.AttachEvent("onclick", "btnSave_onClick");
+
+			// Attach the onchange event to the cmbDatabases control.
+			setupDatabaseDropdown();
+			_cbDatabase.AttachEvent("onchange", "cbDatabase_onChange");
+
+			// Populate saved database value
+			_cbDatabase.SelectedValue = (string)reg.GetValue("Database", "");
+			if (_cbDatabase.SelectedValue != "")
+			{
+				cbDatabase_onChange(_cbDatabase);
+				string[] tables = ((string)reg.GetValue("Tables", "")).Split(new char[] { ',' });
+				foreach (string table in tables)
+				{
+					_lbxTables.Select(table);
+				}
+			}
+
+			ui.ShowGui = true;
+		}
+		else 
+		{
+			ui.ShowGui = false;
+		}
+	}
+	
+	public void setupDatabaseDropdown()
+	{
+		try 
+		{	
+			if (MyMeta.IsConnected)
+			{
+				_cbDatabase.BindData(MyMeta.Databases);
+				if (MyMeta.DefaultDatabase != null) 
+				{
+					_cbDatabase.SelectedValue = MyMeta.DefaultDatabase.Alias;
+					bindTables(_cbDatabase.SelectedValue);
+					bindViews(_cbDatabase.SelectedValue);
+				}
+			}
+		}
+		catch
+		{
+		}
+	}
+	
+	public void bindTables(string sDatabase)
+	{
+		try 
+		{	
+			IDatabase db = MyMeta.Databases[sDatabase];
+			_lbxTables.BindData(db.Tables);
+		}
+		catch
+		{
+		}
+	}
+	
+	public void bindViews(string sDatabase)
+	{
+		try 
+		{	
+			IDatabase db = MyMeta.Databases[sDatabase];
+			_lbxViews.BindData(db.Views);
+		}
+		catch
+		{
+		}
+	}
+	
+	public void cbDatabase_onChange(GuiComboBox control)
+	{
+		bindTables(control.SelectedText);
+		bindViews(control.SelectedText);
+	}
+	
+	private bool getBool(object valor){
+		return  Boolean.Parse((string) valor);
+	}
+	
+	public void btnSave_onClick(GuiButton btnSave)
+	{
+		RegistryKey reg ;
+		reg = Registry.CurrentUser;
+		reg = reg.CreateSubKey("Software");
+		reg = reg.CreateSubKey("MyGeneration");
+		reg = reg.CreateSubKey("Templates");
+		reg = reg.CreateSubKey("NHibernate");
+		
+		reg.SetValue("BaseOutputPath", _tfBaseOutputPath.Text);
+		reg.SetValue("BaseNamespace", _tfBaseNamespace.Text);
+		reg.SetValue("BaseAssemblyName", _tfBaseAssemblyName.Text);
+		reg.SetValue("LogicalGroupName", _tfLogicalGroupName.Text);
+		reg.SetValue("Database", _cbDatabase.SelectedValue);
+		reg.SetValue("MemberPrefix", _tfMemberPrefix.Text);
+		reg.SetValue("VersionColumnName", _tfVersionColumnName.Text);
+		//reg.SetValue("ClassRefForFk", _chkClassRefForFk.Value.ToString());
+		//reg.SetValue("UseNull", _chkUseNull.Value.ToString());
+		//reg.SetValue("EqualsHashCode", _chkEqualsHashCode.Value.ToString());
+		//reg.SetValue("ReadOnly", _chkReadOnly.Value.ToString());
+		//reg.SetValue("GenerateNhModels", _chkGenNhModels.Value.ToString());
+		reg.SetValue("GenerateNhMappings", _chkGenNhMappings.Value.ToString());
+		reg.SetValue("GenerateDtos", _chkGenDtos.Value.ToString());
+		//reg.SetValue("GenerateDaoInterfaces", _chkGenDaoInterfaces.Value.ToString());
+		//reg.SetValue("GenerateDaos", _chkGenDaos.Value.ToString());
+		//reg.SetValue("GenerateAdapter", _chkGenAdapter.Value.ToString());
+		reg.SetValue("GenerateEnums", _chkGenEnums.Value.ToString());
+		//reg.SetValue("LazyClass", _chkLazyClass.Value.ToString());
+		StringBuilder tables = new StringBuilder();
+		foreach (string table in _lbxTables.SelectedItems)
+		{
+			tables.Append(table);
+			tables.Append(",");
+		}
+		reg.SetValue("Tables", tables.ToString());
+	}
+	
+}
+##|GUI_END
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll%><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_PREFIX = "UnitTest";
+	private static readonly string PATH_SUFFIX = "Data";
+	private static readonly string FILE_EXT = ".cs";
+
+	// these attributes are computed once for this template
+	private string _outputPath;
+	private string _namespace;
+	// these attributes are computed for each table/view
+	private string _fileName;
+
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		// call base GetInput method to retrieve inputs
+		GetInput();
+		
+		foreach (string table in SelectedTables)
+		{
+			ITable workingTable = MyMeta.Databases[DbName].Tables[table];
+			
+			if (GenDaoUnitTests && !IgnoreTable(workingTable))
+			{
+				_namespace = GetNamespace(workingTable, PATH_PREFIX);
+				string logicalGroup = GetLogicalGroup(workingTable);
+				_outputPath = Path.Combine(BaseOutputPath, PATH_PREFIX);
+				if (!String.IsNullOrEmpty(logicalGroup))
+				{
+					_outputPath = Path.Combine(_outputPath, DnpUtils.SetPascalCase(logicalGroup));
+				}
+				_outputPath = Path.Combine(_outputPath, PATH_SUFFIX);
+				GenerateClassFile(workingTable);
+			}
+		}
+	}
+	
+	private void GenerateClassFile(ITable table)
+	{
+		OutputCSharpHeader();
+		string className = TableToDao(table.Alias) + "Test";
+		string baseClass = "BaseDaoTest";
+		if (GetNameColumn(table) != null)
+		{
+			baseClass = "NameDaoTest";
+		}
+%>
+using Basswood.Model;
+using NUnit.Framework;
+
+namespace <%= _namespace %>
+{
+	/// <summary>
+	///	Generated with MyGeneration using the DAO Test template.
+	/// </summary>
+	[TestFixture]
+	public class <%= className %> : <%= baseClass %><<%= TableToDto(table.Alias) %>>
+	{
+	}
+}
+<%
+		_fileName = className + FILE_EXT;
+		output.save(Path.Combine(_outputPath, _fileName), false);
+		Log("Generated: " + Path.Combine(_outputPath, _fileName));
+		output.clear();
+	}
+}
+%>
+##|BODY_END

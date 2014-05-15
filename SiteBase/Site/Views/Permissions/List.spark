@@ -1,0 +1,27 @@
+﻿<viewdata model="ListModel[[PermissionItem]]" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'permissionListPanel'">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Key1)
+	.HeaderHtmlAttributes(new { @class = "key1" });
+	columns.Bound(x => x.Key2)
+	.HeaderHtmlAttributes(new { @class = "key2" });
+	columns.Bound(x => x.Key3)
+	.HeaderHtmlAttributes(new { @class = "key3" });
+	columns.Bound(x => x.EntityTypeName)
+	.HeaderHtmlAttributes(new { @class = "entity-type-name" })
+	.Sortable(false);
+	columns.Bound(x => x.EntityName)
+	.HeaderHtmlAttributes(new { @class = "entity-name" })
+	.Sortable(false);
+	columns.Bound(x => x.Mask)
+	.HeaderHtmlAttributes(new { @class = "mask" });
+}).Render();
+%>
+</sbListPanel>

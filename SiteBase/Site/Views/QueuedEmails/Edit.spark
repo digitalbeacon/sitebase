@@ -1,0 +1,59 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'queuedEmailEditPanel'">
+	<sbFormRow property="'From'" />
+	<sbFormRow property="'To'" if="Model.To.HasText()" />
+	<sbFormRow property="'Cc'" if="Model.Cc.HasText()" />
+	<sbFormRow property="'Bcc'" if="Model.Bcc.HasText()" />
+	<sbFormRow property="'Priority'" if="Model.Priority.HasText()" />
+	<sbFormRow property="'MessageId'" if="Model.MessageId.HasText()" />
+	<sbFormRow property="'TemplateId'" if="Model.TemplateId.HasText()" />
+	<sbFormRow property="'SendDate'" inputType="textBox" />
+	<sbFormRow property="'Subject'" required="Model.ContentRequired" inputReadOnly="!Model.ContentRequired" />
+	<sbFormRow property="'Body'" inputType="renderContent" required="Model.ContentRequired" if="Model.ContentRequired">
+		<sbEditor handleSiteRelativeUrls="false" />
+	</sbFormRow>
+	<sbFormRow property="'Body'" inputType="renderContent" required="Model.ContentRequired" if="!Model.ContentRequired">
+		<span class="read-only-field">${ExpandSiteRelativeText(Model.Body)}</span>
+	</sbFormRow>
+	<sbFormRow property="'DateProcessed'" />
+	<sbFormRow property="'DateSent'" />
+	<sbFormRow property="'ErrorMessage'" inputType="renderContent" if="Model.ErrorMessage.HasText()">
+		<span class="read-only-field error">${Model.ErrorMessage}</span>
+	</sbFormRow>
+	<sbFormRow inputType="submit">
+		<input id="send" class="cancel" type="submit" name="Send" value="${Text("QueuedEmails.Send.Label")}" if="!Model.DateProcessed.HasValue" />
+		<input id="dequeue" class="cancel" type="submit" name="Dequeue" value="${Text("QueuedEmails.Dequeue.Label")}" if="!Model.DateProcessed.HasValue" />
+		<input id="requeue" class="cancel" type="submit" name="Requeue" value="${Text("QueuedEmails.Requeue.Label")}" if="Model.DateProcessed.HasValue" />
+	</sbFormRow>
+</sbFormPanel>
+
+<content name="readyScript">
+	var queuedEmailEditPanel = $('#queuedEmailEditPanel').data('sbFormPanel');
+	<if condition="Model.ContentRequired">
+		$('#save', queuedEmailEditPanel.element).click(function() { 
+			$('#Body', queuedEmailEditPanel.element).sbEditor().prepareForValidation();
+		});
+	</if>
+	<if condition="RenderPartial">
+		$('#send', queuedEmailEditPanel.element).click(function() {
+			queuedEmailEditPanel.action('${Url.Action("send")}');
+			return false;
+		});
+		$('#dequeue', queuedEmailEditPanel.element).click(function() {
+			queuedEmailEditPanel.action('${Url.Action("dequeue")}');
+			return false;
+		});
+		$('#requeue', queuedEmailEditPanel.element).click(function() {
+			queuedEmailEditPanel.action('${Url.Action("requeue")}');
+			return false;
+		});
+	</if>
+	<if condition="Model.ContentRequired">
+		${ValidationRule("Subject", "queuedEmailEditPanel", "required", true, "Validation.Error.Required", "QueuedEmails.Subject.Label")}
+		${ValidationRule("Body", "queuedEmailEditPanel", "hasContent", true, "Validation.Error.Required", "QueuedEmails.Body.Label")}
+	</if>
+</content>
+

@@ -1,0 +1,28 @@
+﻿<viewdata model="LookupListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'lookupListPanel'">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Name)
+	.HeaderHtmlAttributes(new { @class = "name" });
+	if (Model.IsCoded)
+	{
+	columns.Bound(x => x.Code)
+		.HeaderHtmlAttributes(new { @class = "code" });
+	}
+	if (Model.UseDisplayOrder && Model.SupportsInactive)
+	{
+	columns.Bound(x => x.Inactive)
+		.HeaderHtmlAttributes(new { @class = "inactive" })
+			.Sortable(false)
+			.ClientTemplate("<input type='checkbox' disabled='disabled' <#= Inactive ? \"checked='checked'\" : \"\" #> />");
+	}
+})
+.Render();
+%>
+</sbListPanel>

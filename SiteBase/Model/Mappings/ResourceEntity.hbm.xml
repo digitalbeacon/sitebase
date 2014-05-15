@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.ResourceEntity" table="`Resource`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<many-to-one name="Language" column="`LanguageId`" class="DigitalBeacon.SiteBase.Model.LanguageEntity, DigitalBeacon.SiteBase.Model" />
+		<property name="Type" column="`Type`" type="String" length="100" />
+		<property name="Key" column="`Key`" type="String" not-null="true" length="100" />
+		<property name="Property" column="`Property`" type="String" length="100" />
+		<property name="Value" column="`Value`" type="String" not-null="true" length="1073741823" />
+		<many-to-one name="File" column="`FileId`" class="DigitalBeacon.SiteBase.Model.FileEntity, DigitalBeacon.SiteBase.Model" />
+	</class>
+</hibernate-mapping>

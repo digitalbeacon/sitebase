@@ -1,0 +1,162 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{FD4AB716-FF25-4D5B-A797-06EBFC45A6DD}"
+	ProjectSection(SolutionItems) = preProject
+		SiteBase\Database\common-data-model.sql = SiteBase\Database\common-data-model.sql
+		SiteBase\Database\common-seed-data.sql = SiteBase\Database\common-seed-data.sql
+		SiteBase\Database\test-data.sql = SiteBase\Database\test-data.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeGen", "CodeGen", "{58D83B3E-07E8-47A9-8192-60B5DBC39591}"
+	ProjectSection(SolutionItems) = preProject
+		SiteBase\CodeGen\MyGeneration\Projects\SiteBase.zprj = SiteBase\CodeGen\MyGeneration\Projects\SiteBase.zprj
+		SiteBase\CodeGen\MyGeneration\Settings\UserMetaData.xml = SiteBase\CodeGen\MyGeneration\Settings\UserMetaData.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DigitalBeacon", "DigitalBeacon", "{97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{9077F53D-55DF-4D8F-81E1-6321027519DC}"
+	ProjectSection(SolutionItems) = preProject
+		SiteBase\Config\appSettings.config = SiteBase\Config\appSettings.config
+		SiteBase\Config\authentication.config = SiteBase\Config\authentication.config
+		SiteBase\Config\CommonDao.config = SiteBase\Config\CommonDao.config
+		SiteBase\Config\connectionStrings.config = SiteBase\Config\connectionStrings.config
+		SiteBase\Config\ContentDao.config = SiteBase\Config\ContentDao.config
+		SiteBase\Config\GeneratedDao.xml = SiteBase\Config\GeneratedDao.xml
+		SiteBase\Config\log4net.config = SiteBase\Config\log4net.config
+		SiteBase\Config\machineKey.config = SiteBase\Config\machineKey.config
+		SiteBase\Config\MessagingDao.config = SiteBase\Config\MessagingDao.config
+		SiteBase\Config\NHibernate.config = SiteBase\Config\NHibernate.config
+		SiteBase\Config\Services.config = SiteBase\Config\Services.config
+		SiteBase\Config\Site.config = SiteBase\Config\Site.config
+		SiteBase\Config\SiteBaseData.xml = SiteBase\Config\SiteBaseData.xml
+		SiteBase\Config\smtp.config = SiteBase\Config\smtp.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase.Model", "SiteBase\Model\DigitalBeacon.SiteBase.Model.csproj", "{F382F25D-5B1D-4117-B164-37D9558E5F21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.Model", "Model\DigitalBeacon.Model.csproj", "{65D6BA20-482D-43E9-897F-04C755924B74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.Util", "Util\DigitalBeacon.Util.csproj", "{58B30EEC-BEC9-4093-A20B-32B009BED5D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase.Data", "SiteBase\Data\DigitalBeacon.SiteBase.Data.csproj", "{3F632FE6-5924-4758-93AF-0028EF5A5A7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.Data", "Data\DigitalBeacon.Data.csproj", "{FE097ABC-6DD3-442E-BD54-A68D3052D94D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.Data.NHibernate", "Data.NHibernate\DigitalBeacon.Data.NHibernate.csproj", "{5BAEB338-A80E-40E0-B7D8-ABF22B45490E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase.Business", "SiteBase\Business\DigitalBeacon.SiteBase.Business.csproj", "{4C89A5C1-2A08-48D6-8E9A-DA64428D22AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.Business", "Business\DigitalBeacon.Business.csproj", "{8600FC0A-4D3E-4924-8A41-B896DB344E41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon", "Base\DigitalBeacon.csproj", "{56B7C963-75D0-4565-A767-655BA605001F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase.SqlUpdate", "SiteBase\SqlUpdate\DigitalBeacon.SiteBase.SqlUpdate.csproj", "{0F2BC104-D4B5-44C8-9BE6-03424ED52FF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SqlUpdate", "SqlUpdate\DigitalBeacon.SqlUpdate.csproj", "{44EB1577-2D8D-4FCE-9D3F-284B5846CC25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.Web", "Web\DigitalBeacon.Web.csproj", "{08209DA9-B8AA-4ED9-803A-5A3221F9862F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase.Web", "SiteBase\Web\DigitalBeacon.SiteBase.Web.csproj", "{25F1C31D-13FA-4A55-981B-5A406B3C0271}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase.Scripts", "SiteBase\Scripts\DigitalBeacon.SiteBase.Scripts.csproj", "{0B6BA5CD-7ACC-4DF1-9F55-709978D21C30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase", "SiteBase\Site\DigitalBeacon.SiteBase.csproj", "{21C41F6E-2DB0-4A64-8C34-1AAA770764B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.SiteBase.Mobile.Scripts", "SiteBase\MobileScripts\DigitalBeacon.SiteBase.Mobile.Scripts.csproj", "{34BE53A2-3020-4D7B-851B-5FA3DF44A80B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalBeacon.Scripts", "Scripts\DigitalBeacon.Scripts.csproj", "{DD2BA704-7912-45F9-876A-DC967FCE9A61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F382F25D-5B1D-4117-B164-37D9558E5F21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F382F25D-5B1D-4117-B164-37D9558E5F21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F382F25D-5B1D-4117-B164-37D9558E5F21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F382F25D-5B1D-4117-B164-37D9558E5F21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65D6BA20-482D-43E9-897F-04C755924B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65D6BA20-482D-43E9-897F-04C755924B74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65D6BA20-482D-43E9-897F-04C755924B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65D6BA20-482D-43E9-897F-04C755924B74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58B30EEC-BEC9-4093-A20B-32B009BED5D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58B30EEC-BEC9-4093-A20B-32B009BED5D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58B30EEC-BEC9-4093-A20B-32B009BED5D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58B30EEC-BEC9-4093-A20B-32B009BED5D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F632FE6-5924-4758-93AF-0028EF5A5A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F632FE6-5924-4758-93AF-0028EF5A5A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F632FE6-5924-4758-93AF-0028EF5A5A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F632FE6-5924-4758-93AF-0028EF5A5A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE097ABC-6DD3-442E-BD54-A68D3052D94D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE097ABC-6DD3-442E-BD54-A68D3052D94D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE097ABC-6DD3-442E-BD54-A68D3052D94D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE097ABC-6DD3-442E-BD54-A68D3052D94D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BAEB338-A80E-40E0-B7D8-ABF22B45490E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BAEB338-A80E-40E0-B7D8-ABF22B45490E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BAEB338-A80E-40E0-B7D8-ABF22B45490E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BAEB338-A80E-40E0-B7D8-ABF22B45490E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C89A5C1-2A08-48D6-8E9A-DA64428D22AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C89A5C1-2A08-48D6-8E9A-DA64428D22AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C89A5C1-2A08-48D6-8E9A-DA64428D22AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C89A5C1-2A08-48D6-8E9A-DA64428D22AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8600FC0A-4D3E-4924-8A41-B896DB344E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8600FC0A-4D3E-4924-8A41-B896DB344E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8600FC0A-4D3E-4924-8A41-B896DB344E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8600FC0A-4D3E-4924-8A41-B896DB344E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56B7C963-75D0-4565-A767-655BA605001F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56B7C963-75D0-4565-A767-655BA605001F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56B7C963-75D0-4565-A767-655BA605001F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56B7C963-75D0-4565-A767-655BA605001F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2BC104-D4B5-44C8-9BE6-03424ED52FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2BC104-D4B5-44C8-9BE6-03424ED52FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2BC104-D4B5-44C8-9BE6-03424ED52FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2BC104-D4B5-44C8-9BE6-03424ED52FF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44EB1577-2D8D-4FCE-9D3F-284B5846CC25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44EB1577-2D8D-4FCE-9D3F-284B5846CC25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44EB1577-2D8D-4FCE-9D3F-284B5846CC25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44EB1577-2D8D-4FCE-9D3F-284B5846CC25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08209DA9-B8AA-4ED9-803A-5A3221F9862F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08209DA9-B8AA-4ED9-803A-5A3221F9862F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08209DA9-B8AA-4ED9-803A-5A3221F9862F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08209DA9-B8AA-4ED9-803A-5A3221F9862F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25F1C31D-13FA-4A55-981B-5A406B3C0271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25F1C31D-13FA-4A55-981B-5A406B3C0271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25F1C31D-13FA-4A55-981B-5A406B3C0271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25F1C31D-13FA-4A55-981B-5A406B3C0271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B6BA5CD-7ACC-4DF1-9F55-709978D21C30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B6BA5CD-7ACC-4DF1-9F55-709978D21C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B6BA5CD-7ACC-4DF1-9F55-709978D21C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B6BA5CD-7ACC-4DF1-9F55-709978D21C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21C41F6E-2DB0-4A64-8C34-1AAA770764B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21C41F6E-2DB0-4A64-8C34-1AAA770764B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21C41F6E-2DB0-4A64-8C34-1AAA770764B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21C41F6E-2DB0-4A64-8C34-1AAA770764B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34BE53A2-3020-4D7B-851B-5FA3DF44A80B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34BE53A2-3020-4D7B-851B-5FA3DF44A80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34BE53A2-3020-4D7B-851B-5FA3DF44A80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34BE53A2-3020-4D7B-851B-5FA3DF44A80B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD2BA704-7912-45F9-876A-DC967FCE9A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD2BA704-7912-45F9-876A-DC967FCE9A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD2BA704-7912-45F9-876A-DC967FCE9A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD2BA704-7912-45F9-876A-DC967FCE9A61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65D6BA20-482D-43E9-897F-04C755924B74} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{58B30EEC-BEC9-4093-A20B-32B009BED5D9} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{FE097ABC-6DD3-442E-BD54-A68D3052D94D} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{5BAEB338-A80E-40E0-B7D8-ABF22B45490E} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{8600FC0A-4D3E-4924-8A41-B896DB344E41} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{56B7C963-75D0-4565-A767-655BA605001F} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{44EB1577-2D8D-4FCE-9D3F-284B5846CC25} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{08209DA9-B8AA-4ED9-803A-5A3221F9862F} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+		{DD2BA704-7912-45F9-876A-DC967FCE9A61} = {97DEA2A6-CF59-4D77-9DBE-3ECD5F349F83}
+	EndGlobalSection
+EndGlobal

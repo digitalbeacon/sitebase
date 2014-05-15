@@ -1,0 +1,19 @@
+﻿#// constants for operation
+<global create="'Create'" type="string" />
+<global update="'Update'" type="string" />
+<global delete="'Delete'" type="string" />
+#// constants for inputType
+<global renderContent="'RenderContent'" type="string" />
+<global textBox="'TextBox'" type="string" />
+<global textArea="'TextArea'" type="string" />
+<global editor="'Editor'" type="string" />
+<global password="'Password'" type="string" />
+<global dropDownList="'DropDownList'" type="string" />
+<global checkBox="'CheckBox'" type="string" />	
+<global file="'File'" type="string" />	
+<global submit="'Submit'" type="string" />	
+<global requiredMessage="'RequiredMessage'" type="string" />
+
+<macro name="Json" arg="IDictionary[[string, object]]">{!{String.Join(", ", arg.Where(x => x.Value != null).Select(x => "{0}: {1}".FormatWith(x.Key, (x.Value is string && ((string)x.Value) != "null") ? "'{0}'".FormatWith(x.Value) : (x.Value is bool ? x.Value.ToString().ToLowerInvariant() : x.Value))).ToArray())}}</macro>
+<macro name="LoadModuleCss" module="string">$.digitalbeacon.loadCssFile('~/resources/${module}/styles${HttpContext.Current.IsDebuggingEnabled ? String.Empty : '.min'}.css');</macro>
+<macro name="LoadModuleJs" module="string">$.digitalbeacon.loadJsFile('~/resources/${module}/scripts${HttpContext.Current.IsDebuggingEnabled ? String.Empty : '.min'}.js');</macro>

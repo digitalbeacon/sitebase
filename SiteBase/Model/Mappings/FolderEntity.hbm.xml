@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.FolderEntity" table="`Folder`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<property name="Type" column="`TypeId`" type="DigitalBeacon.SiteBase.Model.FolderType, DigitalBeacon.SiteBase.Model" not-null="true" />
+		<property name="AssociationId" column="`AssociationId`" type="Int64" />
+		<property name="UserId" column="`UserId`" type="Int64" />
+		<property name="ParentFolderId" column="`ParentFolderId`" type="Int64" />
+		<property name="Name" column="`Name`" type="String" not-null="true" length="100" />
+		<property name="DisplayOrder" column="`DisplayOrder`" type="Int32" not-null="true" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,410 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blade.Tools.Quality</name>
+    </assembly>
+    <members>
+        <member name="T:Blade.Tools.Quality.Shared.ConnectionData">
+            <summary>
+            The entity provided as a result of a connection request.
+            </summary>
+        </member>
+        <member name="P:Blade.Tools.Quality.Shared.ConnectionData.ClientId">
+            <summary>
+            The client ID.
+            </summary>
+        </member>
+        <member name="T:Blade.Tools.Quality.Shared.DataObject`1">
+            <summary>
+            Represents the base contract for a data object.
+            </summary>
+            <typeparam name="T">The internal data type.</typeparam>
+        </member>
+        <member name="P:Blade.Tools.Quality.Shared.DataObject`1.Data">
+            <summary>
+            The internal data.
+            </summary>
+        </member>
+        <member name="T:Blade.Tools.Quality.Shared.OperationData">
+            <summary>
+            The entity provided as a result of an operation request.
+            </summary>
+        </member>
+        <member name="P:Blade.Tools.Quality.Shared.OperationData.Command">
+            <summary>
+            The operation command.
+            </summary>
+        </member>
+        <member name="T:Blade.Tools.Quality.Shared.RunTestOperation">
+            <summary>
+            Represents the run test operation data.
+            </summary>
+        </member>
+        <member name="P:Blade.Tools.Quality.Shared.RunTestOperation.ClassName">
+            <summary>
+            The full name of the class to test.
+            </summary>
+        </member>
+        <member name="P:Blade.Tools.Quality.Shared.RunTestOperation.MethodName">
+            <summary>
+            The method name to test.
+            </summary>
+        </member>
+        <member name="T:Blade.Tools.Quality.Shared.WaitOperation">
+            <summary>
+            Represents the wait operation data.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.Assert">
+            <summary>
+            Verifies conditions in unit tests using true/false propositions. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(System.Boolean,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is true.
+            </summary>
+            <param name="condition">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsFalse(System.Boolean,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is false.
+            </summary>
+            <param name="condition">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNull(System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is null.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsUndefined(System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is undefined.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNullOrUndefined(System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is null or undefined.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is not null.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotUndefined(System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is not undefined.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNullOrUndefined(System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that a value is not null or undefined.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(System.Object,System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that two values are equal.
+            </summary>
+            <param name="expected">The expected value.</param>
+            <param name="actual">The actual value.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreNotEqual(System.Object,System.Object,System.String,System.Object[])">
+            <summary>
+            Verifies that two values not equal.
+            </summary>
+            <param name="notExpected">The unexpected value.</param>
+            <param name="actual">The actual value.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqualNumbers(System.INumber,System.INumber,System.INumber,System.String,System.Object[])">
+            <summary>
+            Verifies that two numbers are equal.
+            </summary>
+            <param name="expected">The expected value.</param>
+            <param name="actual">The actual value.</param>
+            <param name="delta"></param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreNotEqualNumbers(System.INumber,System.INumber,System.INumber,System.String,System.Object[])">
+            <summary>
+            Verifies that two numbers are not equal.
+            </summary>
+            <param name="notExpected">The unexpected value.</param>
+            <param name="actual">The actual value.</param>
+            <param name="delta"></param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqualStrings(System.String,System.String,System.Boolean,System.String,System.Object[])">
+            <summary>
+            Verifies that two strings are equal.
+            </summary>
+            <param name="expected">The expected value.</param>
+            <param name="actual">The actual value.</param>
+            <param name="ignoreCase">True to ignore case, false otherwise.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreNotEqualStrings(System.String,System.String,System.Boolean,System.String,System.Object[])">
+            <summary>
+            Verifies that two strings are not equal.
+            </summary>
+            <param name="notExpected">The unexpected value.</param>
+            <param name="actual">The actual value.</param>
+            <param name="ignoreCase">True to ignore case, false otherwise.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.Fail(System.String,System.Object[])">
+            <summary>
+            Fails with a specific message.
+            </summary>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.HandleFail(System.String,System.String,System.Object[])">
+            <summary>
+            Handler for all failures.
+            </summary>
+            <param name="assertionName">The assert name.</param>
+            <param name="message">The failure message.</param>
+            <param name="parameters">The message parameters.</param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.ConsoleProxy">
+            <summary>
+            Provides a safe use proxy for the browser console.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.ConsoleProxy.clear">
+            <summary>
+            Clears all data from the console.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.ConsoleProxy.log(System.Object)">
+            <summary>
+            Writes a log message to the console.
+            </summary>
+            <param name="message">The value to write.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.ConsoleProxy.info(System.Object)">
+            <summary>
+            Writes an informational message to the console.
+            </summary>
+            <param name="message">The value to write.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.ConsoleProxy.warn(System.Object)">
+            <summary>
+            Writes a warning message to the console.
+            </summary>
+            <param name="message">The value to write.</param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TestTools.UnitTesting.ConsoleProxy.error(System.Object)">
+            <summary>
+            Writes an error message to the console.
+            </summary>
+            <param name="message">The value to write.</param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.TestResult">
+            <summary>
+            Represents the result of an individual test method.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestResult.IsComplete">
+            <summary>
+            Gets a value indicating if the test is complete.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TestTools.UnitTesting.TestResult.ErrorMessage">
+            <summary>
+            Gets the error message, or null if the test passed.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute">
+            <summary>
+            Indicates that a method is a test method.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute">
+            <summary>
+            Indicates that a class may contain test methods.
+            </summary>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.WaitHandler">
+            <summary>
+            Handles the wait command.
+            </summary>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.IOperationHandler">
+            <summary>
+            Service contract for operation handlers.
+            </summary>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.IOperationHandler.HandleOp(Blade.Tools.Quality.Shared.OperationData,System.Action)">
+            <summary>
+            Handles the operation.
+            </summary>
+            <param name="op">The operation data.</param>
+            <param name="done">The completion callback.</param>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.WaitHandler.HandleOp(Blade.Tools.Quality.Shared.OperationData,System.Action)">
+            <summary>
+            Waits for a short period.
+            </summary>
+            <param name="op">The operation data.</param>
+            <param name="done">The completion callback.</param>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.OperationHandler">
+            <summary>
+            The static operation handler, which picks the correct handler instance.
+            </summary>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.OperationHandler.HandleOp(Blade.Tools.Quality.Shared.OperationData,System.Action)">
+            <summary>
+            Routes the operation to the correct handler, based on the command.
+            </summary>
+            <param name="op">The operation data.</param>
+            <param name="done">The completion callback.</param>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.RunTestHandler">
+            <summary>
+            Handles the RunTest command.
+            </summary>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.RunTestHandler.HandleOp(Blade.Tools.Quality.Shared.OperationData,System.Action)">
+            <summary>
+            Runs a test for a specific class and method.
+            </summary>
+            <param name="op">The operation data.</param>
+            <param name="done">The completion callback.</param>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.RunTestHandler.ObjBuilder">
+            <summary>
+            Used by the RunTestHandler to create instances of a class dynamically.
+            </summary>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.RunTestHandler.ObjBuilder.Create(System.Action)">
+            <summary>
+            Creats a new instance of class.
+            </summary>
+            <param name="ctor">The constructor function.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.Extensions">
+            <summary>
+            Internal helper extension methods.
+            </summary>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.Extensions.HasResponse(System.Browser.XMLHttpRequest)">
+            <summary>
+            Gets a value indicating if a response has any text.
+            </summary>
+            <param name="response">The response object.</param>
+            <returns>True if the response was successful and has text.</returns>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.Extensions.GetResponseObject(System.Browser.XMLHttpRequest)">
+            <summary>
+            Gets the response text as an object.
+            </summary>
+            <param name="response">The response object.</param>
+            <returns>The resulting object.</returns>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.Extensions.HasData(Blade.Tools.Quality.Shared.DataObject{System.Object})">
+            <summary>
+            Gets a value indicating if an object has inner data.
+            </summary>
+            <param name="obj">The data object to check.</param>
+            <returns>True if the object has data.</returns>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.Extensions.HasValue(System.Object)">
+            <summary>
+            Gets a value indicating if an object has a value (not null or undefined).
+            </summary>
+            <param name="obj">The object to check.</param>
+            <returns>True if the object has a value, false otherwise.</returns>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.ServiceProxy">
+            <summary>
+            A class capable of communicating with the server.
+            </summary>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.ServiceProxy.#ctor(System.String)">
+            <summary>
+            Creates a new proxy.
+            </summary>
+            <param name="baseUrl">The base URL.</param>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.ServiceProxy.Connect(System.Action)">
+            <summary>
+            Sends a connection request.
+            </summary>
+            <param name="callback">The completion callback.</param>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.ServiceProxy.GetNextOp(System.Action{Blade.Tools.Quality.Shared.OperationData})">
+            <summary>
+            Gets the next operation.
+            </summary>
+            <param name="callback">The completion callback.</param>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.ServiceProxy.FailTest(System.String,System.Action)">
+            <summary>
+            Marks the current test as failed.
+            </summary>
+            <param name="errMsg">The error message.</param>
+            <param name="callback">The completion callback.</param>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.ServiceProxy.PassTest(System.Action)">
+            <summary>
+            Marks the current test as passed.
+            </summary>
+            <param name="callback">The completion callback.</param>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.ActiveXObject">
+            <summary>
+            Mock object for ActiveX objects.
+            </summary>
+        </member>
+        <member name="T:Blade.Tools.Quality.Host.ClientHost">
+            <summary>
+            The client side host, responsible
+            for communication with the server.
+            </summary>
+        </member>
+        <member name="F:Blade.Tools.Quality.Host.ClientHost.Service">
+            <summary>
+            The singleton service proxy instance.
+            </summary>
+        </member>
+        <member name="M:Blade.Tools.Quality.Host.ClientHost.init">
+            <summary>
+            Initializes the host.
+            </summary>
+        </member>
+    </members>
+</doc>

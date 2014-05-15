@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.NavigationItemEntity" table="`NavigationItem`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<property name="Enabled" column="`Enabled`" type="Boolean" not-null="true" />
+		<property name="AssociationId" column="`AssociationId`" type="Int64" />
+		<many-to-one name="Navigation" column="`NavigationId`" class="DigitalBeacon.SiteBase.Model.NavigationEntity, DigitalBeacon.SiteBase.Model" />
+		<many-to-one name="Parent" column="`ParentId`" class="DigitalBeacon.SiteBase.Model.NavigationItemEntity, DigitalBeacon.SiteBase.Model" />
+		<property name="DisplayOrder" column="`DisplayOrder`" type="Int32" not-null="true" />
+		<property name="Text" column="`Text`" type="String" not-null="true" length="100" />
+		<property name="ModuleId" column="`ModuleId`" type="Int32" />
+		<property name="Url" column="`Url`" type="String" length="100" />
+		<property name="ImageUrl" column="`ImageUrl`" type="String" length="100" />
+	</class>
+</hibernate-mapping>

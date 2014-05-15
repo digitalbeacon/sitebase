@@ -1,0 +1,177 @@
+﻿<use import="_common" />
+
+<content name="application-content">
+	#//<default enableJavaScript="Request.Browser.Browser != 'IE' || Request.Browser.MajorVersion > 6" />
+	<default enableJavaScript="EnableJavaScript" />
+	<default module="null" type="string" />
+	<default moduleJS="false" type="bool" />
+	<default resourcePrefix="HttpContext.Current.IsDebuggingEnabled ? String.Empty : '.min'" />
+
+	<if condition="ViewContext.IsChildAction || RenderPartial">
+		<if condition="module.HasText()">
+			<if condition="RenderPartial">
+				<content name="scripts">
+					<script type="text/javascript">
+						$.digitalbeacon.loadCssFile('${"~/resources/{0}/styles{1}.css".FormatWith(module, resourcePrefix)}');
+						<if condition="moduleJS">
+							$.digitalbeacon.loadJsFile('${"~/resources/{0}/scripts{1}.js".FormatWith(module, resourcePrefix)}');
+						</if>
+					</script>
+				</content>
+			</if>
+			<else>
+				# Html.Telerik().StyleSheetRegistrar().StyleSheets(styles => styles.AddSharedGroup("css").Add("~/resources/{0}/styles.css".FormatWith(module)));
+				<if condition="moduleJS">
+					# Html.Telerik().ScriptRegistrar().Scripts(scripts => scripts.AddSharedGroup("sitebase").Add("~/resources/{0}/scripts.js".FormatWith(module)));
+				</if>
+				<content name="readyScript" if="enableJavaScript">
+					$.digitalbeacon.importedFiles['${"~/resources/{0}/styles{1}.css".FormatWith(module, resourcePrefix)}'] = true;
+					<if condition="moduleJS">
+						$.digitalbeacon.importedFiles['${"~/resources/{0}/scripts{1}.js".FormatWith(module, resourcePrefix)}'] = true;
+					</if>
+				</content>
+			</else>
+		</if>
+		<use content="scripts" if="enableJavaScript && Content.ContainsKey('scripts')" />
+		<h1 id="contentHeading" if="Content.ContainsKey('header')"><use content="header" /></h1>
+		<use content="view"/>
+		<if condition="enableJavaScript && ViewContext.IsChildAction && Content.ContainsKey('readyScript')">
+			# Html.Telerik().ScriptRegistrar().OnDocumentReady(Content["readyScript"].ToString());
+		</if>
+		#// Html.Telerik().ScriptRegistrar().Render();
+		<if condition="enableJavaScript && !ViewContext.IsChildAction && (Content.ContainsKey('readyScript') || Html.Telerik().ScriptRegistrar().ToRegistrar().OnDocumentReadyStatements.Count > 0)">
+			<script type="text/javascript">
+			$(document).ready(function() {
+				<use content="readyScript" if="Content.ContainsKey('readyScript')" />
+				<for each="var s in Html.Telerik().ScriptRegistrar().ToRegistrar().OnDocumentReadyStatements">!{s}</for>
+			});
+			</script>
+		</if>
+	</if>
+	<else>
+		<var cultureCode="ResourceManager.ClientCulture.Name != ResourceManager.SystemCulture.Name ? ResourceManager.ClientCulture.Name : null" />
+		<content name="application-head">
+			<title><if condition="Content.ContainsKey('title') || Content.ContainsKey('header')"><use content="title"><use content="header"/></use> | </if>${Text('Site.Title')}</title>
+<%
+if (IsMobile)
+{
+	Html.Telerik().StyleSheetRegistrar()
+		.StyleSheets(styles => styles.AddSharedGroup("css-m"));
+}
+else
+{
+	Html.Telerik().StyleSheetRegistrar()
+		.DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.sitefinity.css"))
+		.StyleSheets(styles => styles.AddSharedGroup("css"));
+}
+if (module.HasText())
+{
+	Html.Telerik().StyleSheetRegistrar().StyleSheets(styles => styles.Add("~/resources/{0}/styles.css".FormatWith(module)));
+}
+if (cultureCode.HasText())
+{
+	if (System.IO.File.Exists(ViewContext.HttpContext.Server.MapPath("~/resources/localized/base/{0}/sitebase{1}.css".FormatWith(cultureCode, resourcePrefix))))
+	{
+		Html.Telerik().StyleSheetRegistrar().StyleSheets(styles => styles.Add("~/resources/localized/base/{0}/sitebase.css".FormatWith(cultureCode)));
+	}
+	if (System.IO.File.Exists(ViewContext.HttpContext.Server.MapPath("~/resources/localized/{0}/custom{1}.css".FormatWith(cultureCode, resourcePrefix))))
+	{
+		Html.Telerik().StyleSheetRegistrar().StyleSheets(styles => styles.Add("~/resources/localized/{0}/custom.css".FormatWith(cultureCode)));
+	}
+}
+Html.Telerik().StyleSheetRegistrar().Render();
+%>
+			<script type="text/javascript" if="enableJavaScript">
+				document.write('<link type="text/css" href="${Url.Content('~/resources/base/css/script-only{0}.css').FormatWith(resourcePrefix)}" rel="stylesheet" />');
+			</script>
+			<use content="head" />
+		</content>
+
+		<use content="view"/>
+		
+		<div id="mask"><input style="position:absolute;top:-100px;" /></div>
+
+		<if condition="enableJavaScript">
+
+			<content name="readyScript" if="module.HasText()">
+				$.digitalbeacon.importedFiles['${"~/resources/{0}/styles{1}.css".FormatWith(module, resourcePrefix)}'] = true;
+				<if condition="moduleJS">
+					$.digitalbeacon.importedFiles['${"~/resources/{0}/scripts{1}.js".FormatWith(module, resourcePrefix)}'] = true;
+				</if>
+			</content>
+
+			<script type="text/javascript" if="Request.ApplicationPath != '/'">document.appContextPath = '${Request.ApplicationPath}';</script>
+			<% 
+if (Content.ContainsKey("readyScript"))
+{
+	Html.Telerik().ScriptRegistrar().OnDocumentReady(Content["readyScript"].ToString());
+}
+Html.Telerik().ScriptRegistrar().Scripts(scripts => {
+	scripts.AddSharedGroup(IsMobile ? "sitebase-m" : "sitebase");
+	if (ViewBag.ScriptGroups != null)
+	{
+		foreach (var g in ViewBag.ScriptGroups)
+		{
+			scripts.AddSharedGroup(g);
+		}
+	}
+});
+if (moduleJS)
+{
+	Html.Telerik().ScriptRegistrar().Scripts(scripts => scripts.Add("~/resources/{0}/scripts.js".FormatWith(module)));
+}
+if (cultureCode.HasText())
+{
+	if (System.IO.File.Exists(ViewContext.HttpContext.Server.MapPath("~/resources/localized/base/{0}/sitebase{1}.js".FormatWith(cultureCode, resourcePrefix))))
+	{
+		Html.Telerik().ScriptRegistrar().Scripts(scripts => scripts.Add("~/resources/localized/base/{0}/sitebase.js".FormatWith(cultureCode)));
+	}
+	if (System.IO.File.Exists(ViewContext.HttpContext.Server.MapPath("~/resources/localized/{0}/custom{1}.js".FormatWith(cultureCode, resourcePrefix))))
+	{
+		Html.Telerik().ScriptRegistrar().Scripts(scripts => scripts.Add("~/resources/localized/{0}/custom.js".FormatWith(cultureCode)));
+	}
+}
+Html.Telerik().ScriptRegistrar().Globalization(true).jQuery(!IsMobile).Render();
+			%>
+			!{"<!--[if IE]>"}<script src="${Url.Content("~/resources/base/scripts/excanvas{0}.js".FormatWith(resourcePrefix))}" type="text/javascript"></script>!{"<![endif]--> "}
+
+			#// Other registered script blocks
+			<use content="scripts" if="Content.ContainsKey('scripts')" />
+
+			#// Session Auditor
+			<script type="text/javascript" if="IsAuthenticated">DigitalBeacon.SiteBase.SessionAuditor.instance().start();</script>
+			
+			#// Google Analytics
+			<script type="text/javascript" if="GoogleAnalyticsId.HasText()">
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', '${GoogleAnalyticsId}']);
+				_gaq.push(['_trackPageview']);
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+			</script>
+		</if>
+	</else>
+</content>
+
+<if condition="ViewContext.IsChildAction || RenderPartial">
+	<if condition="RenderType.EqualsIgnoreCase(WebConstants.RenderTypePartialWrapped)">
+		<textarea>${Content["application-content"]}</textarea>
+	</if>
+	<else>
+		<use content="application-content"/>
+	</else>
+</if>
+<else>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="${ViewBag.MobileModuleName}?{ViewBag.MobileModuleName != null}">
+	<head>
+	<use content="application-head"/>
+	</head>
+	<body>
+	<use content="application-content"/>
+	</body>
+</html>
+</else>

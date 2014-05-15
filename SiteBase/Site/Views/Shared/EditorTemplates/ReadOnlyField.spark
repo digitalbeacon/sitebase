@@ -1,0 +1,2 @@
+﻿<use master="" />
+<span id="${ViewData.ModelMetadata.PropertyName}" class="read-only-field">${H(ViewData.TemplateInfo.FormattedModelValue)}</span>

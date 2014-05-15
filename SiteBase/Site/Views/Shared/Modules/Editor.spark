@@ -1,0 +1,8 @@
+﻿#//<viewdata model="BaseViewModel" />
+
+<h1 class="editorHeading"></h1>
+<sbEditor propertyName="'Editor'" defaultToTextBox="true" />
+<div class="button-panel">
+	<input class="editorUpdate" type="submit" value="${Text('Common.Update.Label')}" />
+	<input class="editorCancel" type="submit" value="${Text('Common.Cancel.Label')}" />
+</div>

@@ -1,0 +1,122 @@
+﻿##|TYPE Template
+##|UNIQUEID 9db90a5d-721c-4d94-a6d1-27f1932b5726
+##|TITLE Spring Test Entities Config
+##|NAMESPACE DigitalBeacon.Dal.Test
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll, adodb.dll%><%#NAMESPACE ADODB %><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_PREFIX = String.Empty;
+	private static readonly string PATH_SUFFIX = @"Config\Test";
+	private static readonly string FILE_EXT = ".xml";
+
+	// these attributes are computed once for this template
+	private string _outputPath;
+	private string _namespace;
+	private string _fileName;
+
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		// call base GetInput method to retrieve inputs
+		GetInput();
+		
+		_outputPath = Path.Combine(BaseOutputPath, PATH_PREFIX);
+		_namespace = BaseNamespace + (BaseNamespace.EndsWith(".") ? "" : ".")
+			+ DnpUtils.SetPascalCase(PATH_PREFIX).Replace(Path.DirectorySeparatorChar, '.');
+		if (!String.IsNullOrEmpty(LogicalGroupName))
+		{
+			//_outputPath = Path.Combine(_outputPath, DnpUtils.SetPascalCase(LogicalGroupName));
+			_namespace += "." + DnpUtils.SetPascalCase(LogicalGroupName);
+		}
+		_outputPath = Path.Combine(_outputPath, PATH_SUFFIX);
+		_namespace += "." + DnpUtils.SetPascalCase(PATH_SUFFIX).Replace(Path.DirectorySeparatorChar, '.');
+
+			
+		bool genSpringTestEntitiesConfig = true;
+		if (genSpringTestEntitiesConfig)
+		{
+			GenerateXmlFile();
+			_fileName = "Generated" + DnpUtils.SetPascalCase(LogicalGroupName) + "TestEntities" + FILE_EXT;
+			output.save(Path.Combine(_outputPath, _fileName), false);
+			Log("Generated: " + Path.Combine(_outputPath, _fileName));
+			output.clear();
+		}
+	}
+	
+	private void GenerateXmlFile()
+	{
+		output.writeln("<?xml version=\"1.0\"?>");
+		OutputXmlHeader();
+		output.writeln("");
+		output.writeln("<!-- Generated with MyGeneration using the Spring Test Entities Config template -->");
+%>
+<objects xmlns="http://www.springframework.net"><%
+	ProcessTables();%>
+</objects>
+<%
+	}
+	
+	protected void ProcessTables()
+	{
+		string modelNamespace = BaseNamespace + ".Model.";
+		string modelAssemblyName = BaseAssemblyName + ".Model";
+		if (!String.IsNullOrEmpty(LogicalGroupName))
+		{
+			modelNamespace += DnpUtils.SetPascalCase(LogicalGroupName) + ".";
+			modelAssemblyName += "." + DnpUtils.SetPascalCase(LogicalGroupName);
+		}
+		foreach (string tableName in SelectedTables)
+		{
+			ITable table = MyMeta.Databases[DbName].Tables[tableName];
+			if (IgnoreTable(table))
+			{
+				continue;
+			}
+			string tableAlias = table.Alias;
+			string baseDao = GetNameColumn(table) != null ? "NameDao" : "BaseDao";
+			%>
+  <object id="Test<%= TableToDto(tableAlias) %>" type="<%= modelNamespace %><%= TableToDto(tableAlias) %>, <%= modelAssemblyName %>" singleton="false"><%
+	ProcessColumns(table);%>
+  </object><%
+		}	
+	}
+	
+	protected void ProcessColumns(ITable table)
+	{
+		foreach(IColumn col in table.Columns)
+		{
+			if (IgnoreColumn(col))
+			{
+				continue;
+			}
+			%>
+	<property name="<%= ColumnToPropertyName(col) %>" value="" /><%
+		}
+	}
+
+	protected override bool IgnoreColumn(IColumn col)
+	{
+		bool retval = base.IgnoreColumn(col);
+		if (!retval)
+		{
+			if (col.IsInPrimaryKey || col.Name == VersionColumnName)
+			{
+				retval = true;
+			}
+		}
+		return retval;
+	}
+}
+%>
+##|BODY_END

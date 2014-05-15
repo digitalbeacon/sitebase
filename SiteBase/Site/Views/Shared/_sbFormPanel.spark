@@ -1,0 +1,102 @@
+﻿<use import="_formMacros" />
+
+<default panelId="ViewContext.RouteData.Values['controller'].ToString() + 'EditPanel'" />
+<default panelClass="null" type="string" />
+<default modelId="ViewContext.RouteData.Values['id'].ToSafeString().HasText() ? ViewContext.RouteData.Values['id'].ToString().ToInt64() ?? 0 : 0" type="long" />
+<default form="null" type="IDisposable" />
+<default formAction="null" type="string" />
+<default formRouteValues="null" type="object" />
+<default formMethod="FormMethod.Post" />
+<default formAttributes="null" type="object" />
+<default enableAjaxGet="false" />
+<default enableAjax="RenderPartial || enableAjaxGet" />
+<default enableClientValidation="true" />
+<default initClientValidation="true" />
+<default displayMessagePanel="true" />
+<default displayValidationSummary="true" />
+<default validationSummaryId="panelId + '-validationSummary'" />
+<default validationSummaryLabel="'Validation.Summary.Label'" type="string" />
+<default excludePropertyErrorsFromSummary="false" />
+<default displayRequiredMessage="true" />
+<default deleteUrl="modelId > 0 ? Url.Action('delete') : null" />
+<default isEntityModel="typeof(EntityModel).IsAssignableFrom(Model.GetType())" />
+<default operation="isEntityModel ? (modelId == 0 ? create : update) : null" />
+<default enableItemSequencer="RenderPartial && isEntityModel" />
+<default itemSequencerKey="Request[EntityModel.SequencerProperty].DefaultTo(ViewContext.RouteData.Values['controller'].ToString())" />
+<default enableSave="true" />
+<default enableDelete="isEntityModel && modelId > 0" />
+<default enableCancel="isEntityModel" />
+<default enableBulkCreate="isEntityModel && modelId == 0" />
+<default enableCaptcha="false" />
+<default listPanelId="null" type="string" />
+<default supportFileInput="false" />
+<default singularLabel="isEntityModel ? Model.GetPropertyValue<string>('SingularLabel') : String.Empty" />
+<default pluralLabel="isEntityModel ? Model.GetPropertyValue<string>('PluralLabel') : String.Empty" />
+
+<set formAttributes="new { id = panelId + '-form' }" if="formAttributes == null && !supportFileInput" />
+<set formAttributes="new { id = panelId + '-form', enctype = 'multipart/form-data' }" if="formAttributes == null && supportFileInput" />
+<set listPanelId="panelId.Replace('EditPanel', 'ListPanel')" if="listPanelId.IsNullOrBlank() && isEntityModel && panelId.IndexOf('EditPanel') >= 0" />
+<set listPanelId="panelId.Replace('NewPanel', 'ListPanel')" if="listPanelId.IsNullOrBlank() && isEntityModel && panelId.IndexOf('NewPanel') >= 0" />
+
+<sbMessagePanel if="displayMessagePanel" />
+
+<if condition="enableClientValidation">
+	# Html.EnableClientValidation();
+</if>
+
+<div id="${panelId}?{panelId.HasText()}" class="form-panel ${panelClass}?{panelClass.HasText()}">
+<if condition="form == null">
+	<if condition="operation == create">
+		<set form="Html.BeginForm(String.Empty, null, null, formMethod, formAttributes)" />
+	</if>
+	<else if="operation == update || operation == delete">
+		<set form="Html.BeginForm(String.Empty, null, new { id = modelId }, formMethod, formAttributes)" />
+	</else>
+	<else>
+		<set form="Html.BeginForm(formAction, null, formRouteValues, formMethod, formAttributes)" />
+	</else>
+</if>
+# using (form)
+# {
+	<if condition="operation == update">
+		${Html.HttpMethodOverride(HttpVerbs.Put)}
+	</if>
+	<else if="operation == delete">
+		${Html.HttpMethodOverride(HttpVerbs.Delete)}
+	</else>
+	<div if="enableItemSequencer">
+		<span id="item-nav">
+			<span id="previous" class="link" style="display:none"><span class="text">${Text("Common.Previous.Label")}</span></span>
+			<span id="next" class="link" style="display:none"><span class="text">${Text("Common.Next.Label")}</span></span>
+		</span>
+		<span class="required-message-text" if="displayRequiredMessage">!{Text("Common.FieldRequired.Label", '<span class="required-marker"><span class="text">*</span></span>')}</span>
+	</div>
+	<if condition="displayValidationSummary">
+		!{HttpUtility.HtmlDecode(Html.ValidationSummary(excludePropertyErrorsFromSummary, validationSummaryLabel.IfNotNull(Text(validationSummaryLabel)), new { id = validationSummaryId }).ToString())}
+	</if>
+	<if condition="isEntityModel">
+		${this.Hidden(BaseEntity.IdProperty).Value(modelId)}
+		<if condition="enableItemSequencer && itemSequencerKey.HasText()">
+			${this.Hidden(EntityModel.SequencerProperty).Value(itemSequencerKey)}
+		</if>
+	</if>
+	<content name="readyScript">
+		<var options="new Dictionary[[string, object]]()" />
+		<sbSet dictionary="options" key="'ajax'" value="enableAjax" />
+		<sbSet dictionary="options" key="'ajaxGet'" value="enableAjaxGet" />
+		<sbSet dictionary="options" key="'initValidation'" value="enableClientValidation && initClientValidation" />
+		<sbSet dictionary="options" key="'itemSequencerKey'" value="itemSequencerKey" if="enableItemSequencer && itemSequencerKey.HasText() && operation != create && operation != delete" />
+		<sbSet dictionary="options" key="'deleteUrl'" value="deleteUrl" if="deleteUrl.HasText()" />
+		<sbSet dictionary="options" key="'formTarget'" value="'uploadIFrame'" if="RenderPartial && supportFileInput" />
+		<sbSet dictionary="options" key="'listPanelId'" value="'#' + listPanelId" if="RenderPartial && listPanelId.HasText()" />
+		<sbSet dictionary="options" key="'nextTooltip'" value="Text('Common.Next.Label').EscapeForJavaScript()" />
+		<sbSet dictionary="options" key="'previousTooltip'" value="Text('Common.Previous.Label').EscapeForJavaScript()" />
+		$('#${panelId}').sbFormPanel(!{Json(options)});</content>
+	<render />
+# }
+	<if condition="RenderPartial && supportFileInput">
+		<iframe id="uploadIFrame" name="uploadIFrame" src="" style="width:0;height:0;border:0px solid #fff"></iframe>
+	</if>
+</div>
+
+<sbScriptGroup name="'formpanel'" />

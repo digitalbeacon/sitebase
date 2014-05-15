@@ -1,0 +1,55 @@
+/* localizationListPanel */
+/*
+#localizationListPanel th.key {
+	width: 28em;
+}
+#localizationListPanel th.property {
+	width: 5em;
+}
+#localizationListPanel th.default,
+#localizationListPanel th.value {
+	*width: 13em;
+}
+*/
+#localizationListPanel tbody input {
+	width: 100%;
+	*width: 90%;
+}
+#localizationListPanel a#languages {
+	padding-left: 22px;
+	background: url(../images/icon-globe.png) no-repeat 0px 3px;
+}
+#localizationListPanel a#clearCache {
+	padding-left: 22px;
+	background: url(../images/icon-refresh.png) no-repeat 0px 3px;
+	margin-left: 10px;
+}
+#localizationListPanel a#saveResources {
+	padding-left: 22px;
+	background: url(../images/icon-save.png) no-repeat 0px 3px;
+	margin-left: 10px;
+}
+#localizationListPanel a#createSet {
+	padding-left: 22px;
+	background: url(../images/icon-plus.png) no-repeat 0px 3px;
+	margin-left: 10px;
+}
+#localizationListPanel a#deleteEmptyValues {
+	padding-left: 22px;
+	background: url(../images/icon-minus.png) no-repeat 0px 3px;
+	margin-left: 10px;
+}
+/* localizationEditPanel */
+#localizationEditPanel .form-row-label {
+	width: 8em;
+}
+#localizationEditPanel input[type="text"],
+#localizationEditPanel .read-only-field {
+	width: 47.5em;
+}
+#localizationEditPanel #form-row-value .form-row-content {
+	width: 47.5em;
+}
+#localizationEditPanel textarea {
+	width: 100%;
+}

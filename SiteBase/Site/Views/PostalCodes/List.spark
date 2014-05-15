@@ -1,0 +1,22 @@
+﻿<viewdata model="ListModel<ListItem>" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'postalCodeListPanel'">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Code)
+	.HeaderHtmlAttributes(new { @class = "code" });
+	columns.Bound(x => x.City)
+	.HeaderHtmlAttributes(new { @class = "city" });
+	columns.Bound(x => x.StateCode)
+	.HeaderHtmlAttributes(new { @class = "state" });
+	columns.Bound(x => x.County)
+	.HeaderHtmlAttributes(new { @class = "county" });
+})
+.Render();
+%>
+</sbListPanel>

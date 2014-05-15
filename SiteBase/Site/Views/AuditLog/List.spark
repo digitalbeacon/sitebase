@@ -1,0 +1,38 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'auditLogListPanel'" displaySearchPanel="false" enableNew="false" enableRemove="false">
+	<sbSearchPanel>
+		${Html.DropDownListFor(m => m.Action, Model.ListItems[AuditLogEntity.ActionProperty], string.Empty)}
+	</sbSearchPanel>
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Created)
+	.HeaderHtmlAttributes(new { @class = "date-time" });
+	columns.Bound(x => x.Action)
+	.HeaderHtmlAttributes(new { @class = "subject" });
+	columns.Bound(x => x.Username)
+	.HeaderHtmlAttributes(new { @class = "username" });
+	columns.Bound(x => x.EntityType)
+	.HeaderHtmlAttributes(new { @class = "entity-type" });
+	columns.Bound(x => x.RefId)
+	.HeaderHtmlAttributes(new { @class = "ref-id" });
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.Created).Descending());
+})
+.Render();
+%>
+</sbListPanel>
+
+<content name="readyScript">
+	var auditLogListPanel = $('#auditLogListPanel').data('sbListPanel');
+	$('#Action', auditLogListPanel.element).change(function() {
+		$('#search', auditLogListPanel.element).click(); 
+	});
+</content>

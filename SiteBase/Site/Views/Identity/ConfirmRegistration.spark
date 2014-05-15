@@ -1,0 +1,9 @@
+﻿<viewdata model="ConfirmRegistrationModel" />
+
+<content name="header">${Text("Identity.ConfirmRegistration.Heading")}</content>
+
+<sbFormPanel panelId="'confirmRegistrationPanel'">
+	<sbFormRow property="'Username'" />
+	<sbFormRow property="'Token'" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>

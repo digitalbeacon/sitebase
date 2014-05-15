@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.Messaging.MessageEntity" table="`Message`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<property name="AssociationId" column="`AssociationId`" type="Int64" not-null="true" />
+		<property name="SenderId" column="`SenderId`" type="Int64" not-null="true" />
+		<property name="SenderRole" column="`SenderRoleId`" type="DigitalBeacon.SiteBase.Model.Role, DigitalBeacon.SiteBase.Model" />
+		<property name="SenderName" column="`SenderName`" type="String" length="200" />
+		<property name="Subject" column="`Subject`" type="String" length="1073741823" />
+		<property name="Content" column="`Content`" type="String" length="1073741823" />
+		<property name="DateSent" column="`DateSent`" type="DateTime" />
+		<property name="DateExpires" column="`DateExpires`" type="DateTime" />
+		<property name="RelatedId" column="`RelatedId`" type="Int64" />
+		<property name="ReplyToId" column="`ReplyToId`" type="Int64" />
+		<property name="Flagged" column="`Flagged`" type="Boolean" not-null="true" />
+		<property name="ReplyDisabled" column="`ReplyDisabled`" type="Boolean" not-null="true" />
+		<property name="Importance" column="`ImportanceId`" type="DigitalBeacon.SiteBase.Model.Messaging.MessageImportance, DigitalBeacon.SiteBase.Model" not-null="true" />
+		<property name="Email" column="`Email`" type="Boolean" not-null="true" />
+		<property name="Type" column="`TypeId`" type="DigitalBeacon.SiteBase.Model.Messaging.MessageType, DigitalBeacon.SiteBase.Model" not-null="true" />
+		<bag name="Recipients" table="`MessageRecipient`" lazy="true" schema="`sitebase`" cascade="all-delete-orphan" inverse="true">
+			<key column="`MessageId`" />
+			<one-to-many class="DigitalBeacon.SiteBase.Model.Messaging.MessageRecipientEntity, DigitalBeacon.SiteBase.Model" />
+		</bag>
+		<bag name="Attachments" table="`MessageAttachment`" lazy="true" schema="`sitebase`" cascade="all-delete-orphan" inverse="true">
+			<key column="`MessageId`" />
+			<one-to-many class="DigitalBeacon.SiteBase.Model.Messaging.MessageAttachmentEntity, DigitalBeacon.SiteBase.Model" />
+		</bag>
+	</class>
+</hibernate-mapping>

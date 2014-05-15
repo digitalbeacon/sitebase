@@ -1,0 +1,3 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.Roles" />
+
+<global module="'base/roles'" type="string" />

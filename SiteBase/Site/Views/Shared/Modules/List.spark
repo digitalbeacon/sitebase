@@ -1,0 +1,83 @@
+﻿<viewdata model="ListModel[[ModuleDef]]" />
+
+<content name="title">${Text("Modules.List.Heading")}</content>
+
+<content name="moduleList">
+	${Html.Telerik().PanelBar()
+		.Name("moduleList")
+		.HtmlAttributes(new { style = "visibility:hidden" })
+		.BindTo((IEnumerable)Model.Items, mappings =>
+		{
+			mappings.For<ModuleDef>(binding => binding
+				.ItemDataBound((item, x) =>
+				{
+					item.Text = x.Name;
+					item.Url = Url.Action("edit", new { controller = "moduleDefinitions", id = x.Id });
+				})
+				.Children(x => x.Instances));
+			mappings.For<ModuleEntity>(binding => binding
+				.ItemDataBound((item, x) =>
+				{
+					item.Text = x.Name;
+					item.Url = Url.Action("edit", new { id = x.Id });
+				}));
+		})
+		.ClientEvents(events => events.OnSelect("panelBarSelect"))}
+</content>
+
+<if condition="RenderPartial">
+	<use content="moduleList" />
+</if>
+<else>
+	<div id="moduleListPanel" class="multi-col">
+		<div class="col">
+			<h1>${Text("Modules.List.Heading")}</h1>
+			<div id="moduleListContainer" class="actions">
+				<use content="moduleList" />
+			</div>
+		</div>
+		<div id="module">
+			<sbMessagePanel />
+		</div>
+	</div>
+</else>
+
+<sbScriptGroup name="'listpanel'" />
+
+<content name="scripts" if="!RenderPartial">
+	<script type="text/javascript">
+		function panelBarSelect(e) {
+			$('> a', e.item).removeClass('t-state-selected');
+			var selected = $('#moduleList').data('selected');
+			if (selected) {
+				$(selected).addClass('t-state-selected');
+			}
+		}
+	</script>
+</content>
+
+<content name="readyScript">
+	<if condition="!RenderPartial">
+	$('#moduleListPanel').bind('refresh', function(e) {
+		$('#moduleListContainer').load('${Url.Action("index")}');
+	});
+	</if>
+	var moduleList = $('#moduleList');
+	moduleList.find('a')
+		.each(function() {
+			$(this).data('url', this.href);
+			this.href = '#';
+		})
+		.click(function(e) {
+			if (e.target == e.currentTarget) {
+				var a = $(this);
+				$.post(a.data('url'), null, function(response) { $('#module').html(response) });
+				//$('#module').load(a.data('url'));
+				moduleList.find('a').removeClass('t-state-selected');
+				a.addClass('t-state-selected');
+				moduleList.data('selected', this);
+				return false;
+			}
+		}); 
+	moduleList.css('visibility', 'visible');
+</content>

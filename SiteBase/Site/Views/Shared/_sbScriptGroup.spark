@@ -1,0 +1,11 @@
+﻿<%
+	if (ViewBag.ScriptGroups == null)
+	{
+		ViewBag.ScriptGroups = new HashSet<string>();
+	}
+	ViewBag.ScriptGroups.Add(name);
+	if (name == "listpanel")
+	{
+		ViewBag.ScriptGroups.Add("formpanel");
+	}
+%>

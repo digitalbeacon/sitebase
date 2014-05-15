@@ -1,0 +1,4 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Model.Content" />
+<use namespace="DigitalBeacon.SiteBase.Models.Content" />
+
+<global module="'base/content'" type="string" />

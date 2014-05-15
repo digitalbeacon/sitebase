@@ -1,0 +1,151 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<content name="searchPanelFilters">
+	${Html.DropDownListFor(m => m.Language, Model.ListItems[ResourceEntity.LanguageProperty])}
+	${Html.DropDownListFor(m => m.Type, Model.ListItems[ResourceEntity.TypeProperty])}
+</content>
+
+<sbListPanel panelId="'localizationListPanel'" hideSearchPanelWhenEmpty="false">
+<%
+grid.Columns(columns =>
+{
+	//columns.Bound(x => x.Type)
+	//	.HeaderHtmlAttributes(new { @class = "type" });
+	columns.Bound(x => x.Key)
+	.HeaderHtmlAttributes(new { @class = "key" });
+	columns.Bound(x => x.Property)
+	.HeaderHtmlAttributes(new { @class = "property" })
+	.HtmlAttributes(new { @class = "property" });
+	columns.Bound(x => x.Default)
+	.HeaderHtmlAttributes(new { @class = "default" })
+	.HtmlAttributes(new { @class = "default" })
+	.Title(Model.DefaultLanguageName)
+	.Format("<input value='{0}' readonly='readonly' />")
+	.Encoded(false)
+	.Sortable(false);
+	columns.Bound(x => x.Value)
+	.HeaderHtmlAttributes(new { @class = "value" })
+	.HtmlAttributes(new { @class = "value" })
+	.Title(Model.LanguageName)
+	.Format("<input value='{0}'/>")
+	.Encoded(false)
+	.Sortable(false);
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.Key).Ascending());
+})
+.Render();
+%>
+	<div class="button-panel actions">
+		<sbActionLink action="String.Empty" controller="'languages'" text="'Languages.Plural.Label'" />
+		<sbActionLink action="'clearCache'" text="'Localization.ClearCache.Label'" />
+		<sbActionLink action="'saveResources'" text="'Localization.SaveResources.Label'" />
+		<sbActionLink action="'createSet'" text="'Localization.CreateSet.Label'" title="'Localization.CreateSet.Tooltip'" />
+		<sbActionLink action="'deleteEmptyValues'" text="'Localization.DeleteEmptyValues.Label'" title="'Localization.DeleteEmptyValues.Tooltip'" />
+	</div>
+	<content name="readyScript">
+		$('#localizationListPanel').bind('dataBound', function() {
+			var saveResources = $('#saveResources', this);
+			var createSet = $('#createSet', this);
+			var deleteEmptyValues = $('#deleteEmptyValues', this);
+			var rows = $('tbody tr input', this);
+			rows.click(function() {
+				return false;
+			});
+			if (rows.length) {
+				saveResources.show();
+				deleteEmptyValues.show();
+			}
+			else {
+				saveResources.hide();
+				deleteEmptyValues.hide();
+			}
+			var defaultCol = $('tbody td.default, th.default', this);
+			if ($('#Type', this).val().indexOf('.') == -1) {
+				defaultCol.hide();
+				//createSet.show();
+			}
+			else {
+				defaultCol.show();
+				//createSet.hide();
+			}
+			var propertyHeader = $('th.property', this).hide();
+			var propertyCells = $('tbody td.property', this).hide();
+			propertyCells.each(function() {
+				if ($(this).text().trim() && $(this).text().trim() != '&nbsp;') {
+					propertyHeader.show();
+					propertyCells.show();
+					return;
+				}
+			});
+		});
+	</content>
+</sbListPanel>
+
+<content name="readyScript">
+	var localizationListPanel = $('#localizationListPanel').data('sbListPanel');
+	var language = $('#Language', localizationListPanel.element);
+	var type = $('#Type', localizationListPanel.element);
+	var valueHeader = $('th.value', localizationListPanel.element);
+	localizationListPanel.augmentParams = { language: language.val(), type: type.val() };
+	function searchOptionChange() {
+		$('#search', localizationListPanel.element).click(); 
+		localizationListPanel.augmentParams = { language: language.val(), type: type.val() };
+	}
+	language.change(function() { 
+		searchOptionChange();
+		valueHeader.text(language.find('option:selected').text());
+	});
+	type.change(function() { 
+		searchOptionChange();
+	});
+	$('#saveResources', localizationListPanel.element).click(function() {
+		var data = {};
+		$('tbody tr', localizationListPanel.element).each(function(i) {
+			var $this = $(this);
+			data['Items[' + i + '].Id'] = $this.find('td.select a').attr('data-id');
+			data['Items[' + i + '].Value'] = $.digitalbeacon.htmlEncode($this.find('td.value input').val());
+		});
+		$.post(this.href, data, function(response) {
+			localizationListPanel.gridRefresh();
+			$.sb.displayMessage(response, null, 'message-summary');
+		});
+		return false;
+	});
+	$('#languages', localizationListPanel.element).click(function() {
+		$.sb.modalBox({ 
+			ajax: this.href, 
+			replace: false, 
+			close: function() {
+				$.post($.digitalbeacon.resolveUrl('~/languages/list'), null, function(data) {
+					language.find('option').remove();
+					if (data) {
+						$.each(data, function(i, x) {
+							language.append($('<option/>').attr('value', x.Id).text(x.Name));
+						});
+					}
+					language.change();
+				});
+			} 
+		});
+		return false;
+	});
+	$('#clearCache', localizationListPanel.element).click(function() {
+		$.post(this.href, null, function(response) {
+			$.sb.displayMessage(response, null, 'message-summary');
+		});
+		return false;
+	});
+	$('#createSet, #deleteEmptyValues', localizationListPanel.element).click(function() {
+		$.post(this.href, { language: language.val(), type: type.val() }, function(response) {
+			localizationListPanel.applySearch();
+			$.sb.displayMessage(response, null, 'message-summary');
+		});
+		return false;
+	});
+</content>

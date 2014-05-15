@@ -1,0 +1,21 @@
+﻿<default addNoScriptClass="true" />
+<if condition="Model.Messages.Count > 0 || Model.Errors.Count > 0">
+	<div class="message-panel no-script?{!RenderPartial && addNoScriptClass}">
+		<if condition="Model.Messages.Count == 1">
+			<div class="message-summary"><span class="icon"></span><span class="text">!{M(Model.Messages[0])}</span></div>
+		</if>
+		<else if="Model.Messages.Count > 1">
+			<ul class="message-summary">
+				<li each="var message in Model.Messages"><span class="icon"></span><span class="text">!{M(message)}</span></li>
+			</ul>
+		</else>
+		<if condition="Model.Errors.Count == 1">
+			<div class="error-summary"><span class="icon"></span><span class="text">!{M(Model.Errors[0])}</span></div>
+		</if>
+		<else if="Model.Errors.Count > 1">
+			<ul class="error-summary">
+				<li each="var error in Model.Errors"><span class="icon"></span><span class="text">!{M(error)}</span></li>
+			</ul>
+		</else>
+	</div>
+</if>

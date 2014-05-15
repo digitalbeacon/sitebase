@@ -1,0 +1,45 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'navigationItemListPanel'" displaySearchPanel="false">
+	<sbSearchPanel>
+		${Html.DropDownListFor(m => m.Navigation, Model.ListItems[NavigationItemEntity.NavigationProperty])}
+	</sbSearchPanel>
+<%
+grid.Columns(columns =>
+{
+	//columns.Bound(x => x.Navigation);
+	columns.Bound(x => x.Text)
+	.HeaderHtmlAttributes(new { @class = "text" });
+	columns.Bound(x => x.Url)
+	.HeaderHtmlAttributes(new { @class = "url" });
+	columns.Bound(x => x.Parent)
+	.HeaderHtmlAttributes(new { @class = "parent" });
+	columns.Bound(x => x.Enabled)
+	.HeaderHtmlAttributes(new { @class = "enabled" })
+	.ClientTemplate("<input type='checkbox' disabled='disabled' name='Enabled' <#= Enabled? \"checked='checked'\" : \"\" #> />");
+})
+.Sortable(sorting =>
+{
+	sorting.SortMode(GridSortMode.MultipleColumn)
+	.OrderBy(sort =>
+	{
+		//sort.Add(x => x.Navigation);
+		sort.Add(x => x.Parent);
+		sort.Add(x => x.DisplayOrder);
+	});
+})
+.Render();
+%>
+</sbListPanel>
+
+<content name="readyScript">
+	var navigationItemListPanel = $('#navigationItemListPanel').data('sbListPanel');
+	$('#Navigation', navigationItemListPanel.element).change(function() {
+		navigationItemListPanel.augmentParams = { navigation: this.value }; 
+		$('#search', navigationItemListPanel.element).click(); 
+	});
+</content>

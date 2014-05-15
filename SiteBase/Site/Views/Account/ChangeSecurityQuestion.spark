@@ -1,0 +1,10 @@
+﻿<viewdata model="ChangeSecurityQuestionModel" />
+
+<content name="header">${Text("Identity.ChangeSecurityQuestion.Heading")}</content>
+
+<sbFormPanel panelId="'changeSecurityQuestionPanel'">
+	<sbFormRow property="'CurrentPassword'" inputType="password" />
+	<sbFormRow property="'SecurityQuestion'" />
+	<sbFormRow property="'SecurityAnswer'" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>

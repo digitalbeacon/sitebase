@@ -1,0 +1,21 @@
+/* changeSecurityQuestionPanel */
+#changeSecurityQuestionPanel .form-row-label {
+	width: 9.7em;
+}
+#changeSecurityQuestionPanel input[type="text"], 
+#changeSecurityQuestionPanel input[type="password"] {
+	width: 17.65em;
+}
+#changeSecurityQuestionPanel select {
+	width: 18.35em;
+}
+/* updateProfilePanel */
+#updateProfilePanel #col1 {
+	width: 24em;
+}
+#updateProfilePanel #col1 .form-row-label {
+	width: 8em;
+}
+#updateProfilePanel #col2 .form-row-label {
+	width: 7.2em;
+}

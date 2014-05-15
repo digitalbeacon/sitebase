@@ -1,0 +1,51 @@
+/* userListPanel */
+#userListPanel th.username {
+	width: 33%;
+}
+#userListPanel th.displayName {
+	width: 33%;
+}
+#userListPanel th.email {
+	width: 33%;
+}
+#userListPanel a#roles {
+	padding-left: 22px;
+	background: url(../images/icon-people.png) no-repeat 0px 3px;
+}
+/* userEditPanel */
+#userEditPanel a#changePassword {
+	padding-left: 22px;
+	background: url(../images/icon-key.png) no-repeat 0px 3px;
+}
+#userEditPanel {
+	width: 49em;
+}
+#userEditPanel .form-row-label {
+	width: 8em;
+}
+#userEditPanel .col {
+	width: 25em;
+}
+/* userNewPanel */
+#userEditPanel #col2 {
+	width: 24em;
+}
+#userNewPanel {
+	width: 51em;
+}
+#userNewPanel .form-row-label {
+	width: 10em;
+}
+#userNewPanel #col1 {
+	width: 27em;
+}
+#userNewPanel #col2 .form-row-label {
+	width: 7em;
+}
+#userNewPanel #col2 {
+	width: 24em;
+}
+/* changePasswordPanel */
+#changePasswordPanel {
+	width: 28em;
+}

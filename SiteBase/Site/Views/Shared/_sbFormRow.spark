@@ -1,0 +1,64 @@
+﻿<default property="null" type="string" />
+<default subProperty="null" type="string" />
+<default label="null" type="string" />
+<default inputType="null" type="string" />
+<default required="null" type="bool?" />
+<default inputReadOnly="null" type="bool?" />
+<default customText="null" type="string" />
+<default includeEmptyOption="true" />
+<default helpText="null" type="string" />
+<default validation="null" type="string" />
+<default validations="null" type="string[]" />
+<default generateRowId="true" />
+<default rowId="null" type="string" />
+<default rowClass="inputType == submit ? 'form-row-submit' : null" />
+<default rowStyle="null" type="string" />
+<default mask="null" type="string" />
+<default maxLength="null" type="int?" />
+<default isEntityModel="false" />
+<default enableSave="true" />
+<default enableDelete="false" />
+<default enableCancel="false" />
+<default inputSize="0" />
+<default enableRenderContent="inputType == renderContent || !property.HasText()" />
+<default focus="false" />
+
+<content name="formRowContent" if="enableRenderContent"><render /></content>
+
+${FormRow(new FormRowOptions { 
+	Property = property, 
+	SubProperty = subProperty,
+	Label = label,
+	InputType = inputType,
+	Required = required,
+	InputReadOnly = inputReadOnly,
+	CustomText = customText,
+	IncludeEmptyOption = includeEmptyOption,
+	HelpText = helpText, 
+	Validation = validation,
+	Validations = validations,
+	GenerateRowId = generateRowId,
+	RowId = rowId,
+	RowClass = rowClass,
+	RowStyle = rowStyle,
+	Mask = mask,
+	Focus = focus,
+	MaxLength = maxLength,
+	IsEntityModel = isEntityModel,
+	EnableSave = enableSave,
+	EnableDelete = enableDelete,
+	EnableCancel = enableCancel,
+	EnableBulkCreate = enableBulkCreate,
+	EnableCaptcha = enableCaptcha,
+	InputSize = inputSize,
+	Model = Model,
+	FormPanelId = panelId,
+	SingularLabel = singularLabel,
+	PluralLabel = pluralLabel,
+	ViewData = ViewData,
+	RenderContent = enableRenderContent ? Content["formRowContent"].ToString() : null
+})}
+
+<if condition="enableRenderContent">
+# Content.Remove("formRowContent");
+</if>

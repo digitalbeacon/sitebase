@@ -1,0 +1,54 @@
+/* changePasswordPanel */
+#changePasswordPanel .form-row-label {
+	width: 12.75em;
+}
+#changePasswordPanel input[type="text"], 
+#changePasswordPanel input[type="password"], 
+#changePasswordPanel .read-only-field
+{
+	width: 17.65em;
+}
+#changePasswordPanel select {
+	width: 18.35em;
+}
+#changePasswordPanel .message-summary {
+	color: black;
+}
+/* confirmRegistrationPanel */
+#confirmRegistrationPanel .form-row-label {
+	width: 10em;
+}
+#confirmRegistrationPanel input[type="text"] {
+	width: 20em;
+}
+/* recoverUsernamePanel */
+#recoverUsernamePanel .form-row-label {
+	width: 4.58em;
+}
+/* registrationPanel */
+#registrationPanel .form-row-label {
+	width: 9.8em;
+}
+#registrationPanel input[type="text"], 
+#registrationPanel input[type="password"] {
+	width: 17em;
+}
+#registrationPanel select {
+	width: 17.7em;
+}
+#registrationPanel #col1 {
+	width: 30.72em;
+}
+#registrationPanel #col2 .form-row-label {
+	width: 7.52em;
+}
+/* resetPasswordPanel */
+#resetPasswordPanel input[type="text"], 
+#resetPasswordPanel input[type="password"],
+#resetPasswordPanel .read-only-field {
+	width: 18.65em;
+}
+/* signInPanel */
+#signInPanel .form-row-label {
+	width: 6.2em;
+}

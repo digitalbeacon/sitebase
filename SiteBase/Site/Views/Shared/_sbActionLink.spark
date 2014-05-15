@@ -1,0 +1,6 @@
+﻿<default text="null" type="string" />
+<default controller="ViewContext.RouteData.Values['controller'].ToString()" type="string" />
+<default id="action.HasText() ? action : controller" type="string" />
+<default cssClass="null" type="string" />
+<default title="null" type="string" />
+<a id="${id}?{id.HasText()}" href="${Url.Action(action, controller)}" class="${cssClass}?{cssClass.HasText()}" title="${Text(title)}?{title.HasText()}"><if condition="text != null">${Text(text)}</if><else><render /></else></a>

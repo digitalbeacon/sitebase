@@ -1,0 +1,4 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.Permissions" />
+
+<global module="'base/permissions'" type="string" />
+<global moduleJS="true" type="bool" />

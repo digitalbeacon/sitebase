@@ -1,0 +1,17 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'auditLogEditPanel'" enableSave="false" enableDelete="false" displayRequiredMessage="false">
+	<sbFormRow property="'Created'" inputReadOnly="true" required="false" />
+	<sbFormRow property="'Action'" inputReadOnly="true" />
+	<sbFormRow property="'Username'" inputReadOnly="true" if="Model.Username.HasText()" />
+	<sbFormRow property="'EntityType'" inputReadOnly="true" if="Model.EntityType.HasText()" />
+	<sbFormRow property="'RefId'" inputReadOnly="true" if="Model.RefId.HasText()" />
+	<sbFormRow property="'Details'" inputReadOnly="true" if="Model.Details.HasText()" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<content name="readyScript" if="RenderPartial">
+	$(window).resize();
+</content>

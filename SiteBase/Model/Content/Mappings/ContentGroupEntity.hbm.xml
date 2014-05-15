@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.Content.ContentGroupEntity" table="`ContentGroup`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<property name="AssociationId" column="`AssociationId`" type="Int64" not-null="true" />
+		<property name="Name" column="`Name`" type="String" not-null="true" length="100" />
+		<property name="Title" column="`Title`" type="String" length="200" />
+		<many-to-one name="ContentGroupType" column="`ContentGroupTypeId`" class="DigitalBeacon.SiteBase.Model.Content.ContentGroupTypeEntity, DigitalBeacon.SiteBase.Model" />
+		<property name="DisplayOrder" column="`DisplayOrder`" type="Int32" not-null="true" />
+		<bag name="ContentEntries" table="`ContentEntry`" lazy="true" schema="`sitebase`" cascade="none" inverse="true">
+			<key column="`ContentGroupId`" />
+			<one-to-many class="DigitalBeacon.SiteBase.Model.Content.ContentEntryEntity, DigitalBeacon.SiteBase.Model" />
+		</bag>
+	</class>
+</hibernate-mapping>

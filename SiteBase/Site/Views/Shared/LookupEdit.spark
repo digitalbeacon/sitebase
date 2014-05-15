@@ -1,0 +1,23 @@
+﻿<viewdata model="LookupEntityModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'lookupEditPanel'" panelClass="'lookup-edit-panel'">
+	<sbFormRow property="'Name'" focus="true" />
+	<sbFormRow property="'Code'" required="true" if="Model.IsCoded" />
+	<sbFormRow property="'DisplayOrder'" if="Model.UseDisplayOrder" />
+		<sbFormRow property="'Comment'" inputType="textArea" if="Model.SupportsComments" />
+		<sbFormRow property="'Inactive'" inputType="checkBox" if="Model.UseDisplayOrder && Model.SupportsInactive" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<content name="readyScript">
+	var $lookupEditPanel = $('#lookupEditPanel');
+	var lookupEditPanel = $lookupEditPanel.data('sbFormPanel');
+	$lookupEditPanel.find('#Inactive').change(function() { $lookupEditPanel.find('#DisplayOrder').val(this.checked ? '0' : ''); });
+	${ValidationRule("Name", "lookupEditPanel", "remote", "'{0}'".FormatWith(Url.Action("validateName", new { Id = Model.Id })), "Error.Name.Duplicate")}
+	<if condition="Model.IsCoded">
+		${ValidationRule("Code", "lookupEditPanel", "required", true, "Validation.Error.Required", "Common.Code.Label")}
+		${ValidationRule("Code", "lookupEditPanel", "remote", "'{0}'".FormatWith(Url.Action("validateCode", new { Id = Model.Id })), "Error.Code.Duplicate")}
+	</if>
+</content>

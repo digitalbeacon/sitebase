@@ -1,0 +1,80 @@
+﻿<viewdata model="RegisterModel" />
+
+<content name="header">${Text("Identity.Register.Heading")}</content>
+
+#// Context.Session["Identity.PasswordUpdateRequiredUsername"] = "";
+#// Context.Session["Identity.PasswordUpdateRequiredPassword"] = "";
+
+<var countryVisible="Model.ListItems.ContainsKey(AddressEntity.CountryProperty)" />
+
+<sbFormPanel panelId="'registrationPanel'" enableCaptcha="CaptchaConstants.IsCaptchaEnabled">
+	<div class="multi-col">
+		<div id="col1" class="col">
+			<sbFormRow property="'FirstName'" focus="true" />
+			<sbFormRow property="'MiddleName'" if="Model.ShowMiddleName" />
+			<sbFormRow property="'LastName'" />
+			<sbFormRow property="'Email'" />
+			<sbFormRow property="'Username'" required="true" helpText="'Identity.Error.Username.Invalid'" if="!WebConstants.UseEmailForUsername" />
+			<sbFormRow property="'Password'" inputType="password" helpText="'Identity.Error.Password.Invalid'" />
+			<sbFormRow property="'PasswordConfirm'" inputType="password" />
+			<sbFormRow property="'SecurityQuestion'" />
+			<sbFormRow property="'SecurityAnswer'" inputType="password" />
+		</div>
+		<div id="col2" class="col">
+			<if condition="countryVisible">
+				<sbFormRow property="'Country'" required="Model.RequireAddress" />
+			</if>
+			<else>
+				${Html.HiddenFor(m => m.Country)}
+			</else>
+			<sbFormRow property="'Line1'" required="Model.RequireAddress" />
+			<sbFormRow property="'Line2'" />
+			<sbFormRow property="'City'" required="Model.RequireAddress" />
+			<sbFormRow property="'State'" required="Model.RequireState && !countryVisible" />
+			<sbFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
+		</div>
+	</div>
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<content name="readyScript">
+	var registrationPanel = $('#registrationPanel').data('sbFormPanel');
+	${ValidationRule("Email", "registrationPanel", "remote", "'{0}'".FormatWith(Url.Action("ValidateEmail", "Identity")), Text("Identity.Error.DuplicateEmail", Url.Action("resetPassword", "identity")))}
+	<if condition="!WebConstants.UseEmailForUsername">
+		${ValidationRule("Username", "registrationPanel", "required", true, "Validation.Error.Required", "Common.Username.Label")}
+		${ValidationRule("Username", "registrationPanel", "remote", "'{0}'".FormatWith(Url.Action("ValidateUsername", "Identity")), "Identity.Error.DuplicateUsername")}
+	</if>
+	${ValidationRule("Password", "registrationPanel", "notEqualTo", "'#Username'", "Identity.Error.Password.Invalid")}
+	${ValidationRule("PasswordConfirm", "registrationPanel", "equalTo", "'#Password'", "Identity.Error.PasswordConfirm.NotMatched")}
+	<if condition="Model.RequireAddress">
+		<if condition="countryVisible">
+			${ValidationRule("Country", "registrationPanel", "required", true, "Validation.Error.Required", "Common.Country.Label")}
+		</if>
+		${ValidationRule("Line1", "registrationPanel", "required", true, "Validation.Error.Required", "Common.Line1.Label")}
+		${ValidationRule("City", "registrationPanel", "required", true, "Validation.Error.Required", "Common.City.Label")}
+	</if>
+	<if condition="Model.RequireState && !countryVisible">
+		${ValidationRule("State", "registrationPanel", "required", true, "Validation.Error.Required", "Common.State.Label")}
+	</if>
+	<if condition="Model.RequirePostalCode && !countryVisible">
+		${ValidationRule("PostalCode", "registrationPanel", "required", true, "Validation.Error.Required", "Common.PostalCode.Label")}
+	</if>
+	var country = $('#Country', registrationPanel.element);
+	var state = $('#State', registrationPanel.element);
+	country.change(function() {
+		if (this.value) {
+			$.post($.digitalbeacon.resolveUrl('~/states/list'), { country: this.value }, function(data) {
+				state.find('option:not(:first)').remove();
+				if (data) {
+					$.each(data, function(i, x) {
+						state.append($('<option/>').attr('value', x.Id).text(x.Name));
+					});
+				}
+			});
+		}
+		else {
+			state.find('option:not(:first)').remove();
+		}
+	});
+</content>
+

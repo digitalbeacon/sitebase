@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account.Error.DuplicateEmail" xml:space="preserve">
+    <value>The specified email address is already in use. Please enter a different email for this account.</value>
+  </data>
+  <data name="Account.NotificationPreference.Label" xml:space="preserve">
+    <value>Notification Preference</value>
+  </data>
+  <data name="Account.UpdateProfile.Confirmation" xml:space="preserve">
+    <value>Profile changes saved.</value>
+  </data>
+  <data name="Account.UpdateProfile.Heading" xml:space="preserve">
+    <value>Update Profile</value>
+  </data>
+  <data name="Common.AdditionalReturn.Label" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Common.Age.Label" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Common.Approved.Label" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="Common.Back.Label" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Common.BulkCreate.Label" xml:space="preserve">
+    <value>Add Another {0}</value>
+  </data>
+  <data name="Common.BulkCreate.Tooltip" xml:space="preserve">
+    <value>Check this option to continue creating one or more additional {0}.</value>
+  </data>
+  <data name="Common.Cancel.Label" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common.City.Label" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Common.Clear.Label" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Common.Close.Label" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Common.Code.Label" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Common.Contact.Label" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Common.Country.Label" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Common.Create.Confirmation" xml:space="preserve">
+    <value>{1} **{0}** added.</value>
+  </data>
+  <data name="Common.CurrentPassword.Label" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="Common.Date.Label" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Common.DateOfBirth.Label" xml:space="preserve">
+    <value>Date of Birth</value>
+  </data>
+  <data name="Common.DefaultPhone.Label" xml:space="preserve">
+    <value>Phone Preference</value>
+  </data>
+  <data name="Common.Delete.Confirm" xml:space="preserve">
+    <value>Delete this item?</value>
+  </data>
+  <data name="Common.Delete.Confirmation" xml:space="preserve">
+    <value>{1} **{0}** deleted.</value>
+  </data>
+  <data name="Common.Delete.ConfirmWithDescription" xml:space="preserve">
+    <value>Delete **{0}**?</value>
+  </data>
+  <data name="Common.Delete.Heading" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="Common.Delete.Label" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Common.DeleteEntity.Label" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="Common.DeletePhoto.Confirmation" xml:space="preserve">
+    <value>Photo deleted.</value>
+  </data>
+  <data name="Common.DeletePhoto.Label" xml:space="preserve">
+    <value>Delete Photo</value>
+  </data>
+  <data name="Common.DisplayName.Label" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="Common.DisplayOrder.Label" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
+  <data name="Common.Edit.Heading" xml:space="preserve">
+    <value>{0} - {1}</value>
+  </data>
+  <data name="Common.Edit.Heading.NoDescription" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="Common.Email.Label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Common.Enabled.Label" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Common.End.Label" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Common.Error.ManageBuiltIn.Denied" xml:space="preserve">
+    <value>Built-in {0} cannot be changed or deleted.</value>
+  </data>
+  <data name="Common.Error.Photo.Invalid" xml:space="preserve">
+    <value>The uploaded file was not a supported image.</value>
+  </data>
+  <data name="Common.FindEntity.Label" xml:space="preserve">
+    <value>Find {0}</value>
+  </data>
+  <data name="Common.FirstName.Label" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Identity.ForgotPassword.Label" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="Identity.ForgotUsername.Label" xml:space="preserve">
+    <value>Forgot your username?</value>
+  </data>
+  <data name="Common.Gender.Label" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="Common.HomePhone.Label" xml:space="preserve">
+    <value>Home Phone</value>
+  </data>
+  <data name="Common.LastName.Label" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Common.Line1.Label" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Common.Line2.Label" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="Common.LockedOut.Label" xml:space="preserve">
+    <value>Locked Out</value>
+  </data>
+  <data name="Common.MiddleName.Label" xml:space="preserve">
+    <value>Middle Name</value>
+  </data>
+  <data name="Common.MobilePhone.Label" xml:space="preserve">
+    <value>Mobile Phone</value>
+  </data>
+  <data name="Common.Name.Label" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Common.New.Heading" xml:space="preserve">
+    <value>New {0}</value>
+  </data>
+  <data name="Common.New.Label" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Common.NewEntity.Label" xml:space="preserve">
+    <value>Add {0}</value>
+  </data>
+  <data name="Common.NewPassword.Label" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Common.NewPasswordConfirm.Label" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="Common.Next.Label" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Common.No.Label" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Common.NoEntities.Text" xml:space="preserve">
+    <value>No {0}</value>
+  </data>
+  <data name="Common.Pager.First.Label" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="Common.Pager.Last.Label" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="Common.Pager.Next.Label" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Common.Pager.Previous.Label" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Common.PageSize.Label" xml:space="preserve">
+    <value>Page Size</value>
+  </data>
+  <data name="Common.Password.Label" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Common.PasswordConfirm.Label" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Common.Phone.Label" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Common.Photo.Label" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="Common.PostalCode.Label" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="Common.Previous.Label" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Common.Quantity.Label" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Common.Required.Label" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="Common.Return.Label" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="Common.ReturnToEntity.Label" xml:space="preserve">
+    <value>Return to {0}</value>
+  </data>
+  <data name="Common.Save.Label" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Common.Search.Label" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Common.SearchText.Label" xml:space="preserve">
+    <value>Search Text</value>
+  </data>
+  <data name="Common.SecurityAnswer.Label" xml:space="preserve">
+    <value>Security Answer</value>
+  </data>
+  <data name="Common.SecurityQuestion.Label" xml:space="preserve">
+    <value>Security Question </value>
+  </data>
+  <data name="Common.Select.Label" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Common.Ssn.Label" xml:space="preserve">
+    <value>Social Security Number</value>
+  </data>
+  <data name="Common.Start.Label" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Common.State.Label" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="Common.Submit.Label" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Common.Text.Label" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Common.Time.Label" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Identity.Token.Label" xml:space="preserve">
+    <value>Registration Code</value>
+  </data>
+  <data name="Common.Type.Label" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Common.Update.Confirmation" xml:space="preserve">
+    <value>{1} **{0}** saved.</value>
+  </data>
+  <data name="Common.Update.Label" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Common.Username.Label" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Common.ViewEntity.Label" xml:space="preserve">
+    <value>View {0}</value>
+  </data>
+  <data name="Common.Welcome.Text" xml:space="preserve">
+    <value>Welcome, {0}.</value>
+  </data>
+  <data name="Common.WorkPhone.Label" xml:space="preserve">
+    <value>Work Phone</value>
+  </data>
+  <data name="Common.Year.Label" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Common.Yes.Label" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Error.ActionNotFound" xml:space="preserve">
+    <value>The requested page could not be found.</value>
+  </data>
+  <data name="Error.ActionNotFound.Heading" xml:space="preserve">
+    <value>Oops! Something went wrong...</value>
+  </data>
+  <data name="Error.ActionUnavailable" xml:space="preserve">
+    <value>The requested action is currently unavailable.</value>
+  </data>
+  <data name="Error.ActionUnavailable.Heading" xml:space="preserve">
+    <value>Oops! Something went wrong...</value>
+  </data>
+  <data name="Error.Code.Duplicate" xml:space="preserve">
+    <value>The specified code is already used. Please enter a different value.</value>
+  </data>
+  <data name="Error.DeleteEntity.Dependency" xml:space="preserve">
+    <value>This item cannot be deleted at this time because it is being referenced.</value>
+  </data>
+  <data name="Error.Heading" xml:space="preserve">
+    <value>Oops! Something went wrong...</value>
+  </data>
+  <data name="Error.Name.Duplicate" xml:space="preserve">
+    <value>The specified name is already used. Please enter a different value.</value>
+  </data>
+  <data name="Error.Unspecified" xml:space="preserve">
+    <value>An error occurred processing your request.</value>
+  </data>
+  <data name="Identity.AccountUpdated.Heading" xml:space="preserve">
+    <value>Account Updated</value>
+  </data>
+  <data name="Identity.ChangePassword.Heading" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Identity.ChangeSecurityQuestion.Heading" xml:space="preserve">
+    <value>Change Security Question</value>
+  </data>
+  <data name="Identity.ConfirmRegistration.Heading" xml:space="preserve">
+    <value>Confirm Registration</value>
+  </data>
+  <data name="Identity.Error.AccountLocked" xml:space="preserve">
+    <value>This account is locked out. Please contact an administrator to unlock the account.</value>
+  </data>
+  <data name="Identity.ConfirmRegistration.Failed" xml:space="preserve">
+    <value>The information submitted does not correspond to a valid registration.</value>
+  </data>
+  <data name="Identity.Error.CurrentPassword.Incorrect" xml:space="preserve">
+    <value>The current password supplied was incorrect.</value>
+  </data>
+  <data name="Identity.Error.DuplicateEmail" xml:space="preserve">
+    <value>The email you supplied has already been used. If you have already registered, please use the [password reset]({0}) feature to gain access to your account.</value>
+  </data>
+  <data name="Identity.Error.DuplicateUsername" xml:space="preserve">
+    <value>The selected username has already been taken.</value>
+  </data>
+  <data name="Identity.Error.EmailNotFound" xml:space="preserve">
+    <value>No approved user could be found for the given email.</value>
+  </data>
+  <data name="Identity.Error.InvalidCredentials" xml:space="preserve">
+    <value>Username and Password combination does not match a valid user. Please try again.</value>
+  </data>
+  <data name="Identity.Error.Password.Invalid" xml:space="preserve">
+    <value>Password must be 6 to 20 characters and cannot be the same as the Username. It must also contain at least one letter and one digit or special character.</value>
+  </data>
+  <data name="Identity.Error.PasswordConfirm.NotMatched" xml:space="preserve">
+    <value>Password fields do not match.</value>
+  </data>
+  <data name="Identity.Error.PasswordOrSecurityInfoRequired" xml:space="preserve">
+    <value>New Password or Security Question and Security Answer is required.</value>
+  </data>
+  <data name="Identity.Error.PasswordRequiredToUpdateSecurityQuestionAndAnswer" xml:space="preserve">
+    <value>Current Password is required to update the Security Question and Security Answer.</value>
+  </data>
+  <data name="Identity.Error.ResetPassword.NoSecurityQuestion" xml:space="preserve">
+    <value>Your password cannot be reset at this time because there is no security question established for this account. Please contact an administrator to reset your password.</value>
+  </data>
+  <data name="Identity.Error.SecurityAnswer.Incorrect" xml:space="preserve">
+    <value>The answer supplied for the security question was incorrect.</value>
+  </data>
+  <data name="Identity.Error.Token.Invalid" xml:space="preserve">
+    <value>The Registration Code is not valid.</value>
+  </data>
+  <data name="Identity.Error.Unspecified" xml:space="preserve">
+    <value>Your registration request could not be completed at this time.</value>
+  </data>
+  <data name="Identity.Error.Username.Invalid" xml:space="preserve">
+    <value>Username must either be an email address or 5 to 20 characters. If it is not an email address, it must begin with a letter and can contain only letters, digits, periods and underscores.</value>
+  </data>
+  <data name="Identity.Error.UsernameNotFound" xml:space="preserve">
+    <value>No approved user could be found with the given username.</value>
+  </data>
+  <data name="Identity.Message.PasswordAndSecurityQuestionChanged" xml:space="preserve">
+    <value>Your password and security question have been updated.</value>
+  </data>
+  <data name="Identity.Message.PasswordChanged" xml:space="preserve">
+    <value>Your password has been updated.</value>
+  </data>
+  <data name="Identity.Message.PasswordUpdateRequired" xml:space="preserve">
+    <value>You must change your password and select a security question and answer before proceeding.</value>
+  </data>
+  <data name="Identity.Message.SecurityQuestionChanged" xml:space="preserve">
+    <value>Your security question and answer have been updated.</value>
+  </data>
+  <data name="Identity.RecoverUsername.Confirmation" xml:space="preserve">
+    <value>A message with your username has been sent to your email address.</value>
+  </data>
+  <data name="Identity.RecoverUsername.Heading" xml:space="preserve">
+    <value>Recover Username</value>
+  </data>
+  <data name="Identity.Register.Heading" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Identity.RegistrationSubmitted.Heading" xml:space="preserve">
+    <value>Registration Submitted</value>
+  </data>
+  <data name="Identity.ResetPassword.Confirmation" xml:space="preserve">
+    <value>Your password has been changed. You can now sign in with your new password.</value>
+  </data>
+  <data name="Identity.ResetPassword.Heading" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="Identity.SignIn.Heading" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="Common.Ssn.Label.Short" xml:space="preserve">
+    <value>Social Security No.</value>
+  </data>
+  <data name="Common.FieldRequired.Label" xml:space="preserve">
+    <value>Fields marked with {0} are required.</value>
+  </data>
+  <data name="Common.PlaceHolder.Content" xml:space="preserve">
+    <value>&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vestibulum fringilla, arcu a consectetuer condimentum, odio velit dapibus risus, sit amet sollicitudin eros augue id sapien. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam a mi id nisl molestie molestie. Curabitur in est ac purus aliquam lacinia. Vestibulum imperdiet dolor non purus consequat euismod. Praesent faucibus, erat vitae sollicitudin accumsan, dolor orci rhoncus augue, ut placerat erat risus sed felis. Ut sit amet velit. Aliquam commodo risus ac arcu. Proin congue est ac ipsum. Donec dictum pede malesuada odio. In malesuada leo ut justo. Fusce neque tellus, condimentum non, congue quis, dignissim eget, augue. Donec pulvinar tortor ut lectus. Cras metus purus, commodo volutpat, sollicitudin auctor, aliquet nec, metus.&lt;/p&gt;&lt;p&gt;Proin non sem. Quisque consectetuer. Curabitur commodo risus vel ante. Sed placerat eros mollis sem. Suspendisse potenti. Aenean aliquet massa sed magna. Proin orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras scelerisque magna in diam. Curabitur congue massa. Donec at libero nec nunc consectetuer laoreet. Donec commodo malesuada quam. Quisque blandit ante vitae diam. Morbi quis ante. Proin sollicitudin mi molestie diam. Proin elit nunc, cursus blandit, luctus in, pellentesque nec, nisl. Etiam rhoncus, sapien vel imperdiet hendrerit, tellus risus bibendum elit, ut interdum ante urna in neque.&lt;/p&gt;&lt;p&gt;Praesent libero odio, malesuada cursus, varius eu, euismod eget, nunc. Donec sit amet mauris. Praesent id metus non lorem convallis volutpat. Pellentesque nisi. In sed augue. Mauris posuere. Nulla facilisi. Mauris libero pede, dignissim id, porttitor tincidunt, vestibulum vel, erat. Donec nisi diam, fermentum nec, semper non, ullamcorper eu, ante. Suspendisse vitae eros eu diam euismod nonummy. Maecenas ultrices purus et mi. Curabitur eget orci at magna sodales interdum. Etiam libero. Donec rhoncus rutrum eros. Quisque blandit sagittis leo. Etiam vel purus. Suspendisse arcu mauris, fermentum id, rutrum nec, lacinia eu, felis.&lt;/p&gt;&lt;p&gt;Nam tellus lectus, dignissim id, pharetra ac, rutrum non, metus. Nunc tincidunt, urna eu bibendum blandit, orci magna porta arcu, ut vehicula ipsum nulla ac lectus. Aenean malesuada felis quis orci. Morbi ornare viverra elit. Quisque elit lacus, ullamcorper commodo, lacinia vel, vulputate eu, purus. Nunc vitae sapien accumsan orci dictum adipiscing. Nunc eget dui. Vivamus venenatis commodo ante. Cras sit amet massa. Mauris iaculis felis sit amet eros. Integer tempor, quam nec aliquam accumsan, augue quam viverra eros, sit amet vestibulum nisi est quis ante.&lt;/p&gt;&lt;p&gt;Aliquam eleifend, ipsum et ornare vehicula, ligula elit vestibulum eros, sit amet condimentum tellus nisl in ante. In lorem risus, rutrum ut, sollicitudin in, iaculis quis, lorem. Praesent sodales tincidunt arcu. Quisque euismod ligula porta metus. Integer vehicula risus a mi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed iaculis. Proin pulvinar nibh id velit. Duis elementum. Nam posuere tristique urna.&lt;/p&gt;</value>
+  </data>
+  <data name="Common.PlaceHolder.Text" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vestibulum fringilla, arcu a consectetuer condimentum, odio velit dapibus risus, sit amet sollicitudin eros augue id sapien. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam a mi id nisl molestie molestie. Curabitur in est ac purus aliquam lacinia. Vestibulum imperdiet dolor non purus consequat euismod. Praesent faucibus, erat vitae sollicitudin accumsan, dolor orci rhoncus augue, ut placerat erat risus sed felis. Ut sit amet velit. Aliquam commodo risus ac arcu. Proin congue est ac ipsum. Donec dictum pede malesuada odio. In malesuada leo ut justo. Fusce neque tellus, condimentum non, congue quis, dignissim eget, augue. Donec pulvinar tortor ut lectus. Cras metus purus, commodo volutpat, sollicitudin auctor, aliquet nec, metus.</value>
+  </data>
+  <data name="Validation.Error.Currency" xml:space="preserve">
+    <value>{0} is not valid.</value>
+  </data>
+  <data name="Validation.Error.Date" xml:space="preserve">
+    <value>{0} is not valid.</value>
+  </data>
+  <data name="Validation.Error.DateMax" xml:space="preserve">
+    <value>{0} must be {1} or earlier.</value>
+  </data>
+  <data name="Validation.Error.DateMin" xml:space="preserve">
+    <value>{0} must be {1} or later.</value>
+  </data>
+  <data name="Validation.Error.Email" xml:space="preserve">
+    <value>{0} is not valid.</value>
+  </data>
+  <data name="Validation.Error.Integer" xml:space="preserve">
+    <value>{0} is not a valid integer.</value>
+  </data>
+  <data name="Validation.Error.Invalid" xml:space="preserve">
+    <value>{0} is not valid.</value>
+  </data>
+  <data name="Validation.Error.Max" xml:space="preserve">
+    <value>{0} must be {1} or less.</value>
+  </data>
+  <data name="Validation.Error.Min" xml:space="preserve">
+    <value>{0} must be {1} or greater.</value>
+  </data>
+  <data name="Validation.Error.Number" xml:space="preserve">
+    <value>{0} is not a valid number.</value>
+  </data>
+  <data name="Validation.Error.PropertiesMustMatch" xml:space="preserve">
+    <value>{0} and {1} do not match.</value>
+  </data>
+  <data name="Validation.Error.Range" xml:space="preserve">
+    <value>The valid range for {0} is {1} to {2}.</value>
+  </data>
+  <data name="Validation.Error.RegularExpression" xml:space="preserve">
+    <value>{0} is not valid.</value>
+  </data>
+  <data name="Validation.Error.Required" xml:space="preserve">
+    <value>{0} is required.</value>
+  </data>
+  <data name="Validation.Error.StringLength" xml:space="preserve">
+    <value>{0} exceeds the maximum length of {1} characters.</value>
+  </data>
+  <data name="Validation.Summary.Label" xml:space="preserve">
+    <value>Please correct the errors below to continue.</value>
+  </data>
+  <data name="Common.Default.Label" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Common.Key.Label" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Common.Language.Label" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Common.Property.Label" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="Common.Value.Label" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Common.NoMatchingEntities.Text" xml:space="preserve">
+    <value>No Matching {0}</value>
+  </data>
+  <data name="Identity.ConfirmRegistration.Confirmation" xml:space="preserve">
+    <value>Your registration is now complete, and your account has been activated.</value>
+  </data>
+  <data name="Identity.Register.Confirmation" xml:space="preserve">
+    <value>Your registration has been submitted. You should receive an email with instructions to complete your registration.</value>
+  </data>
+  <data name="Common.Person.DisplayName.Format" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Common.Captcha.Label" xml:space="preserve">
+    <value>Verification Text</value>
+  </data>
+  <data name="Common.Captcha.Tooltip" xml:space="preserve">
+    <value>Please enter the words you see in the box, in order and separated by a space. Doing so helps prevent automated programs from abusing this service.</value>
+  </data>
+  <data name="Validation.Error.Captcha" xml:space="preserve">
+    <value>The verification text was not correct.</value>
+  </data>
+  <data name="Common.Comment.Label" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Common.Inactive.Label" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="Common.Revert.Label" xml:space="preserve">
+    <value>Revert</value>
+  </data>
+  <data name="Common.County.Label" xml:space="preserve">
+    <value>County</value>
+  </data>
+  <data name="Common.Fax.Label" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="Common.LastFourSsn.Label" xml:space="preserve">
+    <value>Last 4 of SSN</value>
+  </data>
+  <data name="Common.MiddleInitial.Label" xml:space="preserve">
+    <value>Middle Initial</value>
+  </data>
+  <data name="Comments.Description.Format" xml:space="preserve">
+    <value>Comment for {0}</value>
+  </data>
+  <data name="Comments.Plural.Label" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Comments.Singular.Label" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Common.Flagged.Label" xml:space="preserve">
+    <value>Flagged</value>
+  </data>
+  <data name="Common.RotatePhotoClockwise.Label" xml:space="preserve">
+    <value>Rotate Clockwise</value>
+  </data>
+  <data name="Common.RotatePhotoCounterclockwise.Label" xml:space="preserve">
+    <value>Rotate Counterclockwise</value>
+  </data>
+  <data name="Common.DesktopSiteSelector.Label" xml:space="preserve">
+    <value>Switch to Desktop Site</value>
+  </data>
+  <data name="Common.MobileSiteSelector.Label" xml:space="preserve">
+    <value>Switch to Mobile Site</value>
+  </data>
+  <data name="Common.UseEditor.Label" xml:space="preserve">
+    <value>Switch to Editor</value>
+  </data>
+  <data name="Common.UseTextBox.Label" xml:space="preserve">
+    <value>Switch to Text Box</value>
+  </data>
+</root>

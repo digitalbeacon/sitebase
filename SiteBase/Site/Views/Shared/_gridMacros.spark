@@ -1,0 +1,3 @@
+﻿<macro name="GridActionLink" action="string" controller="string" routeValues="object" text="string">!{"<a href=\"{0}\" data-id=\"{{0}}\"><span class=\"text\">{1}</span></a>".FormatWith(Url.Action(action, controller, routeValues).Replace("0", "{0}"), Text(text))}</macro>
+<macro name="GridActionLink" action="string" controller="string" text="string">!{GridActionLink(action, controller, new { id = 0 }, text)}</macro>
+<macro name="GridActionLink" action="string" text="string">!{GridActionLink(action, null, new { id = 0 }, text)}</macro>

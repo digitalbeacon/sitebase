@@ -1,0 +1,13 @@
+﻿<viewdata model="ContentEntryModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'contentEntryEditPanel'">
+	<sbFormRow property="'ContentGroup'" />
+	<sbFormRow property="'ContentDate'" />
+	<sbFormRow property="'Title'" />
+	<sbFormRow property="'Body'" inputType="editor" />
+	<sbFormRow property="'DisplayOrder'" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+

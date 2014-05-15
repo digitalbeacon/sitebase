@@ -1,0 +1,9 @@
+﻿<use import="_clientFormMacros" />
+
+<default displayMessagePanel="true" />
+
+<sbClientMessagePanel if="displayMessagePanel" />
+
+<form role="form">
+	<render />
+</form>

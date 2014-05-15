@@ -1,0 +1,70 @@
+﻿<viewdata model="EditModel" />
+
+<content name="newInstance" if="Model.AllowMultiple">
+	<div class="actions">
+		<a id="newInstance" href="${Url.Action('newInstance')}">${Text("ModuleDefinitions.NewInstance.Label")}</a>
+	</div>
+</content>
+
+<div id="moduleEditPanel">
+	<if condition="((Model.Settings.Count > 0 || Model.AllowMultiple) ? 1 : 0) + Model.CustomSettings.Count > 1">
+		<var firstTabText="Text('ModuleDefinitions.Global.Label')" />
+		<var firstCustomIndex="0" />
+		<content name="firstTab">
+			<if condition="Model.Settings.Count > 0">
+				<h1>${Model.Heading ?? Model.Name}</h1>
+				<sbMessagePanel />
+				<use content="newInstance" />
+				<moduleSettings />
+			</if>
+			<else if="Model.AllowMultiple">
+				<h1>${Model.Heading ?? Model.Name}</h1>
+				<sbMessagePanel />
+				<use content="newInstance" />
+			</else>
+			<else>
+				<set firstTabText="Model.CustomSettings[0].Name" />
+				<set firstCustomIndex="1" />
+				# Html.Action(Model.CustomSettings[0].Action, Model.CustomSettings[0].Controller);
+			</else>
+		</content>
+		<% Html.Telerik().TabStrip()
+			.Name("settingTabs")
+			.Items(tabstrip =>
+			{
+				tabstrip.Add().Text(firstTabText).Content(Content["firstTab"].ToString());
+				for (int i = firstCustomIndex; i < Model.CustomSettings.Count; i++)
+				{
+				var x = Model.CustomSettings[i];
+				tabstrip.Add().Text(x.Name).LoadContentFrom(x.Action, x.Controller);
+				}
+			})
+			.SelectedIndex(0)
+			.Render(); %>
+	</if>
+	<else if="Model.CustomSettings.Count == 1">
+		# Html.RenderAction(Model.CustomSettings[0].Action, Model.CustomSettings[0].Controller);
+	</else>
+	<else>
+		<h1>${Model.Heading ?? Model.Name}</h1>
+		<sbMessagePanel />
+		<use content="newInstance" />
+		<if condition="!Model.Global || Model.Settings.Count > 0">
+			<moduleSettings />
+		</if>
+		<else if="!Model.AllowMultiple">
+			<div>${Text("ModuleDefinitions.Edit.NoSettings")}</div>
+		</else>
+	</else>
+	
+</div>
+
+
+<content name="readyScript" if="Model.AllowMultiple || RenderPartial">
+	<if condition="Model.AllowMultiple">
+		$('#newInstance').click(function() { $('#moduleEditPanel').load(this.href); return false; });
+	</if>
+	<if condition="RenderPartial">
+		$.sb.displayMessageSummaryAsModalBox();
+	</if>
+</content>

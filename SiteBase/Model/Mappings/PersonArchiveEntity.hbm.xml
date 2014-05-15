@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.PersonArchiveEntity" table="`Person_Archive`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<property name="RefId" column="`RefId`" type="Int64" not-null="true" />
+		<property name="Created" column="`Created`" type="DateTime" not-null="true" />
+		<property name="Archived" column="`Archived`" type="DateTime" not-null="true" />
+		<property name="FirstName" column="`FirstName`" type="String" length="100" />
+		<property name="MiddleName" column="`MiddleName`" type="String" length="100" />
+		<property name="LastName" column="`LastName`" type="String" length="100" />
+		<property name="Title" column="`Title`" type="String" length="100" />
+		<property name="Suffix" column="`Suffix`" type="String" length="100" />
+		<property name="Gender" column="`GenderId`" type="DigitalBeacon.SiteBase.Model.Gender, DigitalBeacon.SiteBase.Model" />
+		<property name="DateOfBirth" column="`DateOfBirth`" type="DateTime" />
+		<many-to-one name="Address" column="`AddressId`" class="DigitalBeacon.SiteBase.Model.AddressEntity, DigitalBeacon.SiteBase.Model" />
+		<property name="EncryptedSsn" column="`EncryptedSsn`" type="String" length="100" />
+		<property name="Ssn4" column="`Ssn4`" type="String" length="4" />
+		<property name="RaceId" column="`RaceId`" type="Int64" />
+		<property name="PhotoId" column="`PhotoId`" type="Int64" />
+		<property name="PhotoWidth" column="`PhotoWidth`" type="Int32" />
+		<property name="PhotoHeight" column="`PhotoHeight`" type="Int32" />
+	</class>
+</hibernate-mapping>

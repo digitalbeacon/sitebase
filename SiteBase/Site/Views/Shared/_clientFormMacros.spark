@@ -1,0 +1,90 @@
+﻿<macro name="ClientFormRow" options="FormRowOptions">
+
+	<set options.RowId="'form-row-' + options.Property.ToLowerHyphenated()" if="options.GenerateRowId && options.Property.HasText()" />
+	<set options.RowId="options.RowId + '-' + options.SubProperty.ToLowerHyphenated()" if="options.GenerateRowId && options.SubProperty.HasText()" />
+	<set options.RowClass="' ' + options.RowClass" if="options.RowClass.HasText()" />
+
+	<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}">
+		<if condition="options.Property.HasText()">
+			<var propName="options.Property" />
+			<if condition="options.SubProperty.IsNullOrBlank() && propName.IndexOf('.') >= 0">
+				<set options.Property="propName.Substring(0, propName.IndexOf('.'))" />
+				<set options.SubProperty="propName.Substring(propName.IndexOf('.') + 1)" />
+			</if>
+			<set propName="Model.GetType().GetProperty(options.Property).Name" />
+			<set propName="'{0}.{1}'.FormatWith(propName, options.Model.GetType().GetProperty(options.Property).PropertyType.GetProperty(options.SubProperty).Name)" if="options.SubProperty.HasText()" />
+			<var propMetadata="ModelMetadata.FromStringExpression(propName, options.ViewData)" />
+			<var propRequired="options.Required.HasValue ? options.Required.Value : propMetadata.IsRequired" />
+			<var propReadOnly="options.InputReadOnly.HasValue ? options.InputReadOnly.Value : propMetadata.IsReadOnly" />
+			<if condition="options.InputType == null">
+				<if condition="propMetadata.ModelType == typeof(bool) || propMetadata.ModelType == typeof(bool?)">
+					<set options.InputType="checkBox" />
+				</if>
+				<else if="options.Model.ListItems.ContainsKey(propName)">
+					<set options.InputType="dropDownList" />
+				</else>
+			</if>
+			${Html.Label(propName)}
+			<span class="form-row-content">
+				<if condition="options.InputType == null && propReadOnly">
+					${Html.Editor(propName, 'ReadOnlyField')}
+				</if>
+				<else if="options.InputType == null">
+					${Html.Editor(propName)}
+				</else>
+				<else if="options.InputType == textBox">
+					<sbTextBox propertyName="propName" readOnly="propReadOnly" ngModel="propName" cssClass="'form-control'" maxLength="options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty" />
+				</else>
+				<else if="options.InputType == textArea">
+					${this.TextArea(propName).DoNotAutoLabel()}
+				</else>
+				<else if="options.InputType == password">
+					${Html.Password(propName, null, new { class = "form-control", ng_model = propName })}
+				</else>
+				<else if="options.InputType == dropDownList">
+					<if condition="options.IncludeEmptyOption">
+						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty)}
+					</if>
+					<else>
+						${Html.DropDownList(propName, options.Model.ListItems[propName])}
+					</else>
+				</else>
+				<else if="options.InputType == checkBox">
+					${this.CheckBox(propName).LabelAfter(propMetadata.DisplayName)}
+				</else>
+				<else if="options.InputType == file">
+					<if condition="options.InputSize > 0">
+						${this.FileUpload(propName).Size(options.InputSize).DoNotAutoLabel()}
+					</if>
+					<else>
+						${this.FileUpload(propName).DoNotAutoLabel()}
+					</else>
+				</else>
+				${options.RenderContent}
+			</span>
+			<content name="readyScript" if="options.Mask.HasText()">
+				$('#${options.FormPanelId} #${propName.Replace(".", "_")}').mask('${options.Mask}', { placeholder: ' ' });
+			</content>
+			<content name="readyScript" if="options.Focus">
+				setTimeout(function() { $('#${options.FormPanelId} #${propName.Replace(".", "_")}').focus(); }, 0);
+			</content>
+		</if>
+		<else>
+			<span class="form-row-content">
+				<if condition="options.InputType == submit">
+					<var customText="options.CustomText" />
+					<set customText="'Common.Save.Label'" if="customText == null && options.IsEntityModel" />
+					<set customText="'Common.Submit.Label'" if="customText == null && !options.IsEntityModel" />
+					<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${options.OnClick}?{options.OnClick.HasText()}" if="options.EnableSave">${Text(customText)}</button>
+					!{options.RenderContent}
+					<button type="submit" id="delete" class="delete btn" name="Delete" ng-click="${options.OnDeleteClick}?{options.OnDeleteClick.HasText()}" if="options.EnableDelete">${Text('Common.Delete.Label')}</button>
+					<button type="submit" id="cancel" class="cancel btn" name="Cancel" ng-click="${options.OnCancelClick}?{options.OnCancelClick.HasText()}" if="options.EnableCancel">${Text('Common.Cancel.Label')}</button>
+				</if>
+				<else>
+					!{options.RenderContent}
+				</else>
+			</span>
+		</else>
+	</div>
+
+</macro>

@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AuditLog.Action.Label" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="AuditLog.Details.Label" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="AuditLog.EntityType.Label" xml:space="preserve">
+    <value>Entity Type</value>
+  </data>
+  <data name="AuditLog.Plural.Label" xml:space="preserve">
+    <value>Audit Log</value>
+  </data>
+  <data name="AuditLog.RefId.Label" xml:space="preserve">
+    <value>Entity ID</value>
+  </data>
+  <data name="AuditLog.Singular.Label" xml:space="preserve">
+    <value>Audit Entry</value>
+  </data>
+  <data name="ContentEntries.Body.Label" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="ContentEntries.ContentDate.Label" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="ContentEntries.ContentGroups.Label" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="ContentEntries.LastModificationDate.Label" xml:space="preserve">
+    <value>Last Modified</value>
+  </data>
+  <data name="ContentEntries.Plural.Label" xml:space="preserve">
+    <value>Content Entries</value>
+  </data>
+  <data name="ContentEntries.Singular.Label" xml:space="preserve">
+    <value>Content Entry</value>
+  </data>
+  <data name="ContentEntries.Title.Label" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="ContentGroups.ContentGroupType.Label" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ContentGroups.ManageEntries.Label" xml:space="preserve">
+    <value>Manage Entries</value>
+  </data>
+  <data name="ContentGroups.Plural.Label" xml:space="preserve">
+    <value>Content Groups</value>
+  </data>
+  <data name="ContentGroups.Singular.Label" xml:space="preserve">
+    <value>Content Group</value>
+  </data>
+  <data name="ContentGroups.Title.Label" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Countries.Plural.Label" xml:space="preserve">
+    <value>Countries</value>
+  </data>
+  <data name="Countries.Singular.Label" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="ModuleDefinitions.CreateInstance.Confirmation" xml:space="preserve">
+    <value>Module instance **{0}** for **{1}** created.</value>
+  </data>
+  <data name="ModuleDefinitions.Edit.Confirmation" xml:space="preserve">
+    <value>Global settings updated.</value>
+  </data>
+  <data name="ModuleDefinitions.Edit.NoSettings" xml:space="preserve">
+    <value>No editable settings.</value>
+  </data>
+  <data name="ModuleDefinitions.Global.Label" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="ModuleDefinitions.NewInstance.Heading" xml:space="preserve">
+    <value>New Module Instance - {0}</value>
+  </data>
+  <data name="ModuleDefinitions.NewInstance.Label" xml:space="preserve">
+    <value>New Instance</value>
+  </data>
+  <data name="Modules.Delete.Confirmation" xml:space="preserve">
+    <value>Module instance **{0}** deleted.</value>
+  </data>
+  <data name="Modules.Delete.Heading" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="Modules.Edit.Confirmation" xml:space="preserve">
+    <value>Module settings saved.</value>
+  </data>
+  <data name="Modules.Error.DuplicateName" xml:space="preserve">
+    <value>The specified name is already in use. Please specify a different name.</value>
+  </data>
+  <data name="Modules.List.Heading" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="Modules.Name.Label" xml:space="preserve">
+    <value>Module Name</value>
+  </data>
+  <data name="Modules.Url.Label" xml:space="preserve">
+    <value>Module Url</value>
+  </data>
+  <data name="ModuleService.Error.Module.InstanceNotAllowed" xml:space="preserve">
+    <value>Instances of this module are not allowed.</value>
+  </data>
+  <data name="NavigationItems.ImageUrl.Label" xml:space="preserve">
+    <value>Image Url</value>
+  </data>
+  <data name="NavigationItems.Navigation.Label" xml:space="preserve">
+    <value>Placement</value>
+  </data>
+  <data name="NavigationItems.Parent.Label" xml:space="preserve">
+    <value>Parent</value>
+  </data>
+  <data name="NavigationItems.Plural.Label" xml:space="preserve">
+    <value>Navigation Items</value>
+  </data>
+  <data name="NavigationItems.Singular.Label" xml:space="preserve">
+    <value>Navigation Item</value>
+  </data>
+  <data name="NavigationItems.Url.Label" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="Permissions.Access.Label" xml:space="preserve">
+    <value>Access</value>
+  </data>
+  <data name="Permissions.Admin.Label" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Permissions.Create.Label" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Permissions.Delete.Label" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Permissions.EntityId.Label" xml:space="preserve">
+    <value>Entity ID</value>
+  </data>
+  <data name="Permissions.EntityName.Label" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Permissions.EntityType.Label" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Permissions.Error.Target.Duplicate" xml:space="preserve">
+    <value>The specified permission target already exists.</value>
+  </data>
+  <data name="Permissions.Error.Target.Required" xml:space="preserve">
+    <value>A valid permission target  is required.</value>
+  </data>
+  <data name="Permissions.Key1.Label" xml:space="preserve">
+    <value>Key 1</value>
+  </data>
+  <data name="Permissions.Key2.Label" xml:space="preserve">
+    <value>Key 2</value>
+  </data>
+  <data name="Permissions.Key3.Label" xml:space="preserve">
+    <value>Key 3</value>
+  </data>
+  <data name="Permissions.Mask.Label" xml:space="preserve">
+    <value>Mask</value>
+  </data>
+  <data name="Permissions.Plural.Label" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="Permissions.Role.Label" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Permissions.RoleGroup.Label" xml:space="preserve">
+    <value>Role Group</value>
+  </data>
+  <data name="Permissions.Singular.Label" xml:space="preserve">
+    <value>Permission</value>
+  </data>
+  <data name="Permissions.Update.Label" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="QueuedEmails.Bcc.Label" xml:space="preserve">
+    <value>Bcc</value>
+  </data>
+  <data name="QueuedEmails.Body.Label" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="QueuedEmails.Cc.Label" xml:space="preserve">
+    <value>Cc</value>
+  </data>
+  <data name="QueuedEmails.DateProcessed.Label" xml:space="preserve">
+    <value>Date Processed</value>
+  </data>
+  <data name="QueuedEmails.DateSent.Label" xml:space="preserve">
+    <value>Date Sent</value>
+  </data>
+  <data name="QueuedEmails.Dequeue.Confirmation" xml:space="preserve">
+    <value>Email has been removed from the queue and will not be sent.</value>
+  </data>
+  <data name="QueuedEmails.Dequeue.ErrorMessage" xml:space="preserve">
+    <value>Messaged dequeued by **{0}**.</value>
+  </data>
+  <data name="QueuedEmails.Dequeue.Label" xml:space="preserve">
+    <value>Dequeue</value>
+  </data>
+  <data name="QueuedEmails.Error.ContentNotAllowed" xml:space="preserve">
+    <value>Subject and Body should not be populated when content comes from a message or template.</value>
+  </data>
+  <data name="QueuedEmails.ErrorMessage.Label" xml:space="preserve">
+    <value>Exception</value>
+  </data>
+  <data name="QueuedEmails.From.Label" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="QueuedEmails.HasError.Label" xml:space="preserve">
+    <value>With Exception</value>
+  </data>
+  <data name="QueuedEmails.MessageId.Label" xml:space="preserve">
+    <value>Message ID</value>
+  </data>
+  <data name="QueuedEmails.NoError.Label" xml:space="preserve">
+    <value>Without Exception</value>
+  </data>
+  <data name="QueuedEmails.Plural.Label" xml:space="preserve">
+    <value>Email Queue</value>
+  </data>
+  <data name="QueuedEmails.Priority.Label" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="QueuedEmails.ProcessQueue.Confirmation" xml:space="preserve">
+    <value>Queued emails sent.</value>
+  </data>
+  <data name="QueuedEmails.ProcessQueue.Label" xml:space="preserve">
+    <value>Send Queued Emails</value>
+  </data>
+  <data name="QueuedEmails.Requeue.Confirmation" xml:space="preserve">
+    <value>Email requeued to be sent.</value>
+  </data>
+  <data name="QueuedEmails.Requeue.Label" xml:space="preserve">
+    <value>Requeue</value>
+  </data>
+  <data name="QueuedEmails.Send.Confirmation" xml:space="preserve">
+    <value>Email sent.</value>
+  </data>
+  <data name="QueuedEmails.Send.Label" xml:space="preserve">
+    <value>Send Now</value>
+  </data>
+  <data name="QueuedEmails.SendDate.Label" xml:space="preserve">
+    <value>Send Date</value>
+  </data>
+  <data name="QueuedEmails.Sent.Label" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="QueuedEmails.Singular.Label" xml:space="preserve">
+    <value>Queued Email</value>
+  </data>
+  <data name="QueuedEmails.Subject.Label" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="QueuedEmails.TemplateId.Label" xml:space="preserve">
+    <value>Template ID</value>
+  </data>
+  <data name="QueuedEmails.To.Label" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="QueuedEmails.Unsent.Label" xml:space="preserve">
+    <value>Unsent</value>
+  </data>
+  <data name="Relationships.Plural.Label" xml:space="preserve">
+    <value>Relationships</value>
+  </data>
+  <data name="Relationships.Singular.Label" xml:space="preserve">
+    <value>Relationship</value>
+  </data>
+  <data name="RoleGroups.Plural.Label" xml:space="preserve">
+    <value>Role Groups</value>
+  </data>
+  <data name="RoleGroups.Singular.Label" xml:space="preserve">
+    <value>Role Group</value>
+  </data>
+  <data name="Roles.Plural.Label" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Roles.Singular.Label" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="States.Plural.Label" xml:space="preserve">
+    <value>States</value>
+  </data>
+  <data name="States.Singular.Label" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="Users.ChangePassword.Confirmation" xml:space="preserve">
+    <value>Password changed.</value>
+  </data>
+  <data name="Users.ChangePassword.Label" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Users.DeselectAllRoles.Label" xml:space="preserve">
+    <value>Deselect All Roles</value>
+  </data>
+  <data name="Users.Error.Delete.CurrentUser" xml:space="preserve">
+    <value>You cannot delete the currently signed-in user.</value>
+  </data>
+  <data name="Users.Error.Delete.Dependency" xml:space="preserve">
+    <value>This user can not be deleted because there is other data in the system that depends on this user. You can disable this account to prevent the user from logging in to the site.</value>
+  </data>
+  <data name="Users.Error.DuplicateEmail" xml:space="preserve">
+    <value>The email address supplied is already in use.</value>
+  </data>
+  <data name="Users.New.Label" xml:space="preserve">
+    <value>New User</value>
+  </data>
+  <data name="Users.NoRoleGroup.Label" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Users.Plural.Label" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Users.SelectAllRoles.Label" xml:space="preserve">
+    <value>Select All Roles</value>
+  </data>
+  <data name="Users.Singular.Label" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Languages.Plural.Label" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="Languages.Singular.Label" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Localization.ClearCache.Confirmation" xml:space="preserve">
+    <value>Resource cache cleared.</value>
+  </data>
+  <data name="Localization.ClearCache.Label" xml:space="preserve">
+    <value>Clear Resource Cache</value>
+  </data>
+  <data name="Localization.CreateSet.Confirmation" xml:space="preserve">
+    <value>Resource set created.</value>
+  </data>
+  <data name="Localization.CreateSet.Label" xml:space="preserve">
+    <value>Expand Resource Set</value>
+  </data>
+  <data name="Localization.CreateSet.Tooltip" xml:space="preserve">
+    <value>Add entries for resources defined in the default language.</value>
+  </data>
+  <data name="Localization.DeleteEmptyValues.Confirmation" xml:space="preserve">
+    <value>Unset values deleted.</value>
+  </data>
+  <data name="Localization.DeleteEmptyValues.Label" xml:space="preserve">
+    <value>Reduce Resource Set</value>
+  </data>
+  <data name="Localization.DeleteEmptyValues.Tooltip" xml:space="preserve">
+    <value>Delete all entries that do not have a value set.</value>
+  </data>
+  <data name="Localization.Error.DuplicateResource" xml:space="preserve">
+    <value>An entry already exists for this resource. Please edit the existing resource.</value>
+  </data>
+  <data name="Localization.Heading" xml:space="preserve">
+    <value>Localization</value>
+  </data>
+  <data name="Localization.Plural.Label" xml:space="preserve">
+    <value>Resources</value>
+  </data>
+  <data name="Localization.SaveResources.Confirmation" xml:space="preserve">
+    <value>{0} saved.</value>
+  </data>
+  <data name="Localization.SaveResources.Label" xml:space="preserve">
+    <value>Save Resources</value>
+  </data>
+  <data name="Localization.Singular.Label" xml:space="preserve">
+    <value>Resource</value>
+  </data>
+  <data name="Modules.Error.Subject.Required" xml:space="preserve">
+    <value>{0} Subject is required.</value>
+  </data>
+  <data name="Modules.Url.Invalid" xml:space="preserve">
+    <value>Module Url should be application context relative, i.e. it should begin with ~/.</value>
+  </data>
+  <data name="Users.SendEmail.HelpText" xml:space="preserve">
+    <value>Uncheck this option to suppress the notification email to the new user.</value>
+  </data>
+  <data name="Users.SendEmail.Label" xml:space="preserve">
+    <value>Send Email Notification</value>
+  </data>
+  <data name="PostalCodes.Plural.Label" xml:space="preserve">
+    <value>Postal Codes</value>
+  </data>
+  <data name="PostalCodes.Singular.Label" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="Races.Plural.Label" xml:space="preserve">
+    <value>Races</value>
+  </data>
+  <data name="Races.Singular.Label" xml:space="preserve">
+    <value>Race</value>
+  </data>
+  <data name="Comments.Flagged.Label" xml:space="preserve">
+    <value>&amp;nbsp;</value>
+  </data>
+  <data name="Comments.Flagged.Tooltip" xml:space="preserve">
+    <value>This comment is flagged.</value>
+  </data>
+</root>

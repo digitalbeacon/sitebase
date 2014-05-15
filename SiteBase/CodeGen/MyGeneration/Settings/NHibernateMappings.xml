@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CustomMappings>
+  <CustomMapping From="C# to NHibernateSupportedType">
+    <Type From="ushort" To="short" />
+    <Type From="sbyte" To="byte" />
+    <Type From="uint" To="int" />
+    <Type From="ulong" To="long" />
+  </CustomMapping>
+  <CustomMapping From="C# to NullableType">
+    <Type From="char" To="char?" />
+    <Type From="sbyte" To="sbyte?" />
+    <Type From="bool" To="bool?" />
+    <Type From="decimal" To="decimal?" />
+    <Type From="float" To="float?" />
+    <Type From="double" To="double?" />
+    <Type From="byte" To="byte?" />
+    <Type From="short" To="short?" />
+    <Type From="int" To="int?" />
+    <Type From="long" To="long?" />
+    <Type From="ushort" To="ushort?" />
+    <Type From="uint" To="uint?" />
+    <Type From="ulong" To="ulong?" />
+    <Type From="DateTime" To="DateTime?" />
+  </CustomMapping>
+  <CustomMapping From="C# to NHibernateMappingType">
+    <Type From="char" To="Char" />
+    <Type From="sbyte" To="SByte" />
+    <Type From="bool" To="Boolean" />
+    <Type From="decimal" To="Decimal" />
+    <Type From="float" To="Single" />
+    <Type From="double" To="Double" />
+    <Type From="byte" To="Byte" />
+    <Type From="short" To="Int16" />
+    <Type From="int" To="Int32" />
+    <Type From="long" To="Int64" />
+    <Type From="ushort" To="UInt16" />
+    <Type From="uint" To="UInt32" />
+    <Type From="ulong" To="UInt64" />
+    <Type From="DateTime" To="DateTime" />
+    <Type From="string" To="String" />
+    <Type From="byte[]" To="Byte[]" />
+  </CustomMapping>
+</CustomMappings>

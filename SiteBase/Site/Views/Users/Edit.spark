@@ -1,0 +1,111 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<var countryVisible="Model.ListItems.ContainsKey(AddressEntity.CountryProperty)" />
+
+<sbFormPanel panelId="'userEditPanel'">
+	${Html.HiddenFor(x => x.Username)}
+	<div class="multi-col">
+		<div id="col1" class="col">
+			<sbFormRow property="'FirstName'" focus="true" />
+			<sbFormRow property="'MiddleName'" if="Model.ShowMiddleName" />
+			<sbFormRow property="'LastName'" />
+			<sbFormRow property="'Email'" inputReadOnly="WebConstants.UseEmailForUsername" required="!WebConstants.UseEmailForUsername" />
+			<sbFormRow>
+				<div class="check-box-list">
+					<span>${this.CheckBox(x => x.Approved).AutoLabelAfter()}</span>
+					<span if="Model.LockedOut">${this.CheckBox(x => x.LockedOut).AutoLabelAfter()}</span>
+				</div>
+			</sbFormRow>
+			<sbFormRow each="var roleGroup in Model.RoleGroups" label="roleGroup.Key">
+				<div class="check-box-list">
+					<span each="var x in roleGroup.Value">
+						<input id="Roles_${x.Value}" type="checkbox" name="Roles" value="${x.Value}" checked="checked?{x.Selected}" /><label for="Roles_${x.Value}">${x.Text}</label>
+					</span>
+				</div>
+			</sbFormRow>
+		</div>
+		<div id="col2" class="col">
+			<if condition="countryVisible">
+				<sbFormRow property="'Country'" required="Model.RequireAddress" />
+			</if>
+			<else>
+				${Html.HiddenFor(m => m.Country)}
+			</else>
+			<sbFormRow property="'Line1'" required="Model.RequireAddress" />
+			<sbFormRow property="'Line2'" />
+			<sbFormRow property="'City'" required="Model.RequireAddress" />
+			<sbFormRow property="'State'" required="Model.RequireState && !countryVisible" />
+			<sbFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
+			<if condition="Model.ListItems.ContainsKey(UserEntity.LanguageProperty)">
+				<sbFormRow property="'Language'" includeEmptyOption="false" />
+			</if>
+			<else>
+				${Html.HiddenFor(m => m.Language)}
+			</else>
+			#//<sbFormRow property="'NotificationPreference'" />
+		</div>
+	</div>
+	<div id="roleSelectionLinks" style="display:none">
+		<sbFormRow>
+			<span id="selectAllRoles" class="link">${Text("Users.SelectAllRoles.Label")}</span> |
+			<span id="deselectAllRoles" class="link">${Text("Users.DeselectAllRoles.Label")}</span>
+		</sbFormRow>
+	</div>
+	<sbFormRow inputType="submit" />
+	<div class="form-row actions">
+		<a id="changePassword" href="${Url.Action('changePassword')}">${Text("Users.ChangePassword.Label")}</a>
+	</div>
+</sbFormPanel>
+
+<content name="readyScript">
+	var userEditPanel = $('#userEditPanel').data('sbFormPanel');
+	$('#selectAllRoles', userEditPanel.element).click(function() {
+		$('input:checkbox[name=Roles]', userEditPanel.element).attr('checked', true);
+	});
+	$('#deselectAllRoles', userEditPanel.element).click(function() {
+		$('input:checkbox[name=Roles]', userEditPanel.element).attr('checked', false);
+	});
+	$('#roleSelectionLinks', userEditPanel.element).show();
+	<if condition="RenderPartial">
+		$('#changePassword', userEditPanel.element).click(function() {
+			$.sb.modalBox({ ajax: this.href, replace: false });
+			return false;
+		});
+	</if>
+	<if condition="!WebConstants.UseEmailForUsername">
+		${ValidationRule("Email", "userEditPanel", "remote", "'{0}'".FormatWith(Url.Action("ValidateEmail", "Users", new { Id = Model.Id })), "Account.Error.DuplicateEmail")}
+	</if>
+	<if condition="Model.RequireAddress">
+		<if condition="countryVisible">
+			${ValidationRule("Country", "userEditPanel", "required", true, "Validation.Error.Required", "Common.Country.Label")}
+		</if>
+		${ValidationRule("Line1", "userEditPanel", "required", true, "Validation.Error.Required", "Common.Line1.Label")}
+		${ValidationRule("City", "userEditPanel", "required", true, "Validation.Error.Required", "Common.City.Label")}
+	</if>
+	<if condition="Model.RequireState && !countryVisible">
+		${ValidationRule("State", "userEditPanel", "required", true, "Validation.Error.Required", "Common.State.Label")}
+	</if>
+	<if condition="Model.RequirePostalCode && !countryVisible">
+		${ValidationRule("PostalCode", "userEditPanel", "required", true, "Validation.Error.Required", "Common.PostalCode.Label")}
+	</if>
+	var country = $('#Country', userEditPanel.element);
+	var state = $('#State', userEditPanel.element);
+	country.change(function() {
+		if (this.value) {
+			$.post($.digitalbeacon.resolveUrl('~/states/list'), { country: this.value }, function(data) {
+				state.find('option:not(:first)').remove();
+				if (data) {
+					$.each(data, function(i, x) {
+						state.append($('<option/>').attr('value', x.Id).text(x.Name));
+					});
+				}
+			});
+		}
+		else {
+			state.find('option:not(:first)').remove();
+		}
+	});
+</content>
+

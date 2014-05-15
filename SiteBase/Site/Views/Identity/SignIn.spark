@@ -1,0 +1,20 @@
+﻿<viewdata model="SignInModel" />
+
+<content name="header">${Model.Heading.DefaultTo(Text("Identity.SignIn.Heading"))}</content>
+
+<div class="loginContent" if="Model.Content.HasText()">!{Model.Content}</div>
+
+<sbFormPanel panelId="'signInPanel'">
+	<if condition="Model.ReturnUrl.HasText()">
+		${Html.HiddenFor(m => m.ReturnUrl)}
+	</if>
+	<sbFormRow property="'Username'" required="true" focus="true" />
+	<sbFormRow property="'Password'" inputType="password" />
+	<sbFormRow inputType="submit" />
+	<sbFormRow rowClass="'actions'">
+		<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />
+	</sbFormRow>
+	<sbFormRow rowClass="'actions'" if="!WebConstants.UseEmailForUsername">
+		<sbActionLink action="'recoverUsername'" text="'Identity.ForgotUsername.Label'" />
+	</sbFormRow>
+</sbFormPanel>

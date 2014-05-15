@@ -1,0 +1,11 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'postalCodeEditPanel'" panelClass="'lookup-edit-panel'">
+	<sbFormRow property="P(m => m.Code)" />
+	<sbFormRow property="P(m => m.City)" />
+	<sbFormRow property="P(m => m.StateId)" />
+	<sbFormRow property="P(m => m.County)" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>

@@ -1,0 +1,53 @@
+﻿<viewdata model="DigitalBeacon.SiteBase.Models.Comments.ListModel" />
+
+<content name="header" if="!RenderPartial && !ViewContext.IsChildAction">${Model.Heading}</content>
+
+<sbMessagePanel if="!ViewContext.IsChildAction" />
+
+<sbListPanel panelId="Model.PanelPrefix + 'CommentListPanel'" panelClass="'comment-list-panel'" displaySearchPanel="false" enableNew="Model.CanAdd" enableSelect="Model.CanUpdate" enableRemove="Model.CanDelete">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Date)
+		.HeaderHtmlAttributes(new { @class = "date" })
+		.Format("{0:d}");
+	if (Model.SupportsTypeProperty)
+	{
+		columns.Bound(x => x.CommentTypeName)
+			.HeaderHtmlAttributes(new { @class = "comment-type" });
+	}
+	if (Model.SupportsFlaggedProperty)
+	{
+		columns.Bound(x => x.Flagged)
+			.HeaderHtmlAttributes(new { @class = "icon" })
+			.Template(x => { Response.Write(x.Flagged ? "<span class=\"flagged\"><span class=\"text\">*</span></span>" : String.Empty); })
+			.ClientTemplate("<#= Flagged ? \"<span class='flagged'><span class='text'>*</span></span>\" : \"\" #>")
+			.Sortable(false);
+	}
+	if (Model.ShowTextInline)
+	{
+		columns.Bound(x => x.Text)
+			.HeaderHtmlAttributes(new { @class = "text-inline" });
+	}
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.Date).Descending());
+});
+if (!Model.ShowTextInline)
+{
+	grid.DetailView(detailView => detailView.Template(x => { Response.Write(x.Text); }).ClientTemplate("<#= Text #>"));
+}
+grid.Render();
+%>
+	<content name="readyScript" if="!Model.ShowTextInline">
+		var ${Model.PanelPrefix}CommentListPanel$ = $('#${Model.PanelPrefix}CommentListPanel');
+		${Model.PanelPrefix}CommentListPanel$.bind('dataBound', function() {
+			$('tbody td .flagged', this).bt('${Text("Comments.Flagged.Tooltip").EscapeForJavaScript()}');
+			setTimeout(function() {
+				var grid = ${Model.PanelPrefix}CommentListPanel$.data('sbListPanel').grid;
+				grid.$rows().each(function() { grid.expandRow(this); });
+			}, 0);
+		});
+	</content>
+</sbListPanel>

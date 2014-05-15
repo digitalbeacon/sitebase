@@ -1,0 +1,34 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'stateEditPanel'" panelClass="'lookup-edit-panel'">
+	<sbFormRow property="'Country'" />
+	<sbFormRow property="'Name'" />
+	<sbFormRow property="'Code'" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<content name="readyScript">
+	var stateEditPanel = $('#stateEditPanel').data('sbFormPanel');
+	${ValidationRule("Name", "stateEditPanel", "remote", "'{0}'".FormatWith(Url.Action("validateName", new { Id = Model.Id, Country = Model.Country })), "Error.Name.Duplicate")}
+	${ValidationRule("Code", "stateEditPanel", "remote", "'{0}'".FormatWith(Url.Action("validateCode", new { Id = Model.Id, Country = Model.Country })), "Error.Code.Duplicate")}
+	var name = $('#Name', stateEditPanel.element);
+	name.data('remoteValidation', name.rules().remote);
+	var code = $('#Code', stateEditPanel.element); 
+	code.data('remoteValidation', code.rules().remote);
+	<if condition="!Model.Country.HasValue">
+		name.rules('remove', 'remote');
+		code.rules('remove', 'remote');
+	</if>
+	$('#Country', stateEditPanel.element).change(function() {
+		if (this.value) {
+			name.rules('add', { remote: $.digitalbeacon.mergeParams(name.data('remoteValidation'), { country: this.value }) }); 
+			code.rules('add', { remote: $.digitalbeacon.mergeParams(code.data('remoteValidation'), { country: this.value }) }); 
+		}
+		else {
+			name.rules('remove', 'remote');
+			code.rules('remove', 'remote');
+		}
+	});
+</content>

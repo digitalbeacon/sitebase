@@ -1,0 +1,31 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'roleListPanel'">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Name);
+	columns.Bound(x => x.RoleGroup);
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.RoleGroup));
+})
+.Render();
+%>
+	<div class="button-panel actions" if="Model.ShowRoleGroupsLink">
+		<sbActionLink action="String.Empty" controller="'roleGroups'" text="'RoleGroups.Plural.Label'" />
+	</div>
+</sbListPanel>
+
+<content name="readyScript" if="Model.ShowRoleGroupsLink">
+	var roleListPanel = $('#roleListPanel').data('sbListPanel');
+	$('#roleGroups', roleListPanel.element).click(function() { 
+		$.sb.modalBox({ ajax: this.href, replace: false }); 
+		return false;
+	});
+</content>

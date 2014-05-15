@@ -1,0 +1,1 @@
+call build-sitebase.cmd /debug

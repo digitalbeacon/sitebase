@@ -1,0 +1,66 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'queuedEmailListPanel'" displaySearchPanel="false" enableNew="false">
+	<sbSearchPanel>
+		${Html.DropDownListFor(m => m.Sent, Model.ListItems[ListModel.SentProperty], string.Empty)}
+		${Html.DropDownListFor(m => m.HasError, Model.ListItems[ListModel.HasErrorProperty], string.Empty)}
+	</sbSearchPanel>
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Error)
+	.HeaderHtmlAttributes(new { @class = "icon" })
+	.HtmlAttributes(new { @class = "icon error" })
+	.Template(x => { Response.Write(x.Error.IsNullOrBlank() ? String.Empty : "<img src='{1}' title='{0}' />".FormatWith(x.Error.EscapeForJavaScript(), Url.Content("~/resources/base/images/icon-error.png"))); })
+	.ClientTemplate("<#= Error ? \"<img src='{0}' title='\" + Error + \"' />\" : \"\" #>".FormatWith(Url.Content("~/resources/base/images/icon-error.png")))
+	.Encoded(false)
+	.Title(" ")
+	.Sortable(false);
+	columns.Bound(x => x.To)
+	.Title(Text("QueuedEmails.To.Label"))
+	.HeaderHtmlAttributes(new { @class = "to" })
+	.Sortable(false);
+	columns.Bound(x => x.Subject)
+	.Title(Text("QueuedEmails.Subject.Label"))
+	.HeaderHtmlAttributes(new { @class = "subject" });
+	columns.Bound(x => x.SendDate)
+	.Title(Text("QueuedEmails.SendDate.Label"))
+	.HeaderHtmlAttributes(new { @class = "date-time" });
+	columns.Bound(x => x.DateProcessed)
+	.Title(Text("QueuedEmails.DateProcessed.Label"))
+	.HeaderHtmlAttributes(new { @class = "date-time" });
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.SendDate).Descending());
+})
+.Render();
+%>
+	<div class="button-panel actions">
+		<sbActionLink action="'processQueue'" text="'QueuedEmails.ProcessQueue.Label'" />
+	</div>
+	<content name="readyScript">
+		$('#queuedEmailListPanel').bind('dataBound', function() {
+			$('tbody td.error img', this).each(function() {
+				$(this).bt(this.title).removeAttr('title');
+			});
+		});
+	</content>
+</sbListPanel>
+
+<content name="readyScript">
+	var queuedEmailListPanel = $('#queuedEmailListPanel').data('sbListPanel');
+	$('#processQueue', queuedEmailListPanel.element).click(function() {
+		$.sb.modalBox({ 
+			ajax: $(this).attr('href'),
+			close: function() { queuedEmailListPanel.gridRefresh(); }
+		});
+		return false;
+	});
+	$('#Sent', queuedEmailListPanel.element).change(function() { $('#search', queuedEmailListPanel.element).click(); });
+	$('#Errored', queuedEmailListPanel.element).change(function() { $('#search', queuedEmailListPanel.element).click(); });
+</content>

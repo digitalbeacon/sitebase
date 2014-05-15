@@ -1,0 +1,50 @@
+﻿<default property="null" type="string" />
+<default subProperty="null" type="string" />
+<default label="null" type="string" />
+<default inputType="null" type="string" />
+<default required="null" type="bool?" />
+<default inputReadOnly="null" type="bool?" />
+<default customText="null" type="string" />
+<default includeEmptyOption="true" />
+<default helpText="null" type="string" />
+<default validation="null" type="string" />
+<default validations="null" type="string[]" />
+<default generateRowId="true" />
+<default rowId="null" type="string" />
+<default rowClass="inputType == submit ? 'form-row-submit' : null" />
+<default rowStyle="null" type="string" />
+<default mask="null" type="string" />
+<default maxLength="null" type="int?" />
+<default isEntityModel="false" />
+<default enableSave="true" />
+<default enableDelete="false" />
+<default enableCancel="false" />
+<default inputSize="0" />
+<default enableRenderContent="inputType == renderContent || !property.HasText()" />
+<default focus="false" />
+<default onClick="null" type="string" />
+<default onCancelClick="null" type="string" />
+<default onDeleteClick="null" type="string" />
+
+<content name="formRowContent" if="enableRenderContent"><render /></content>
+
+${ClientFormRow(new FormRowOptions { 
+	Property = property, 
+	SubProperty = subProperty,
+	Label = label,
+	InputType = inputType,
+	Required = required,
+	EnableSave = enableSave,
+	EnableDelete = enableDelete,
+	EnableCancel = enableCancel,
+	Model = Model,
+	ViewData = ViewData,
+	OnClick = onClick,
+	OnCancelClick = onCancelClick,
+	OnDeleteClick = onDeleteClick,
+	RenderContent = enableRenderContent ? Content["formRowContent"].ToString() : null
+})}
+
+<if condition="enableRenderContent">
+# Content.Remove("formRowContent");
+</if>

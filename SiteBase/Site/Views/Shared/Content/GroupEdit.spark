@@ -1,0 +1,18 @@
+﻿<viewdata model="ContentGroupModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'contentGroupEditPanel'">
+	<sbFormRow property="'Name'" />
+	<sbFormRow property="'Title'" />
+	<sbFormRow property="'ContentGroupType'" />
+	<sbFormRow property="'PageSize'" />
+	<sbFormRow property="'DisplayOrder'" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<content name="readyScript">
+	var contentGroupEditPanel = $('#contentGroupEditPanel').data('sbFormPanel');
+	${ValidationRule("Name", "contentGroupEditPanel", "remote", "'{0}'".FormatWith(Url.Action("validateName", new { Id = Model.Id })), "Error.Name.Duplicate")}
+</content>
+

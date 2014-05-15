@@ -1,0 +1,28 @@
+﻿<viewdata model="EntityModel" />
+
+<content name="header"><if condition="Model.Heading.HasText()">${Text(Model.Heading)}</if><else>${Text("Common.Delete.Label")}</else></content>
+
+<if condition="Model.Content.HasText()">
+	${Model.Content}
+</if>
+<else if="Model.Description.HasText()">
+	${Text("Common.Delete.ConfirmWithDescription", Model.Description)}
+</else>
+<else>
+	${Text("Common.Delete.Confirm")}
+</else>
+		
+<sbFormPanel panelId="'deletePanel'" 
+		operation="delete" 
+		modelId="Model.Id" 
+		displayRequiredMessage="false" 
+		initClientValidation="false"
+		enableSave="false"
+		enableDelete="false"
+		enableCancel="false">
+	<sbFormRow inputType="submit">
+		<input type="submit" value="${Text("Common.Yes.Label")}" />
+		<input type="submit" class="cancel" name="Cancel" value="${Text("Common.No.Label")}" />
+		<input type="submit" id="cancel" class="cancel" value="${Text("Common.Close.Label")}" if="RenderPartial" />
+	</sbFormRow>
+</sbFormPanel>

@@ -1,0 +1,128 @@
+﻿<use import="_gridMacros" />
+
+<default listModel="Model" />
+<default panelId="ViewContext.RouteData.Values['controller'].ToString() + 'ListPanel'" />
+<default panelClass="null" type="string" />
+<default nestedPanelId="panelId" />
+<default listAction="Url.Action('index')" />
+<default enableSelect="true" />
+<default enableRemove="true" />
+<default enableNew="!listModel.ParentId.HasValue || listModel.ParentId.Value > 0" />
+<default selectAction="String.Empty" />
+<default newAction="listModel.ParentId.HasValue ? Url.Action('new', new { id = String.Empty, parentId = listModel.ParentId.Value }) : Url.Action('new', new { id = String.Empty })" />
+<default enableAjaxBinding="true" />
+<default enableCustomBinding="true" />
+<default displaySearchPanel="true" />
+<default hideSearchPanelWhenEmpty="true" />
+<default enableSequencer="true" />
+<default sequencerKey="ViewContext.RouteData.Values['controller'].ToString()" />
+<default maintainSelection="false" />
+<default enableNoItemsMessage="hideSearchPanelWhenEmpty" />
+<default noItemsMessage="null" type="string" />
+<default singularLabel="listModel.SingularLabel" />
+<default pluralLabel="listModel.PluralLabel" />
+#//<default alwaysShowNewLink="false" />
+<default selectClass="null" type="string" />
+
+<set noItemsMessage="'Common.NoEntities.Text'" if="noItemsMessage.IsNullOrBlank()" />
+<default gridId="nestedPanelId + '-grid'" />
+
+<div id="${nestedPanelId}" class="list-panel ${panelClass}?{panelClass.HasText()}">
+	<sbSearchPanel if="displaySearchPanel" />
+	<use content="searchPanel" if="Content.ContainsKey('searchPanel')" />
+	<div class="new-container no-script">
+		<a if="enableNew && listModel.TotalCount > 0" id="new" class="new" href="${newAction}">${Text("Common.NewEntity.Label", singularLabel)}</a>
+	</div>
+<%
+var grid = Html.Telerik().Grid(listModel.Items)
+	.Name(gridId)
+	.DataKeys(keys => keys.Add(x => x.Id))
+	.Columns(columns =>
+	{
+		if (enableSelect)
+		{
+			columns.Bound(x => x.Id)
+				.HeaderHtmlAttributes(new { @class = (enableNew && !enableRemove) ? "new select icon" : "no-script select icon" })
+				.HtmlAttributes(new { @class = (enableNew && !enableRemove) ? "view select icon link" : "no-script select icon link" })
+				.Format(GridActionLink(selectAction, "Common.Select.Label").ToString())
+				.Title(String.Empty)
+				.Encoded(false)
+				.Sortable(false);
+		}
+		if (enableRemove)
+		{
+			columns.Bound(x => x.Id)
+				.HeaderHtmlAttributes(new { @class = enableNew ? "new icon" : "icon" })
+				.HtmlAttributes(new { @class = "delete icon link" })
+				.Format(GridActionLink("delete", "Common.Delete.Label").ToString())
+				.Title(String.Empty)
+				.Encoded(false)
+				.Sortable(false);
+		}
+		if (enableNew && !enableRemove && !enableSelect)
+		{
+			columns.Bound(x => x.Id)
+				.HeaderHtmlAttributes(new { @class = "new icon" })
+				.HtmlAttributes(new { @class = "view	icon" })
+				.Format("<span data-row-id=\"{0}\">&nbsp;</span>")
+				.Title(String.Empty)
+				.Encoded(false)
+				.Sortable(false);
+		}
+	})
+	.PrefixUrlParameters(false)
+	.EnableCustomBinding(enableCustomBinding)
+	.Footer(true)
+	.Sortable();
+if (enableAjaxBinding)
+{
+	grid.DataBinding(dataBinding =>
+	{
+		dataBinding.Ajax().Select("search", ViewContext.RouteData.Values["controller"].ToString(), new { id = String.Empty, page = String.Empty });
+	});
+}
+if (listModel.PageSize > 0)
+{
+	grid.Pageable(paging =>
+	{
+		paging.PageSize(listModel.PageSize);
+		paging.Total((int)listModel.TotalCount);
+	});
+}
+if (enableSelect)
+{
+	grid.Selectable();
+}
+if (enableNoItemsMessage && listModel.TotalCount == 0)
+{
+	grid.HtmlAttributes(new { style = "display:none" });
+}
+%>
+	<div class="no-items" style="display:none?{!enableNoItemsMessage || listModel.TotalCount > 0}">
+		${Text(noItemsMessage, pluralLabel)}
+		<div class="button-panel actions" if="enableNew">
+			<a class="new" href="${newAction}">${Text("Common.NewEntity.Label", singularLabel)}</a>
+		</div>
+	</div>
+	<render />
+</div>
+
+<content name="readyScript">
+	<var options="new Dictionary[[string, object]]()" />
+	<sbSet dictionary="options" key="'gridId'" value="'#' + gridId" />
+	<sbSet dictionary="options" key="'enableSelect'" value="enableSelect" />
+	<sbSet dictionary="options" key="'selectClass'" value="selectClass" if="selectClass.HasText()" />	
+	<sbSet dictionary="options" key="'maintainSelection'" value="maintainSelection" />
+	<sbSet dictionary="options" key="'hideSearchPanelWhenEmpty'" value="hideSearchPanelWhenEmpty" />
+	<sbSet dictionary="options" key="'enableDelete'" value="enableRemove" />
+	<sbSet dictionary="options" key="'itemSequencerKey'" value="sequencerKey" if="enableSelect && enableSequencer && sequencerKey.HasText()" />
+	<sbSet dictionary="options" key="'newActionUrl'" value="newAction" if="enableNew && newAction.HasText()" />
+	<sbSet dictionary="options" key="'newTooltip'" value="Text('Common.NewEntity.Label', singularLabel).EscapeForJavaScript()" if="enableNew && newAction.HasText()" />
+	<sbSet dictionary="options" key="'deleteTooltip'" value="Text('Common.DeleteEntity.Label', singularLabel).EscapeForJavaScript()" />
+	<sbSet dictionary="options" key="'enableNoItemsMessage'" value="enableNoItemsMessage" />
+	<sbSet dictionary="options" key="'defaultSearchText'" value="Text('Common.Search.Label').EscapeForJavaScript()" />
+	<sbSet dictionary="options" key="'noMatchesText'" value="Text('Common.NoMatchingEntities.Text', pluralLabel).EscapeForJavaScript()" />
+	$('#${nestedPanelId}').sbListPanel(!{Json(options)});
+</content>
+
+<sbScriptGroup name="'listpanel'" />

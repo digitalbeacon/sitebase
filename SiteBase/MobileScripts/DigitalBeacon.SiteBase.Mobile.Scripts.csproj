@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{34BE53A2-3020-4D7B-851B-5FA3DF44A80B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DigitalBeacon.SiteBase.Mobile</RootNamespace>
+    <AssemblyName>DigitalBeacon.SiteBase.Mobile.Scripts</AssemblyName>
+<!--	
+    <TargetFrameworkIdentifier>Blade</TargetFrameworkIdentifier>
+-->	
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FrameworkPathOverride>..\..\3rdParty\Blade</FrameworkPathOverride>
+    <FileAlignment>512</FileAlignment>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;BLADE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;BLADE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jQuery" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="BaseController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Identity\IdentityModule.cs" />
+    <Compile Include="Identity\IdentityController.cs" />
+    <Compile Include="Identity\IdentityService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Scripts\DigitalBeacon.Scripts.csproj">
+      <Project>{dd2ba704-7912-45f9-876a-dc967fce9a61}</Project>
+      <Name>DigitalBeacon.Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scripts\DigitalBeacon.SiteBase.Scripts.csproj">
+      <Project>{0b6ba5cd-7acc-4df1-9f55-709978d21c30}</Project>
+      <Name>DigitalBeacon.SiteBase.Scripts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(ProjectDir)..\..\3rdParty\MSBuild\Blade\Blade.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(TargetPath) ..\..\..\..\Bin
+copy /y $(TargetDir)$(TargetName).pdb ..\..\..\..\Bin
+
+rem copy blade.js ..\..\..\Site\Resources\Base\Scripts
+copy $(TargetName).js ..\..\..\Site\Resources\Base\Scripts</PostBuildEvent>
+  </PropertyGroup>
+</Project>

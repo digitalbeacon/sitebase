@@ -1,0 +1,14 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'roleEditPanel'" panelClass="'lookup-edit-panel'">
+	<sbFormRow property="'Name'" />
+	<sbFormRow property="'RoleGroup'" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<content name="readyScript">
+	var roleEditPanel = $('#roleEditPanel').data('sbFormPanel');
+	${ValidationRule("Name", "roleEditPanel", "remote", "'{0}'".FormatWith(Url.Action("validateName", new { Id = Model.Id })), "Error.Name.Duplicate")}
+</content>

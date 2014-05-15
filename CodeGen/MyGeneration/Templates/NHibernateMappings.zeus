@@ -1,0 +1,524 @@
+﻿##|TYPE Template
+##|UNIQUEID e3a2ac96-4d13-4885-a271-37afbb263453
+##|TITLE NHibernate Mappings
+##|NAMESPACE DigitalBeacon.Dal
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll%><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_PREFIX = "Model";
+	private static readonly string PATH_SUFFIX = "Mappings";
+	private static readonly string FILE_EXT = ".hbm.xml";
+	private static readonly string QUOTE_STR = "`";
+
+	// these attributes are computed once for this template
+	private string _baseOutputPath;
+	// these attributes are computed for each table/view
+	private string _outputPath;
+	private string _namespace;
+	private string _assemblyName;
+	private string _tableName;
+	private string _tableAlias;
+	private string _className;
+	private string _fileName;
+	
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		GetInput();
+
+		_baseOutputPath = Path.Combine(BaseOutputPath, PATH_PREFIX);
+
+		foreach (string _newTable in SelectedTables)
+		{
+			ITable workingTable = MyMeta.Databases[DbName].Tables[_newTable];
+			
+			if (GenNhMappings && !IgnoreTable(workingTable))
+			{
+				_tableName = workingTable.Name;
+				_tableAlias = workingTable.Alias;
+				_className = TableToDto(_tableAlias);
+				_assemblyName = GetAssemblyName(workingTable, PATH_PREFIX);
+				_namespace = GetNamespace(workingTable, PATH_PREFIX);
+				string logicalGroup = GetLogicalGroup(workingTable);
+				if (!String.IsNullOrEmpty(logicalGroup))
+				{
+					_outputPath = Path.Combine(_baseOutputPath, DnpUtils.SetPascalCase(logicalGroup));
+				}
+				else 
+				{
+					_outputPath = _baseOutputPath;
+				}
+				_outputPath = Path.Combine(_outputPath, PATH_SUFFIX);
+				GenerateMappingFile(workingTable.Columns);
+			}
+		}
+	}
+	
+	private void GenerateMappingFile(IColumns Columns)
+	{
+		BuildHbmXml(Columns);
+		_fileName = _className + FILE_EXT;
+		output.save(Path.Combine(_outputPath, _fileName), false);
+		Log("Generated: " + Path.Combine(_outputPath, _fileName));
+		output.clear();
+	}
+	
+	private void BuildHbmXml(IColumns cols)
+	{
+		if (cols.Count > 0)
+		{
+			output.writeln("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+			OutputXmlHeader();
+			output.writeln("");
+			output.writeln("<!-- Generated with MyGeneration using the NHibernate Mappings template -->");
+			output.writeln(NHibernateMappingTag());
+			output.writeln("\t" + NHibernateClassTag(cols));
+			output.writeln("\t\t" + NHibernatePrimaryKeysTag(cols));
+			if (VersionColumnName.Trim().Length > 0)
+			{
+				output.write(NHibernateVersionTag(cols));
+			}
+			output.write(NHibernateProperties(cols));
+			output.write(NHibernateCollections(cols));
+			output.writeln("\t" + CloseNHibernateClassTag(cols));
+			output.writeln("</hibernate-mapping>");
+		}
+	}
+	
+	private string NHibernateMappingTag()
+	{
+		//// can't handle external mappings ?!?
+		////string xml = "<hibernate-mapping xmlns=\"http://nhibernate.sourceforge.net/schemas/nhibernate-mapping-2.0.xsd\"";
+		//string xml = "<hibernate-mapping xmlns=\"urn:nhibernate-mapping-2.0\"";
+		//// handle schemas, cascade, import, and access methods?
+		//return xml + ">";
+		return "<hibernate-mapping xmlns=\"urn:nhibernate-mapping-2.2\" assembly=\"" + _assemblyName + "\">";
+	}
+	
+	private string NHibernateClassTag(IColumns Columns)
+	{
+		ITable table = Columns[0].Table;
+		//IView v = Columns[0].View;
+		//string desc = (t == null) ? v.Description : t.Description;
+		StringBuilder xml = new StringBuilder();
+		ITable baseTable = GetBaseTable(table);
+		if (baseTable == null)
+		{
+			xml.Append("<class name=\"").Append(_namespace).Append(".").Append(_className).Append("\"");
+			xml.Append(" table=\"").Append(QUOTE_STR).Append(_tableName).Append(QUOTE_STR).Append("\"");
+			if (IsLazy(table))
+			{
+				xml.Append(" lazy=\"true\"");
+			}
+			if (CreateReadOnly)
+			{
+				xml.Append(" mutable=\"false\"");
+			}
+			if (!String.IsNullOrEmpty(SchemaName))
+			{
+				xml.Append(" schema=\"").Append(QUOTE_STR).Append(SchemaName).Append(QUOTE_STR).Append("\"");
+			}
+			// handle dynamic insert & update, and proxies?
+			xml.Append(">");
+		}
+		else
+		{
+			xml.Append("<joined-subclass name=\"").Append(_namespace).Append(".").Append(_className).Append("\"");
+			xml.Append(" extends=\"").Append(GetNamespace(baseTable, PATH_PREFIX)).Append(".").Append(TableToDto(baseTable.Alias)).Append(", ").Append(GetAssemblyName(baseTable, PATH_PREFIX)).Append("\"");
+			xml.Append(" table=\"").Append(QUOTE_STR).Append(_tableName).Append(QUOTE_STR).Append("\"");
+			if (IsLazy(table))
+			{
+				xml.Append(" lazy=\"true\"");
+			}
+			if (CreateReadOnly)
+			{
+				xml.Append(" mutable=\"false\"");
+			}
+			if (!String.IsNullOrEmpty(SchemaName))
+			{
+				xml.Append(" schema=\"").Append(QUOTE_STR).Append(SchemaName).Append(QUOTE_STR).Append("\"");
+			}
+			xml.Append(">");
+		}
+		return xml.ToString();
+	}
+	
+	private string CloseNHibernateClassTag(IColumns Columns)
+	{
+		ITable table = Columns[0].Table;
+		ITable baseTable = GetBaseTable(table);
+		string retVal = null;
+		if (baseTable == null)
+		{
+			retVal = "</class>";
+		}
+		else
+		{
+			retVal = "</joined-subclass>";
+		}
+		return retVal;
+	}
+	
+	private string NHibernatePrimaryKeysTag(IColumns Columns)
+	{
+		ITable table = Columns[0].Table;
+		ITable baseTable = GetBaseTable(table);
+		StringBuilder xml = new StringBuilder();
+		if (table.PrimaryKeys.Count == 0)
+		{
+			return " <!-- could not find a primary key for this table/view. NHibernate requires an 'id' element, so you'll have to define one manually. -->";
+		}
+		if (baseTable == null)
+		{
+			if (table.PrimaryKeys.Count == 1)
+			{
+				IColumn c = table.PrimaryKeys[0];
+				xml.Append("<id name=\"").Append(ColumnToPropertyName(c)).Append("\"");
+				xml.Append(" column=\"").Append(QUOTE_STR).Append(c.Name).Append(QUOTE_STR).Append("\"");
+				xml.Append(" type=\"").Append(ColumnToNHibernateMappingType(c)).Append("\"");
+				switch(ColumnToNHibernateSupportedType(c, false))
+				{
+					case "decimal":
+					case "float":
+					case "short":
+					case "int":
+					case "long":
+						xml.Append(" unsaved-value=\"0\">\r\n");
+						break;
+					default:
+						xml.Append(">\r\n");
+						break;
+				}
+				xml.Append("\t\t\t<generator class=\"native\" />\r\n");
+				xml.Append("\t\t</id>");
+			}
+			if (table.PrimaryKeys.Count > 1)
+			{
+				xml.Append("<composite-id access=\"field\">");
+				xml.Append("\r\n\t\t\t");
+				foreach (IColumn c in table.PrimaryKeys)
+				{
+					xml.Append(" <key-property name=\"").Append(ColumnToPropertyName(c)).Append("\"");
+					xml.Append(" column=\"").Append(QUOTE_STR).Append(c.Name).Append(QUOTE_STR).Append("\"");
+					xml.Append(" type=\"").Append(ColumnToNHibernateMappingType(c)).Append("\"");
+					switch(ColumnToNHibernateSupportedType(c, false))
+					{
+						case "decimal":
+						case "float":
+						case "short":
+						case "int":
+						case "long":
+							xml.Append(" />\r\n");
+							break;
+						default:
+							xml.Append("/>\r\n");
+							break;
+					}
+					xml.Append("\t\t\t");
+				}
+				xml.Append("\r\n\t\t</composite-id>\r\n\t\t");
+				xml.Append("<!-- Composite primary key is experimental. -->");
+			}
+		}
+		else if (table.PrimaryKeys.Count == 1)
+		{
+			xml.Append("<key column=\"").Append(table.PrimaryKeys[0].Name).Append("\" />");
+		}
+		return xml.ToString();
+	}
+	
+	private string NHibernateVersionTag(IColumns Columns)
+	{
+		StringBuilder xml = new StringBuilder();
+		foreach (IColumn c in Columns)
+		{
+			if (!IgnoreColumn(c) && c.Name == VersionColumnName)
+			{
+				xml.Append("\t\t<version name=\"").Append(ColumnToPropertyName(c)).Append("\"");
+				xml.Append(" column=\"").Append(QUOTE_STR).Append(c.Name).Append(QUOTE_STR).Append("\"");
+				xml.Append(" type=\"").Append(ColumnToNHibernateMappingType(c)).Append("\"");
+				if (c.LanguageType == "string")
+				{
+					xml.Append(" length=\"").Append(c.CharacterMaxLength).Append("\"");
+				}
+				//xml.Append(" unsaved-value=\"negative\"");
+				//xml.Append(" unsaved-value=\"undefined\"");
+				xml.Append(" />\r\n");
+				break;
+			}
+		}
+		return xml.ToString();
+	}
+	
+	private string NHibernateProperties(IColumns Columns)
+	{
+		StringBuilder xml = new StringBuilder();
+		foreach (IColumn c in Columns)
+		{
+			if (IgnoreColumn(c) || c.Name == VersionColumnName || c.IsInPrimaryKey)
+			{
+				continue;
+			}
+			// create sets & such for foreign keys and table refs
+			string tableRef = GetTableRefForColumn(c);
+			if (IsReferenceColumn (c) || tableRef != null)
+			{
+				if (c.ForeignKeys.Count > 1)
+				{
+					xml.Append("<!-- more than one foreign column is mapped to ").Append(c.Name).Append(" - you're on your own. -->\r\n\t\t");
+				}
+				else
+				{
+					bool cascade = IsCascadeColumn(c);
+					bool lazy = IsLazyColumn(c);
+					string className = string.Empty;
+					ITable foreignTable;
+					if (tableRef != null)
+					{
+						className = TableToDto(MyMeta.Databases[DbName].Tables[tableRef].Alias);
+						foreignTable = MyMeta.Databases[DbName].Tables[tableRef];
+					}
+					else
+					{
+						className = TableToDto(c.ForeignKeys[0].PrimaryTable.Alias);
+						foreignTable = c.ForeignKeys[0].PrimaryTable;
+					}
+					xml.Append("\t\t<many-to-one name=\"").Append(ColumnToPropertyName(c)).Append("\"");
+					xml.Append(" column=\"").Append(QUOTE_STR).Append(c.Name).Append(QUOTE_STR).Append("\"");
+					xml.Append(" class=\"").Append(GetNamespace(foreignTable, PATH_PREFIX)).Append(".").Append(className).Append(", ").Append(GetAssemblyName(foreignTable, PATH_PREFIX)).Append("\"");
+					if (!lazy)
+					{
+						xml.Append(" lazy=\"").Append(lazy.ToString().ToLower()).Append("\"");
+					}
+					if (cascade)
+					{
+						xml.Append(" cascade=\"all\"");
+					}
+					xml.Append(" />\r\n");
+				}
+			}
+			else
+			{
+				xml.Append("\t\t<property");
+				if (CreateReadOnly)
+				{
+					xml.Append(" access=\"field\" name=\"").Append(ColumnToMemberVariable(c)).Append("\"");
+				}
+				else
+				{
+					 xml.Append(" name=\"").Append(ColumnToPropertyName(c)).Append("\"");
+				}
+				xml.Append(" column=\"").Append(QUOTE_STR).Append(c.Name).Append(QUOTE_STR).Append("\"");
+				if (IsEnumeratedColumn(c))
+				{
+					xml.Append(" type=\"").Append(GetNamespace(c, PATH_PREFIX)).Append(".").Append(ColumnToNHibernateMappingType(c)).Append(", ").Append(GetAssemblyName(c, PATH_PREFIX)).Append("\"");
+				}
+				else
+				{
+					xml.Append(" type=\"").Append(ColumnToNHibernateMappingType(c)).Append("\"");
+				}
+				if (!c.IsNullable)
+				{
+					xml.Append(" not-null=\"true\"");
+				}
+				if (c.LanguageType == "string" || c.LanguageType == "byte[]")
+				{
+					xml.Append(" length=\"").Append(c.CharacterMaxLength == 0 ? Int32.MaxValue : c.CharacterMaxLength).Append("\"");
+				}
+				xml.Append(" />\r\n");
+			}
+		}
+		return xml.ToString();
+	}
+	
+	private string NHibernateCollections(IColumns cols)
+	{
+		StringBuilder xml = new StringBuilder();
+		if (cols.Count > 0)
+		{
+			ITable table = ((IColumn)cols[0]).Table;
+			if (table != null)
+			{
+				for (int i = 0; i <= MAX_COLLECTIONS; i++)
+				{
+					string tableRef = GetCollectionProperty(table, i, CP_TABLE_REF);
+					if (tableRef == null)
+					{
+						// allow collection index to start at 0 or 1
+						if (i == 0)
+						{
+							continue;
+						}
+						else
+						{
+							break;
+						}
+					}
+					else
+					{
+						ITable refTable = MyMeta.Databases[DbName].Tables[tableRef];
+						string collectionName = GetCollectionProperty(table, i, CP_NAME);
+						if (collectionName == null)
+						{
+							collectionName = PluralizeTableName(refTable.Alias);
+						}
+						string collectionMappingType = GetCollectionProperty(table, i, CP_MAPPING_TYPE);
+						if (collectionMappingType == null)
+						{
+							collectionMappingType = DEFAULT_NH_COLLECTION_MAPPING_TYPE;
+						}
+						//string collectionKeyColumn = GetCollectionProperty(table, i, CP_KEY_COLUMN);
+						string collectionKeyColumn = null;
+						foreach (IForeignKey fk in table.ForeignKeys)
+						{
+							if (fk.ForeignColumns.Count == 1 && fk.PrimaryTable == table && fk.ForeignTable == refTable)
+							{
+								collectionKeyColumn = fk.ForeignColumns[0].Name;
+								break;
+							}
+						}
+						bool lazy = EnableLazyClass;
+						string propVal = GetCollectionProperty(table, i, CP_LAZY);
+						if (propVal != null)
+						{
+							lazy = Convert.ToBoolean(propVal);
+						}
+						if (collectionKeyColumn == null)
+						{
+							xml.Append("<!-- Could not determine key colum for ").Append(tableRef).Append(" -->\r\n\t\t");
+						}
+						else
+						{
+							string itemTableRef = GetCollectionProperty(table, i, CP_ITEM_TABLE_REF);
+							if (itemTableRef != null)
+							{
+								bool cascade = false;
+								propVal = GetCollectionProperty(table, i, CP_CASCADE);
+								if (propVal != null)
+								{
+									cascade = Convert.ToBoolean(propVal);
+								}
+								propVal = GetCollectionProperty(table, i, CP_LAZY);
+								if (propVal != null)
+								{
+									lazy = Convert.ToBoolean(propVal);
+								}
+								ITable itemRefTable = MyMeta.Databases[DbName].Tables[itemTableRef];
+								bool enumeration = IsEnumerationTable(itemRefTable);
+								if (enumeration)
+								{
+									propVal = GetCollectionProperty(table, i, CP_ITEM_ENUMERATION);
+									if (propVal != null)
+									{
+										enumeration = Convert.ToBoolean(propVal);
+									}
+								}
+								//string itemKeyColumn = GetCollectionProperty(table, i, CP_ITEM_KEY_COLUMN);
+								string itemKeyColumn = null;
+								foreach (IForeignKey fk in refTable.ForeignKeys)
+								{
+									if (fk.ForeignColumns.Count == 1 && fk.PrimaryTable == itemRefTable && fk.ForeignTable != itemRefTable)
+									{
+										itemKeyColumn = fk.ForeignColumns[0].Name;
+										break;
+									}
+								}
+								if (itemKeyColumn == null)
+								{
+									xml.Append("\t\t<!-- Could not determine key colum for ").Append(itemTableRef).Append(" -->\r\n");
+								}
+								else
+								{
+									// many-to-many association table
+									xml.Append("\t\t<").Append(collectionMappingType).Append(" name=\"").Append(collectionName).Append("\"");
+									xml.Append(" table=\"").Append(QUOTE_STR).Append(tableRef).Append(QUOTE_STR).Append("\"");
+									xml.Append(" lazy=\"").Append(lazy.ToString().ToLower()).Append("\"");
+									if (!String.IsNullOrEmpty(SchemaName))
+									{
+										xml.Append(" schema=\"").Append(QUOTE_STR).Append(SchemaName).Append(QUOTE_STR).Append("\"");
+									}
+									if (cascade)
+									{
+										xml.Append(" cascade=\"all-delete-orphan\"");
+									}
+									else
+									{
+										xml.Append(" cascade=\"none\"");
+									}
+									xml.Append(">\r\n\t\t\t");
+									xml.Append("<key column=\"").Append(QUOTE_STR).Append(collectionKeyColumn).Append(QUOTE_STR).Append("\" />\r\n\t\t\t");
+									if (enumeration)
+									{
+										xml.Append("<element column=\"").Append(QUOTE_STR).Append(itemKeyColumn).Append(QUOTE_STR).Append("\"");
+										xml.Append(" type=\"").Append(GetNamespace(itemRefTable, PATH_PREFIX)).Append(".").Append(TableToEntity(itemRefTable.Alias)).Append(", ").Append(GetAssemblyName(itemRefTable, PATH_PREFIX)).Append("\"");
+										xml.Append(" />\r\n\t\t");
+									}
+									else
+									{
+										xml.Append("<many-to-many column=\"").Append(QUOTE_STR).Append(itemKeyColumn).Append(QUOTE_STR).Append("\" class=\"").Append(GetNamespace(MyMeta.Databases[DbName].Tables[itemTableRef], PATH_PREFIX)).Append(".").Append(TableToDto(MyMeta.Databases[DbName].Tables[itemTableRef].Alias)).Append(", ").Append(GetAssemblyName(MyMeta.Databases[DbName].Tables[itemTableRef], PATH_PREFIX)).Append("\" />\r\n\t\t");
+									}
+									xml.Append("</").Append(collectionMappingType).Append(">\r\n");
+								}
+							}
+							else
+							{
+								bool cascade = false;
+								propVal = GetCollectionProperty(table, i, CP_CASCADE);
+								if (propVal != null)
+								{
+									cascade = Convert.ToBoolean(propVal);
+								}
+								propVal = GetCollectionProperty(table, i, CP_LAZY);
+								if (propVal != null)
+								{
+									lazy = Convert.ToBoolean(propVal);
+								}
+								// one to many association
+								xml.Append("\t\t<").Append(collectionMappingType).Append(" name=\"").Append(collectionName).Append("\"");
+								xml.Append(" table=\"").Append(QUOTE_STR).Append(tableRef).Append(QUOTE_STR).Append("\"");
+								xml.Append(" lazy=\"").Append(lazy.ToString().ToLower()).Append("\"");
+								if (!String.IsNullOrEmpty(SchemaName))
+								{
+									xml.Append(" schema=\"").Append(QUOTE_STR).Append(SchemaName).Append(QUOTE_STR).Append("\"");
+								}
+								if (cascade)
+								{
+									xml.Append(" cascade=\"all-delete-orphan\"");
+								}
+								else
+								{
+									xml.Append(" cascade=\"none\"");
+								}
+								string orderBy = GetCollectionProperty(table, i, CP_ORDER_BY);
+								if (orderBy != null)
+								{
+									xml.Append(" order-by=\"").Append(orderBy).Append("\"");
+								}
+								xml.Append(" inverse=\"true\"");
+								xml.Append(">\r\n\t\t\t");
+								xml.Append("<key column=\"").Append(QUOTE_STR).Append(collectionKeyColumn).Append(QUOTE_STR).Append("\" />\r\n\t\t\t");
+								xml.Append("<one-to-many class=\"").Append(GetNamespace(MyMeta.Databases[DbName].Tables[tableRef], PATH_PREFIX)).Append(".").Append(TableToDto(MyMeta.Databases[DbName].Tables[tableRef].Alias)).Append(", ").Append(GetAssemblyName(MyMeta.Databases[DbName].Tables[tableRef], PATH_PREFIX)).Append("\" />\r\n\t\t");
+								xml.Append("</").Append(collectionMappingType).Append(">\r\n");
+							}
+						}
+					}
+				}
+			}
+		}
+		return xml.ToString();
+	}
+	
+}
+%>
+##|BODY_END

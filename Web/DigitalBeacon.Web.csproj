@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{08209DA9-B8AA-4ED9-803A-5A3221F9862F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DigitalBeacon.Web</RootNamespace>
+    <AssemblyName>DigitalBeacon.Web</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\3rdParty\Nuget\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=5.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\FluentValidation.5.0.0.1\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc, Version=5.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\FluentValidation.MVC4.5.0.0.1\lib\Net40\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\3rdParty\Nuget\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib.FluentHtml, Version=3.0.0.99, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\StudioDonder.MvcContrib.Mvc4.FluentHtml.3.0.0.99\lib\MvcContrib.FluentHtml.dll</HintPath>
+    </Reference>
+    <Reference Include="Recaptcha.Web">
+      <HintPath>..\3rdParty\Nuget\RecaptchaNet.1.3\lib\net45\Recaptcha.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Spark, Version=1.7.0.0, Culture=neutral, PublicKeyToken=7f8549eed921a12c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Spark.1.7.5.3\lib\NET40\Spark.dll</HintPath>
+    </Reference>
+    <Reference Include="Spark.Web.Mvc, Version=1.7.0.0, Culture=neutral, PublicKeyToken=7f8549eed921a12c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Spark.Web.Mvc4.1.7.5.3\lib\NET4\Spark.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\3rdParty\Nuget\Spring.Core.1.3.2\lib\net40\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Microsoft.AspNet.Mvc.5.1.1\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Microsoft.AspNet.Razor.3.1.1\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Nuget\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="CaptchaConstants.cs" />
+    <Compile Include="SessionAuditorModule.cs" />
+    <Compile Include="DecimalModelBinder.cs" />
+    <Compile Include="HtmlHelperExtensions.cs" />
+    <Compile Include="Util\ImageUtil.cs" />
+    <Compile Include="Validation\CaptchaValidatorAttribute.cs" />
+    <Compile Include="Validation\PhoneNumberAttribute.cs" />
+    <Compile Include="Validation\SsnAttribute.cs" />
+    <Compile Include="Validation\DateValidator.cs" />
+    <Compile Include="Validation\NumericValidator.cs" />
+    <Compile Include="Validation\CustomClientDataTypeModelValidatorProvider.cs" />
+    <Compile Include="TransferResult.cs" />
+    <Compile Include="FluentValidationModelMetadataProvider.cs" />
+    <Compile Include="Controls\DateTextBox.cs">
+    </Compile>
+    <Compile Include="HttpForbiddenResult.cs" />
+    <Compile Include="Validation\ValidatorExtensions.cs" />
+    <Compile Include="ViewBase.cs" />
+    <Compile Include="HttpVerbConstraint.cs" />
+    <Compile Include="Formatters\DateFormatter.cs" />
+    <Compile Include="Formatters\PhoneNumberFormatter.cs" />
+    <Compile Include="Formatters\SsnFormatter.cs" />
+    <Compile Include="LocalizedDisplayNameAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\BaseValidator.cs" />
+    <Compile Include="Validation\GuidAttribute.cs" />
+    <Compile Include="Validation\ManagedRegularExpressionAttribute.cs" />
+    <Compile Include="Validation\EmailAttribute.cs" />
+    <Compile Include="Validation\RangeAttribute.cs" />
+    <Compile Include="Validation\RegularExpressionAttribute.cs" />
+    <Compile Include="Validation\StringLengthAttribute.cs" />
+    <Compile Include="Validation\RequiredAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\DateTextBox.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\DigitalBeacon.csproj">
+      <Project>{56B7C963-75D0-4565-A767-655BA605001F}</Project>
+      <Name>DigitalBeacon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Business\DigitalBeacon.Business.csproj">
+      <Project>{8600fc0a-4d3e-4924-8a41-b896db344e41}</Project>
+      <Name>DigitalBeacon.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\DigitalBeacon.Model.csproj">
+      <Project>{65D6BA20-482D-43E9-897F-04C755924B74}</Project>
+      <Name>DigitalBeacon.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Util\DigitalBeacon.Util.csproj">
+      <Project>{58B30EEC-BEC9-4093-A20B-32B009BED5D9}</Project>
+      <Name>DigitalBeacon.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(TargetPath) ..\..\..\Bin
+copy /y $(TargetDir)$(TargetName).pdb ..\..\..\Bin</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,3 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.QueuedEmails" />
+
+<global module="'base/queuedEmails'" type="string" />

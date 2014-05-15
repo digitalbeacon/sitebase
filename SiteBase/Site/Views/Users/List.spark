@@ -1,0 +1,42 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'userListPanel'" enableSequencer="true">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Username)
+		.HeaderHtmlAttributes(new { @class = "username" });
+	columns.Bound(x => x.DisplayName)
+		.HeaderHtmlAttributes(new { @class = "displayName" });
+	if (!WebConstants.UseEmailForUsername)
+	{
+		columns.Bound(x => x.Email)
+			.HeaderHtmlAttributes(new { @class = "email" });
+	}
+	columns.Bound(x => x.Enabled)
+		.HeaderHtmlAttributes(new { @class = "enabled" })
+		.HtmlAttributes(new { @class = "enabled" })
+		.Sortable(false)
+		.ClientTemplate("<input type='checkbox' disabled='disabled' <#= Enabled ? \"checked='checked'\" : \"\" #> />");
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.Username).Ascending());
+})
+.Render();
+%>
+	<div class="button-panel actions" if="Model.ShowRolesLink">
+		<sbActionLink action="String.Empty" controller="'roles'" text="'Roles.Plural.Label'" />
+	</div>
+</sbListPanel>
+
+<content name="readyScript" if="Model.ShowRolesLink">
+	$('#roles').click(function() { 
+		$.sb.modalBox({ ajax: this.href, replace: false }); 
+		return false;
+	});
+</content>

@@ -1,0 +1,40 @@
+﻿<viewdata model="ListModel[[ContentGroupListItem]]" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'contentGroupListPanel'">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Id)
+		.HeaderHtmlAttributes(new { @class = "entries icon" })
+		.HtmlAttributes(new { @class = "entries icon link" })
+		.Format(GridActionLink("entries", "ContentGroups.ManageEntries.Label").ToString())
+		.Encoded(false)
+		.Title(" ")
+		.Sortable(false);
+	columns.Bound(x => x.Name)
+		.Title(Text("Common.Name.Label"))
+		.HeaderHtmlAttributes(new { @class = "name" });
+	columns.Bound(x => x.Title)
+		.Title(Text("ContentGroups.Title.Label"))
+		.HeaderHtmlAttributes(new { @class = "title" });
+	columns.Bound(x => x.ContentGroupType)
+		.Title(Text("ContentGroups.ContentGroupType.Label"))
+		.HeaderHtmlAttributes(new { @class = "type" });
+})
+.Render();
+%>
+	<content name="readyScript">
+		$('#contentGroupListPanel').bind('dataBound', function() {
+			$('tbody .entries a', this)
+				.bt('${Text("ContentGroups.ManageEntries.Label").EscapeForJavaScript()}')
+				.click(function() {
+					$.sb.modalBox({ ajax: this.href });
+					return false;
+				});
+		});
+	</content>
+</sbListPanel>

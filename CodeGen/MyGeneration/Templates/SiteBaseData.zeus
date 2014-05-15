@@ -1,0 +1,64 @@
+﻿##|TYPE Template
+##|UNIQUEID e5157897-8365-4543-a1a7-26f91fd0f152
+##|TITLE SiteBase MetaData
+##|NAMESPACE DigitalBeacon.Dal
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE None
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll, adodb.dll%><%#NAMESPACE ADODB %><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_SUFFIX = "Config";
+	private static readonly string FILE_EXT = ".xml";
+
+	// these attributes are computed once for this template
+	private string _outputPath;
+	private string _fileName;
+
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		// call base GetInput method to retrieve inputs
+		GetInput();
+		
+		_outputPath = Path.Combine(BaseOutputPath, PATH_SUFFIX);
+
+		GenerateXmlFile();
+		_fileName = "SiteBaseData" + FILE_EXT;
+		output.save(Path.Combine(_outputPath, _fileName), false);
+		Log("Generated: " + Path.Combine(_outputPath, _fileName));
+		output.clear();
+	}
+	
+	private void GenerateXmlFile()
+	{%><?xml version="1.0"?>
+<SiteBaseData><%
+	ProcessTables();%>
+</SiteBaseData>
+<%
+	}
+	
+	protected void ProcessTables()
+	{
+		foreach (string tableName in SelectedTables)
+		{
+			ITable table = MyMeta.Databases[DbName].Tables[tableName];
+			if (IgnoreTable(table))
+			{
+				continue;
+			}
+			%>
+  <Table Alias="<%= table.Alias %>" BaseNamespace="<%= BaseNamespace %>" BaseAssemblyName="<%= BaseAssemblyName %>" IsEnum="<%= IsEnumerationTable(table).ToString() %>" LogicalGroup="<%= GetLogicalGroup(table) %>"><%= tableName %></Table><%
+		}	
+	}
+}
+%>
+##|BODY_END

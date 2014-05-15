@@ -1,0 +1,8 @@
+﻿<var languages="(IList[[string]])ViewData[WebConstants.LanguagesKey]" />
+
+<if condition="languages != null">
+	<div id="languageSelector">
+		<a href="${Url.Content("~/?{0}={1}".FormatWith(DigitalBeacon.SiteBase.Business.BusinessConstants.PersistentLanguageKey, languageCode))}" each="var languageCode in languages">${System.Globalization.CultureInfo.GetCultureInfo(languageCode).Parent.NativeName}</a>
+	</div>
+</if>
+

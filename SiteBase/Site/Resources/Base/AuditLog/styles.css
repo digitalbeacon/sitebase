@@ -1,0 +1,29 @@
+/* auditLogListPanel */
+/*
+#auditLogListPanel th.subject {
+	width: 15em;
+}
+#auditLogListPanel th.username {
+	width: 13em;
+}
+#auditLogListPanel th.entity-type {
+	width: 30em;
+}
+#auditLogListPanel th.ref-id {
+	width: 5em;
+}
+*/
+/* auditLogEditPanel */
+#auditLogEditPanel .form-row-label {
+	width: 6.5em;
+	padding: 0;
+}
+#auditLogEditPanel .form-row-label-text {
+	margin-left: 0;
+}
+#auditLogEditPanel .read-only-field {
+	width: 51em;
+}
+#auditLogEditPanel #form-row-details .read-only-field {
+	height: auto;
+}

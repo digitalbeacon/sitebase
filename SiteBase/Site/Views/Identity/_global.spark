@@ -1,0 +1,4 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.Identity" />
+
+<global module="'base/identity'" type="string" />
+

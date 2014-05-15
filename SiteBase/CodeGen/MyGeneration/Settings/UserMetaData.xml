@@ -1,0 +1,455 @@
+<MyMeta>
+	<Global>
+		<Databases>
+			<Database p="SiteBase">
+				<Table>
+					<Properties />
+				</Table>
+				<Column>
+					<Properties />
+				</Column>
+			</Database>
+		</Databases>
+	</Global>
+	<Databases>
+		<Database p="SiteBase" n="">
+			<Tables>
+				<Table p="Language" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="CodeColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="Resource" n="">
+					<Properties>
+					</Properties>
+					<Columns>
+						<Column p="LanguageId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+						<Column p="FileId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="Relationship" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="Gender" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="ContentGroup" n="ContentGroup">
+					<Properties>
+						<Property k="Collection1TableRef" v="ContentEntry" />
+						<Property k="NameColumn" v="Name" />
+						<Property k="LogicalGroup" v="Content" />
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+					<Columns>
+						<Column p="ContentGroupTypeId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="ContentEntry" n="ContentEntry">
+					<Properties>
+						<Property k="ParentColumn" v="ContentGroupId" />
+						<Property k="EntityPrefix" v="Generated" />
+						<Property k="LogicalGroup" v="Content" />
+					</Properties>
+				</Table>
+				<Table p="ContentGroupType" n="ContentGroupType">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="LogicalGroup" v="Content" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="User" n="User">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+						<Property k="Collection1TableRef" v="UserAssociation" />
+						<Property k="Collection1Name" v="Associations" />
+						<Property k="Collection2TableRef" v="UserRole" />
+						<Property k="Collection2Name" v="Roles" />
+						<Property k="Collection2Cascade" v="True" />
+						<Property k="Collection1ItemTableRef" v="Association" />
+						<Property k="Collection1ItemEnumeration" v="False" />
+					</Properties>
+					<Columns>
+						<Column p="PersonId" n="PersonId">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="Country" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="CodeColumn" v="Code" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="State" n="State">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="CodeColumn" v="Code" />
+						<Property k="Enum" v="True" />
+					</Properties>
+					<Columns>
+						<Column p="CountryId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="User" n="User">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+				</Table>
+				<Table p="SecurityQuestion" n="SecurityQuestion" />
+				<Table p="Person" n="">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+					<Columns>
+						<Column p="AddressId" n="AddressId">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+								<Property k="Cascade" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="ModuleDefinition" n="ModuleDefinition">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="ModuleSettingType" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="MessageTemplate" n="">
+					<Properties>
+						<Property k="LogicalGroup" v="Messaging" />
+					</Properties>
+				</Table>
+				<Table p="ModuleSetting" n="">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+				</Table>
+				<Table p="SubstitutionDefinition" n="SubstitutionDefinition">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="ModuleSettingSubstitution" n="">
+					<Columns>
+						<Column p="SubstitutionDefinitionId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="ModuleSettingDefinition" n="ModuleSettingDefinition">
+					<Properties>
+						<Property k="EnumColumn" v="Key" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="AuditAction" n="AuditAction">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="AuditLog" n="">
+					<Properties>
+					</Properties>
+					<Columns>
+						<Column p="AuditActionId" n="Action">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+						<Column p="UserId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="Association" n="Association">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+					</Properties>
+				</Table>
+				<Table p="PhoneType" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="Address" n="">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+				</Table>
+				<Table p="Contact" n="">
+					<Columns>
+						<Column p="PhotoId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+								<Property k="Cascade" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="Person_Archive" n="">
+					<Columns>
+						<Column p="AddressId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="EntityType" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="Permission" n="">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+				</Table>
+				<Table p="FolderType" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="Folder" n="">
+					<Properties>
+					</Properties>
+				</Table>
+				<Table p="ComparisonOperator" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="PredicateGroup" n="">
+					<Properties>
+						<Property k="Collection1TableRef" v="Predicate" />
+						<Property k="Collection1Name" v="Predicates" />
+						<Property k="Collection1Cascade" v="True" />
+					</Properties>
+				</Table>
+				<Table p="Predicate" n="">
+					<Properties>
+						<Property k="ParentColumn" v="GroupId" />
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+					<Columns>
+						<Column p="OperatorId" n="OperatorId">
+							<Properties>
+								<Property k="Enum" v="False" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="File" n="File">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+					<Columns>
+						<Column p="FileDataId" n="FileDataId">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+						<Column p="FolderId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="FileData" n="">
+					<Properties>
+					</Properties>
+				</Table>
+				<Table p="File_Archive" n="">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+					<Columns>
+						<Column p="FileDataId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+						<Column p="FolderId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="Role" n="">
+					<Properties>
+						<Property k="Enum" v="True" />
+						<Property k="NameColumn" v="Name" />
+					</Properties>
+					<Columns>
+						<Column p="RoleGroupId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="UserRole" n="">
+					<Properties>
+						<Property k="ParentColumn" v="UserId" />
+					</Properties>
+				</Table>
+				<Table p="RoleGroup" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="Enum" v="True" />
+					</Properties>
+				</Table>
+				<Table p="MessageRecipient" n="MessageRecipient">
+					<Properties>
+						<Property k="ParentColumn" v="MessageId" />
+						<Property k="LogicalGroup" v="Messaging" />
+					</Properties>
+				</Table>
+				<Table p="Message" n="Message">
+					<Properties>
+						<Property k="Collection1TableRef" v="MessageRecipient" />
+						<Property k="Collection1Name" v="Recipients" />
+						<Property k="Collection2TableRef" v="MessageAttachment" />
+						<Property k="Collection2Name" v="Attachments" />
+						<Property k="Collection1Cascade" v="True" />
+						<Property k="EntityPrefix" v="Generated" />
+						<Property k="LogicalGroup" v="Messaging" />
+						<Property k="Collection2Cascade" v="True" />
+					</Properties>
+				</Table>
+				<Table p="MessageAttachment" n="">
+					<Properties>
+						<Property k="LogicalGroup" v="Messaging" />
+						<Property k="ParentColumn" v="MessageId" />
+					</Properties>
+				</Table>
+				<Table p="MessageImportance" n="MessageImportance">
+					<Properties>
+						<Property k="Enum" v="True" />
+						<Property k="NameColumn" v="Name" />
+						<Property k="LogicalGroup" v="Messaging" />
+					</Properties>
+				</Table>
+				<Table p="MessageType" n="MessageType">
+					<Properties>
+						<Property k="Enum" v="True" />
+						<Property k="NameColumn" v="Name" />
+						<Property k="LogicalGroup" v="Messaging" />
+					</Properties>
+				</Table>
+				<Table p="QueuedEmailRecipient" n="QueuedEmailRecipient">
+					<Properties>
+						<Property k="ParentColumn" v="QueuedEmailId" />
+					</Properties>
+				</Table>
+				<Table p="QueuedEmail" n="">
+					<Properties>
+						<Property k="Collection1TableRef" v="QueuedEmailRecipient" />
+						<Property k="Collection1Name" v="Recipients" />
+						<Property k="Collection1Cascade" v="True" />
+						<Property k="Collection2Cascade" v="True" />
+						<Property k="Collection2Name" v="Attachments" />
+						<Property k="Collection2TableRef" v="QueuedEmailAttachment" />
+					</Properties>
+				</Table>
+				<Table p="QueuedEmailAttachment" n="">
+					<Properties>
+						<Property k="ParentColumn" v="QueuedEmailId" />
+					</Properties>
+				</Table>
+				<Table p="NotificationPreference" n="NotificationPreference">
+					<Properties>
+						<Property k="LogicalGroup" v="Messaging" />
+						<Property k="Enum" v="True" />
+						<Property k="NameColumn" v="Name" />
+					</Properties>
+				</Table>
+				<Table p="Preference" n="Preference">
+					<Properties>
+						<Property k="EntityPrefix" v="Generated" />
+					</Properties>
+				</Table>
+				<Table p="Navigation" n="Navigation">
+					<Properties>
+						<Property k="Enum" v="True" />
+						<Property k="NameColumn" v="Name" />
+					</Properties>
+				</Table>
+				<Table p="NavigationItem" n="">
+					<Properties>
+					</Properties>
+					<Columns>
+						<Column p="NavigationId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+						<Column p="ParentId" n="">
+							<Properties>
+								<Property k="ClassRefForFk" v="True" />
+							</Properties>
+						</Column>
+					</Columns>
+				</Table>
+				<Table p="PostalCode" n="">
+					<Properties>
+						<Property k="CodeColumn" v="Code" />
+					</Properties>
+				</Table>
+				<Table p="Race" n="">
+					<Properties>
+						<Property k="NameColumn" v="Name" />
+						<Property k="CodeColumn" v="Code" />
+					</Properties>
+				</Table>
+			</Tables>
+		</Database>
+	</Databases>
+</MyMeta>

@@ -1,0 +1,737 @@
+﻿##|TYPE Template
+##|UNIQUEID f5365d96-b1f3-46b6-bd03-fb7741b51cb7
+##|TITLE Entity
+##|NAMESPACE DigitalBeacon.Dal
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll%><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_PREFIX = "Model";
+	private static readonly string FILE_EXT = ".cs";
+
+	// these attributes are computed once for this template
+	private string _baseOutputPath;
+	// these attributes are computed for each table/view
+	private string _outputPath;
+	private string _namespace;
+	private string _tableName;
+	private string _className;
+	private string _fileName;
+	private string _classPrefix;
+	private ITable _table;
+
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		// call base GetInput method to retrieve inputs
+		GetInput();
+		
+		_baseOutputPath = Path.Combine(BaseOutputPath, PATH_PREFIX);
+			
+		foreach (string table in SelectedTables)
+		{
+			ITable workingTable = MyMeta.Databases[DbName].Tables[table];
+			if (GenDtos && !IgnoreTable(workingTable))
+			{
+				_tableName = workingTable.Name;
+				_table = workingTable;
+				_className = TableToDto(workingTable.Alias);
+				_classPrefix = GetEntityPrefix(_table) ?? String.Empty;
+				_namespace = GetNamespace(_table, PATH_PREFIX);
+				string logicalGroup = GetLogicalGroup(workingTable);
+				if (!String.IsNullOrEmpty(logicalGroup))
+				{
+					_outputPath = Path.Combine(_baseOutputPath, DnpUtils.SetPascalCase(logicalGroup));
+				}
+				else 
+				{
+					_outputPath = _baseOutputPath;
+				}
+				GenerateClassFile(workingTable.Columns);
+			}
+		}
+	}
+	
+	private void GenerateClassFile(IColumns Columns)
+	{
+		OutputCSharpHeader();
+		string baseClass = "BaseEntity";
+		ITable baseTable = GetBaseTable(_table);
+		if (baseTable != null)
+		{
+			baseClass = TableToDto(baseTable.Alias);
+		}
+		if (GetNameColumn(_table) != null)
+		{
+			baseClass += ", INamedEntity";
+		}
+		if (GetCodeColumn(_table) != null)
+		{
+			baseClass += ", ICodedEntity";
+		}
+		if (IsWorkflowTable(_table))
+		{
+			baseClass += ", IWorkflowEntity<" + _className + ">";
+		}
+		else if (IsVersionedTable(_table))
+		{
+			baseClass += ", IVersionedEntity";
+		}
+		else if (IsArchivedTable(_table))
+		{
+			baseClass += ", IArchivedEntity";
+		}
+		
+%>
+using System;
+using System.Collections.Generic;
+using Iesi.Collections.Generic;
+using DigitalBeacon.Model;<%
+AddNamespaces(Columns);
+%>
+
+namespace <%= _namespace %>
+{
+	/// <summary>
+	///	Generated with MyGeneration using the Entity template.
+	/// </summary>
+	[Serializable]
+	public class <%= _classPrefix + _className %> : <%= baseClass %>
+	{
+		<% BuildPrivateMembers(Columns); %><%
+		   BuildPropertyNames(Columns);
+		   BuildStringLengthConstants(Columns); %>
+
+		<% BuildDefaultConstructor(Columns); %>
+		
+		<% BuildPublicAccessors(Columns); %><%
+		   ImplementWorkflowInterface(); %>
+	}
+}
+<%
+		_fileName = _classPrefix + _className + FILE_EXT;
+		output.save(Path.Combine(_outputPath, _fileName), false);
+		Log("Generated: " + Path.Combine(_outputPath, _fileName));
+		output.clear();
+	}
+	
+	protected override bool IgnoreColumn(IColumn col)
+	{
+		bool retval = base.IgnoreColumn(col);
+		if (!retval)
+		{
+			if (col.IsInPrimaryKey || col.Name == VersionColumnName)
+			{
+				retval = true;
+			}
+		}
+		return retval;
+	}
+	
+	private void AddNamespaces(IColumns Columns)
+	{
+		List<string> namespaceList = new List<string>();
+		ITable baseTable = GetBaseTable(_table);
+		if (baseTable != null)
+		{
+			string baseClassNamespace = GetNamespace(baseTable, PATH_PREFIX);
+			if (!String.IsNullOrEmpty(baseClassNamespace) && baseClassNamespace != _namespace)
+			{
+				namespaceList.Add(baseClassNamespace);
+			}
+		}
+		ITable table = null;
+		foreach (IColumn col in Columns)
+		{
+			if (IgnoreColumn(col))
+			{
+				continue;
+			}
+			if (table == null)
+			{
+				table = col.Table;
+			}
+			string propNamespace = null;
+			string tableRef = GetTableRefForColumn(col);
+			if (tableRef != null)
+			{
+				propNamespace = GetNamespace(MyMeta.Databases[DbName].Tables[tableRef], PATH_PREFIX);
+			}
+			else
+			{
+				propNamespace = GetNamespace(col, PATH_PREFIX);
+			}
+			if (!String.IsNullOrEmpty(propNamespace) && propNamespace != _namespace && !namespaceList.Contains(propNamespace))
+			{
+				namespaceList.Add(propNamespace);
+			}
+		}
+		if (table != null)
+		{
+			for (int i = 0; i <= MAX_COLLECTIONS; i++)
+			{
+				string tableRef = GetCollectionProperty(table, i, CP_TABLE_REF);
+				if (tableRef == null)
+				{
+					// allow collection index to start at 0 or 1
+					if (i == 0)
+					{
+						continue;
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					ITable itemTable = null;
+					string itemTableRef = GetCollectionProperty(table, i, CP_ITEM_TABLE_REF);
+					if (!String.IsNullOrEmpty(itemTableRef))
+					{
+						itemTable = MyMeta.Databases[DbName].Tables[itemTableRef];
+					}
+					if (itemTable == null)
+					{
+						itemTable = MyMeta.Databases[DbName].Tables[tableRef];
+					}
+					string itemNamespace = GetNamespace(itemTable, PATH_PREFIX);
+					if (!String.IsNullOrEmpty(itemNamespace) && itemNamespace != _namespace && !namespaceList.Contains(itemNamespace))
+					{
+						namespaceList.Add(itemNamespace);
+					}
+				}
+			}
+		}
+/*		
+		if (GetSiteBaseData().Count > 0)
+		{
+			foreach (string key in GetSiteBaseData().Keys)
+			{
+				namespaceList.Add(GetSiteBaseData()[key].BaseNamespace + "." + PATH_PREFIX);
+				break;
+			}
+		}
+*/		
+		foreach (string ns in namespaceList)
+		{%>
+using <%= ns %>;<%		
+		}
+	}
+	
+	private void BuildPrivateMembers(IColumns Columns)
+	{
+		if (Columns.Count > 0)
+		{
+			ITable table = null;
+			%>#region Private Members<%
+			foreach (IColumn col in Columns)
+			{
+				if (table == null)
+				{
+					table = col.Table;
+				}
+				if (IgnoreColumn(col))
+				{
+					continue;
+				}
+				string tableRef = GetTableRefForColumn(col);
+				if (tableRef != null)
+				{%>
+		private <%= TableToDto(MyMeta.Databases[DbName].Tables[tableRef].Alias) %> <%= ColumnToMemberVariable(col) %>;<%
+				}
+				else if (IsReferenceColumn(col))
+				{%>
+		private <%= TableToDto(col.ForeignKeys[0].PrimaryTable.Alias) %> <%= ColumnToMemberVariable(col) %>;<%
+				}
+				else
+				{%>
+		private <%= ColumnToNHibernateSupportedType(col) %> <%= ColumnToMemberVariable(col) %>;<%
+				}
+			}
+			if (table != null)
+			{
+				for (int i = 0; i <= MAX_COLLECTIONS; i++)
+				{
+					string tableRef = GetCollectionProperty(table, i, CP_TABLE_REF);
+					if (tableRef == null)
+					{
+						// allow collection index to start at 0 or 1
+						if (i == 0)
+						{
+							continue;
+						}
+						else
+						{
+							break;
+						}
+					}
+					else
+					{
+						string collectionName = GetCollectionProperty(table, i, CP_NAME);
+						if (collectionName == null)
+						{
+							collectionName = PluralizeTableName(MyMeta.Databases[DbName].Tables[tableRef].Alias);
+						}
+						string collectionField = Prefix + DnpUtils.SetCamelCase(collectionName);
+						
+						string collectionType = GetCollectionProperty(table, i, CP_DTO_TYPE);
+						if (collectionType == null)
+						{
+							collectionType = DEFAULT_DTO_COLLECTION_TYPE;
+						}
+						string fieldType = null;
+						string itemTableRef = GetCollectionProperty(table, i, CP_ITEM_TABLE_REF);
+						if (!String.IsNullOrEmpty(itemTableRef))
+						{
+							ITable itemRefTable = MyMeta.Databases[DbName].Tables[itemTableRef];
+							bool enumeration = IsEnumerationTable(itemRefTable);
+							if (enumeration)
+							{
+								string propVal = GetCollectionProperty(table, i, CP_ITEM_ENUMERATION);
+								if (propVal != null)
+								{
+									enumeration = Convert.ToBoolean(propVal);
+								}
+							}
+							fieldType = TableToDtoCollection(itemRefTable, collectionType, enumeration);
+						}
+						if (fieldType == null)
+						{
+							fieldType = TableToDtoCollection(MyMeta.Databases[DbName].Tables[tableRef], collectionType);
+						}%>
+		private <%= fieldType %> <%= collectionField %>;<%
+					}
+				}
+			}%>
+		#endregion<%
+		}
+	}
+	
+	private void BuildDefaultConstructor(IColumns Columns)
+	{
+		%>#region Constructor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public <%= _classPrefix + _className %>()
+		{<%
+		foreach (IColumn col in Columns)
+		{
+			if (IgnoreColumn(col))
+			{
+				continue;
+			}
+			string fieldName = ColumnToMemberVariable(col);
+			string fieldType = string.Empty;
+			string tableRef = GetTableRefForColumn(col);
+			if (tableRef != null)
+			{
+				fieldType = TableToDto(MyMeta.Databases[DbName].Tables[tableRef].Alias);
+			
+			}
+			else if (IsReferenceColumn(col))
+			{
+				fieldType = TableToDto(col.ForeignKeys[0].PrimaryTable.Alias);
+			}
+			else
+			{
+				fieldType = ColumnToNHibernateSupportedType(col);
+			}
+			
+			if (fieldType.EndsWith("[]"))
+			{%> 
+			<%= fieldName %> = new <%= fieldType %>{};<%
+			}
+			else if (fieldType.EndsWith("?"))
+			{%>
+			<%= fieldName %> = null;<%
+			}
+			else
+			{
+				switch(fieldType)
+				{
+					case "string":%>
+			<%= fieldName %> = <% 
+						if (ConstructorUseNull){ %>null;<% }
+						else {%> String.Empty;<%	 }
+						break;
+					case "DateTime":
+						if (col.Name == CREATED_COLUMN_NAME)
+						{%>
+			<%= fieldName %> = DateTime.Now;<%
+						}
+						else
+						{%>
+			<%= fieldName %> = DateTime.MinValue;<%
+						}
+						break;
+					case "bool":%>
+			<%= fieldName %> = false; <%
+						break;
+					case "decimal":
+					case "float":
+					case "byte":
+					case "short":
+					case "int":
+					case "long":
+						if (col.Name == VersionColumnName)
+						{%>
+			<%= fieldName %> = -1;<%
+						}
+						else
+						{%>
+			<%= fieldName %> = 0;<%
+						}
+						break;
+					default:
+						if (IsColumnNullable(col))
+						{%>
+			<%= fieldName %> = <%= ConstructorUseNull ? "null" : "new " + fieldType + "()" %>;<%
+						}
+					break;			  
+				}
+			}
+		}%>
+		}
+		#endregion<%
+	}
+	
+	private void BuildPublicAccessors(IColumns Columns)
+	{
+		if (Columns.Count > 0)
+		{
+			%>#region Public Properties
+			<%
+			ITable table = null;
+			foreach (IColumn col in Columns)
+			{
+				if (table == null)
+				{
+					table = col.Table;
+				}
+				if (IgnoreColumn(col))
+				{
+					continue;
+				}
+				string fieldAccessor = ColumnToPropertyName(col);
+				string fieldName = ColumnToMemberVariable(col);
+				string fieldType = string.Empty;
+				string tableRef = GetTableRefForColumn(col);
+				if (tableRef != null)
+				{
+					fieldType = TableToDto(MyMeta.Databases[DbName].Tables[tableRef].Alias);
+				}
+				else if (IsReferenceColumn(col))
+				{
+					fieldType = TableToDto(col.ForeignKeys[0].PrimaryTable.Alias);
+				}
+				else
+				{
+					fieldType = ColumnToNHibernateSupportedType(col);
+				}
+			%>
+		/// <summary>
+		/// <%= fieldAccessor %> property
+		/// </summary>		
+		public virtual <%= fieldType %> <%= fieldAccessor %>
+		{
+			get { return <%= fieldName %>; }<%
+				if (!CreateReadOnly)
+				{
+					//if (!((col.IsInPrimaryKey && col.IsAutoKey) || col.IsComputed))
+					//{
+						switch(fieldType)
+						{
+							default:%>
+			set { <%= fieldName %> = value; }<%						
+								break;
+							case "byte": %>
+			set	
+			{
+				//if (value.Length > <%= col.CharacterMaxLength.ToString() %>)
+					//throw new ArgumentOutOfRangeException("Invalid value for <%= fieldAccessor %>", value, value.ToString());
+				
+				<%= fieldName %> = value;
+			}
+<%
+								break;
+							case "string": 
+								if (col.CharacterMaxLength == 0)
+								{%>
+			set { <%= fieldName %> = value; }<%						
+								}
+								else
+								{%>
+			set	
+			{
+				if (value != null && value.Length > <%= col.CharacterMaxLength.ToString() %>)
+				{
+					throw new ArgumentOutOfRangeException("Invalid value for <%= fieldAccessor %>", value, value.ToString());
+				}
+				<%= fieldName %> = value;
+			}<%					
+								}	
+								break;
+					//}
+				}
+			}%>
+		}
+			<%
+			}
+			if (table != null)
+			{
+				for (int i = 0; i <= MAX_COLLECTIONS; i++)
+				{
+					string tableRef = GetCollectionProperty(table, i, CP_TABLE_REF);
+					if (tableRef == null)
+					{
+						// allow collection index to start at 0 or 1
+						if (i == 0)
+						{
+							continue;
+						}
+						else
+						{
+							break;
+						}
+					}
+					else
+					{
+						string collectionName = GetCollectionProperty(table, i, CP_NAME);
+						if (collectionName == null)
+						{
+							collectionName = PluralizeTableName(MyMeta.Databases[DbName].Tables[tableRef].Alias);
+						}
+						string collectionProperty =  DnpUtils.SetPascalCase(collectionName);
+						string collectionField = Prefix + DnpUtils.SetCamelCase(collectionName);
+						string collectionType = GetCollectionProperty(table, i, CP_DTO_TYPE);
+						if (collectionType == null)
+						{
+							collectionType = DEFAULT_DTO_COLLECTION_TYPE;
+						}
+						string fieldNamespace = String.Empty;
+						string fieldType = null;
+						string itemTableRef = GetCollectionProperty(table, i, CP_ITEM_TABLE_REF);
+						if (!String.IsNullOrEmpty(itemTableRef))
+						{
+							ITable itemRefTable = MyMeta.Databases[DbName].Tables[itemTableRef];
+							bool enumeration = IsEnumerationTable(itemRefTable);
+							if (enumeration)
+							{
+								string propVal = GetCollectionProperty(table, i, CP_ITEM_ENUMERATION);
+								if (propVal != null)
+								{
+									enumeration = Convert.ToBoolean(propVal);
+								}
+							}
+							fieldType = TableToDtoCollection(itemRefTable, collectionType, enumeration);
+						}
+						if (fieldType == null)
+						{
+							fieldType = TableToDtoCollection(MyMeta.Databases[DbName].Tables[tableRef], collectionType);
+						}%>
+		/// <summary>
+		/// <%= collectionProperty %> collection
+		/// </summary>		
+		public virtual <%= fieldNamespace %><%= fieldType %> <%= collectionProperty %>
+		{
+			get { return <%= collectionField %>; }<%
+						if (!CreateReadOnly)
+						{%>
+			set { <%= collectionField %> = value; }<%						
+						}%>
+		}
+		<%
+					}
+				}
+			}%>
+		#endregion<%
+		}
+	}
+	
+	private void BuildPropertyNames(IColumns Columns)
+	{
+		if (GetPropertyNamesCount(Columns) > 0)
+		{
+			%>
+		
+		#region Properties Names
+			<%
+			ITable table = null;
+			foreach (IColumn col in Columns)
+			{
+				if (IgnoreColumn(col))
+				{
+					continue;
+				}
+				if (table == null)
+				{
+					table = col.Table;
+				}
+				string fieldAccessor = ColumnToPropertyName(col);
+				if (fieldAccessor == "Name" || fieldAccessor == "Code" || fieldAccessor == "DisplayOrder" || fieldAccessor == "Comment")
+				{
+					continue;
+				}
+			%>
+		public const string <%= fieldAccessor %>Property = "<%= fieldAccessor %>";<%
+			}
+			if (table != null)
+			{
+				for (int i = 0; i <= MAX_COLLECTIONS; i++)
+				{
+					string tableRef = GetCollectionProperty(table, i, CP_TABLE_REF);
+					if (tableRef == null)
+					{
+						// allow collection index to start at 0 or 1
+						if (i == 0)
+						{
+							continue;
+						}
+						else
+						{
+							break;
+						}
+					}
+					else
+					{
+						string collectionName = GetCollectionProperty(table, i, CP_NAME);
+						if (collectionName == null)
+						{
+							collectionName = PluralizeTableName(MyMeta.Databases[DbName].Tables[tableRef].Alias);
+						}
+						string collectionProperty =  DnpUtils.SetPascalCase(collectionName); %>
+		public const string <%= collectionProperty %>Property = "<%= collectionProperty %>";<%
+					}
+				}
+			}
+			%>
+			
+		#endregion<%
+		}
+	}
+	
+	private void BuildStringLengthConstants(IColumns Columns)
+	{
+		if (GetPropertyNamesCount(Columns, true) > 0)
+		{
+			%>
+		
+		#region String Length Constants
+			<%
+			ITable table = null;
+			foreach (IColumn col in Columns)
+			{
+				if (IgnoreColumn(col))
+				{
+					continue;
+				}
+				if (table == null)
+				{
+					table = col.Table;
+				}
+				string fieldAccessor = ColumnToPropertyName(col);
+				if (col.CharacterMaxLength == 0)
+				{
+					continue;
+				}
+			%>
+		public const int <%= fieldAccessor %>MaxLength = <%= col.CharacterMaxLength.ToString() %>;<%
+			}
+			%>
+			
+		#endregion<%
+		}
+	}
+	
+	private int GetPropertyNamesCount(IColumns Columns)
+	{
+		return GetPropertyNamesCount(Columns, false);
+	}
+
+	private int GetPropertyNamesCount(IColumns Columns, bool onlyStringProperties)
+	{
+		int retVal = 0;
+		ITable table = null;
+		if (Columns.Count > 0)
+		{
+			foreach (IColumn col in Columns)
+			{
+				if (IgnoreColumn(col))
+				{
+					continue;
+				}
+				if (table == null)
+				{
+					table = col.Table;
+				}
+				string fieldAccessor = ColumnToPropertyName(col);
+				if ((fieldAccessor == "Name" || fieldAccessor == "Code" || fieldAccessor == "DisplayOrder" || fieldAccessor == "Comment") && !onlyStringProperties)
+				{
+					continue;
+				}
+				if (onlyStringProperties && col.CharacterMaxLength == 0)
+				{
+					continue;
+				}
+				retVal++;
+			}
+		}
+		if (table != null && !onlyStringProperties)
+		{
+			for (int i = 0; i <= MAX_COLLECTIONS; i++)
+			{
+				string tableRef = GetCollectionProperty(table, i, CP_TABLE_REF);
+				if (tableRef == null)
+				{
+					// allow collection index to start at 0 or 1
+					if (i == 0)
+					{
+						continue;
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					retVal++;
+				}
+			}
+		}		
+		return retVal;
+	}
+
+	private void ImplementWorkflowInterface()
+	{
+		if (_table != null && IsWorkflowTable(_table))
+		{%>
+		
+		#region IWorkflowInterface implementation
+		/// <summary>
+		/// IsPendingApproval property
+		/// </summary>		
+		public bool IsPendingApproval
+		{ 
+			get { return false; }
+			set {}
+		}
+		#endregion<%
+		}		
+	}
+
+}
+%>
+##|BODY_END

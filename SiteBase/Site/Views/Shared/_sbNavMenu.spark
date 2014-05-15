@@ -1,0 +1,38 @@
+﻿<var navItems="(IList[[NavigationItem]])ViewData[navId]" />
+
+<if condition="navItems != null && navItems.Count > 0">
+${
+	Html.Telerik().Menu()
+	.Name(navId)
+	.Orientation(orientation == "Vertical" ? MenuOrientation.Vertical : MenuOrientation.Horizontal)
+	.BindTo(navItems, (item, navigationData) =>
+	{
+		item.Text = navigationData.Text;
+		if (!string.IsNullOrEmpty(navigationData.Url))
+		{
+		item.Url = navigationData.Url;
+		}
+		if (!string.IsNullOrEmpty(navigationData.ImageUrl))
+		{
+		item.ImageUrl = navigationData.ImageUrl;
+		}
+		foreach (NavigationItem c in navigationData.Items)
+		{
+		MenuItem mi = new MenuItem
+		{
+			Text = c.Text,
+		};
+		if (c.Url.HasText())
+		{
+			mi.Url = c.Url;
+		}
+		if (c.ImageUrl.HasText())
+		{
+			mi.ImageUrl = c.ImageUrl;
+		}
+		item.Items.Add(mi);
+		}
+	})
+}
+</if>
+

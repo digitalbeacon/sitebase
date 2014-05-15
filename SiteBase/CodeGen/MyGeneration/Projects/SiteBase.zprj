@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project name="SiteBase" description="New Zeus Project file" defaultSettingsOverride="False">
+  <objects>
+    <obj name="SiteBase" uid="b7efe657-7323-4ff1-82b8-cbcf3a6e35d7" path="..\..\..\..\CodeGen\MyGeneration\Templates\_Common Input_.zeus">
+      <items>
+        <item name="__dbConnectionString" type="System.String" val="Provider=SQLOLEDB.1;Password=Password1;Persist Security Info=True;User ID=web;Initial Catalog=SiteBase;Data Source=localhost" />
+        <item name="__dbDriver" type="System.String" val="SQL" />
+        <item name="__dbLanguageMappingFileName" type="System.String" val="..\Settings\Languages.xml" />
+        <item name="__dbTarget" type="System.String" val="SqlClient" />
+        <item name="__dbTargetMappingFileName" type="System.String" val="..\Settings\DbTargets.xml" />
+        <item name="__defaultOutputPath" type="System.String" val="..\..\.." />
+        <item name="__defaultTemplatePath" type="System.String" val="..\..\..\..\CodeGen\MyGeneration\Templates" />
+        <item name="__domainOverride" type="System.Boolean" val="True" />
+        <item name="__language" type="System.String" val="C#" />
+        <item name="__userMetaDataFileName" type="System.String" val="..\Settings\UserMetaData.xml" />
+        <item name="__version" type="System.String" val="1.3.0.3" />
+        <item name="baseAssemblyName" type="System.String" val="DigitalBeacon.SiteBase" />
+        <item name="baseNamespace" type="System.String" val="DigitalBeacon.SiteBase" />
+        <item name="baseOutputPath" type="System.String" val="..\..\.." />
+        <item name="chkGenDaoUnitTests" type="System.Boolean" val="False" />
+        <item name="chkGenDtos" type="System.Boolean" val="True" />
+        <item name="chkGenEnums" type="System.Boolean" val="True" />
+        <item name="chkGenNhMappings" type="System.Boolean" val="True" />
+        <item name="chkGenSpringDaoConfig" type="System.Boolean" val="True" />
+        <item name="database" type="System.String" val="SiteBase" />
+        <item name="dbConnectionString" type="System.Boolean" val="True" />
+        <item name="dbDriver" type="System.String" val="SQL" />
+        <item name="defaultOutputPath" type="System.String" val="..\..\.." />
+        <item name="defaultTemplatePath" type="System.String" val="..\..\..\..\CodeGen\MyGeneration\Templates" />
+        <item name="hiddenField" type="System.String" val="HiddenValue" />
+        <item name="memberPrefix" type="System.String" val="_" />
+        <item name="schemaName" type="System.String" val="sitebase" />
+        <item name="selectPath" type="System.String" val="" />
+        <item name="tables" type="System.Collections.ArrayList" val="System.String|H|Address;System.String|H|Association;System.String|H|AuditAction;System.String|H|AuditLog;System.String|H|ComparisonOperator;System.String|H|Contact;System.String|H|ContentEntry;System.String|H|ContentGroup;System.String|H|ContentGroupType;System.String|H|Country;System.String|H|EntityType;System.String|H|File;System.String|H|File_Archive;System.String|H|FileData;System.String|H|FolderType;System.String|H|Folder;System.String|H|Gender;System.String|H|Language;System.String|H|Message;System.String|H|MessageAttachment;System.String|H|MessageImportance;System.String|H|MessageRecipient;System.String|H|MessageTemplate;System.String|H|MessageType;System.String|H|Module;System.String|H|ModuleDefinition;System.String|H|ModuleSetting;System.String|H|ModuleSettingDefinition;System.String|H|ModuleSettingSubstitution;System.String|H|ModuleSettingType;System.String|H|Navigation;System.String|H|NavigationItem;System.String|H|NotificationPreference;System.String|H|Permission;System.String|H|Person;System.String|H|Person_Archive;System.String|H|PhoneType;System.String|H|PredicateGroup;System.String|H|Predicate;System.String|H|PostalCode;System.String|H|QueuedEmail;System.String|H|QueuedEmailAttachment;System.String|H|QueuedEmailRecipient;System.String|H|Race;System.String|H|Relationship;System.String|H|Resource;System.String|H|Role;System.String|H|RoleGroup;System.String|H|RoleHome;System.String|H|SecurityQuestion;System.String|H|State;System.String|H|SubstitutionDefinition;System.String|H|User;System.String|H|Preference;System.String|H|UserRole;" />
+        <item name="versionColumnName" type="System.String" val="ModificationCounter" />
+        <item name="views" type="System.Collections.ArrayList" val="" />
+      </items>
+    </obj>
+  </objects>
+</project>

@@ -1,0 +1,4 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.Users" />
+
+<global module="'base/users'" type="string" />
+

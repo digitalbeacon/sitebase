@@ -1,0 +1,16 @@
+﻿<default listModel="Model" />
+<default listAction="Url.Action('index')" />
+<default hideSearchPanelWhenEmpty="true" />
+
+#/*
+<div class="search-panel" style="display:none?{hideSearchPanelWhenEmpty && listModel.TotalCount == 0}">
+	<form action="${listAction}">
+		<input id="search" class="search" type="image" src="~/resources/base/images/icon-search.png" title="${Text('Common.Search.Label')}" />
+		<sbTextBox propertyName="'searchText'" maxLength="100" cssClass="'search-text'" />
+		<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
+	</form>
+	<form action="${listAction}" class="clear-search-form">
+		<input id="clearSearch" class="clear-search" type="image" src="~/resources/base/images/icon-delete.gif" title="${Text('Common.Clear.Label')}" />
+	</form>
+</div>
+*/

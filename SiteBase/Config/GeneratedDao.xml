@@ -1,0 +1,452 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the Spring DAO Config template -->
+
+<objects xmlns="http://www.springframework.net">
+  <!-- Address -->
+  <object id="AddressEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.AddressEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="AddressEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.AddressDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IAddressDao" name="AddressEntityDao" />-->
+  <!-- Association -->
+  <object id="AssociationEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.AssociationEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="AssociationEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.AssociationDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IAssociationDao" name="AssociationEntityDao" />-->
+  <!-- AuditAction -->
+  <object id="AuditActionEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.AuditActionEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="AuditActionEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.AuditActionDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IAuditActionDao" name="AuditActionEntityDao" />-->
+  <!-- AuditLog -->
+  <object id="AuditLogEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.AuditLogEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="AuditLogEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.AuditLogDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IAuditLogDao" name="AuditLogEntityDao" />-->
+  <!-- ComparisonOperator -->
+  <object id="ComparisonOperatorEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.ComparisonOperatorEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ComparisonOperatorEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ComparisonOperatorDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IComparisonOperatorDao" name="ComparisonOperatorEntityDao" />-->
+  <!-- Contact -->
+  <object id="ContactEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.ContactEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ContactEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ContactDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IContactDao" name="ContactEntityDao" />-->
+  <!-- ContentEntry -->
+  <object id="ContentEntryEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.Content.ContentEntryEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ContentEntryEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ContentEntryDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IContentEntryDao" name="ContentEntryEntityDao" />-->
+  <!-- ContentGroup -->
+  <object id="ContentGroupEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.Content.ContentGroupEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ContentGroupEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ContentGroupDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IContentGroupDao" name="ContentGroupEntityDao" />-->
+  <!-- ContentGroupType -->
+  <object id="ContentGroupTypeEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.Content.ContentGroupTypeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ContentGroupTypeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ContentGroupTypeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IContentGroupTypeDao" name="ContentGroupTypeEntityDao" />-->
+  <!-- Country -->
+  <object id="CountryEntityDao" type="DigitalBeacon.Data.NHibernate.NameCodeDao&lt;DigitalBeacon.SiteBase.Model.CountryEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="CountryEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.CountryDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="ICountryDao" name="CountryEntityDao" />-->
+  <!-- EntityType -->
+  <object id="EntityTypeEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.EntityTypeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="EntityTypeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.EntityTypeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IEntityTypeDao" name="EntityTypeEntityDao" />-->
+  <!-- File -->
+  <object id="FileEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.FileEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="FileEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.FileDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IFileDao" name="FileEntityDao" />-->
+  <!-- File_Archive -->
+  <object id="FileArchiveEntityDao" type="DigitalBeacon.Data.NHibernate.ArchiveDao&lt;DigitalBeacon.SiteBase.Model.FileArchiveEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="FileArchiveEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.File_ArchiveDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IFile_ArchiveDao" name="FileArchiveEntityDao" />-->
+  <!-- FileData -->
+  <object id="FileDataEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.FileDataEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="FileDataEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.FileDataDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IFileDataDao" name="FileDataEntityDao" />-->
+  <!-- FolderType -->
+  <object id="FolderTypeEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.FolderTypeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="FolderTypeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.FolderTypeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IFolderTypeDao" name="FolderTypeEntityDao" />-->
+  <!-- Folder -->
+  <object id="FolderEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.FolderEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="FolderEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.FolderDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IFolderDao" name="FolderEntityDao" />-->
+  <!-- Gender -->
+  <object id="GenderEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.GenderEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="GenderEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.GenderDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IGenderDao" name="GenderEntityDao" />-->
+  <!-- Language -->
+  <object id="LanguageEntityDao" type="DigitalBeacon.Data.NHibernate.NameCodeDao&lt;DigitalBeacon.SiteBase.Model.LanguageEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="LanguageEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.LanguageDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="ILanguageDao" name="LanguageEntityDao" />-->
+  <!-- Message -->
+  <object id="MessageEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.Messaging.MessageEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="MessageEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.MessageDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IMessageDao" name="MessageEntityDao" />-->
+  <!-- MessageAttachment -->
+  <object id="MessageAttachmentEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.Messaging.MessageAttachmentEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="MessageAttachmentEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.MessageAttachmentDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IMessageAttachmentDao" name="MessageAttachmentEntityDao" />-->
+  <!-- MessageImportance -->
+  <object id="MessageImportanceEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.Messaging.MessageImportanceEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="MessageImportanceEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.MessageImportanceDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IMessageImportanceDao" name="MessageImportanceEntityDao" />-->
+  <!-- MessageRecipient -->
+  <object id="MessageRecipientEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.Messaging.MessageRecipientEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="MessageRecipientEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.MessageRecipientDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IMessageRecipientDao" name="MessageRecipientEntityDao" />-->
+  <!-- MessageTemplate -->
+  <object id="MessageTemplateEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.Messaging.MessageTemplateEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="MessageTemplateEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.MessageTemplateDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IMessageTemplateDao" name="MessageTemplateEntityDao" />-->
+  <!-- MessageType -->
+  <object id="MessageTypeEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.Messaging.MessageTypeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="MessageTypeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.MessageTypeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IMessageTypeDao" name="MessageTypeEntityDao" />-->
+  <!-- Module -->
+  <object id="ModuleEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.ModuleEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ModuleEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ModuleDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IModuleDao" name="ModuleEntityDao" />-->
+  <!-- ModuleDefinition -->
+  <object id="ModuleDefinitionEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.ModuleDefinitionEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ModuleDefinitionEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ModuleDefinitionDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IModuleDefinitionDao" name="ModuleDefinitionEntityDao" />-->
+  <!-- ModuleSetting -->
+  <object id="ModuleSettingEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.ModuleSettingEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ModuleSettingEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ModuleSettingDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IModuleSettingDao" name="ModuleSettingEntityDao" />-->
+  <!-- ModuleSettingDefinition -->
+  <object id="ModuleSettingDefinitionEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.ModuleSettingDefinitionEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ModuleSettingDefinitionEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ModuleSettingDefinitionDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IModuleSettingDefinitionDao" name="ModuleSettingDefinitionEntityDao" />-->
+  <!-- ModuleSettingSubstitution -->
+  <object id="ModuleSettingSubstitutionEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.ModuleSettingSubstitutionEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ModuleSettingSubstitutionEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ModuleSettingSubstitutionDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IModuleSettingSubstitutionDao" name="ModuleSettingSubstitutionEntityDao" />-->
+  <!-- ModuleSettingType -->
+  <object id="ModuleSettingTypeEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.ModuleSettingTypeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ModuleSettingTypeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ModuleSettingTypeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IModuleSettingTypeDao" name="ModuleSettingTypeEntityDao" />-->
+  <!-- Navigation -->
+  <object id="NavigationEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.NavigationEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="NavigationEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.NavigationDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="INavigationDao" name="NavigationEntityDao" />-->
+  <!-- NavigationItem -->
+  <object id="NavigationItemEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.NavigationItemEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="NavigationItemEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.NavigationItemDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="INavigationItemDao" name="NavigationItemEntityDao" />-->
+  <!-- NotificationPreference -->
+  <object id="NotificationPreferenceEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.Messaging.NotificationPreferenceEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="NotificationPreferenceEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.NotificationPreferenceDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="INotificationPreferenceDao" name="NotificationPreferenceEntityDao" />-->
+  <!-- Permission -->
+  <object id="PermissionEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.PermissionEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PermissionEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.PermissionDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPermissionDao" name="PermissionEntityDao" />-->
+  <!-- Person -->
+  <object id="PersonEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.PersonEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PersonEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.PersonDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPersonDao" name="PersonEntityDao" />-->
+  <!-- Person_Archive -->
+  <object id="PersonArchiveEntityDao" type="DigitalBeacon.Data.NHibernate.ArchiveDao&lt;DigitalBeacon.SiteBase.Model.PersonArchiveEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PersonArchiveEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.Person_ArchiveDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPerson_ArchiveDao" name="PersonArchiveEntityDao" />-->
+  <!-- PhoneType -->
+  <object id="PhoneTypeEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.PhoneTypeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PhoneTypeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.PhoneTypeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPhoneTypeDao" name="PhoneTypeEntityDao" />-->
+  <!-- PredicateGroup -->
+  <object id="PredicateGroupEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.PredicateGroupEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PredicateGroupEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.PredicateGroupDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPredicateGroupDao" name="PredicateGroupEntityDao" />-->
+  <!-- Predicate -->
+  <object id="PredicateEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.PredicateEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PredicateEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.PredicateDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPredicateDao" name="PredicateEntityDao" />-->
+  <!-- PostalCode -->
+  <object id="PostalCodeEntityDao" type="DigitalBeacon.Data.NHibernate.CodeDao&lt;DigitalBeacon.SiteBase.Model.PostalCodeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PostalCodeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.PostalCodeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPostalCodeDao" name="PostalCodeEntityDao" />-->
+  <!-- QueuedEmail -->
+  <object id="QueuedEmailEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.QueuedEmailEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="QueuedEmailEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.QueuedEmailDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IQueuedEmailDao" name="QueuedEmailEntityDao" />-->
+  <!-- QueuedEmailAttachment -->
+  <object id="QueuedEmailAttachmentEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.QueuedEmailAttachmentEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="QueuedEmailAttachmentEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.QueuedEmailAttachmentDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IQueuedEmailAttachmentDao" name="QueuedEmailAttachmentEntityDao" />-->
+  <!-- QueuedEmailRecipient -->
+  <object id="QueuedEmailRecipientEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.QueuedEmailRecipientEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="QueuedEmailRecipientEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.QueuedEmailRecipientDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IQueuedEmailRecipientDao" name="QueuedEmailRecipientEntityDao" />-->
+  <!-- Race -->
+  <object id="RaceEntityDao" type="DigitalBeacon.Data.NHibernate.NameCodeDao&lt;DigitalBeacon.SiteBase.Model.RaceEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="RaceEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.RaceDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IRaceDao" name="RaceEntityDao" />-->
+  <!-- Relationship -->
+  <object id="RelationshipEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.RelationshipEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="RelationshipEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.RelationshipDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IRelationshipDao" name="RelationshipEntityDao" />-->
+  <!-- Resource -->
+  <object id="ResourceEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.ResourceEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="ResourceEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.ResourceDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IResourceDao" name="ResourceEntityDao" />-->
+  <!-- Role -->
+  <object id="RoleEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.RoleEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="RoleEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.RoleDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IRoleDao" name="RoleEntityDao" />-->
+  <!-- RoleGroup -->
+  <object id="RoleGroupEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.RoleGroupEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="RoleGroupEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.RoleGroupDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IRoleGroupDao" name="RoleGroupEntityDao" />-->
+  <!-- RoleHome -->
+  <object id="RoleHomeEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.RoleHomeEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="RoleHomeEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.RoleHomeDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IRoleHomeDao" name="RoleHomeEntityDao" />-->
+  <!-- SecurityQuestion -->
+  <object id="SecurityQuestionEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.SecurityQuestionEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="SecurityQuestionEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.SecurityQuestionDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="ISecurityQuestionDao" name="SecurityQuestionEntityDao" />-->
+  <!-- State -->
+  <object id="StateEntityDao" type="DigitalBeacon.Data.NHibernate.NameCodeDao&lt;DigitalBeacon.SiteBase.Model.StateEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="StateEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.StateDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IStateDao" name="StateEntityDao" />-->
+  <!-- SubstitutionDefinition -->
+  <object id="SubstitutionDefinitionEntityDao" type="DigitalBeacon.Data.NHibernate.NameDao&lt;DigitalBeacon.SiteBase.Model.SubstitutionDefinitionEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="SubstitutionDefinitionEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.SubstitutionDefinitionDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="ISubstitutionDefinitionDao" name="SubstitutionDefinitionEntityDao" />-->
+  <!-- User -->
+  <object id="UserEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.UserEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="UserEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.UserDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IUserDao" name="UserEntityDao" />-->
+  <!-- Preference -->
+  <object id="PreferenceEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.PreferenceEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="PreferenceEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.PreferenceDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IPreferenceDao" name="PreferenceEntityDao" />-->
+  <!-- UserRole -->
+  <object id="UserRoleEntityDao" type="DigitalBeacon.Data.NHibernate.BaseDao&lt;DigitalBeacon.SiteBase.Model.UserRoleEntity>, DigitalBeacon.Data.NHibernate" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="UserRoleEntityDao" type="DigitalBeacon.SiteBase.Data.NHibernate.UserRoleDao, DigitalBeacon.SiteBase.Data" singleton="true">
+    <property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="IUserRoleDao" name="UserRoleEntityDao" />-->
+</objects>

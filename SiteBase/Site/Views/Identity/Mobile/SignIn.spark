@@ -1,0 +1,24 @@
+﻿<viewdata model="SignInModel" />
+
+<content name="header">${Text("Identity.SignIn.Heading")}</content>
+
+<div ng-controller="identityController">
+	
+	<sbClientFormPanel panelId="'signInPanel'">
+		<sbClientFormRow property="'Username'" required="true" focus="true" inputType="textBox" />
+		<sbClientFormRow property="'Password'" inputType="password" />
+		<sbClientFormRow inputType="submit" onClick="'signIn(Username, Password)'" />
+	#/*	
+		<sbClientFormRow rowClass="'actions'">
+			<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />
+		</sbClientFormRow>
+		<sbClientFormRow rowClass="'actions'">
+			<sbActionLink action="'recoverUsername'" text="'Identity.ForgotUsername.Label'" />
+		</sbClientFormRow>
+		<if condition="Model.ReturnUrl.HasText()">
+			${Html.HiddenFor(m => m.ReturnUrl)}
+		</if>
+	#*/
+	</sbClientFormPanel>
+</div>
+

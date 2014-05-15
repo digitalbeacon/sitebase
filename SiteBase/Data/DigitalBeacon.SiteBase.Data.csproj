@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3F632FE6-5924-4758-93AF-0028EF5A5A7A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DigitalBeacon.SiteBase.Data</RootNamespace>
+    <AssemblyName>DigitalBeacon.SiteBase.Data</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\3rdParty\Nuget\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Aop, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Spring.Aop.1.3.2\lib\net40\Spring.Aop.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Spring.Core.1.3.2\lib\net40\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Data, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Spring.Data.1.3.2\lib\net40\Spring.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Data.NHibernate32, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Spring.Data.NHibernate32.1.3.2\lib\net40\Spring.Data.NHibernate32.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Content\IContentEntryDao.cs" />
+    <Compile Include="Content\IContentGroupDao.cs" />
+    <Compile Include="Content\NHibernate\ContentEntryDao.cs" />
+    <Compile Include="Content\NHibernate\ContentGroupDao.cs" />
+    <Compile Include="IFileDao.cs" />
+    <Compile Include="IRoleHomeDao.cs" />
+    <Compile Include="IResourceDao.cs" />
+    <Compile Include="IPersonDao.cs" />
+    <Compile Include="IPredicateGroupDao.cs" />
+    <Compile Include="IPermissionDao.cs" />
+    <Compile Include="IFolderDao.cs" />
+    <Compile Include="INavigationItemDao.cs" />
+    <Compile Include="IPreferenceDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IQueuedEmailDao.cs" />
+    <Compile Include="IRoleDao.cs" />
+    <Compile Include="IRoleGroupDao.cs" />
+    <Compile Include="IAuditLogDao.cs" />
+    <Compile Include="IModuleSettingSubstitutionDao.cs" />
+    <Compile Include="IModuleDao.cs" />
+    <Compile Include="IModuleDefinitionDao.cs" />
+    <Compile Include="IModuleSettingDao.cs" />
+    <Compile Include="IModuleSettingDefinitionDao.cs" />
+    <Compile Include="IUserDao.cs" />
+    <Compile Include="Messaging\IMessageTemplateDao.cs" />
+    <Compile Include="Messaging\IMessageAttachmentDao.cs" />
+    <Compile Include="Messaging\IMessageDao.cs" />
+    <Compile Include="Messaging\IMessageRecpientDao.cs" />
+    <Compile Include="Messaging\NHibernate\MessageTemplateDao.cs" />
+    <Compile Include="Messaging\NHibernate\MessageAttachmentDao.cs" />
+    <Compile Include="Messaging\NHibernate\MessageDao.cs" />
+    <Compile Include="Messaging\NHibernate\MessageRecipientDao.cs" />
+    <Compile Include="NHibernate\AuditLogDao.cs" />
+    <Compile Include="NHibernate\FileArchiveDao.cs" />
+    <Compile Include="NHibernate\FileDao.cs" />
+    <Compile Include="NHibernate\RoleHomeDao.cs" />
+    <Compile Include="NHibernate\ResourceDao.cs" />
+    <Compile Include="NHibernate\PredicateDao.cs" />
+    <Compile Include="NHibernate\PersonDao.cs" />
+    <Compile Include="NHibernate\PredicateGroupDao.cs" />
+    <Compile Include="NHibernate\PermissionDao.cs" />
+    <Compile Include="NHibernate\FolderDao.cs" />
+    <Compile Include="NHibernate\NavigationItemDao.cs" />
+    <Compile Include="NHibernate\PreferenceDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NHibernate\QueuedEmailDao.cs" />
+    <Compile Include="NHibernate\RoleDao.cs" />
+    <Compile Include="NHibernate\RoleGroupDao.cs" />
+    <Compile Include="NHibernate\ModuleSettingSubstitutionDao.cs" />
+    <Compile Include="NHibernate\ModuleDao.cs" />
+    <Compile Include="NHibernate\ModuleDefinitionDao.cs" />
+    <Compile Include="NHibernate\ModuleSettingDao.cs" />
+    <Compile Include="NHibernate\ModuleSettingDefinitionDao.cs" />
+    <Compile Include="NHibernate\UserDao.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\DigitalBeacon.csproj">
+      <Project>{56B7C963-75D0-4565-A767-655BA605001F}</Project>
+      <Name>DigitalBeacon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data.NHibernate\DigitalBeacon.Data.NHibernate.csproj">
+      <Project>{5BAEB338-A80E-40E0-B7D8-ABF22B45490E}</Project>
+      <Name>DigitalBeacon.Data.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\DigitalBeacon.Data.csproj">
+      <Project>{FE097ABC-6DD3-442E-BD54-A68D3052D94D}</Project>
+      <Name>DigitalBeacon.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Model\DigitalBeacon.Model.csproj">
+      <Project>{65D6BA20-482D-43E9-897F-04C755924B74}</Project>
+      <Name>DigitalBeacon.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Util\DigitalBeacon.Util.csproj">
+      <Project>{58B30EEC-BEC9-4093-A20B-32B009BED5D9}</Project>
+      <Name>DigitalBeacon.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\DigitalBeacon.SiteBase.Model.csproj">
+      <Project>{F382F25D-5B1D-4117-B164-37D9558E5F21}</Project>
+      <Name>DigitalBeacon.SiteBase.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(TargetPath) ..\..\..\..\Bin
+copy /y $(TargetDir)$(TargetName).pdb ..\..\..\..\Bin</PostBuildEvent>
+  </PropertyGroup>
+</Project>

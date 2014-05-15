@@ -1,0 +1,77 @@
+﻿##|TYPE Template
+##|UNIQUEID ed038db9-123a-420a-98e2-08e2816c11fa
+##|TITLE Test
+##|NAMESPACE DigitalBeacon.Dal.Test
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll%><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_PREFIX = "Model";
+	private static readonly string FILE_EXT = ".cs";
+
+	// these attributes are computed once for this template
+	private string _outputPath;
+	private string _namespace;
+	// these attributes are computed for each table/view
+	private string _tableName;
+	private string _enumName;
+	private string _fileName;
+	private ITable _table;
+
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			IList<string> list = GetEnumerationTables();
+			output.writeln(list.Count.ToString());
+		}
+	
+/*	
+		// call base GetInput method to retrieve inputs
+		GetInput();
+		
+		_outputPath = Path.Combine(BaseOutputPath, PATH_PREFIX);
+		_outputPath = Path.Combine(_outputPath, DnpUtils.SetPascalCase(LogicalGroupName));
+		_namespace = BaseNamespace + (BaseNamespace.EndsWith(".") ? "" : ".")
+			+ DnpUtils.SetPascalCase(PATH_PREFIX).Replace(Path.DirectorySeparatorChar, '.') + "."
+			+ DnpUtils.SetPascalCase(LogicalGroupName);
+			
+		foreach (string table in SelectedTables)
+		{
+			ITable workingTable = MyMeta.Databases[DbName].Tables[table];
+			
+			_tableName = workingTable.Name;
+			_table = workingTable;
+			_enumName = TableToEntity(workingTable.Alias);
+			
+			if (GenEnums && !IgnoreTable(workingTable) && GetNameColumn(_table) != null)
+			{
+				GenerateEnumFile(workingTable.Columns);
+			}
+		}
+*/		
+	}
+	
+	private void GenerateEnumFile(IColumns Columns)
+	{
+/*	
+		OutputCSharpHeader();
+		_fileName = _enumName + FILE_EXT;
+		output.save(Path.Combine(_outputPath, _fileName), false);
+		output.clear();
+*/		
+	}
+}
+%>
+##|BODY_END

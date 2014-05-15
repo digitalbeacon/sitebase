@@ -1,0 +1,12 @@
+bin
+obj
+*.suo
+*.user
+*.log
+
+/3rdParty/Nuget
+
+/SiteBase/Config/Dev
+/SiteBase/Config/Live
+/SiteBase/Site/Config
+/SiteBase/Site/Resources/Base

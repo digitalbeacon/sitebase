@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F382F25D-5B1D-4117-B164-37D9558E5F21}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DigitalBeacon.SiteBase.Model</RootNamespace>
+    <AssemblyName>DigitalBeacon.SiteBase.Model</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\3rdParty\Nuget\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Spring.Core.1.3.2\lib\net40\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AddressEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssociationEntity.cs" />
+    <Compile Include="AuditAction.cs" />
+    <Compile Include="AuditActionEntity.cs" />
+    <Compile Include="AuditLogEntity.cs" />
+    <Compile Include="ContactEntity.cs" />
+    <Compile Include="FileArchiveEntity.cs" />
+    <Compile Include="FileDataEntity.cs" />
+    <Compile Include="FileEntity.cs" />
+    <Compile Include="GeneratedFileArchiveEntity.cs" />
+    <Compile Include="GeneratedFileEntity.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="LanguageEntity.cs" />
+    <Compile Include="PostalCodeEntity.cs" />
+    <Compile Include="RaceEntity.cs" />
+    <Compile Include="ResourceEntity.cs" />
+    <Compile Include="RoleHomeEntity.cs" />
+    <Compile Include="SiteBaseConstants.cs" />
+    <Compile Include="ComparisonOperatorEntity.cs" />
+    <Compile Include="Content\ContentEntryEntity.cs" />
+    <Compile Include="Content\ContentGroupEntity.cs" />
+    <Compile Include="Content\ContentGroupType.cs" />
+    <Compile Include="Content\ContentGroupTypeEntity.cs" />
+    <Compile Include="Content\GeneratedContentGroupEntity.cs" />
+    <Compile Include="Content\GeneratedContentEntryEntity.cs" />
+    <Compile Include="QueuedEmailSearchInfo.cs" />
+    <Compile Include="GeneratedPredicateEntity.cs" />
+    <Compile Include="GeneratedPreferenceEntity.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="EntityType.cs" />
+    <Compile Include="EntityTypeEntity.cs" />
+    <Compile Include="FolderEntity.cs" />
+    <Compile Include="FolderType.cs" />
+    <Compile Include="FolderTypeEntity.cs" />
+    <Compile Include="GeneratedAddressEntity.cs" />
+    <Compile Include="GeneratedModuleSettingEntity.cs" />
+    <Compile Include="GeneratedPermissionEntity.cs" />
+    <Compile Include="MessageInfo.cs" />
+    <Compile Include="Country.cs" />
+    <Compile Include="CountryEntity.cs" />
+    <Compile Include="Gender.cs" />
+    <Compile Include="GenderEntity.cs" />
+    <Compile Include="GeneratedPersonEntity.cs" />
+    <Compile Include="GeneratedUserEntity.cs" />
+    <Compile Include="Messaging\FavoriteRecipients.cs" />
+    <Compile Include="Messaging\GeneratedMessageEntity.cs" />
+    <Compile Include="Messaging\MessageAttachmentEntity.cs" />
+    <Compile Include="Messaging\MessageFolder.cs" />
+    <Compile Include="Messaging\MessageImportance.cs" />
+    <Compile Include="Messaging\MessageImportanceEntity.cs" />
+    <Compile Include="Messaging\MessageRecipientEntity.cs" />
+    <Compile Include="Messaging\MessageTemplateEntity.cs" />
+    <Compile Include="Messaging\MessageType.cs" />
+    <Compile Include="Messaging\MessageTypeEntity.cs" />
+    <Compile Include="Messaging\NotificationPreference.cs" />
+    <Compile Include="Messaging\NotificationPreferenceEntity.cs" />
+    <Compile Include="Navigation.cs" />
+    <Compile Include="NavigationEntity.cs" />
+    <Compile Include="NavigationItemEntity.cs" />
+    <Compile Include="PermissionEntity.cs" />
+    <Compile Include="PredicateEntity.cs" />
+    <Compile Include="PredicateGroupEntity.cs" />
+    <Compile Include="PreferenceEntity.cs" />
+    <Compile Include="QueuedEmailAttachmentEntity.cs" />
+    <Compile Include="QueuedEmailEntity.cs" />
+    <Compile Include="QueuedEmailRecipientEntity.cs" />
+    <Compile Include="UserSearchInfo.cs" />
+    <Compile Include="Messaging\MessageEntity.cs" />
+    <Compile Include="ModuleDefinition.cs" />
+    <Compile Include="ModuleDefinitionEntity.cs" />
+    <Compile Include="ModuleEntity.cs" />
+    <Compile Include="ModuleSettingDefinition.cs" />
+    <Compile Include="ModuleSettingDefinitionEntity.cs" />
+    <Compile Include="ModuleSettingEntity.cs" />
+    <Compile Include="ModuleSettingSubstitutionEntity.cs" />
+    <Compile Include="ModuleSettingType.cs" />
+    <Compile Include="ModuleSettingTypeEntity.cs" />
+    <Compile Include="PersonArchiveEntity.cs" />
+    <Compile Include="PersonEntity.cs" />
+    <Compile Include="PhoneType.cs" />
+    <Compile Include="PhoneTypeEntity.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relationship.cs" />
+    <Compile Include="RelationshipEntity.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="RoleEntity.cs" />
+    <Compile Include="RoleGroup.cs" />
+    <Compile Include="RoleGroupEntity.cs" />
+    <Compile Include="SecurityQuestionEntity.cs" />
+    <Compile Include="State.cs" />
+    <Compile Include="StateEntity.cs" />
+    <Compile Include="SubstitutionDefinition.cs" />
+    <Compile Include="SubstitutionDefinitionEntity.cs" />
+    <Compile Include="UserEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserRoleEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Mappings\ContentEntryEntity.hbm.xml" />
+    <EmbeddedResource Include="Content\Mappings\ContentGroupEntity.hbm.xml" />
+    <EmbeddedResource Include="Content\Mappings\ContentGroupTypeEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Messaging\Mappings\MessageAttachmentEntity.hbm.xml" />
+    <EmbeddedResource Include="Messaging\Mappings\MessageEntity.hbm.xml" />
+    <EmbeddedResource Include="Messaging\Mappings\MessageImportanceEntity.hbm.xml" />
+    <EmbeddedResource Include="Messaging\Mappings\MessageRecipientEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Messaging\Mappings\MessageTemplateEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\AddressEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\AssociationEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\AuditActionEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\AuditLogEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\CountryEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\GenderEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\ModuleDefinitionEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\ModuleEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\ModuleSettingDefinitionEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\ModuleSettingEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\ModuleSettingSubstitutionEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\ModuleSettingTypeEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PersonArchiveEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PersonEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PhoneTypeEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\QueuedEmailAttachmentEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\QueuedEmailEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\QueuedEmailRecipientEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\RelationshipEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\RoleEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\RoleGroupEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\SecurityQuestionEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\StateEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\SubstitutionDefinitionEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\UserEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\UserRoleEntity.hbm.xml" />
+    <EmbeddedResource Include="Messaging\Mappings\NotificationPreferenceEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Model\DigitalBeacon.Model.csproj">
+      <Project>{65D6BA20-482D-43E9-897F-04C755924B74}</Project>
+      <Name>DigitalBeacon.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Util\DigitalBeacon.Util.csproj">
+      <Project>{58B30EEC-BEC9-4093-A20B-32B009BED5D9}</Project>
+      <Name>DigitalBeacon.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Web\DigitalBeacon.Web.csproj">
+      <Project>{08209DA9-B8AA-4ED9-803A-5A3221F9862F}</Project>
+      <Name>DigitalBeacon.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\NavigationEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\NavigationItemEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Messaging\Mappings\MessageTypeEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\EntityTypeEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\FolderEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\FolderTypeEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PermissionEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ComparisonOperatorEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PredicateEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PredicateGroupEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PreferenceEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\LanguageEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\ResourceEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RoleHomeEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ContactEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\FileArchiveEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\FileDataEntity.hbm.xml" />
+    <EmbeddedResource Include="Mappings\FileEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PostalCodeEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RaceEntity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(TargetPath) ..\..\..\..\Bin
+copy /y $(TargetDir)$(TargetName).pdb ..\..\..\..\Bin</PostBuildEvent>
+  </PropertyGroup>
+</Project>

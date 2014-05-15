@@ -1,0 +1,177 @@
+/*
+	Description	: basic styles for jQuery Plugin "modalBox". feel free to customize this styles
+	Author		: Steffen Hollstein
+	Author URI	: http://www.steffenhollstein.de
+	Project Page: http://code.google.com/p/jquery-modalbox-plugin/
+*/
+.modalboxContent {
+	display:none;
+}
+.modalgallery {
+	display:block;
+}
+div#modalBoxFaderLayer,
+div#modalBoxAjaxLoader,
+div#modalBox,
+div#modalBox div#modalBoxBody,
+div#modalBox div#modalBoxBody div.modalBoxBodyContent,
+div#modalBox div#modalBoxBody div#modalBoxCloseButton,
+div#modalBox div#modalBoxBody #modalBoxCloseButton a.closeModalBox,
+div#modalBox div#modalBoxBody #modalBoxCloseButton a.closeModalBox span,
+div#modalBox div#modalBoxBody div.modalboxStyleContainerTopLeft,
+div#modalBox div#modalBoxBody div.modalboxStyleContainerTopRight,
+div#modalBox div#modalBoxBody div.modalboxStyleContainerBottomLeft,
+div#modalBox div#modalBoxBody div.modalboxStyleContainerBottomRight {/* default reset */
+	margin:0;
+	padding:0;
+}
+div#modalBoxFaderLayer {
+	display:none; 
+	position:fixed; 
+	top:0; 
+	left:0; 
+	width:100%; 
+	height:100%; 
+	z-index:9999;
+}
+* html div#modalBoxFaderLayer {/* ie6 Fix */
+	position:absolute; 
+	top:expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+0:document.body.scrollTop+0);
+}
+iframe.modalBoxIe6layerfix {
+	display:none;
+}
+* html iframe.modalBoxIe6layerfix {/* ie6 fix */
+	display:block;
+	position:absolute; 
+	top:0; 
+	left:0; 
+	z-index:0;
+	width:100%; 
+	height:100%; 
+	filter:mask();
+}
+div#modalBoxAjaxLoader {
+	height:100px; 
+	padding:130px 0 0 0; 
+	text-align:center; 
+	overflow:hidden;
+}
+div#modalBox {
+	display:none; 
+	position:fixed; 
+	z-index:10000;
+	text-align:left; 
+	background-color:transparent;
+}
+* html div#modalBox {/* ie6 Fix */
+	position:absolute; 
+	top:expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+40:document.body.scrollTop+40);
+}
+div#modalBox div#modalBoxBody {
+	position:relative;
+}
+div#modalBox div#modalBoxBody div.modalBoxBodyContent {
+	background-color:white;
+}
+div#modalBox.emphasis div#modalBoxBody div.modalBoxBodyContent {
+	border:1px dotted red;
+}
+/* skin default - BEGIN */
+div#modalBoxFaderLayer
+{
+	visibility: hidden !important;
+}
+div#modalBoxFaderLayer.visible
+{
+	visibility: visible !important;
+}
+div#modalBox 
+{
+	visibility: hidden !important;
+	border:  solid 1px black;
+	background: white;
+	-moz-box-shadow: 0px 0px 60px #000;
+	-webkit-box-shadow: 0px 0px 60px #000;
+	box-shadow: 0px 0px 60px #000;
+	width: auto;
+}
+div#modalBox.visible
+{
+	visibility: visible !important;
+}
+div#modalBox h1 {
+	border-bottom: solid black 1px;
+}
+div#modalBox div#modalBoxBody div.modalBoxBodyContent {
+	background: transparent;
+	padding: 0 15px;
+	min-width: 20em;
+}
+div#modalBox div#modalBoxBody div.modalboxStyleContainerContent {
+	float: left;
+	width: 100%;
+	padding: 8px 0 15px 0;
+}
+div#modalBox div#modalBoxBody div.modalBoxBodyContent #modalBoxStack,
+div#modalBox div#modalBoxBody div.modalBoxBodyContent #modalBoxStackItem
+{
+	list-style-type: none;
+	margin: 0 !important;
+	padding: 0 !important;
+	float: left;
+	width: 100%;
+	min-width: 20em;
+}
+div#modalBox div#modalBoxBody div#modalBoxCloseButton {
+	position: absolute; 
+	top: -1px;
+	_top: 1px; 
+	right: 2px; 
+	width: 29px;
+}
+div#modalBox div#modalBoxBody #modalBoxCloseButton a.closeModalBox,
+div#modalBox div#modalBoxBody #modalBoxCloseButton a.closeModalBox span {
+	text-decoration: none;
+	color: #f4f4f4;
+	cursor: pointer;
+}
+div#modalBox div#modalBoxBody #modalBoxCloseButton a.closeModalBox {
+	display: block;
+	background: transparent url("../images/modalbox-close.png") right center no-repeat;
+	height: 20px;
+}
+div#modalBox div#modalBoxBody #modalBoxCloseButton a.closeModalBox span {
+	display: none;
+}
+div#modalBox div#modalBoxBody div.modalboxStyleContainerTopLeft,
+div#modalBox div#modalBoxBody div.modalboxStyleContainerTopRight {
+	width: 100%;
+}
+div#modalBox div#modalBoxBody div.modalboxStyleContainerTopLeft {
+	_position: absolute;
+}
+div#modalBox div#modalBoxBody div.modalboxStyleContainerBottomLeft,
+div#modalBox div#modalBoxBody div.modalboxStyleContainerBottomRight {
+	display: none;
+}
+div#modalBox.loading {
+	border: none;
+	background: transparent;
+	-moz-box-shadow: 0px 0px 0px #000;
+	-webkit-box-shadow: 0px 0px 0px #000;
+	box-shadow: 0px 0px 0px #000;
+}
+div#modalBox.loading div#modalBoxBody div#modalBoxCloseButton {
+	display: none;
+}
+div#modalBox div#modalBoxAjaxLoader 
+{
+	background: url("../images/progress-bar.gif") center no-repeat;
+	text-align:center;
+	padding: 80px 0 0 0;
+	margin: 0 0 0 0;
+	height: 0px;
+	min-width: 80px;
+}
+/* skin default - END */

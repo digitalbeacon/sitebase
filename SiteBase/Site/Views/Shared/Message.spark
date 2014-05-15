@@ -1,0 +1,60 @@
+﻿<viewdata model="BaseViewModel" />
+
+<div id="messageContent">
+
+	<h1>${Text(Model.Heading)}</h1>
+
+	<sbMessagePanel addNoScriptClass="false" />
+
+	!{ExpandSiteRelativeText(Model.Content)}
+
+	<a class="additionalReturn no-script" href="${Url.Content(Model.AdditionalReturnUrl)}" if="Model.AdditionalReturnUrl.HasText()">${Model.AdditionalReturnText.HasText() ? Text(Model.AdditionalReturnText) : Text("Common.AdditionalReturn.Label")}</a>
+	<a class="return no-script" href="${Url.Content(Model.ReturnUrl)}" if="Model.ReturnUrl.HasText()">${Model.ReturnText.HasText() ? Text(Model.ReturnText) : Text("Common.Return.Label")}</a>
+	
+	<input type="submit" id="close" class="close cancel script-only" value="${Text("Common.Close.Label")}" if="RenderPartial" />
+	<input type="submit" id="additionalReturn" class="additionalReturn cancel script-only" value="${Model.AdditionalReturnText.HasText() ? Text(Model.AdditionalReturnText) : Text("Common.AdditionalReturn.Label")}" if="RenderPartial && Model.AdditionalReturnUrl.HasText()" />
+	<input type="submit" id="return" class="return cancel script-only" value="${Model.ReturnText.HasText() ? Text(Model.ReturnText) : Text("Common.Return.Label")}" if="RenderPartial && Model.ReturnUrl.HasText()" />
+
+</div>
+
+<content name="scripts" if="!RenderPartial">
+	<script type="text/javascript">
+		if ($.sb.showMessageSummaryAsModalBox) {
+			$.sb.showMessageSummaryAsModalBox = false;
+		}
+	</script>
+</content>
+
+<content name="readyScript" if="RenderPartial">
+	var msgContainer = $.sb.getModalBox();
+	if (!msgContainer.length) {
+		msgContainer = $('#messageContent');
+	}
+	var close = msgContainer.find('input.close:last');
+	if (close.length) {
+		msgContainer.find('input.return:last').click(function() {
+			$.sb.modalBox({ ajax: $('a.return').attr('href') });
+		});
+		msgContainer.find('input.additionalReturn:last').click(function() {
+			var href = $('a.additionalReturn').attr('href');
+			if (href !== "#") {
+				$.sb.modalBox({ ajax: href });
+			}
+		});
+		close.click(function() {
+			$.sb.closeModalBox();
+			return false;
+		})
+		.keyup(function(e) {
+			if (e.keyCode == '27') { 
+				return this.click();
+			}
+		});
+		setTimeout(function() { close.focus(); }, 100);
+	}
+	else {
+		$('#return').click(function() {
+			$('#messageContent').load($('a.return').attr('href'));
+		});
+	}
+</content>

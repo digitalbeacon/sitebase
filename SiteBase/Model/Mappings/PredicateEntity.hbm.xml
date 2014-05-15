@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.PredicateEntity" table="`Predicate`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<many-to-one name="Group" column="`GroupId`" class="DigitalBeacon.SiteBase.Model.PredicateGroupEntity, DigitalBeacon.SiteBase.Model" />
+		<property name="Field" column="`Field`" type="String" not-null="true" length="50" />
+		<property name="OperatorId" column="`OperatorId`" type="Int64" not-null="true" />
+		<property name="SerializedValue" column="`SerializedValue`" type="String" length="1073741823" />
+		<property name="Grouping" column="`Grouping`" type="Int32" not-null="true" />
+	</class>
+</hibernate-mapping>

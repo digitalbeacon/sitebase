@@ -1,0 +1,203 @@
+html {
+	overflow: -moz-scrollbars-vertical;
+	overflow-x: auto;
+}
+body, 
+select, 
+input {
+	font-family: Segoe UI, Tahoma, Trebuchet MS, Arial;
+	font-size: 11pt;
+}
+body {
+	background-color: #fff;
+	background-image: url(../../images/background.gif);
+	background-repeat: repeat;
+	margin: 0px;
+	height: 100%;
+}
+h1 {
+	margin: 10px 0 5px 0;
+	color: #666;
+	font-size: 0.866em;
+	letter-spacing: 1px;
+	line-height: 2em;
+	text-transform: uppercase;
+}
+h2 {
+	font-size: 1.2em;
+	margin: 10px 0px;
+}
+h3 {
+	font-size: 1em;
+	margin: 10px 0px;
+}
+img {
+	border: 0px;
+}
+.flush {
+	margin-top: 0px;
+}
+#pageBox {
+	margin-left: auto;
+	margin-right: auto;
+	width: 67.6em;
+}
+#pageContainer {
+	width: 65.6em;
+	padding: 4px;
+	margin: 12px 8px 8px 8px;
+	border: solid 1px black;
+	background: #fff;
+	overflow: visible;
+	-moz-box-shadow: 3px 3px 4px #666;
+	-webkit-box-shadow: 3px 3px 4px #666;
+	box-shadow: 3px 3px 4px #666;
+}
+#header {
+	text-align: center;
+	border: solid 1px #666;
+	height: 5.2em;
+	overflow: hidden;
+}
+#header img {
+	width: 100%;
+}
+#topNav a {
+	text-decoration: none !important;
+	color: black !important;
+}
+#topNav a:hover {
+	text-decoration: underline !important;
+}
+#topNav {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-left: 0px;
+	margin-top: 4px;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	float: left; /* ie7 bug - certain float content hides non-floated elements */
+	width: 100%; /* ie7 bug - certain float content hides non-floated elements */
+}
+#topNav .navItem {
+	display: inline;
+	padding-left: 12px;
+}
+#topNav .navItem.right {
+	padding-left: 0px;
+	padding-right: 12px;
+}
+#topNav #topLeftNav {
+}
+#topNav #topRightNav {
+	float: right;
+	_width: 300px;
+}
+#topNav .t-menu li {
+	border: 0;
+}
+#leftNav {
+	margin: 10px 0px;
+	float: left;
+}
+#leftNav .navItem.left.first {
+	border-top: solid black 1px;
+}
+#leftNav .navItem {
+	display: block;
+	padding: 2px 0px 2px 12px;
+	margin: 2px 0px;
+	border-bottom: solid black 1px;
+	width: 140px;
+}
+#contentPanel {
+	padding: 10px;
+	padding-top: 0px;
+	float: left; /* ie7 bug - certain float content hides non-floated elements */
+	width: 63.6em; /* ie7 bug - certain float content hides non-floated elements */
+}
+#languageSelector, #siteTypeSelector {
+	width: 66em;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+}
+#languageSelector a, #siteTypeSelector a {
+	font-size: .9em;
+	color: black;
+	margin-right: 15px;
+	text-decoration: none;
+}
+#copyright {
+	float: left;
+	width: 100%;
+	margin-bottom: 5px;
+	text-align: center;
+}
+#copyright a {
+	color: black;
+}
+#mask {
+	display: none;
+	background: black;
+	width: 100%;
+	height: 100%;
+	cursor: wait;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	z-index: 999999;
+}
+.shadow {
+	border: solid 1px #999;
+	padding: 4px;
+	background: #fff;
+	-moz-box-shadow: 3px 3px 4px #999;
+	-webkit-box-shadow: 3px 3px 4px #999;
+	box-shadow: 3px 3px 4px #999; /* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#999999')"; /* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#999999');
+}
+/* flexible content */
+.entry {
+	margin-bottom: 10px;
+}
+.first {
+	margin-top: 10px;
+}
+.last {
+}
+.odd {
+}
+.even {
+}
+.entry .date, .entry .body {
+	display: block;
+}
+.entry .title {
+	font-weight: bold;
+}
+.entry .date {
+}
+.entry .body {
+}
+#pager {
+	overflow: hidden;
+	width: 100%;
+}
+#pager .item {
+	text-align: center;
+	display: block;
+	float: left;
+	border: 1px solid #999;
+	padding: 5px;
+	margin: 2px;
+	min-width: 20px;
+}
+#pager a {
+	text-decoration: none;
+	color: #000;
+}
+#pager .disabled {
+	background: #ccc;
+}

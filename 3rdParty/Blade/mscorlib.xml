@@ -1,0 +1,1569 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>mscorlib</name>
+    </assembly>
+    <members>
+        <member name="T:System.IntPtr">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.ValueType">
+            <summary>
+            Provides the base class for value types.
+            </summary>
+        </member>
+        <member name="T:System.Object">
+            <summary>
+            The system Object which all other types inherit from.
+            </summary>
+        </member>
+        <member name="M:System.Object.toString">
+            <summary>
+            Gets a string representation of the object.
+            </summary>
+            <returns>A string value.</returns>
+        </member>
+        <member name="M:System.Object.toLocaleString">
+            <summary>
+            Gets a string representation of the object, using locale conventions.
+            </summary>
+            <returns>A string value.</returns>
+        </member>
+        <member name="M:System.Object.keys(System.Object)">
+            <summary>
+            Gets the property names of the object as a string array.
+            </summary>
+            <returns>The property names of the object as a string array.</returns>
+        </member>
+        <member name="M:System.Object.op_Implicit(System.Object)~System.Boolean">
+            <summary>
+            Implicit conversion to bool.
+            </summary>
+            <returns>The resulting boolean value.</returns>
+        </member>
+        <member name="P:System.Object.Item(System.String)">
+            <summary>
+            Gets or sets a field by key.
+            </summary>
+            <param name="key">The field name.</param>
+            <returns>The associated value, or undefined if one has not been assigned.</returns>
+        </member>
+        <member name="T:System.CLSCompliantAttribute">
+            <summary>
+            Indicates whether a program element is compliant with the Common Language Specification (CLS). This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="T:System.Attribute">
+            <summary>
+            Represents the base class for custom attributes.
+            </summary>
+        </member>
+        <member name="T:System.Array">
+            <summary>
+            The System array object.
+            </summary>
+        </member>
+        <member name="T:System.Collections.IEnumerable">
+            <summary>
+            Exposes the enumerator, which supports a simple iteration over a non-generic collection.
+            </summary>
+        </member>
+        <member name="M:System.Collections.IEnumerable.GetEnumerator">
+            <summary>
+            Gets an enumerator that iterates through a collection.
+            </summary>
+            <returns>An enumerator object.</returns>
+        </member>
+        <member name="M:System.Array.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Gets the array enumerator.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:System.Array.Item(System.Int32)">
+            <summary>
+            Gets or sets an array item by index.
+            </summary>
+            <param name="index">The array index.</param>
+            <returns>The specified array item.</returns>
+        </member>
+        <member name="P:System.Array.length">
+            <summary>
+            Gets or sets the array length.
+            </summary>
+        </member>
+        <member name="T:System.ScriptMixinAttribute">
+            <summary>
+            Specifies that an extension method will render as an add-on to the objects prototype,
+            instead of a separate function in a utility class.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.InteropServices.ComVisibleAttribute">
+            <summary>
+            For project compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.Int32">
+            <summary>
+            System int implementation, exposed as ECMAScript Number.
+            </summary>
+        </member>
+        <member name="T:System.INumber">
+            <summary>
+            ECMA number definition.
+            </summary>
+        </member>
+        <member name="M:System.INumber.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.INumber.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.INumber.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Int32.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Int32.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Int32.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.Delegate">
+            <summary>
+            The System Delegate class.
+            </summary>
+        </member>
+        <member name="T:System.IFunction">
+            <summary>
+            Common interface class for all functions.
+            </summary>
+        </member>
+        <member name="M:System.IFunction.call(System.Object)">
+            <summary>
+            Invokes the function with a specific context.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.IFunction.call(System.Object,System.Object[])">
+            <summary>
+            Invokes the function with a specific context, and arguments.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <param name="args">The function arguments.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.IFunction.apply(System.Object)">
+            <summary>
+            Invokes the function with a specific context.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.IFunction.apply(System.Object,System.Object[])">
+            <summary>
+            Invokes the function with a specific context, and arguments.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <param name="args">The function arguments.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Delegate.call(System.Object)">
+            <summary>
+            Invokes the function with a specific context.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Delegate.call(System.Object,System.Object[])">
+            <summary>
+            Invokes the function with a specific context, and arguments.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <param name="args">The function arguments.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Delegate.apply(System.Object)">
+            <summary>
+            Invokes the function with a specific context.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Delegate.apply(System.Object,System.Object[])">
+            <summary>
+            Invokes the function with a specific context, and arguments.
+            </summary>
+            <param name="thisArg">The context to use for this.</param>
+            <param name="args">The function arguments.</param>
+            <returns></returns>
+        </member>
+        <member name="T:System.MulticastDelegate">
+            <summary>
+            Represents a multicast delegate; that is, a delegate that can have more than one element in its invocation list.
+            </summary>
+        </member>
+        <member name="T:System.Action">
+            <summary>
+            Encapsulates a method that has no parameters and does not return a value.
+            </summary>
+        </member>
+        <member name="T:System.Action`1">
+            <summary>
+            Encapsulates a method that has a single parameter and does not return a value.
+            </summary>
+            <typeparam name="T">The type of the parameter of the method that this delegate encapsulates.</typeparam>
+            <param name="obj">The parameter of the method that this delegate encapsulates.</param>
+        </member>
+        <member name="T:System.Action`2">
+            <summary>
+            Encapsulates a method that has two parameters and does not return a value.
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The first parameter of the method that this delegate encapsulates.</param>
+        </member>
+        <member name="T:System.Action`3">
+            <summary>
+            Encapsulates a method that has three parameters and does not return a value.
+            </summary>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Action`4">
+            <summary>
+            Encapsulates a method that has four parameters and does not return a value.
+            </summary>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Action`5">
+            <summary>
+            Encapsulates a method that has five parameters and does not return a value.
+            </summary>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Action`6">
+            <summary>
+            Encapsulates a method that has six parameters and does not return a value.
+            </summary>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg6">The sixth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T6">The type of the sixth parameter of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Action`7">
+            <summary>
+            Encapsulates a method that has seven parameters and does not return a value.
+            </summary>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg6">The sixth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg7">The seventh parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T6">The type of the sixth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T7">The type of the seventh parameter of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Action`8">
+            <summary>
+            Encapsulates a method that has eight parameters and does not return a value.
+            </summary>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg6">The sixth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg7">The seventh parameter of the method that this delegate encapsulates.</param>
+            <param name="arg8">The eighth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T6">The type of the sixth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T7">The type of the seventh parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T8">The type of the eighth parameter of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.ParamArrayAttribute">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.Int64">
+            <summary>
+            System long implementation, exposed as ECMAScript Number.
+            </summary>
+        </member>
+        <member name="M:System.Int64.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Int64.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Int64.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.IDisposable">
+            <summary>
+            Defines a method to release allocated resources.
+            </summary>
+        </member>
+        <member name="M:System.IDisposable.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting resources.
+            </summary>
+        </member>
+        <member name="T:System.Enum">
+            <summary>
+            Provides the base class for enumerations.
+            </summary>
+        </member>
+        <member name="T:System.ScriptNameAttribute">
+            <summary>
+            Specifies that a target should use an alternate name in script.
+            </summary>
+        </member>
+        <member name="M:System.ScriptNameAttribute.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the attribute.
+            </summary>
+            <param name="name">The name to use in script.</param>
+        </member>
+        <member name="T:System.ArrayEnumerator">
+            <summary>
+            The array enumerator implementation
+            </summary>
+        </member>
+        <member name="T:System.Collections.IEnumerator">
+            <summary>
+            Service contract for any class that will act as an enumerator.
+            </summary>
+        </member>
+        <member name="M:System.Collections.IEnumerator.MoveNext">
+            <summary>
+            Moves to the next item.
+            </summary>
+            <returns>True if an item is available, false otherwise.</returns>
+        </member>
+        <member name="M:System.Collections.IEnumerator.Reset">
+            <summary>
+            Resets the enumerator.
+            </summary>
+        </member>
+        <member name="P:System.Collections.IEnumerator.Current">
+            <summary>
+            Gets the current object.
+            </summary>
+        </member>
+        <member name="M:System.ArrayEnumerator.#ctor(System.Array)">
+            <summary>
+            Creates a new array enumerator.
+            </summary>
+            <param name="array">The array to enumerate over.</param>
+        </member>
+        <member name="M:System.ArrayEnumerator.MoveNext">
+            <summary>
+            Moves to the next item.
+            </summary>
+            <returns>True if the enumerator moved, false if at the end of the array.</returns>
+        </member>
+        <member name="M:System.ArrayEnumerator.Reset">
+            <summary>
+            Resets the enumerator back to index zero of the array.
+            </summary>
+        </member>
+        <member name="P:System.ArrayEnumerator.Current">
+            <summary>
+            Gets the current item.
+            </summary>
+        </member>
+        <member name="T:System.Collections.Generic.IEnumerable`1">
+            <summary>
+            Exposes the enumerator, which supports a simple iteration over a generic collection.
+            </summary>
+            <typeparam name="T">The collection data type.</typeparam>
+        </member>
+        <member name="M:System.Collections.Generic.IEnumerable`1.GetEnumerator">
+            <summary>
+            Gets the enumerator.
+            </summary>
+            <returns>A generic enumerator.</returns>
+        </member>
+        <member name="T:System.UInt32">
+            <summary>
+            System unsigned int implementation, exposed as ECMAScript Number.
+            </summary>
+        </member>
+        <member name="M:System.UInt32.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.UInt32.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.UInt32.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.Decimal">
+            <summary>
+            For compiler compatibility, not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.AttributeUsageAttribute">
+            <summary>
+            Specifies the usage of another attribute class. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="T:System.ScriptNamespaceAttribute">
+            <summary>
+            Specifies that a target should use an alternate namespace in script.
+            </summary>
+        </member>
+        <member name="M:System.ScriptNamespaceAttribute.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the attribute.
+            </summary>
+            <param name="name">The namespace name to use in script.</param>
+        </member>
+        <member name="T:System.UInt64">
+            <summary>
+            System unsigned long implementation, exposed as ECMAScript Number.
+            </summary>
+        </member>
+        <member name="M:System.UInt64.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.UInt64.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.UInt64.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.Reflection.BrowsableAttribute">
+            <summary>
+            Specifies whether a property or event should be displayed in a Properties window.
+            </summary>
+        </member>
+        <member name="M:System.Reflection.BrowsableAttribute.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+            <param name="browsable">True if the item is browsable, false otherwise.</param>
+        </member>
+        <member name="T:System.UIntPtr">
+            <summary>
+            For compiler compatibility, not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.InteropServices.GuidAttribute">
+            <summary>
+            For project compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.RuntimeMethodHandle">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.Exception">
+            <summary>
+            Exception base class, note that for Javascript the most
+            basic exception class is Error. Custom exceptions should 
+            derive from the Error class, instead of this one.
+            </summary>
+        </member>
+        <member name="M:System.Exception.#ctor">
+            <summary>
+            Creates a new error.
+            </summary>
+        </member>
+        <member name="M:System.Exception.#ctor(System.Object)">
+            <summary>
+            Creates a new error with the specified message text.
+            </summary>
+            <param name="message">The error message.</param>
+        </member>
+        <member name="T:System.FormatException">
+            <summary>
+            The exception that is thrown when the format of an argument does not meet the parameter specifications of the invoked method.
+            </summary>
+        </member>
+        <member name="T:System.ScriptExternalAttribute">
+            <summary>
+            Specifies that a target is defined externally.
+            No script will be rendered for the declaration.
+            </summary>
+        </member>
+        <member name="T:System.Boolean">
+            <summary>
+            Represents a Boolean value.
+            </summary>
+        </member>
+        <member name="T:System.ObsoleteAttribute">
+            <summary>
+            Marks the program elements that are no longer in use.
+            </summary>
+        </member>
+        <member name="M:System.ObsoleteAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="M:System.ObsoleteAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+            <param name="message">The compiler message.</param>
+        </member>
+        <member name="M:System.ObsoleteAttribute.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+            <param name="message">The compiler message.</param>
+            <param name="isError">True to throw an error.</param>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.RuntimeHelpers">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.AttributeTargets">
+            <summary>
+            Specifies the application elements on which it is valid to apply an attribute.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Assembly">
+            <summary>
+            Attribute can be applied to an assembly.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Module">
+            <summary>
+            Attribute can be applied to a module.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Class">
+            <summary>
+            Attribute can be applied to a class.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Struct">
+            <summary>
+            Attribute can be applied to a value type.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Enum">
+            <summary>
+            Attribute can be applied to an enumeration.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Constructor">
+            <summary>
+            Attribute can be applied to a constructor.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Method">
+            <summary>
+            Attribute can be applied to a method.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Property">
+            <summary>
+            Attribute can be applied to a property.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Field">
+            <summary>
+            Attribute can be applied to a field.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Event">
+            <summary>
+            Attribute can be applied to an event.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Interface">
+            <summary>
+            Attribute can be applied to an interface.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Parameter">
+            <summary>
+            Attribute can be applied to a parameter.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.Delegate">
+            <summary>
+            Attribute can be applied to a delegate.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.ReturnValue">
+            <summary>
+            Attribute can be applied to a return value.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.GenericParameter">
+            <summary>
+            Attribute can be applied to a generic parameter.
+            </summary>
+        </member>
+        <member name="F:System.AttributeTargets.All">
+            <summary>
+            Attribute can be applied to any element.
+            </summary>
+        </member>
+        <member name="T:System.Collections.Generic.IEnumerator`1">
+            <summary>
+            Service contract for any class that will act as a generic enumerator.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:System.Collections.Generic.IEnumerator`1.Current">
+            <summary>
+            Gets the current item.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.Versioning.TargetFrameworkAttribute">
+            <summary>
+            For project compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.RuntimeTypeHandle">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.Double">
+            <summary>
+            System double implementation, exposed as ECMAScript Number.
+            </summary>
+        </member>
+        <member name="M:System.Double.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Double.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Double.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.Reflection.EditorBrowsableState">
+            <summary>
+            Specifies the browsable state of a property or method from within an editor.
+            </summary>
+        </member>
+        <member name="F:System.Reflection.EditorBrowsableState.Always">
+            <summary>
+            The property or method is always browsable from within an editor.
+            </summary>
+        </member>
+        <member name="F:System.Reflection.EditorBrowsableState.Never">
+            <summary>
+            The property or method is never browsable from within an editor.
+            </summary>
+        </member>
+        <member name="F:System.Reflection.EditorBrowsableState.Advanced">
+            <summary>
+            The property or method is a feature that only advanced users should see. An editor can either show or hide such properties.
+            </summary>
+        </member>
+        <member name="T:System.Void">
+            <summary>
+            Specifies a return value type for a method that does not return a value.
+            </summary>
+        </member>
+        <member name="T:System.Reflection.EditorBrowsableAttribute">
+            <summary>
+            Specifies that a property or method is viewable in an editor.
+            </summary>
+        </member>
+        <member name="M:System.Reflection.EditorBrowsableAttribute.#ctor(System.Reflection.EditorBrowsableState)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="state">The editor browsable state.</param>
+        </member>
+        <member name="T:System.IRegularExpression">
+            <summary>
+            ECMA regular expression definition.
+            </summary>
+        </member>
+        <member name="M:System.IRegularExpression.exec(System.String)">
+            <summary>
+            Executes the regular expression.
+            </summary>
+            <param name="input">The input text.</param>
+            <returns>A collection of matches.</returns>
+        </member>
+        <member name="M:System.IRegularExpression.test(System.String)">
+            <summary>
+            Tests the regular expression for matches.
+            </summary>
+            <param name="input">The input text.</param>
+            <returns>True if the input matches, false otherwise.</returns>
+        </member>
+        <member name="P:System.IRegularExpression.global">
+            <summary>
+            Gets a value indicating whether or not the regular expression's global flag is set.
+            </summary>
+        </member>
+        <member name="P:System.IRegularExpression.ignoreCase">
+            <summary>
+            Gets a value indicating whether or not the regular expression's ignore case flag is set.
+            </summary>
+        </member>
+        <member name="P:System.IRegularExpression.lastIndex">
+            <summary>
+            Gets or sets the last index of the regular expression.
+            </summary>
+        </member>
+        <member name="P:System.IRegularExpression.multiline">
+            <summary>
+            Gets a value indicating whether or not the regular expression's multiline flag is set.
+            </summary>
+        </member>
+        <member name="P:System.IRegularExpression.source">
+            <summary>
+            Get the regular expression source text.
+            </summary>
+        </member>
+        <member name="T:System.RuntimeFieldHandle">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.FlagsAttribute">
+            <summary>
+            Indicates that an enumeration can be treated as a bit field; that is, a set of flags.
+            </summary>
+        </member>
+        <member name="T:System.String">
+            <summary>
+            System string implementation, exposed as ECMA string.
+            </summary>
+        </member>
+        <member name="M:System.String.charAt(System.Int32)">
+            <summary>
+            Returns the character at the specified index.
+            </summary>
+            <param name="index">The index.</param>
+            <returns>A single character string.</returns>
+        </member>
+        <member name="M:System.String.charCodeAt(System.Int32)">
+            <summary>
+            Returns the Unicode of the character at the specified index.
+            </summary>
+            <param name="index">The index.</param>
+            <returns>A unicode value.</returns>
+        </member>
+        <member name="M:System.String.concat(System.String[])">
+            <summary>
+            Joins two or more strings, and returns a copy of the joined strings.
+            </summary>
+            <param name="values">The values to join.</param>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:System.String.fromCharCode(System.Int32[])">
+            <summary>
+            Converts Unicode values to characters.
+            </summary>
+            <param name="charCodes">The values to convert.</param>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:System.String.indexOf(System.String)">
+            <summary>
+            Returns the position of the first found occurrence of a specified value in a string.
+            </summary>
+            <param name="value">The value to search for.</param>
+            <returns>The start index of the matching value, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:System.String.lastIndexOf(System.String)">
+            <summary>
+            Returns the position of the last found occurrence of a specified value in a string.
+            </summary>
+            <param name="value">The value to search for.</param>
+            <returns>The start index of the matching value, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:System.String.match(System.IRegularExpression)">
+            <summary>
+            Searches for a match between a regular expression and a string, and returns the matches.
+            </summary>
+            <param name="regExp">The regular expression to use.</param>
+            <returns>An array of matching values.</returns>
+        </member>
+        <member name="M:System.String.replace(System.String,System.String)">
+            <summary>
+            Replaces all matches with a new value.
+            </summary>
+            <param name="oldValue">The value to search for.</param>
+            <param name="newValue">The value to replace with.</param>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:System.String.replace(System.IRegularExpression,System.String)">
+            <summary>
+            Replaces all matches with a new value.
+            </summary>
+            <param name="regExp">The regular expression to search with.</param>
+            <param name="newValue">The value to replace with.</param>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:System.String.search(System.IRegularExpression)">
+            <summary>
+            Searches for a match between a regular expression and a string, and returns the position of the match.
+            </summary>
+            <param name="regExp">The regular expression to search with.</param>
+            <returns>Returns the index of the match, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:System.String.slice(System.Int32)">
+            <summary>
+            Extracts a section of a string.
+            </summary>
+            <param name="startIndex">The index to begin at.</param>
+            <returns>The extracted string.</returns>
+        </member>
+        <member name="M:System.String.slice(System.Int32,System.Int32)">
+            <summary>
+            Extracts a section of a string.
+            </summary>
+            <param name="startIndex">The index to begin at.</param>
+            <param name="endIndex">The index to stop at.</param>
+            <returns>The extracted string.</returns>
+        </member>
+        <member name="M:System.String.split(System.String)">
+            <summary>
+            Splits a string into an array of substrings.
+            </summary>
+            <param name="separator">The value to split on.</param>
+            <returns>An array of the split values.</returns>
+        </member>
+        <member name="M:System.String.split(System.String,System.Int32)">
+            <summary>
+            Splits a string into an array of substrings.
+            </summary>
+            <param name="separator">The value to split on.</param>
+            <param name="limit">A limit on the number of splits.</param>
+            <returns>An array of the split values.</returns>
+        </member>
+        <member name="M:System.String.substr(System.Int32)">
+            <summary>
+            Extracts a section of a string.
+            </summary>
+            <param name="startIndex">The index to begin at.</param>
+            <returns>The extracted string.</returns>
+        </member>
+        <member name="M:System.String.substr(System.Int32,System.Int32)">
+            <summary>
+            Extracts a section of a string.
+            </summary>
+            <param name="startIndex">The index to begin at.</param>
+            <param name="length">The number of characters to extract.</param>
+            <returns>The extracted string.</returns>
+        </member>
+        <member name="M:System.String.substring(System.Int32)">
+            <summary>
+            Extracts a section of a string.
+            </summary>
+            <param name="startIndex">The index to begin at.</param>
+            <returns>The extracted string.</returns>
+        </member>
+        <member name="M:System.String.substring(System.Int32,System.Int32)">
+            <summary>
+            Extracts a section of a string.
+            </summary>
+            <param name="startIndex">The index to begin at.</param>
+            <param name="endIndex">The index to stop at.</param>
+            <returns>The extracted string.</returns>
+        </member>
+        <member name="M:System.String.toLowerCase">
+            <summary>
+            Converts a string to lowercase letters.
+            </summary>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:System.String.toUpperCase">
+            <summary>
+            Converts a string to uppercase letters.
+            </summary>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:System.String.op_Implicit(System.String)~System.Boolean">
+            <summary>
+            Implicit conversion to bool.
+            </summary>
+            <returns>The resulting boolean value.</returns>
+        </member>
+        <member name="P:System.String.length">
+            <summary>
+            Gets the number of characters in the string.
+            </summary>
+        </member>
+        <member name="T:System.ScriptIgnoreNamespaceAttribute">
+            <summary>
+            Specifies that the namespace should be ingored when generating script.
+            </summary>
+        </member>
+        <member name="T:System.Int16">
+            <summary>
+            System short implementation, exposed as ECMAScript Number.
+            </summary>
+        </member>
+        <member name="M:System.Int16.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Int16.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Int16.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.ExtensionAttribute">
+            <summary>
+            Specifies type bindings between script and .NET framework, for
+            use when defining custom build extensions attributes.
+            </summary>
+        </member>
+        <member name="M:System.ExtensionAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance of the attribute.
+            </summary>
+            <param name="assemblyName">The qualified assembly name.</param>
+            <param name="typeName">The full type name.</param>
+        </member>
+        <member name="T:System.Single">
+            <summary>
+            System float implementatin, exposed as ECMA Number.
+            </summary>
+        </member>
+        <member name="M:System.Single.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Single.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.Single.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.Reflection.AssemblyScriptNameAttribute">
+            <summary>
+            Allows for the specification of a custom output script name
+            when extracting an embedded script resource from an assembly.
+            </summary>
+        </member>
+        <member name="M:System.Reflection.AssemblyScriptNameAttribute.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the attribute.
+            </summary>
+            <param name="name">The script name, without extension.</param>
+        </member>
+        <member name="P:System.Reflection.AssemblyScriptNameAttribute.Name">
+            <summary>
+            The script name, without extension.
+            </summary>
+        </member>
+        <member name="T:System.Collections.Generic.EqualityComparer`1">
+            <summary>
+            Provides a base class for implementations of the IEqualityComparer generic interface.
+            </summary>
+            <typeparam name="T">The type of objects to compare.</typeparam>
+            <remarks>
+            This is required and used by the C# compiler when creating anonymous type declarations.
+            </remarks>
+        </member>
+        <member name="M:System.Collections.Generic.EqualityComparer`1.Equals(`0,`0)">
+            <summary>
+            When overridden in a derived class, determines whether two objects of type T are equal.
+            </summary>
+            <param name="x">The object to compare to.</param>
+            <param name="y">The object to compare with.</param>
+            <returns>True if the objects are equal, false otherwise.</returns>
+        </member>
+        <member name="M:System.Collections.Generic.EqualityComparer`1.GetHashCode(`0)">
+            <summary>
+            When overridden in a derived class, serves as a hash function for the specified
+            object for hashing algorithms and data structures, such as a hash table.
+            </summary>
+            <param name="obj">The object to get the hash code of.</param>
+            <returns>A hash code.</returns>
+        </member>
+        <member name="P:System.Collections.Generic.EqualityComparer`1.Default">
+            <summary>
+            Gets a default equality comparer for the type specified by the generic argument.
+            </summary>
+        </member>
+        <member name="T:System.Byte">
+            <summary>
+            Represents an 8-bit unsigned integer.
+            </summary>
+        </member>
+        <member name="T:System.ScriptFieldAttribute">
+            <summary>
+            Specifies that a property should render as a field in script.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.ExtensionAttribute">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.UInt16">
+            <summary>
+            System unsigned short implementation, exposed as ECMAScript Number.
+            </summary>
+        </member>
+        <member name="M:System.UInt16.toExponential(System.INumber)">
+            <summary>
+            Converts the number to exponential form.
+            </summary>
+            <param name="value">The exponent power.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.UInt16.toFixed(System.INumber)">
+            <summary>
+            Converts the number to a fixed form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="M:System.UInt16.toPrecision(System.INumber)">
+            <summary>
+            Converts the number to a fixed precision form.
+            </summary>
+            <param name="value">The number of decimal places.</param>
+            <returns>A text representation of the number.</returns>
+        </member>
+        <member name="T:System.Func`1">
+            <summary>
+            Encapsulates a method that has no parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Func`2">
+            <summary>
+            Encapsulates a method that has one parameter and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg">The parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T">The type of the parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Func`3">
+            <summary>
+            Encapsulates a method that has two parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Func`4">
+            <summary>
+            Encapsulates a method that has three parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.This type parameter is covariant.</typeparam>
+        </member>
+        <member name="T:System.Func`5">
+            <summary>
+            Encapsulates a method that has four parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Func`6">
+            <summary>
+            Encapsulates a method that has five parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Func`7">
+            <summary>
+            Encapsulates a method that has six parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg6">The sixth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T6">The type of the sixth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Func`8">
+            <summary>
+            Encapsulates a method that has seven parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg6">The sixth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg7">The seventh parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T6">The type of the sixth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T7">The type of the seventh parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Func`9">
+            <summary>
+            Encapsulates a method that has eight parameters and returns a value of the type specified by the output parameter.
+            </summary>
+            <returns>The return value of the method that this delegate encapsulates.</returns>
+            <param name="arg1">The first parameter of the method that this delegate encapsulates.</param>
+            <param name="arg2">The second parameter of the method that this delegate encapsulates.</param>
+            <param name="arg3">The third parameter of the method that this delegate encapsulates.</param>
+            <param name="arg4">The fourth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg5">The fifth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg6">The sixth parameter of the method that this delegate encapsulates.</param>
+            <param name="arg7">The seventh parameter of the method that this delegate encapsulates.</param>
+            <param name="arg8">The eighth parameter of the method that this delegate encapsulates.</param>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the fourth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T5">The type of the fifth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T6">The type of the sixth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T7">The type of the seventh parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T8">The type of the eighth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+        </member>
+        <member name="T:System.Runtime.InteropServices.OutAttribute">
+            <summary>
+            For compiler compatibility.
+            Not for use within blade.
+            </summary>
+        </member>
+        <member name="T:System.Char">
+            <summary>
+            Represents a Unicode character.
+            </summary>
+        </member>
+        <member name="T:System.ScriptObjectLiteralAttribute">
+            <summary>
+            Specifies that a class will render no declaration,
+            and instead render in object literal notation for
+            each instantiation of the class.
+            </summary>
+        </member>
+        <member name="T:ArrayExtensions">
+            <summary>
+            Array methods are provided as extension methods so that we can
+            apply strongly typed signatures to typed arrays.
+            </summary>
+        </member>
+        <member name="M:ArrayExtensions.concat``1(``0[],``0[])">
+            <summary>
+            Creates a new array composed of this array joined with other arrays and/or values.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="items">The values to join with.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:ArrayExtensions.join``1(``0[])">
+            <summary>
+            Joins all elements of an array into a string.
+            </summary>
+            <param name="array">The array context.</param>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:ArrayExtensions.join``1(``0[],System.String)">
+            <summary>
+            Joins all elements of an array into a string.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="separator">A separator to use between each item.</param>
+            <returns>The resulting string.</returns>
+        </member>
+        <member name="M:ArrayExtensions.pop``1(``0[])">
+            <summary>
+            Removes the last element from an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <returns>The removed element.</returns>
+        </member>
+        <member name="M:ArrayExtensions.push``1(``0[],``0[])">
+            <summary>
+            Adds one or more elements to the end of an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="items">The items to add.</param>
+            <returns>The new length of the array.</returns>
+        </member>
+        <member name="M:ArrayExtensions.reverse``1(``0[])">
+            <summary>
+            Reverses the order of items in the array, in place.
+            </summary>
+            <param name="array">The array context.</param>
+        </member>
+        <member name="M:ArrayExtensions.shift``1(``0[])">
+            <summary>
+            Removes the first element from an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <returns>The removed element.</returns>
+        </member>
+        <member name="M:ArrayExtensions.slice``1(``0[],System.Int32)">
+            <summary>
+            Extracts a section of an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="startIndex">The index to begin at.</param>
+            <returns>A new array containing the extracted elements.</returns>
+        </member>
+        <member name="M:ArrayExtensions.slice``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Extracts a section of an array
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="startIndex">The index to begin at.</param>
+            <param name="endIndex">The index to stop at.</param>
+            <returns>A new array containing the extracted elements.</returns>
+        </member>
+        <member name="M:ArrayExtensions.sort``1(``0[])">
+            <summary>
+            Sorts the elements of an array using the default sorting routine.
+            </summary>
+            <param name="array">The array context.</param>
+        </member>
+        <member name="M:ArrayExtensions.sort``1(``0[],System.Func{``0,``0,System.Int32})">
+            <summary>
+            Sorts the elements of an array using a custom sort function.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="sortFunc">The sort function.</param>
+        </member>
+        <member name="M:ArrayExtensions.splice``1(``0[],System.Int32)">
+            <summary>
+            Removes a section of an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="startIndex">The index to begin at.</param>
+            <returns>The removed elements.</returns>
+        </member>
+        <member name="M:ArrayExtensions.splice``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Removes a section of an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="startIndex">The index to begin at.</param>
+            <param name="count">The number of items to remove.</param>
+            <returns>The removed elements.</returns>
+        </member>
+        <member name="M:ArrayExtensions.splice``1(``0[],System.Int32,System.Int32,``0[])">
+            <summary>
+            Removes a section of an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="startIndex">The index to begin at.</param>
+            <param name="count">The number of items to remove.</param>
+            <param name="items">A set of items to add to the end of the array.</param>
+            <returns>The removed elements.</returns>
+        </member>
+        <member name="M:ArrayExtensions.unshift``1(``0[],``0[])">
+            <summary>
+            Inserts one or more elements to the beginning of an array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="items">The items to add.</param>
+            <returns>The new length of the array.</returns>
+        </member>
+        <member name="M:ArrayExtensions.indexOf``1(``0[],``0)">
+            <summary>
+            Gets the index of the first matching element in the array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="value">The value to search for.</param>
+            <returns>The item index, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:ArrayExtensions.indexOf``1(``0[],``0,System.Int32)">
+            <summary>
+            Gets the index of the first matching element in the array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="value">The value to search for.</param>
+            <param name="startIndex">The index to begin searching at.</param>
+            <returns>The item index, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:ArrayExtensions.lastIndexOf``1(``0[],``0)">
+            <summary>
+            Gets the index of the last matching element in the array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="value">The value to search for.</param>
+            <returns>The item index, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:ArrayExtensions.lastIndexOf``1(``0[],``0,System.Int32)">
+            <summary>
+            Gets the index of the last matching element in the array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="value">The value to search for.</param>
+            <param name="startIndex">The index to begin searching at.</param>
+            <returns>The item index, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:ArrayExtensions.filter``1(``0[],System.Func{``0,System.Int32,``0[],System.Boolean},System.Object)">
+            <summary>
+            Creates a new array with all of the elements of this array for which the provided filtering function returns true.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The callback filtering function.</param>
+            <param name="thisObj">The object to use as this context.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:ArrayExtensions.forEach``1(``0[],System.Action{``0,System.Int32},System.Object)">
+            <summary>
+            Calls a function for each element in the array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The callback function.</param>
+            <param name="thisObj">The object to use as this context.</param>
+        </member>
+        <member name="M:ArrayExtensions.forEach``1(``0[],System.Action{``0,System.Int32,``0[]},System.Object)">
+            <summary>
+            Calls a function for each element in the array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The callback function.</param>
+            <param name="thisObj">The object to use as this context.</param>
+        </member>
+        <member name="M:ArrayExtensions.every``1(``0[],System.Func{``0,System.Int32,``0[],System.Boolean},System.Object)">
+            <summary>
+            Returns true if every element in this array satisfies the provided testing function.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The testing callback function.</param>
+            <param name="thisObj">The object to use as this context.</param>
+            <returns>True if all callback invocations return true, false otherwise.</returns>
+        </member>
+        <member name="M:ArrayExtensions.map``1(``0[],System.Func{``0,System.Int32,``0[],System.Object},System.Object)">
+            <summary>
+            Creates a new array with the results of calling a provided function on every element in this array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The mapping callback function.</param>
+            <param name="thisObj">The object to use as this context.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:ArrayExtensions.map``2(``0[],System.Func{``0,System.Int32,``0[],``1},System.Object)">
+            <summary>
+            Creates a new array with the results of calling a provided function on every element in this array.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The mapping callback function.</param>
+            <param name="thisObj">The object to use as this context.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:ArrayExtensions.some``1(``0[],System.Func{``0,System.Int32,``0[],System.Boolean},System.Object)">
+            <summary>
+            Returns true if at least one element in this array satisfies the provided testing function.
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The testing callback function.</param>
+            <param name="thisObj">The object to use as this context.</param>
+            <returns>True if any callback invocation returns true, false otherwise.</returns>
+        </member>
+        <member name="M:ArrayExtensions.reduce``1(``0[],System.Func{System.Object,``0,System.Int32,``0[],System.Object},System.Object)">
+            <summary>
+            Applies a function simultaneously against two values of the array, from left to right, to reduce it to a single value
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The reduction callback function.</param>
+            <param name="initialValue">The object used as the first argument in the first reduction call.</param>
+            <returns>The resulting object.</returns>
+        </member>
+        <member name="M:ArrayExtensions.reduceRight``1(``0[],System.Func{System.Object,``0,System.Int32,``0[],System.Object},System.Object)">
+            <summary>
+            Applies a function simultaneously against two values of the array, from right to left, to reduce it to a single value
+            </summary>
+            <param name="array">The array context.</param>
+            <param name="callback">The reduction callback function.</param>
+            <param name="initialValue">The object used as the first argument in the first reduction call.</param>
+            <returns>The resulting object.</returns>
+        </member>
+    </members>
+</doc>

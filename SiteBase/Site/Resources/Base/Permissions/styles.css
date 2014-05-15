@@ -1,0 +1,49 @@
+/* permissionListPanel */
+/*
+#permissionListPanel th.key1 {
+	width: 10em;
+}
+#permissionListPanel th.key2 {
+	width: 8em;
+}
+#permissionListPanel th.key3 {
+	width: 30em;
+}
+#permissionListPanel th.entity-type-name {
+	width: 10em;
+}
+#permissionListPanel th.entity-name {
+	width: 15em;
+}
+*/
+/* permissionEditPanel */
+#permissionEditPanel {
+	width: 57.2em;
+}
+#permissionEditPanel .form-row-label {
+	width: 4.4em;
+}
+#permissionEditPanel .form-row input[type="text"],
+#permissionEditPanel .form-row .read-only-field {
+	width: 25em;
+}
+/* permissionItemListPanel */
+#permissionItemListPanel {
+	width: 57em;
+}
+#permissionItemListPanel tbody td {
+	line-height: 1.8em;
+}
+#permissionItemListPanel select {
+	width: 9em;
+}
+#permissionItemListPanel td.type,
+#permissionItemListPanel td.name {
+	min-width: 9em;
+}
+#permissionItemListPanel th.permission {
+	width: 5em;
+}
+#permissionItemListPanel td.permission {
+	text-align: center;
+}

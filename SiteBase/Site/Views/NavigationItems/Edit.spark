@@ -1,0 +1,57 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'navigationItemEditPanel'">
+	<sbFormRow property="'Navigation'" />
+	<sbFormRow property="'Parent'" rowStyle="(!Model.IsNew && Model.ListItems[NavigationItemEntity.ParentProperty].Count() == 0) ? 'display:none' : null" />
+	<sbFormRow property="'Text'" />
+	<sbFormRow property="'Url'" />
+	<sbFormRow property="'ImageUrl'" />
+	<sbFormRow property="'DisplayOrder'" />
+	<sbFormRow property="'Enabled'" />
+	<sbFormRow inputType="submit" />
+	<div class="form-row actions" if="!Model.IsNew">
+		<a id="permissions" href="${Url.Action('manage', 'permissions', new { keyType = SiteBaseConstants.SitePathKey, keyVal = Model.Url })}">${Text("Permissions.Plural.Label")}</a>
+	</div>
+</sbFormPanel>
+
+<content name="readyScript">
+	var navigationItemEditPanel = $('#navigationItemEditPanel').data('sbFormPanel');
+	var navigation = $('#Navigation', navigationItemEditPanel.element);
+	var parent = $('#Parent', navigationItemEditPanel.element);
+	if (parent.val()) {
+		navigation.attr('disabled', 'disabled');
+	}
+	navigation.change(function() {
+		var parentRow = $('#form-row-parent', navigationItemEditPanel.element);
+		if (this.value) {
+			$.post('${Url.Action("getParentCandidates", new { id = Model.Id })}', { navigation: this.value }, function(data) {
+				parent.find('option:not(:first)').remove();
+				if (data) {
+					$.each(data, function(i, x) {
+						parent.append($('<option/>').attr('value', x.Id).text(x.Text));
+					});
+				}
+			});
+		} 
+		else {
+			this.value = '';
+			parent.find('option:not(:first)').remove();
+		}
+	});
+	parent.change(function() {
+		if (this.value) {
+			navigation.attr('disabled', 'disabled');
+		}
+		else {
+			navigation.removeAttr('disabled');
+		}
+	});
+	$('#permissions', navigationItemEditPanel.element).click(function() {
+		$.sb.modalBox({ ajax: this.href, replace: false });
+		return false;
+	});
+	${LoadModuleCss("base/permissions")}
+	${LoadModuleJs("base/permissions")}
+</content>

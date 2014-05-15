@@ -1,0 +1,5 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models" />
+<use namespace="DigitalBeacon.SiteBase.Models.Account" />
+
+<global module="'base/account'" type="string" />
+

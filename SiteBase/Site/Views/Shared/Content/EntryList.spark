@@ -1,0 +1,23 @@
+﻿<viewdata model="ListModel[[ContentEntryListItem]]" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'contentEntryListPanel'">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.LastModificationDate)
+	.Title(Text("ContentEntries.LastModificationDate.Label"))
+	.HeaderHtmlAttributes(new { @class = "date-time" });
+	columns.Bound(x => x.Title)
+	.Title(Text("ContentEntries.Title.Label"))
+	.HeaderHtmlAttributes(new { @class = "title" });
+	columns.Bound(x => x.ContentDate)
+	.Title(Text("ContentEntries.ContentDate.Label"))
+	.HeaderHtmlAttributes(new { @class = "date-time" });
+})
+.Render();
+%>
+</sbListPanel>

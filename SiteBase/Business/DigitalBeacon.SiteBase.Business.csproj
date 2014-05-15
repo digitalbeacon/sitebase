@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4C89A5C1-2A08-48D6-8E9A-DA64428D22AD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DigitalBeacon.SiteBase.Business</RootNamespace>
+    <AssemblyName>DigitalBeacon.SiteBase.Business</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Nuget\Spring.Core.1.3.2\lib\net40\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="BusinessConstants.cs" />
+    <Compile Include="AuthenticationStatus.cs" />
+    <Compile Include="ILocalizationService.cs" />
+    <Compile Include="IContactService.cs" />
+    <Compile Include="RegistrationResponse.cs" />
+    <Compile Include="IPermissionService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IPreferenceService.cs" />
+    <Compile Include="ILookupAdminService.cs" />
+    <Compile Include="ModuleConstants.cs" />
+    <Compile Include="MessagingConstants.cs" />
+    <Compile Include="IContentService.cs" />
+    <Compile Include="FilesConstants.cs" />
+    <Compile Include="IFileService.cs" />
+    <Compile Include="IMessageService.cs" />
+    <Compile Include="IAuditingService.cs" />
+    <Compile Include="IIdentityService.cs" />
+    <Compile Include="IModuleService.cs" />
+    <Compile Include="IMailService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistrationStatus.cs" />
+    <Compile Include="Support\AuditingService.cs" />
+    <Compile Include="Support\BaseService.cs" />
+    <Compile Include="Support\ContentService.cs" />
+    <Compile Include="Support\LocalizationService.cs" />
+    <Compile Include="Support\PermissionService.cs" />
+    <Compile Include="Support\PreferenceService.cs" />
+    <Compile Include="Support\FileService.cs" />
+    <Compile Include="Support\LookupAdminService.cs" />
+    <Compile Include="Support\MessageService.cs" />
+    <Compile Include="Support\IdentityService.cs" />
+    <Compile Include="Support\MailService.cs" />
+    <Compile Include="Support\ModuleService.cs" />
+    <Compile Include="Support\ContactService.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\DigitalBeacon.csproj">
+      <Project>{56B7C963-75D0-4565-A767-655BA605001F}</Project>
+      <Name>DigitalBeacon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\DigitalBeacon.Business.csproj">
+      <Project>{8600FC0A-4D3E-4924-8A41-B896DB344E41}</Project>
+      <Name>DigitalBeacon.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\DigitalBeacon.Data.csproj">
+      <Project>{FE097ABC-6DD3-442E-BD54-A68D3052D94D}</Project>
+      <Name>DigitalBeacon.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Model\DigitalBeacon.Model.csproj">
+      <Project>{65D6BA20-482D-43E9-897F-04C755924B74}</Project>
+      <Name>DigitalBeacon.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Util\DigitalBeacon.Util.csproj">
+      <Project>{58B30EEC-BEC9-4093-A20B-32B009BED5D9}</Project>
+      <Name>DigitalBeacon.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\DigitalBeacon.SiteBase.Data.csproj">
+      <Project>{3F632FE6-5924-4758-93AF-0028EF5A5A7A}</Project>
+      <Name>DigitalBeacon.SiteBase.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\DigitalBeacon.SiteBase.Model.csproj">
+      <Project>{F382F25D-5B1D-4117-B164-37D9558E5F21}</Project>
+      <Name>DigitalBeacon.SiteBase.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(TargetPath) ..\..\..\..\Bin
+copy /y $(TargetDir)$(TargetName).pdb ..\..\..\..\Bin</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,39 @@
+﻿<viewdata model="PartialNavModel" />
+
+<sbMessagePanel />
+
+<%
+NavigationItem navItem = null;
+foreach (var nav in Enum.GetNames(typeof(Navigation)))
+{
+	string key = nav + "Nav";
+	if (ViewData.ContainsKey(key))
+	{
+	navItem = ((IEnumerable<NavigationItem>)ViewData[key]).Where(x => TextUtil.IsEqualIgnoreCase(x.Url, Model.Url)).SingleOrDefault();
+	if (navItem != null)
+	{
+		break;
+	}
+	}
+}
+if (navItem == null)
+{
+	throw new BaseException("Could not locate top level navigation item for url [{0}].", Model.Url);
+}
+%>
+
+<content name="header">${navItem.Text}</content>
+
+<ul class="actions" if="navItem.Items != null">
+	<li each="var item in navItem.Items"><a href="${Url.Content(item.Url)}">${item.Text}</a></li>
+</ul>
+
+<input type="submit" id="close" class="cancel" value="${Text("Common.Close.Label")}" if="RenderPartial" />
+
+<content name="readyScript" if="RenderPartial">
+	$('#close').click(function() {
+		$.sb.closeModalBox();
+		return false;
+	});
+</content>
+

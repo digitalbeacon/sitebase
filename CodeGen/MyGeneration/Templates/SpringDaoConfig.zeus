@@ -1,0 +1,112 @@
+﻿##|TYPE Template
+##|UNIQUEID 218549c0-4a89-479c-be0c-6278d94f8b0e
+##|TITLE Spring DAO Config
+##|NAMESPACE DigitalBeacon.Dal
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll, adodb.dll%><%#NAMESPACE ADODB %><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_SUFFIX = "Config";
+	private static readonly string FILE_EXT = ".xml";
+
+	// these attributes are computed once for this template
+	private string _outputPath;
+	private string _fileName;
+
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		// call base GetInput method to retrieve inputs
+		GetInput();
+		
+		_outputPath = Path.Combine(BaseOutputPath, PATH_SUFFIX);
+
+		if (GenSpringDaoConfig)
+		{
+			GenerateXmlFile();
+			_fileName = "Generated" + DnpUtils.SetPascalCase(LogicalGroupName) + "Dao" + FILE_EXT;
+			output.save(Path.Combine(_outputPath, _fileName), false);
+			Log("Generated: " + Path.Combine(_outputPath, _fileName));
+			output.clear();
+		}
+	}
+	
+	private void GenerateXmlFile()
+	{
+		output.writeln("<?xml version=\"1.0\"?>");
+		OutputXmlHeader();
+		output.writeln("");
+		output.writeln("<!-- Generated with MyGeneration using the Spring DAO Config template -->");
+%>
+<objects xmlns="http://www.springframework.net"><%
+	ProcessTables();%>
+</objects>
+<%
+	}
+	
+	protected void ProcessTables()
+	{
+		foreach (string tableName in SelectedTables)
+		{
+			ITable table = MyMeta.Databases[DbName].Tables[tableName];
+			if (IgnoreTable(table))
+			{
+				continue;
+			}
+			string tableAlias = table.Alias;
+			string baseDao = "BaseDao";
+			bool hasNameColumn = GetNameColumn(table) != null;
+			bool hasCodeColumn = GetCodeColumn(table) != null;
+			if (hasNameColumn && hasCodeColumn)
+			{
+				baseDao = "NameCodeDao";
+			}
+			else if (hasNameColumn)
+			{
+				baseDao = "NameDao";
+			}
+			else if (hasCodeColumn)
+			{
+				baseDao = "CodeDao";
+			}
+			string baseDataNamespace = "DigitalBeacon.Data.NHibernate.";
+			string dataNamespace = BaseNamespace + ".Data.NHibernate.";
+			string modelNamespace = GetNamespace(table, "Model");
+			string baseDataAssemblyName = "DigitalBeacon.Data.NHibernate";
+			string dataAssemblyName = BaseAssemblyName + ".Data";
+			// look at base types to determine whether the table is really an archived table
+			ITable baseTable = GetBaseTable(table);
+			bool isArchivedTable = IsArchivedTable(table);
+			while (!isArchivedTable && baseTable != null)
+			{
+				isArchivedTable = IsArchivedTable(baseTable);
+				baseTable = GetBaseTable(baseTable);
+			}
+			if (isArchivedTable)
+			{
+				baseDao = "ArchiveDao";
+			}
+			%>
+  <!-- <%= tableAlias %> -->
+  <object id="<%= TableToDto(tableAlias) %>Dao" type="<%= baseDataNamespace %><%= baseDao %>&lt;<%= modelNamespace %>.<%= TableToDto(tableAlias) %>>, <%= baseDataAssemblyName %>" singleton="true">
+	<property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <!--<object id="<%= TableToDto(tableAlias) %>Dao" type="<%= dataNamespace %><%= tableAlias %>Dao, <%= dataAssemblyName %>" singleton="true">
+	<property name="SessionFactory" ref="SessionFactory"/>
+  </object>
+  <alias alias="I<%= tableAlias %>Dao" name="<%= TableToDto(tableAlias) %>Dao" />--><%
+		}	
+	}
+}
+%>
+##|BODY_END

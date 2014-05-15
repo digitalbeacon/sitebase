@@ -1,0 +1,57 @@
+﻿<use master="Html" />
+
+<if condition="ViewContext.IsChildAction || RenderPartial">
+	<use content="view"/>
+</if>
+<else if="IsMobile">
+	<content name="head">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</content>
+
+	<div id="pageBox">
+		<div id="pageContainer">
+			<div id="contentPanel">
+				<use content="view"/>
+			</div>
+		</div>	
+	</div>
+	<div id="footer">
+		<div id="footerLinks">
+			<a href="~/" if="true">Home</a> |
+			<a href="~/identity/signIn" if="!IsAuthenticated">Sign In</a>
+			<a href="~/identity/signOut" if="IsAuthenticated">Sign Out</a>
+		</div>
+		<sbSiteTypeSelector />
+		<div id="copyright">!{Text("Site.Copyright")}</div>
+	</div>
+</else>
+<else>
+	<var culture="ResourceManager.ClientCulture.Name != ResourceManager.SystemCulture.Name ? ResourceManager.ClientCulture.Name : null" />
+	<var headerImgSrc="Url.Content('~/resources/images/header.jpg')" />
+	<if condition="System.IO.File.Exists(ViewContext.HttpContext.Server.MapPath('~/resources/localized/{0}/header.jpg'.FormatWith(culture)))">
+		<set headerImgSrc="Url.Content('~/resources/localized/{0}/header.jpg'.FormatWith(culture))" />
+	</if>
+	<div id="pageBox">
+		<div id="pageContainer">
+			<div id="header" title="${Text('Site.Title')}"><a href="~/"><img src="${headerImgSrc}" alt="${Text('Site.Title')}" /></a></div>
+			<div id="topNav">
+				<div id="topRightNav"><sbNavMenu navId="'TopRightNav'" orientation="'Horizontal'" /></div>
+				<div id="topLeftNav"><sbNavMenu navId="'TopLeftNav'" orientation="'Horizontal'" /></div>
+			</div>
+			<div id="leftNav">
+				<sbNavMenu navId="'LeftNav'" orientation="'Vertical'" />
+			</div>
+			<div id="contentPanel">
+				<h1 id="contentHeading" if="Content.ContainsKey('header')"><use content="header" /></h1>
+				<use content="view"/>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div id="footer">
+		<sbSiteTypeSelector />
+		<sbLanguageSelector />
+		<div id="copyright">!{Text("Site.Copyright")}</div>
+	</div>
+</else>
+

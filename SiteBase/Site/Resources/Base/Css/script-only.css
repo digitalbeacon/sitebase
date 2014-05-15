@@ -1,0 +1,19 @@
+/*-----------------------------------------------------------------------------
+Styles specific for JavaScript enabled clients
+-----------------------------------------------------------------------------*/
+.no-script
+{
+	display: none;
+}
+.script-only
+{
+	display: inline;
+}
+.script-only-block
+{
+	display: block;
+}
+.list-panel th.new
+{
+	visibility: visible;
+}

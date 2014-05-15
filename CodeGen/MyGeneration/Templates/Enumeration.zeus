@@ -1,0 +1,107 @@
+﻿##|TYPE Template
+##|UNIQUEID 91D7C71F-88D9-4f7b-829E-B0690698A8C6
+##|TITLE Enumeration
+##|NAMESPACE DigitalBeacon.Dal
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE .Net Script
+##|GUI_LANGUAGE C#
+##|BODY_MODE Markup
+##|BODY_ENGINE .Net Script
+##|BODY_LANGUAGE C#
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%#REFERENCE System.Xml.dll, adodb.dll%><%#NAMESPACE ADODB %><%#FILE BaseTemplate.cs %><%
+public class GeneratedTemplate : BaseTemplate
+{
+	private static readonly string PATH_PREFIX = "Model";
+	private static readonly string FILE_EXT = ".cs";
+
+	// these attributes are computed once for this template
+	private string _baseOutputPath;
+	// these attributes are computed for each table/view
+	private string _outputPath;
+	private string _namespace;
+	private string _tableName;
+	private string _enumName;
+	private string _fileName;
+	private ITable _table;
+
+	public GeneratedTemplate(ZeusContext context) : base(context) {}
+
+	public override void Render()
+	{
+		// call base GetInput method to retrieve inputs
+		GetInput();
+		
+		_baseOutputPath = Path.Combine(BaseOutputPath, PATH_PREFIX);
+			
+		foreach (string table in SelectedTables)
+		{
+			ITable workingTable = MyMeta.Databases[DbName].Tables[table];
+			
+			if (GenEnums && !IgnoreTable(workingTable) && IsEnumerationTable(workingTable))
+			{
+				_tableName = workingTable.Name;
+				_table = workingTable;
+				_enumName = TableToEntity(workingTable.Alias);
+				_namespace = GetNamespace(_table, PATH_PREFIX);
+				string logicalGroup = GetLogicalGroup(workingTable);
+				if (!String.IsNullOrEmpty(logicalGroup))
+				{
+					_outputPath = Path.Combine(_baseOutputPath, DnpUtils.SetPascalCase(logicalGroup));
+				}
+				else 
+				{
+					_outputPath = _baseOutputPath;
+				}
+				GenerateEnumFile(workingTable.Columns);
+			}
+		}
+		
+	}
+	
+	private void GenerateEnumFile(IColumns Columns)
+	{
+		OutputCSharpHeader();
+%>
+namespace <%= _namespace %>
+{
+	/// <summary>
+	///	Generated with MyGeneration using the Enumeration template.
+	/// </summary>
+	public enum <%= _enumName %>
+	{<%
+		string enumColumn = GetEnumColumn(_table);
+		string query = String.Format("select [{0}], [{1}] from {2}[{3}] order by [{0}]", DEFAULT_ID_ALIAS, enumColumn, String.IsNullOrEmpty(SchemaName) ? String.Empty : "[" + SchemaName + "].", _table.Name);
+		Recordset rs = _table.Database.ExecuteSql(query);
+		if (rs != null)
+		{
+			int count = 0;
+			while (!rs.EOF)
+			{
+				StringBuilder name = new StringBuilder(rs.Fields[enumColumn].Value.ToString());
+				for (int i = name.Length - 1; i >= 0; i--)
+				{
+					if (!Char.IsLetterOrDigit(name[i]) && name[i] != '_')
+					{
+						name.Remove(i, 1);
+					}
+				}%>
+		<%= DnpUtils.SetPascalCase(name.ToString()) %> = <%= rs.Fields[DEFAULT_ID_ALIAS].Value.ToString() %><%= count < rs.RecordCount - 1 ? "," : String.Empty %><%
+				count++;
+				rs.MoveNext();
+			}
+		}%>
+	}
+}
+<%
+		_fileName = _enumName + FILE_EXT;
+		output.save(Path.Combine(_outputPath, _fileName), false);
+		Log("Generated: " + Path.Combine(_outputPath, _fileName));
+		output.clear();
+	}
+}
+%>
+##|BODY_END

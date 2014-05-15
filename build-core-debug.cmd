@@ -1,0 +1,1 @@
+call build-core.cmd /debug

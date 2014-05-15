@@ -1,0 +1,25 @@
+﻿<viewdata model="EditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'localizationEditPanel'">
+	${Html.HiddenFor(m => m.Language)}
+	${Html.HiddenFor(m => m.Type)}
+	<sbFormRow property="'Language'" inputType="renderContent">
+		<span class="read-only-field">${Model.ListItems[ResourceEntity.LanguageProperty].Where(x => x.Value == Model.Language.ToSafeString()).Select(x => x.Text).SingleOrDefault()}</span>
+	</sbFormRow>
+	<sbFormRow property="'Type'" inputType="renderContent">
+		<span class="read-only-field">${Model.ListItems[ResourceEntity.TypeProperty].Where(x => x.Value == Model.Type).Select(x => x.Text).SingleOrDefault()}&nbsp;</span>
+	</sbFormRow>
+	<sbFormRow property="'Key'" inputReadOnly="!Model.IsNew" />
+	<if condition="Model.Type.HasText()">
+		<sbFormRow property="'Property'" if="Model.Property.HasText()" />
+	</if>
+	<else>
+		${Html.HiddenFor(m => m.Property)}
+	</else>
+	<sbFormRow property="'Value'" inputType="renderContent">
+		<sbEditor defaultToTextBox="true" />
+	</sbFormRow>
+	<sbFormRow inputType="submit" />
+</sbFormPanel>

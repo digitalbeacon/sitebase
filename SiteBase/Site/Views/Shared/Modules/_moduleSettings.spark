@@ -1,0 +1,153 @@
+﻿<sbFormPanel panelId="'moduleSettingsPanel'" 
+	operation="Model.CreateInstance ? null : update" 
+	formRouteValues="Model.CreateInstance ? new { action = 'createInstance', controller = 'moduleDefinitions', id = Model.Id } : null" 
+	initClientValidation="false"
+	displayMessagePanel="false">
+	${Html.HiddenFor(m => m.Id)}
+	<if condition="!Model.Global">
+		<sbFormRow rowClass="'shorttext'" property="'Name'" />
+		<sbFormRow rowClass="'shorttext'" property="'Url'" />
+	</if>
+	<for each="var x in Model.Settings">
+		${Html.HiddenFor(m => m.Settings[xIndex].DefinitionId)}
+		<if condition="x.Type == ModuleSettingType.MessageTemplate">
+			<sbFormRow rowClass="'message-subject'" label="x.Name" required="x.Required" validation="'Settings[{0}].Subject'.FormatWith(xIndex)">${Html.EditorFor(m => m.Settings[xIndex].Subject)}</sbFormRow>
+			<sbFormRow rowClass="'message-body'" validation="'Settings[{0}].Value'.FormatWith(xIndex)">
+				${this.Hidden(m => m.Settings[xIndex].Value)}
+				<span class="editor-text" data-heading="${x.Name}">${Model.Settings[xIndex].Value}</span>
+			</sbFormRow>
+		</if>
+		<else if="x.Type == ModuleSettingType.Date">
+			<sbFormRow rowClass="'date'" label="x.Name" required="x.Required" validation="'Settings[{0}].Value'.FormatWith(xIndex)">
+				${Html.Telerik().DatePicker()
+					.Name("Settings[{0}].Value".FormatWith(xIndex))
+					.HtmlAttributes(new { id = "Settings_{0}__Value".FormatWith(xIndex) })
+					.Value(Model.Settings[xIndex].DateValue)}
+			</sbFormRow>
+		</else>
+		<else if="x.Type == ModuleSettingType.Boolean">
+			<sbFormRow rowClass="'boolean'" label="x.Name" validation="'Settings[{0}].BooleanValue'.FormatWith(xIndex)">
+				${this.CheckBox(m => m.Settings[xIndex].BooleanValue)}
+			</sbFormRow>
+		</else>
+		<else>
+			<sbFormRow rowClass="x.Type.ToString().ToLower()" label="x.Name" required="x.Required" validation="'Settings[{0}].Value'.FormatWith(xIndex)">
+				<if condition="x.Type == ModuleSettingType.LongText">
+					${this.Hidden(m => m.Settings[xIndex].Value)}
+					<span class="editor-text" data-heading="${x.Name}">${Model.Settings[xIndex].Value}</span>
+				</if>
+				<else>
+					${this.TextBox(m => m.Settings[xIndex].Value)}
+				</else>
+			</sbFormRow>
+		</else>
+	</for>
+	<sbFormRow rowClass="'form-row-submit'">
+		<input id="save" type="submit" name="Save" value="${Text("Common.Save.Label")}" if="!Model.Global || Model.Settings.Count > 0" />
+		<input id="delete" class="cancel" type="submit" name="Delete" value="${Text("Common.Delete.Label")}" if="!Model.Global && !Model.CreateInstance" />
+		<input id="cancel" class="cancel" type="submit" name="Cancel" value="${Text("Common.Cancel.Label")}" if="!Model.Global && (!RenderPartial || Model.CreateInstance)" />
+	</sbFormRow>
+</sbFormPanel>
+
+<content name="readyScript">
+	$('.editor-text').click(function() {
+		var $contentElement = $(this);
+		$.sb.modalBox({
+			ajax: '${Url.Action("editor")}',
+			width: 900,
+			success: function() {
+				$('#modalBox .editorHeading').text($contentElement.attr('data-heading'));
+				var editor = $('#modalBox #Editor').sbEditor();
+				editor.value($contentElement.text());
+				$('#modalBox .editorUpdate').click(function() {
+					$contentElement.html(editor.encodedValue());
+					$contentElement.parent().find(':hidden').val($contentElement.html());
+					$.sb.closeModalBox();
+				});
+				$('#modalBox .editorCancel').click(function() {
+					$.sb.closeModalBox();
+				});
+			}
+		});
+	});
+	var validationOptions = {};
+	var moduleSettingsPanel = $('#moduleSettingsPanel').data('sbFormPanel');
+	<if condition="RenderPartial">
+		moduleSettingsPanel.prepareForm = function(form) {
+			$('.editor-text').each(function() {
+				var $this = $(this);
+				$this.parent().find(':hidden').val($this.html());
+			});
+		};
+		moduleSettingsPanel.updateContent = function(response) {
+			$('#moduleListPanel').trigger('refresh');
+			$('#moduleEditPanel').replaceWith(response); 
+		};
+		validationOptions = moduleSettingsPanel.validationOptions;
+	</if>
+	<else>
+		validationOptions = moduleSettingsPanel.validationOptions;
+		validationOptions.submitHandler = function(form) {
+			if ($.sb.checkFormSubmission(form)) {
+				$('.editor-text').each(function() {
+					var $this = $(this);
+					$this.parent().find(':hidden').val($.digitalbeacon.htmlEncode($this.html()));
+				});
+				form.submit();
+			}
+		};
+	</else>
+	$.sb.initClientFormValidation(validationOptions);
+	
+	<if condition="!Model.Global">
+	${ValidationRule("Name", "moduleSettingsPanel", "remote", "'{0}'".FormatWith(Url.Action("validateName", "modules", new { Id = Model.CreateInstance ? 0L : Model.Id })), "Modules.Error.DuplicateName")}
+	</if>
+
+	<for each="var x in Model.Settings">
+		<if condition="x.Required && x.Type != ModuleSettingType.Boolean && x.Type != ModuleSettingType.Custom">
+			<if condition="x.Type == ModuleSettingType.MessageTemplate">
+	${ValidationRule("Settings[{0}].Subject".FormatWith(xIndex), "moduleSettingsPanel", "required", true, "Validation.Error.Required", x.Name)}
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "required", "'#Settings_{0}__Subject:filled'".FormatWith(xIndex), "Validation.Error.Required", x.Name)}
+			</if>
+			<else>
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "required", true, "Validation.Error.Required", x.Name)}
+			</else>
+		</if>
+		<if condition="x.Type == ModuleSettingType.Number">
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "number", true, "Validation.Error.Number", x.Name)}
+		</if>
+		<else if="x.Type == ModuleSettingType.Integer">
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "integer", true, "Validation.Error.Integer", x.Name)}
+		</else>
+		<else if="x.Type == ModuleSettingType.Currency">
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "currency", true, "Validation.Error.Currency", x.Name)}
+		</else>
+		<else if="x.Type == ModuleSettingType.Date">
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "date", true, "Validation.Error.Date", x.Name)}
+		</else>
+		<if condition="x.Min.HasValue && x.Max.HasValue">
+			<if condition="x.Type == ModuleSettingType.Date">
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "dateRange", "[new Date('{0}'), new Date('{1}')]".FormatWith(x.DateMin.Value.ToShortDateString(), x.DateMax.Value.ToShortDateString()), "Validation.Error.Range", new object[] { x.Name, x.DateMin.Value.ToShortDateString(), x.DateMax.Value.ToShortDateString() })}
+			</if>
+			<else>
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "range", "[{0}, {1}]".FormatWith(x.Min.Value, x.Max.Value), "Validation.Error.Range", new object[] { x.Name, x.Min.Value, x.Max.Value })}
+			</else>
+		</if>
+		<else if="x.Min.HasValue">
+			<if condition="x.Type == ModuleSettingType.Date">
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "minDate", "new Date('{0}')".FormatWith(x.DateMin.Value.ToShortDateString()), "Validation.Error.DateMin", new object[] { x.Name, x.DateMin.Value.ToShortDateString() })}
+			</if>
+			<else>
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "min", x.Min.Value, "Validation.Error.Min", new object[] { x.Name, x.Min.Value })}
+			</else>
+		</else>
+		<else if="x.Max.HasValue">
+			<if condition="x.Type == ModuleSettingType.Date">
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "maxDate", "new Date('{0}')".FormatWith(x.DateMax.Value.ToShortDateString()), "Validation.Error.DateMax", new object[] { x.Name, x.DateMax.Value.ToShortDateString() })}
+			</if>
+			<else>
+	${ValidationRule("Settings[{0}].Value".FormatWith(xIndex), "moduleSettingsPanel", "max", x.Max.Value, "Validation.Error.Max", new object[] { x.Name, x.Max.Value })}
+			</else>
+		</else>
+	</for>
+</content>

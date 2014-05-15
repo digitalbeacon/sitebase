@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.FileArchiveEntity" table="`File_Archive`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<property name="RefId" column="`RefId`" type="Int64" not-null="true" />
+		<property name="Created" column="`Created`" type="DateTime" not-null="true" />
+		<property name="Archived" column="`Archived`" type="DateTime" not-null="true" />
+		<property name="Filename" column="`Filename`" type="String" not-null="true" length="250" />
+		<property name="Name" column="`Name`" type="String" length="100" />
+		<property name="ContentType" column="`ContentType`" type="String" length="100" />
+		<property name="DataCompressed" column="`DataCompressed`" type="Boolean" not-null="true" />
+		<many-to-one name="FileData" column="`FileDataId`" class="DigitalBeacon.SiteBase.Model.FileDataEntity, DigitalBeacon.SiteBase.Model" />
+		<property name="CachedSize" column="`CachedSize`" type="Int32" not-null="true" />
+		<property name="LastModified" column="`LastModified`" type="DateTime" not-null="true" />
+	</class>
+</hibernate-mapping>

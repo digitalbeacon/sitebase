@@ -1,0 +1,807 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Knockout</name>
+    </assembly>
+    <members>
+        <member name="T:Knockout.BindingContext">
+            <summary>
+            An object used for accessing binding data. 
+            </summary>
+        </member>
+        <member name="P:Knockout.BindingContext.parent">
+            <summary>
+            Gets the view model object for the parent context.
+            </summary>
+        </member>
+        <member name="P:Knockout.BindingContext.parents">
+            <summary>
+            Gets a collection of all parent view models.
+            </summary>
+        </member>
+        <member name="P:Knockout.BindingContext.root">
+            <summary>
+            Gets the view model object for the topmost parent context.
+            </summary>
+        </member>
+        <member name="P:Knockout.BindingContext.data">
+            <summary>
+            Gets the view model object for the current context.
+            </summary>
+        </member>
+        <member name="P:Knockout.BindingContext.index">
+            <summary>
+            Gets the zero-based index of the current array entry
+            from within a knockout foreach binding operation.
+            </summary>
+        </member>
+        <member name="P:Knockout.BindingContext.parentContext">
+            <summary>
+            Gets the binding context of the parent.
+            </summary>
+        </member>
+        <member name="T:Knockout.BindingHandler">
+            <summary>
+            Represents a custom binding handler.
+            </summary>
+        </member>
+        <member name="M:Knockout.BindingHandler.init(System.Html.HTMLElement,System.Func{System.Object},System.Func{System.Object},System.Object)">
+            <summary>
+            Called once when the binding is first applied to an element.
+            </summary>
+            <param name="element">The DOM element involved in this binding</param>
+            <param name="valueAccessor">A function that can be called to get the current model property that is involved in this binding.</param>
+            <param name="allBindingsAccessor">A function that can be called to get all the model properties bound to this DOM element.</param>
+            <param name="viewModel">The view model object that is bound to the element.</param>
+        </member>
+        <member name="M:Knockout.BindingHandler.update(System.Html.HTMLElement,System.Func{System.Object},System.Func{System.Object},System.Object)">
+            <summary>
+            Called when the binding is first applied to an element, and again during any observable value change.
+            </summary>
+            <param name="element">The DOM element involved in this binding</param>
+            <param name="valueAccessor">A function that can be called to get the current model property that is involved in this binding.</param>
+            <param name="allBindingsAccessor">A function that can be called to get all the model properties bound to this DOM element.</param>
+            <param name="viewModel">The view model object that is bound to the element.</param>
+        </member>
+        <member name="T:Knockout.Subscribable`1">
+            <summary>
+            Represents a subscribable object.
+            </summary>
+        </member>
+        <member name="M:Knockout.Subscribable`1.subscribe(System.Action{`0},System.Object,System.String)">
+            <summary>
+            Subscribes to an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="callback">The callback to invoke.</param>
+            <param name="callbackTarget">An optional callback target to bind to.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Subscribable`1.notifySubscribers(`0,System.String)">
+            <summary>
+            Notifies all subscribers of an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="value">The value to notify with.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Subscribable`1.getSubscriptionsCount">
+            <summary>
+            Gets the number of subscribers.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <returns>An integer value.</returns>
+        </member>
+        <member name="M:Knockout.Subscribable`1.extend(System.Object)">
+            <summary>
+            Applies an extender to the observable.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="extenders">A collection of key value pairs representing the extenders to apply.</param>
+        </member>
+        <member name="T:Knockout.Extensions">
+            <summary>
+            These class exists to provide portions of the knockout API.
+            Its methods are not intended to be invoked directly.
+            </summary>
+            <summary>
+            These class exists to provide portions of the knockout API.
+            Its methods are not intended to be invoked directly.
+            </summary>
+            <summary>
+            These class exists to provide portions of the knockout API.
+            Its methods are not intended to be invoked directly.
+            </summary>
+            <summary>
+            These class exists to provide portions of the knockout API.
+            Its methods are not intended to be invoked directly.
+            </summary>
+        </member>
+        <member name="M:Knockout.Extensions.subscribe``1(Knockout.ObservableArray{``0},System.Action{``0},System.Object,System.String)">
+            <summary>
+            Subscribes to an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="callback">The callback to invoke.</param>
+            <param name="callbackTarget">An optional callback target to bind to.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Extensions.notifySubscribers``1(Knockout.ObservableArray{``0},``0,System.String)">
+            <summary>
+            Notifies all subscribers of an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="value">The value to notify with.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Extensions.getSubscriptionsCount``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Gets the number of subscribers.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>An integer value.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.valueHasMutated``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Notifies subscribers that the value has changed.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="observable">The observable.</param>
+        </member>
+        <member name="M:Knockout.Extensions.valueWillMutate``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Notifies subscribers that the value is preparing to be changed.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="observable">The observable.</param>
+        </member>
+        <member name="M:Knockout.Extensions.extend``1(Knockout.ObservableArray{``0},System.Object)">
+            <summary>
+            Applies an extender to the observable.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="extenders">A collection of key value pairs representing the extenders to apply.</param>
+        </member>
+        <member name="M:Knockout.Extensions.remove``1(Knockout.ObservableArray{``0},``0)">
+            <summary>
+            Removes all occurrences of a specific value from the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="value">The value to remove.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.remove``1(Knockout.ObservableArray{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Removes items from the array using a predicate function.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="predicate">The predicate.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.removeAll``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Removes all entries from the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.removeAll``1(Knockout.ObservableArray{``0},``0[])">
+            <summary>
+            Removes all occurrences of a set of values from the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="values">The values to remove.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.destroy``1(Knockout.ObservableArray{``0},``0)">
+            <summary>
+            Destroys all occurrences of a specific value from the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="value">The value to destroy.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.destroy``1(Knockout.ObservableArray{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Destroys items from the array using a predicate function.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="predicate">The predicate.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.destroyAll``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Destroys all entries in the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>The destroyed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.destroyAll``1(Knockout.ObservableArray{``0},``0[])">
+            <summary>
+            Destroys all occurrences of a set of values from the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="values">The values to destroy.</param>
+            <returns>The destroyed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.indexOf``1(Knockout.ObservableArray{``0},``0)">
+            <summary>
+            Gets the first index of the specified value.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="value">The value to search for.</param>
+            <returns>The index of the first match, or -1 if not matching elements are found.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.replace``1(Knockout.ObservableArray{``0},``0,``0)">
+            <summary>
+            Replaces an item in the array with a new value.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="oldItem">The item to replace.</param>
+            <param name="newItem">The item to insert.</param>
+        </member>
+        <member name="M:Knockout.Extensions.pop``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Removes and returns the last element of the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>The removed item.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.push``1(Knockout.ObservableArray{``0},``0[])">
+            <summary>
+            Pushes one or more new values onto the end of the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="values">The values to add.</param>
+            <returns>The new length of the array.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.reverse``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Reverses the order of items in the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+        </member>
+        <member name="M:Knockout.Extensions.shift``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Removes and returns the first element of the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>The removed item.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.sort``1(Knockout.ObservableArray{``0})">
+            <summary>
+            Sorts the array using the default comparer.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+        </member>
+        <member name="M:Knockout.Extensions.sort``1(Knockout.ObservableArray{``0},System.Func{``0,``0,System.Int32})">
+            <summary>
+            Sorts the array using a custom sort function.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="sortFunc">The function to sort with.</param>
+        </member>
+        <member name="M:Knockout.Extensions.splice``1(Knockout.ObservableArray{``0},System.Int32)">
+            <summary>
+            Removes a section of the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="startIndex">The index to begin removing at.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.splice``1(Knockout.ObservableArray{``0},System.Int32,System.Int32)">
+            <summary>
+            Removes a section of the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="startIndex">The index to begin removing at.</param>
+            <param name="count">The number of items to remove.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.splice``1(Knockout.ObservableArray{``0},System.Int32,System.Int32,``0[])">
+            <summary>
+            Removes a section of the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="startIndex">The index to begin removing at.</param>
+            <param name="count">The number of items to remove.</param>
+            <param name="newItems">A set of new items to append to the end of the array.</param>
+            <returns>The removed items.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.unshift``1(Knockout.ObservableArray{``0},``0[])">
+            <summary>
+            Inserts one or more values at the beginning of the array.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="values">The values to insert.</param>
+            <returns>The new length of the array.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.slice``1(Knockout.ObservableArray{``0},System.Int32)">
+            <summary>
+            Copies a section of an array, leaving the original array unchanged.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="startIndex">The index to start copying at.</param>
+            <returns>The copied elements.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.slice``1(Knockout.ObservableArray{``0},System.Int32,System.Int32)">
+            <summary>
+            Copies a section of an array, leaving the original array unchanged.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="startIndex">The index to start copying at.</param>
+            <param name="endIndex">The index to copy to.</param>
+            <returns>The copied elements.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.subscribe``1(Knockout.DependentObservable{``0},System.Action{``0},System.Object,System.String)">
+            <summary>
+            Subscribes to an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="callback">The callback to invoke.</param>
+            <param name="callbackTarget">An optional callback target to bind to.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Extensions.notifySubscribers``1(Knockout.DependentObservable{``0},``0,System.String)">
+            <summary>
+            Notifies all subscribers of an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="value">The value to notify with.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Extensions.getSubscriptionsCount``1(Knockout.DependentObservable{``0})">
+            <summary>
+            Gets the number of subscribers.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>An integer value.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.getDependenciesCount``1(Knockout.DependentObservable{``0})">
+            <summary>
+            Gets the number of dependencies in the observable.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>The dependency count.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.dispose``1(Knockout.DependentObservable{``0})">
+            <summary>
+            Disposes of the object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="observable">The observable.</param>
+        </member>
+        <member name="M:Knockout.Extensions.extend``1(Knockout.DependentObservable{``0},System.Object)">
+            <summary>
+            Applies an extender to the observable.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="extenders">A collection of key value pairs representing the extenders to apply.</param>
+        </member>
+        <member name="M:Knockout.Extensions.subscribe``1(Knockout.Observable{``0},System.Action{``0},System.Object,System.String)">
+            <summary>
+            Subscribes to an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="callback">The callback to invoke.</param>
+            <param name="callbackTarget">An optional callback target to bind to.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Extensions.notifySubscribers``1(Knockout.Observable{``0},``0,System.String)">
+            <summary>
+            Notifies all subscribers of an event.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="value">The value to notify with.</param>
+            <param name="eventName">The event name, or null to use the default event.</param>
+        </member>
+        <member name="M:Knockout.Extensions.getSubscriptionsCount``1(Knockout.Observable{``0})">
+            <summary>
+            Gets the number of subscribers.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <returns>An integer value.</returns>
+        </member>
+        <member name="M:Knockout.Extensions.valueHasMutated``1(Knockout.Observable{``0})">
+            <summary>
+            Notifies subscribers that the value has changed.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="observable">The observable.</param>
+        </member>
+        <member name="M:Knockout.Extensions.valueWillMutate``1(Knockout.Observable{``0})">
+            <summary>
+            Notifies subscribers that the value is preparing to be changed.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="observable">The observable.</param>
+        </member>
+        <member name="M:Knockout.Extensions.extend``1(Knockout.Observable{``0},System.Object)">
+            <summary>
+            Applies an extender to the observable.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <param name="observable">The observable.</param>
+            <param name="extenders">A collection of key value pairs representing the extenders to apply.</param>
+        </member>
+        <member name="T:Knockout.ObservableArray`1">
+            <summary>
+            Represents an observable array object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="value">An optional parameter used to set the underlying array.</param>
+            <returns>The current underlying array.</returns>
+        </member>
+        <member name="T:Knockout.DependentObservable`1">
+            <summary>
+            Represents a dependent observable object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <returns>The current underlying value.</returns>
+        </member>
+        <member name="T:Knockout.Utils">
+            <summary>
+            Provides access to knockout utility functions.
+            </summary>
+        </member>
+        <member name="M:Knockout.Utils.arrayForEach(System.Array,System.Action{System.Object})">
+            <summary>
+            Executes an action for each item in an array.
+            </summary>
+            <param name="array">The array to operate against.</param>
+            <param name="action">The action to execute.</param>
+        </member>
+        <member name="M:Knockout.Utils.arrayIndexOf(System.Array,System.Object)">
+            <summary>
+            Gets the first index of an item in an array.
+            </summary>
+            <param name="array">The array to search in.</param>
+            <param name="item">The item to search for.</param>
+            <returns>The index of the item, or -1 if one is not found.</returns>
+        </member>
+        <member name="M:Knockout.Utils.arrayFirst(System.Array,System.Func{System.Object,System.Boolean},System.Object)">
+            <summary>
+            Gets the first matching element in an array.
+            </summary>
+            <param name="array">The array to search in.</param>
+            <param name="predicate">The predicate to match with.</param>
+            <param name="predicateOwner">The owning context of the predicate.</param>
+            <returns>The matching element, or null if one is not found.</returns>
+        </member>
+        <member name="M:Knockout.Utils.arrayRemoveItem(System.Array,System.Object)">
+            <summary>
+            Removes an item from an array.
+            </summary>
+            <param name="array">The array to remove from.</param>
+            <param name="itemToRemove">The item to remove.</param>
+        </member>
+        <member name="M:Knockout.Utils.arrayGetDistinctValues(System.Array)">
+            <summary>
+            Creates a new array containing only the distinct values of the original array.
+            </summary>
+            <param name="array">The original array.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:Knockout.Utils.arrayMap(System.Array,System.Func{System.Object,System.Object})">
+            <summary>
+            Creates a new array containing mapped values from each value in the original array.
+            </summary>
+            <param name="array">The original array.</param>
+            <param name="mapping">The mapping function.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:Knockout.Utils.arrayFilter(System.Array,System.Func{System.Object,System.Boolean})">
+            <summary>
+            Creates a new array containing a subset of filtered values from the original array.
+            </summary>
+            <param name="array">The original array.</param>
+            <param name="predicate">The filtering function.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:Knockout.Utils.arrayPushAll(System.Array,System.Array[])">
+            <summary>
+            Adds all values from one or more arrays into an existing array.
+            </summary>
+            <param name="array">The array to add to.</param>
+            <param name="valuesToPush">The arrays to add.</param>
+            <returns>The input array, with all added values.</returns>
+        </member>
+        <member name="M:Knockout.Utils.extend(System.Object,System.Object)">
+            <summary>
+            Copies all properties of source into the target.
+            </summary>
+            <param name="target">The extension target.</param>
+            <param name="source">The extension source.</param>
+            <returns>The input object, with extended properties.</returns>
+        </member>
+        <member name="M:Knockout.Utils.getFormFields(System.Html.HTMLElement,System.String)">
+            <summary>
+            Gets all fields with a form by name.
+            </summary>
+            <param name="form">The form element.</param>
+            <param name="fieldName">The field name.</param>
+            <returns>An array of matching fields.</returns>
+        </member>
+        <member name="M:Knockout.Utils.postJson(System.String,System.Object,System.Object)">
+            <summary>
+            Posts data to the specific URL.
+            </summary>
+            <param name="url">The URL to post to.</param>
+            <param name="data">The data to post.</param>
+            <param name="options">The post options.</param>
+        </member>
+        <member name="M:Knockout.Utils.postJson(System.Html.HTMLElement,System.Object,System.Object)">
+            <summary>
+            Posts data from a from, using the form's action URL.
+            </summary>
+            <param name="form">The form post.</param>
+            <param name="data">The data to post.</param>
+            <param name="options">The post options.</param>
+        </member>
+        <member name="M:Knockout.Utils.parseJson(System.String)">
+            <summary>
+            Parses a JSON string.
+            </summary>
+            <param name="jsonString">The string to parse.</param>
+            <returns>The resulting object.</returns>
+        </member>
+        <member name="M:Knockout.Utils.stringifyJson(System.Object,System.Func{System.String,System.Object,System.Object},System.String)">
+            <summary>
+            Converts an object into a JSON string.
+            </summary>
+            <param name="data">The object to convert.</param>
+            <param name="replacer">The optional replacment function.</param>
+            <param name="space">The optional spacing string.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Knockout.Utils.registerEventHandler(System.Html.HTMLElement,System.String,System.Dom.EventHandler)">
+            <summary>
+            Registers an event handler with an element.
+            </summary>
+            <param name="element">The target element.</param>
+            <param name="eventType">The event type name.</param>
+            <param name="handler">The event handler function.</param>
+        </member>
+        <member name="M:Knockout.Utils.range(System.Int32,System.Int32)">
+            <summary>
+            Creates an integer array from the min to max, inclusive.
+            </summary>
+            <param name="min">The range starting value.</param>
+            <param name="max">The range ending value.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:Knockout.Utils.range(Knockout.Observable{System.Int32},Knockout.Observable{System.Int32})">
+            <summary>
+            Creates an integer array from the min to max, inclusive.
+            </summary>
+            <param name="min">The range starting observable value.</param>
+            <param name="max">The range ending observable value.</param>
+            <returns>The newly created array.</returns>
+        </member>
+        <member name="M:Knockout.Utils.toggleDomNodeCssClass(System.Html.HTMLElement,System.String,System.Boolean)">
+            <summary>
+            Toggles a CSS class name on an HTML element.
+            </summary>
+            <param name="node">The element to toggle on.</param>
+            <param name="classNames">The class name to toggle.</param>
+            <param name="shouldHaveClass">True if the element should have the class, false otherwise.</param>
+        </member>
+        <member name="M:Knockout.Utils.triggerEvent(System.Html.HTMLElement,System.String)">
+            <summary>
+            Triggers the specific event on an HTML element.
+            </summary>
+            <param name="element">The element to trigger on.</param>
+            <param name="eventType">The name of the event to trigger.</param>
+        </member>
+        <member name="M:Knockout.Utils.unwrapObservable``1(System.Object)">
+            <summary>
+            Ensures that an object is unwrapped.
+            </summary>
+            <typeparam name="T">The expected type.</typeparam>
+            <param name="value">The observable candidate.</param>
+            <returns>The resulting value.</returns>
+        </member>
+        <member name="T:Knockout.Observable`1">
+            <summary>
+            Represents an observable object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="value">An optional parameter used to set the value.</param>
+            <returns>The current underlying value.</returns>
+        </member>
+        <member name="T:Knockout.ko">
+            <summary>
+            Provides access to knockout core APIs.
+            </summary>
+        </member>
+        <member name="M:Knockout.ko.applyBindings(System.Object,System.Html.HTMLElement)">
+            <summary>
+            Applies model bindings to the document of a specific element.
+            </summary>
+            <param name="viewModel">The model to bind from.</param>
+            <param name="node">The node to begin binding at, or null to bind to the entire document.</param>
+        </member>
+        <member name="M:Knockout.ko.applyBindingsToNode(System.Html.HTMLElement,System.Object,System.Object)">
+            <summary>
+            Applies bindings to a single node only.
+            </summary>
+            <param name="node">The node to apply bindings to.</param>
+            <param name="bindings">An explicit set of bindings, or null to use the default bindings.</param>
+            <param name="viewModel">The view model to bind from.</param>
+        </member>
+        <member name="M:Knockout.ko.applyBindingsToDescendants(System.Object,System.Html.HTMLElement)">
+            <summary>
+            Applies bindings to all descendants of a specific node.
+            </summary>
+            <param name="viewModel">The view model to bind from.</param>
+            <param name="node">The node to begin binding at.</param>
+        </member>
+        <member name="M:Knockout.ko.observable``1(``0)">
+            <summary>
+            Creates an observable object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="value">The initial value.</param>
+            <returns>A new observable object.</returns>
+        </member>
+        <member name="M:Knockout.ko.computed``1(System.Func{``0},System.Object)">
+            <summary>
+            Creates a computed observable object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="func">The computation function.</param>
+            <param name="context">The calling context.</param>
+            <returns>A new computed observable object.</returns>
+        </member>
+        <member name="M:Knockout.ko.dependentObservable``1(System.Func{``0},System.Object)">
+            <summary>
+            Creates a computed observable object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="func">The computation function.</param>
+            <param name="context">The calling context.</param>
+            <returns>A new computed observable object.</returns>
+        </member>
+        <member name="M:Knockout.ko.observableArray``1(``0[])">
+            <summary>
+            Creates an observable array object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="value">The initial array value, or null to create an empty array.</param>
+            <returns>The new observable array object.</returns>
+        </member>
+        <member name="M:Knockout.ko.subscribable``1">
+            <summary>
+            Creates a subscribable object.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+            <returns>The new object.</returns>
+        </member>
+        <member name="M:Knockout.ko.cleanNode(System.Html.HTMLElement)">
+            <summary>
+            Clears the binding context from a node and all descendants.
+            </summary>
+            <param name="node">The node to clear.</param>
+        </member>
+        <member name="M:Knockout.ko.contextFor(System.Html.HTMLElement)">
+            <summary>
+            Gets the binding context for a specific node.
+            </summary>
+            <param name="node">The target node.</param>
+            <returns>The associated binding context, or undefined if not applicable.</returns>
+        </member>
+        <member name="M:Knockout.ko.dataFor``1(System.Html.HTMLElement)">
+            <summary>
+            Gets the view model bound to a specific node.
+            </summary>
+            <typeparam name="T">The expected data type.</typeparam>
+            <param name="node">The target node.</param>
+            <returns>The associated data, or undefined if not applicable.</returns>
+        </member>
+        <member name="M:Knockout.ko.isComputed(System.Object)">
+            <summary>
+            Gets a value indicating whether or not an object is a computed observable.
+            </summary>
+            <param name="instance">The target instance.</param>
+            <returns>True if the object is computed, false otherwise.</returns>
+        </member>
+        <member name="M:Knockout.ko.isObservable(System.Object)">
+            <summary>
+            Gets a value indicating whether or not an object is an observable.
+            </summary>
+            <param name="instance">The target instance.</param>
+            <returns>True if the object is observable, false otherwise.</returns>
+        </member>
+        <member name="M:Knockout.ko.isSubscribable(System.Object)">
+            <summary>
+            Gets a value indicating whether or not an object is a subscribable.
+            </summary>
+            <param name="instance">The target instance.</param>
+            <returns>True if the object is subscribable, false otherwise.</returns>
+        </member>
+        <member name="M:Knockout.ko.isWriteableObservable(System.Object)">
+            <summary>
+            Gets a value indicating whether or not an object is a writeable observable.
+            </summary>
+            <param name="instance">The target instance.</param>
+            <returns>True if the object is observable and writeable, false otherwise.</returns>
+        </member>
+        <member name="M:Knockout.ko.removeNode(System.Html.HTMLElement)">
+            <summary>
+            Cleans a node and removes it from the DOM.
+            </summary>
+            <param name="node">The node to remove.</param>
+        </member>
+        <member name="M:Knockout.ko.toJS``1(System.Object)">
+            <summary>
+            Clones the view model object graph, returning a plain JS object.
+            </summary>
+            <typeparam name="T">The underlying data type.</typeparam>
+            <param name="viewModel">The view model to clone.</param>
+            <returns>The newly created object.</returns>
+        </member>
+        <member name="M:Knockout.ko.toJSON(System.Object)">
+            <summary>
+            Converts a view model into a JSON string representation.
+            </summary>
+            <param name="viewModel">The view model to convert.</param>
+            <returns>The resulting JSON string.</returns>
+        </member>
+        <member name="P:Knockout.ko.extenders">
+            <summary>
+            Provides access to the extenders object, which can be used
+            to create extensions to augment observables.
+            </summary>
+        </member>
+        <member name="P:Knockout.ko.bindingHandlers">
+            <summary>
+            Provides access to the binding handlers object, which can
+            be used to add custom bindings.
+            </summary>
+        </member>
+        <member name="P:Knockout.ko.utils">
+            <summary>
+            Gets the knockout utility instance.
+            </summary>
+        </member>
+        <member name="P:Knockout.ko.version">
+            <summary>
+            Gets the knockout version string.
+            </summary>
+        </member>
+    </members>
+</doc>

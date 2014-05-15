@@ -1,0 +1,38 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<content name="searchPanelFilters">
+	${Html.DropDownListFor(m => m.Country, Model.ListItems[StateEntity.CountryProperty])}
+</content>
+
+<sbListPanel panelId="'stateListPanel'" hideSearchPanelWhenEmpty="false">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Name)
+	.Title(Text("Common.Name.Label"))
+	.HeaderHtmlAttributes(new { @class = "name" });
+	columns.Bound(x => x.Code)
+	.Title(Text("Common.Code.Label"))
+	.HeaderHtmlAttributes(new { @class = "code" });
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.Name).Ascending());
+})
+.Render();
+%>
+</sbListPanel>
+
+<content name="readyScript">
+	var stateListPanel = $('#stateListPanel').data('sbListPanel');
+	var country = $('#Country', stateListPanel.element);
+	stateListPanel.augmentParams = { country: country.val() };
+	country.change(function() { 
+		$('#search', stateListPanel.element).click(); 
+		stateListPanel.augmentParams = { country: this.value };
+	});
+</content>

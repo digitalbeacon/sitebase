@@ -1,0 +1,41 @@
+﻿<use master="" />
+<%
+Dictionary<string, object> attributes = new Dictionary<string, object>();
+//{
+//	{"class", "text-box single-line"}
+//};
+if (ViewData["readOnly"] as bool? ?? ViewData.ModelMetadata.IsReadOnly)
+{
+	attributes["readonly"] = "true";
+	attributes["class"] = "read-only";
+}
+if (!(ViewData["autoComplete"] as bool? ?? HttpContext.Current.IsDebuggingEnabled))
+{
+	attributes["autocomplete"] = "off";
+}
+if (ViewData.ContainsKey("cssClass") && ViewData["cssClass"].ToString().HasText())
+{
+	if (attributes.ContainsKey("class"))
+	{
+		attributes["class"] += " " + ViewData["cssClass"].ToString();
+	}
+	else
+	{
+		attributes["class"] = ViewData["cssClass"].ToString();
+	}
+}
+if (ViewData.ContainsKey("ngModel") && ViewData["ngModel"].ToString().HasText())
+{
+	attributes["ng-model"] = ViewData["ngModel"].ToString();
+}
+IEnumerable<ModelValidator> validators = ModelValidatorProviders.Providers.GetValidators(ViewData.ModelMetadata, ViewContext);
+ModelClientValidationRule rule = validators.SelectMany(v => v.GetClientValidationRules()).FirstOrDefault(m => m.ValidationType == "stringLength");
+if (rule != null && rule.ValidationParameters.ContainsKey("maximumLength"))
+{
+	attributes["maxlength"] = rule.ValidationParameters["maximumLength"];
+}
+else if (ViewData.ContainsKey("maxLength") && ViewData["maxLength"].ToString().HasText())
+{
+	attributes["maxlength"] = ViewData["maxLength"].ToString();
+}
+%>${Html.TextBox(String.Empty, ViewData.TemplateInfo.FormattedModelValue, attributes)}

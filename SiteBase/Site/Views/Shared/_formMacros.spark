@@ -1,0 +1,150 @@
+﻿<macro name="ValidationRule" property="string" panel="string" rule="string" arg="object" msg="string" msgArg="object">$(':input[name="${property}"]'${panel.HasText() ? ", {0}.element".FormatWith(panel) : String.Empty}).rules('add', { ${rule}: !{arg is bool ? arg.ToString().ToLowerInvariant() : arg.ToString()}, messages: { ${rule}: '!{M(Text(msg, msgArg is object[] ? (object[])msgArg : (object[])new object[] { msgArg is string ? Text((string)msgArg) : msgArg })).EscapeForJavaScript()}' } });</macro>
+<macro name="ValidationRule" property="string" panel="string" rule="string" arg="object" msg="string">${ValidationRule(property, panel, rule, arg, msg, null)}</macro>
+
+<macro name="FormRow" options="FormRowOptions">
+
+	<set options.RowId="'form-row-' + options.Property.ToLowerHyphenated()" if="options.GenerateRowId && options.Property.HasText()" />
+	<set options.RowId="options.RowId + '-' + options.SubProperty.ToLowerHyphenated()" if="options.GenerateRowId && options.SubProperty.HasText()" />
+	<set options.RowClass="' ' + options.RowClass" if="options.RowClass.HasText()" />
+
+	<if condition="options.InputType == submit && options.EnableBulkCreate">
+		<div id="form-row-bulk-create" class="form-row">
+			<span class="form-row-label">
+				<span class="form-row-help"><span class="form-row-tip"><span class="text">${Text("Common.BulkCreate.Tooltip", options.PluralLabel.ToLower())}</span></span></span>
+				<span class="form-row-label-text"></span>
+			</span>
+			<span class="form-row-content">
+				${this.CheckBox(EntityModel.BulkCreateProperty).LabelAfter(Text("Common.BulkCreate.Label", options.SingularLabel))}
+			</span>
+		</div>
+	</if>
+
+	<if condition="options.InputType == submit && options.EnableCaptcha">
+		<div id="form-row-captcha" class="form-row">
+			<span class="form-row-label">
+				<span class="form-row-required" title="${Text("Common.Required.Label")}"><span class="required-marker"><span class="text">*</span></span></span>			
+				<span class="form-row-help"><span class="form-row-tip"><span class="text">${Text("Common.Captcha.Tooltip")}</span></span></span>
+				<span class="form-row-label-text">${Text("Common.Captcha.Label")}</span>
+				<span class="form-row-validation">${Html.ValidationMessage(CaptchaConstants.CaptchaFieldName)}</span>				
+			</span>
+			<span class="form-row-content">${Html.GenerateCaptcha()}</span>
+		</div>
+		<content name="readyScript">
+			setTimeout(function() {
+				${ValidationRule(CaptchaConstants.CaptchaFieldName, null, "required", true, "Validation.Error.Required", "Common.Captcha.Label")}
+			}, 100);
+		</content>
+	</if>
+
+	<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}">
+		<if condition="options.Property.HasText()">
+			<var propName="options.Property" />
+			<if condition="options.SubProperty.IsNullOrBlank() && propName.IndexOf('.') >= 0">
+				<set options.Property="propName.Substring(0, propName.IndexOf('.'))" />
+				<set options.SubProperty="propName.Substring(propName.IndexOf('.') + 1)" />
+			</if>
+			<set propName="Model.GetType().GetProperty(options.Property).Name" />
+			<set propName="'{0}.{1}'.FormatWith(propName, options.Model.GetType().GetProperty(options.Property).PropertyType.GetProperty(options.SubProperty).Name)" if="options.SubProperty.HasText()" />
+			<var propMetadata="ModelMetadata.FromStringExpression(propName, options.ViewData)" />
+			<var propRequired="options.Required.HasValue ? options.Required.Value : propMetadata.IsRequired" />
+			<var propReadOnly="options.InputReadOnly.HasValue ? options.InputReadOnly.Value : propMetadata.IsReadOnly" />
+			<if condition="options.InputType == null">
+				<if condition="propMetadata.ModelType == typeof(bool) || propMetadata.ModelType == typeof(bool?)">
+					<set options.InputType="checkBox" />
+				</if>
+				<else if="options.Model.ListItems.ContainsKey(propName)">
+					<set options.InputType="dropDownList" />
+				</else>
+			</if>
+			<span class="form-row-label">
+				<span class="form-row-required" title="${Text("Common.Required.Label")}"><if condition="propRequired"><span class="required-marker"><span class="text">*</span></span></if><else>&nbsp;</else></span>
+				<span class="form-row-help" if="options.HelpText.HasText()"><span class="form-row-tip"><span class="text">${Text(options.HelpText, propMetadata.DisplayName)}</span></span></span>
+				<span class="form-row-validation">${Html.ValidationMessage(propName)}</span>
+				<span class="form-row-label-text required?{propRequired}">
+					<if condition="options.Label.HasText()">${Text(options.Label)}</if>
+					<else if="options.InputType != checkBox">${Html.Label(propName)}</else>
+				</span>
+			</span>
+			<span class="form-row-content">
+				<if condition="options.InputType == null && propReadOnly">
+					${Html.Editor(propName, 'ReadOnlyField')}
+				</if>
+				<else if="options.InputType == null">
+					${Html.Editor(propName)}
+				</else>
+				<else if="options.InputType == textBox">
+					<sbTextBox propertyName="propName" readOnly="propReadOnly" maxLength="options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty" />
+				</else>
+				<else if="options.InputType == textArea">
+					${this.TextArea(propName).DoNotAutoLabel()}
+				</else>
+				<else if="options.InputType == editor">
+					<sbEditor propertyName="propName" panelId="options.FormPanelId" />
+				</else>
+				<else if="options.InputType == password">
+					${Html.Password(propName)}
+				</else>
+				<else if="options.InputType == dropDownList">
+					<if condition="options.IncludeEmptyOption">
+						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty)}
+					</if>
+					<else>
+						${Html.DropDownList(propName, options.Model.ListItems[propName])}
+					</else>
+				</else>
+				<else if="options.InputType == checkBox">
+					${this.CheckBox(propName).LabelAfter(propMetadata.DisplayName)}
+				</else>
+				<else if="options.InputType == file">
+					<if condition="options.InputSize > 0">
+						${this.FileUpload(propName).Size(options.InputSize).DoNotAutoLabel()}
+					</if>
+					<else>
+						${this.FileUpload(propName).DoNotAutoLabel()}
+					</else>
+				</else>
+				!{options.RenderContent}
+			</span>
+			<content name="readyScript" if="options.Mask.HasText()">
+				$('#${options.FormPanelId} #${propName.Replace(".", "_")}').mask('${options.Mask}', { placeholder: ' ' });
+			</content>
+			<content name="readyScript" if="options.Focus">
+				setTimeout(function() { $('#${options.FormPanelId} #${propName.Replace(".", "_")}').focus(); }, 0);
+			</content>
+		</if>
+		<else>
+			<span class="form-row-label">
+				<span class="form-row-required" title="${Text("Common.Required.Label")}"><if condition="options.Required.HasValue ? options.Required.Value : false"><span class="required-marker"><span class="text">*</span></span></if><else>&nbsp;</else></span>
+				<span class="form-row-help" if="options.HelpText.HasText()"><span class="form-row-tip"><span class="text">${Text(options.HelpText)}</span></span></span>
+				<span class="form-row-validation" if="options.Validation.HasText() || (options.Validations != null && options.Validations.Length > 0)">
+					<if condition="options.Validation.HasText()">
+						${Html.ValidationMessage(options.Validation)}
+					</if>
+					<if condition="options.Validations != null && options.Validations.Length > 0">
+						<for each="var validationProperty in options.Validations">
+							${Html.ValidationMessage(validationProperty)}
+						</for>
+					</if>
+				</span>
+				<span class="form-row-label-text">
+				<if condition="options.Label != null">${Text(options.Label)}</if>
+				</span>
+			</span>
+			<span class="form-row-content">
+				<if condition="options.InputType == submit">
+					<var customText="options.CustomText" />
+					<set customText="'Common.Save.Label'" if="customText == null && options.IsEntityModel" />
+					<set customText="'Common.Submit.Label'" if="customText == null && !options.IsEntityModel" />
+					<input type="submit" id="save" name="Save" value="${Text(customText)}" if="options.EnableSave" />
+					!{options.RenderContent}
+					<input type="submit" id="delete" class="cancel" name="Delete" value="${Text('Common.Delete.Label')}" if="options.EnableDelete" />
+					<input type="submit" id="cancel" class="cancel" name="Cancel" value="${Text('Common.Cancel.Label')}" if="options.EnableCancel" />
+				</if>
+				<else>
+					!{options.RenderContent}
+				</else>
+			</span>
+		</else>
+	</div>
+
+</macro>

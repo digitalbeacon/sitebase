@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<class name="DigitalBeacon.SiteBase.Model.QueuedEmailEntity" table="`QueuedEmail`" lazy="true" schema="`sitebase`">
+		<id name="Id" column="`Id`" type="Int64" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<version name="ModificationCounter" column="`ModificationCounter`" type="Int64" />
+		<property name="AssociationId" column="`AssociationId`" type="Int64" />
+		<property name="MessageId" column="`MessageId`" type="Int64" />
+		<property name="Template" column="`TemplateId`" type="DigitalBeacon.SiteBase.Model.ModuleSettingDefinition, DigitalBeacon.SiteBase.Model" />
+		<property name="Priority" column="`Priority`" type="Int32" />
+		<property name="SenderEmail" column="`SenderEmail`" type="String" length="200" />
+		<property name="Subject" column="`Subject`" type="String" length="1073741823" />
+		<property name="Body" column="`Body`" type="String" length="1073741823" />
+		<property name="SendDate" column="`SendDate`" type="DateTime" not-null="true" />
+		<property name="DateProcessed" column="`DateProcessed`" type="DateTime" />
+		<property name="DateSent" column="`DateSent`" type="DateTime" />
+		<property name="ErrorMessage" column="`ErrorMessage`" type="String" length="1073741823" />
+		<bag name="Recipients" table="`QueuedEmailRecipient`" lazy="true" schema="`sitebase`" cascade="all-delete-orphan" inverse="true">
+			<key column="`QueuedEmailId`" />
+			<one-to-many class="DigitalBeacon.SiteBase.Model.QueuedEmailRecipientEntity, DigitalBeacon.SiteBase.Model" />
+		</bag>
+		<bag name="Attachments" table="`QueuedEmailAttachment`" lazy="true" schema="`sitebase`" cascade="all-delete-orphan" inverse="true">
+			<key column="`QueuedEmailId`" />
+			<one-to-many class="DigitalBeacon.SiteBase.Model.QueuedEmailAttachmentEntity, DigitalBeacon.SiteBase.Model" />
+		</bag>
+	</class>
+</hibernate-mapping>

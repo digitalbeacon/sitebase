@@ -1,0 +1,23 @@
+﻿<viewdata model="FlexibleContentModel" />
+
+<content name="head">
+	<link href="~/resources/css/content-${Model.CssClass.ToLowerInvariant()}.css" rel="stylesheet" type="text/css" if="Model.CssClass.HasText()" />
+</content>
+
+<content name="header" if="Model.Heading.HasText()">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<content name="pager">
+	<sbPager if="Model.Pages > 1" />
+</content>
+
+#//<use content="pager" />
+
+<div class="entry first?{xIsFirst} last?{xIsLast} even?{xIndex % 2 == 0} odd?{xIndex % 2 == 1}" each="var x in Model.Items">
+	<span class="title" if="x.Title.HasText()">${x.Title}</span>
+	<span class="date" if="x.ContentDate.HasValue">${Model.DateFormat.HasText() ? x.ContentDate.Value.ToString(Model.DateFormat) :	x.ContentDate.Value.ToString('d')}</span>
+	<span class="body">!{ExpandSiteRelativeText(x.Body)}</span>
+</div>
+
+<use content="pager" />
