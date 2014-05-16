@@ -26,8 +26,9 @@ The SiteBase project aims to provide as much of the infrastructure as possible o
 - JavaScript and CSS minification using [YUI Compressor](http://yui.github.io/yuicompressor/)
 - Support for generating PDF documents using [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html)
 - Flexible SSL switching using [SecuritySwitch](https://code.google.com/p/securityswitch) module
+- Data model versioning and support for incremental updates
 - Configurable route-based authorization   
-- Localization/resource management
+- Robust localization management
 - Account management
 - Email queuing
 - Email notifications for application exceptions
