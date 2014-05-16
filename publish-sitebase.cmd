@@ -43,6 +43,8 @@ for %%i in (SiteBase\Site\*.csproj) do (
 copy /y SiteBase\Site\Bin\*.dll Publish\Site\Bin
 copy /y SiteBase\Site\Bin\*.pdb Publish\Site\Bin
 
+xcopy /Y /E /I SiteBase\Site\Resources\Base\telerik Publish\Site\Resources\Base\telerik
+
 mkdir Publish\Config\Config
 xcopy /Y SiteBase\Site\web.config Publish\Config
 xcopy SiteBase\Config\*.config Publish\Config\Config
