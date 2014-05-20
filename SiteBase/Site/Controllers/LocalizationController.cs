@@ -57,7 +57,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				}
 				LocalizationService.SaveResources(resources);
 			}
-			return Json(GetLocalizedText("Common.Update.Confirmation", String.Empty, PluralLabel));
+			return Json(GetLocalizedTextWithFormatting("Common.Update.Confirmation", String.Empty, PluralLabel));
 		}
 
 		[HttpPost]
@@ -184,8 +184,8 @@ namespace DigitalBeacon.SiteBase.Controllers
 				Type = x.Type,
 				Key = x.Key,
 				Property = x.Type == ModuleSettingKey ? x.Property : String.Empty,
-				Default = x.Type.IsNullOrBlank() ? ResourceManager.Instance.GetString(ResourceManager.SystemCulture, x.Key) : String.Empty,
-				Value = x.Value
+				Default = x.Type.IsNullOrBlank() ? Server.HtmlEncode(ResourceManager.Instance.GetString(ResourceManager.SystemCulture, x.Key)) : String.Empty,
+				Value = Server.HtmlEncode(x.Value)
 			});
 		}
 

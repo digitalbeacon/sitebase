@@ -11,7 +11,6 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using DigitalBeacon.Business;
 using DigitalBeacon.Util;
-using MarkdownSharp;
 
 namespace DigitalBeacon.SiteBase.Web
 {
@@ -170,16 +169,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// </summary>
 		protected string M(string text, bool removeEnclosingParagraphTags = true)
 		{
-			if (text.IsNullOrBlank())
-			{
-				return text;
-			}
-			text = new Markdown().Transform(H(text)).Trim();
-			if (removeEnclosingParagraphTags && text.IndexOf("<p", 3) == -1 && text.StartsWith("<p>") && text.EndsWith("</p>"))
-			{
-				text = text.Substring(3, text.Length - 7);
-			}
-			return text;
+			return BaseController.GetSafeFormattedText(text, removeEnclosingParagraphTags);
 		}
 
 		/// <summary>

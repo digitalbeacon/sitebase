@@ -30,6 +30,7 @@ using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Util;
+using MarkdownSharp;
 using Newtonsoft.Json.Linq;
 using Spark;
 using Spring.Data.NHibernate.Support;
@@ -658,6 +659,23 @@ namespace DigitalBeacon.SiteBase.Web
 		#region Utility Methods
 
 		/// <summary>
+		/// HTML encode text and convert markdown to HTML
+		/// </summary>
+		static protected internal string GetSafeFormattedText(string text, bool removeEnclosingParagraphTags = true)
+		{
+			if (text.IsNullOrBlank())
+			{
+				return text;
+			}
+			text = new Markdown().Transform(HttpUtility.HtmlEncode(text.Replace("****", string.Empty))).Trim();
+			if (removeEnclosingParagraphTags && text.IndexOf("<p", 3) == -1 && text.StartsWith("<p>") && text.EndsWith("</p>"))
+			{
+				text = text.Substring(3, text.Length - 7);
+			}
+			return text.Replace("**", string.Empty);
+		}
+
+		/// <summary>
 		/// Gets the localized string.
 		/// </summary>
 		/// <param name="key">The key.</param>
@@ -666,6 +684,14 @@ namespace DigitalBeacon.SiteBase.Web
 		static protected internal string GetLocalizedText(string key, params object[] args)
 		{
 			return ResourceManager.Instance.GetString(key, args);
+		}
+
+		/// <summary>
+		/// Gets the localized string with markdown formatting applied.
+		/// </summary>
+		static protected internal string GetLocalizedTextWithFormatting(string key, params object[] args)
+		{
+			return GetSafeFormattedText(ResourceManager.Instance.GetString(key, args));
 		}
 
 		/// <summary>
