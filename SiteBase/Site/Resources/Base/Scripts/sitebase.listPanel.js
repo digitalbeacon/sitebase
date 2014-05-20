@@ -13,6 +13,7 @@ Initialize list panel with search
 	$.sb.listPanel = function (element, options) {
 		this.element = element;
 		this.deleteConfirmText = $.sb.localization.confirmText;
+		this.isRefreshing = false;
 		$.extend(this, options);
 		var listPanel = this;
 		var $grid = $(this.gridId, this.element);
@@ -76,6 +77,10 @@ Initialize list panel with search
 			});
 		}
 		$(this.element).bind('refresh', function (e) {
+			if (listPanel.isRefreshing) {
+				return;
+			}
+			listPanel.isRefreshing = true;
 			$.sb.log(listPanel.element.id + ' refreshing...');
 			listPanel.gridRefresh();
 		});
@@ -230,6 +235,7 @@ Initialize list panel with search
 			else {
 				$(window).resize();
 			}
+			this.isRefreshing = false;
 		},
 
 		gridRowDelete: function (link) {
