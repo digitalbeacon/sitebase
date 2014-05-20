@@ -9,9 +9,12 @@ using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Validation;
+using FluentValidation;
+using FluentValidation.Attributes;
 
 namespace DigitalBeacon.SiteBase.Models.NavigationItems
 {
+	[Validator(typeof(EditModelValidator))]
 	public class EditModel : EntityModel
 	{
 		[LocalizedDisplayName("Common.Enabled.Label")]
@@ -23,7 +26,6 @@ namespace DigitalBeacon.SiteBase.Models.NavigationItems
 		[LocalizedDisplayName("NavigationItems.Parent.Label")]
 		public long? Parent { get; set; }
 
-		[Required]
 		[LocalizedDisplayName("NavigationItems.Navigation.Label")]
 		public long? Navigation { get; set; }
 
@@ -40,5 +42,16 @@ namespace DigitalBeacon.SiteBase.Models.NavigationItems
 		[StringLength(NavigationItemEntity.ImageUrlMaxLength)]
 		[LocalizedDisplayName("NavigationItems.ImageUrl.Label")]
 		public string ImageUrl { get; set; }
+	}
+
+	public class EditModelValidator : BaseValidator<EditModel>
+	{
+		public EditModelValidator()
+		{
+			RuleFor(x => x.Navigation)
+				.NotNullOrBlank()
+				.When(x => x.Parent == null)
+				.WithLocalizedMessage("Validation.Error.Required", "NavigationItems.Navigation.Label");
+		}
 	}
 }

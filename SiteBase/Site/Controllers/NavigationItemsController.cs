@@ -116,8 +116,16 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			var entity = base.ConstructEntity(model);
 			entity.Enabled = model.Enabled ?? false;
-			entity.Parent = model.Parent.HasValue ? ModuleService.GetNavigationItem(model.Parent.Value) : null;
-			entity.Navigation = LookupService.Get<NavigationEntity>(model.Navigation ?? (long)Navigation.TopLeft);
+			if (model.Parent != null)
+			{
+				entity.Parent = GetEntity(model.Parent.Value);
+				entity.Navigation = entity.Parent.Navigation;
+			}
+			else
+			{
+				entity.Parent = null;
+				entity.Navigation = LookupService.Get<NavigationEntity>(model.Navigation ?? (long)Navigation.TopLeft);
+			}
 			entity.Text = model.Text;
 			entity.Url = model.Url;
 			entity.ImageUrl = model.ImageUrl.DefaultTo((string)null);
@@ -169,7 +177,8 @@ namespace DigitalBeacon.SiteBase.Controllers
 		protected override NavigationItemEntity SaveEntity(NavigationItemEntity entity, EditModel model)
 		{
 			return ModuleService.SaveNavigationItem(entity);
-		}
+		}
+
 		#endregion
 	}
 }

@@ -393,7 +393,7 @@ namespace DigitalBeacon.SiteBase.Business.Support
 			}
 			NavigationItemDao.Evict(item);
 			var existing = GetNavigationItem(item.Id);
-			if (item.Parent != null && item.Navigation.Id != existing.Navigation.Id)
+			if (item.Parent != null && item.Navigation.Id != item.Parent.Navigation.Id)
 			{
 				throw new ServiceException("Can not change navigation placement for child item {0}.", item.Id);
 			}
