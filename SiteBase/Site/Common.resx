@@ -385,7 +385,7 @@
     <value>Type</value>
   </data>
   <data name="Common.Update.Confirmation" xml:space="preserve">
-    <value>{1} **{0} ** saved.</value>
+    <value>{1} **{0}** saved.</value>
   </data>
   <data name="Common.Update.Label" xml:space="preserve">
     <value>Update</value>
