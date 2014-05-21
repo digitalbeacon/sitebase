@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{9077F5
 		SiteBase\Config\machineKey.config = SiteBase\Config\machineKey.config
 		SiteBase\Config\MessagingDao.config = SiteBase\Config\MessagingDao.config
 		SiteBase\Config\NHibernate.config = SiteBase\Config\NHibernate.config
+		SiteBase\Config\rules.config = SiteBase\Config\rules.config
 		SiteBase\Config\Services.config = SiteBase\Config\Services.config
 		SiteBase\Config\Site.config = SiteBase\Config\Site.config
 		SiteBase\Config\SiteBaseData.xml = SiteBase\Config\SiteBaseData.xml
