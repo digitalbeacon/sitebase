@@ -648,15 +648,6 @@
   <data name="Common.MiddleInitial.Label" xml:space="preserve">
     <value>Middle Initial</value>
   </data>
-  <data name="Comments.Description.Format" xml:space="preserve">
-    <value>Comment for {0}</value>
-  </data>
-  <data name="Comments.Plural.Label" xml:space="preserve">
-    <value>Comments</value>
-  </data>
-  <data name="Comments.Singular.Label" xml:space="preserve">
-    <value>Comment</value>
-  </data>
   <data name="Common.Flagged.Label" xml:space="preserve">
     <value>Flagged</value>
   </data>
@@ -677,5 +668,14 @@
   </data>
   <data name="Common.UseTextBox.Label" xml:space="preserve">
     <value>Switch to Text Box</value>
+  </data>
+  <data name="Common.Enabled.Active.Label" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Common.Enabled.Both.Label" xml:space="preserve">
+    <value>Both</value>
+  </data>
+  <data name="Common.Enabled.Inactive.Label" xml:space="preserve">
+    <value>Inactive</value>
   </data>
 </root>

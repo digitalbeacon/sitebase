@@ -24,6 +24,8 @@ INSERT INTO [sitebase].[NavigationItem] ([Id],[ModificationCounter],[Association
 INSERT INTO [sitebase].[NavigationItem] ([Id],[ModificationCounter],[AssociationId],[NavigationId],[ParentId],[DisplayOrder],[Text],[ModuleId],[Url],[ImageUrl])VALUES(18,0,NULL,1,9,1,'Localization',NULL,'/localization',NULL)
 
 SET IDENTITY_INSERT [sitebase].[NavigationItem] OFF
+
+INSERT INTO [sitebase].[NavigationItem] ([ModificationCounter],[AssociationId],[NavigationId],[ParentId],[DisplayOrder],[Text],[ModuleId],[Url],[ImageUrl])VALUES(0,NULL,1,NULL,2,'Contacts',NULL,'/contacts',NULL)
 	
 INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
 	VALUES('SitePath','/',4,1,1)
@@ -69,6 +71,19 @@ INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
 	VALUES('SitePath','/content/flexible/default',4,1,1)
 INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
 	VALUES('SitePath','/content/basic',4,1,1)
+
+INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
+	VALUES('SitePath','/contacts',4,3,1)
+INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
+	VALUES('SitePath','/contacts/delete',4,3,1)
+INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
+	VALUES('SitePath','/contactComments',4,3,1)
+INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
+	VALUES('SitePath','/contactComments/create',4,3,1)
+INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
+	VALUES('SitePath','/contactComments/update',4,3,1)
+INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
+	VALUES('SitePath','/contactComments/delete',4,3,1)
 
 -- test user
 

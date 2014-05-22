@@ -12,9 +12,12 @@ using DigitalBeacon.Model;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Validation;
+using FluentValidation;
+using FluentValidation.Attributes;
 
 namespace DigitalBeacon.SiteBase.Models.Comments
 {
+	[Validator(typeof(EditModelValidator))]
 	public class EditModel<T> : EditModel where T : IBaseEntity
 	{
 		public EditModel(string commentTypePropertyName) : base(typeof(T), commentTypePropertyName)
@@ -22,6 +25,7 @@ namespace DigitalBeacon.SiteBase.Models.Comments
 		}
 	}
 
+	[Validator(typeof(EditModelValidator))]
 	public class EditModel : EntityModel
 	{
 		public EditModel()
@@ -44,6 +48,8 @@ namespace DigitalBeacon.SiteBase.Models.Comments
 
 		public virtual bool CommentTypeRequired { get; set; }
 
+		public virtual bool CommentTextRequired { get; set; }
+
 		public virtual long ParentId { get; set; }
 
 		[ReadOnly(true)]
@@ -58,7 +64,6 @@ namespace DigitalBeacon.SiteBase.Models.Comments
 		[ReadOnly(true)]
 		public virtual string Text { get; set; }
 
-		[Required]
 		[LocalizedDisplayName("Comments.Text.Label")]
 		public virtual string CommentText
 		{
@@ -66,7 +71,6 @@ namespace DigitalBeacon.SiteBase.Models.Comments
 			set { Text = value; }
 		}
 		
-		[Required]
 		[LocalizedDisplayName("Common.Date.Label")]
 		public virtual DateTime? CommentDate
 		{
@@ -76,5 +80,20 @@ namespace DigitalBeacon.SiteBase.Models.Comments
 
 		[LocalizedDisplayName("Common.Type.Label")]
 		public virtual string CommentType { get; set; }
+	}
+
+	public class EditModelValidator : BaseValidator<EditModel>
+	{
+		public EditModelValidator()
+		{
+			RuleFor(x => x.CommentText)
+				.NotNullOrBlank()
+				.When(x => x.CommentTextRequired)
+				.WithLocalizedMessage("Validation.Error.Required", "Comments.Text.Label");
+			RuleFor(x => x.CommentType)
+				.NotNullOrBlank()
+				.When(x => x.CommentTypeRequired)
+				.WithLocalizedMessage("Validation.Error.Required", "Common.Type.Label");
+		}
 	}
 }

@@ -2,10 +2,22 @@
 
 <content name="header">${Model.Heading}</content>
 
-<sbFormPanel panelId="Model.PanelPrefix + 'CommentEditPanel'" panelClass="'comment-edit-panel'" enableDelete="!Model.IsNew && Model.CanDelete">
+<var panelId="Model.PanelPrefix + 'CommentEditPanel'" />
+
+<sbFormPanel panelClass="'comment-edit-panel'" enableDelete="!Model.IsNew && Model.CanDelete">
 	${Html.HiddenFor(m => m.ParentId)}
 	<sbFormRow property="P(m => m.CommentType)" includeEmptyOption="!Model.CommentTypeRequired" required="Model.CommentTypeRequired" if="Model.SupportsTypeProperty" />
 	<sbFormRow property="P(m => m.CommentDate)" />
-	<sbFormRow property="P(m => m.CommentText)" inputType="textArea" />
+	<sbFormRow property="P(m => m.CommentText)" inputType="textArea" required="Model.CommentTextRequired" />
 	<sbFormRow inputType="submit" />
 </sbFormPanel>
+
+<content name="readyScript">
+	var ${panelId} = $('#${panelId}').data('sbFormPanel');
+	<if condition="Model.SupportsTypeProperty && Model.CommentTypeRequired">
+		${ValidationRule("CommentType", panelId, "required", true, "Validation.Error.Required", "Common.Type.Label")}
+	</if>
+	<if condition="Model.CommentTextRequired">
+		${ValidationRule("CommentText", panelId, "required", true, "Validation.Error.Required", "Comments.Text.Label")}
+	</if>
+</content>

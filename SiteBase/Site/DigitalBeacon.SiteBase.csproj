@@ -202,6 +202,9 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuditLogController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\ContactCommentsController.cs" />
+    <Compile Include="Controllers\ContactCommentTypesController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\ContentEntriesController.cs" />
     <Compile Include="Controllers\ContentGroupsController.cs" />
@@ -221,6 +224,7 @@
     <Compile Include="Controllers\PermissionsController.cs" />
     <Compile Include="Controllers\PostalCodesController.cs" />
     <Compile Include="Controllers\QueuedEmailsController.cs" />
+    <Compile Include="Controllers\ContactTypesController.cs" />
     <Compile Include="Controllers\RacesController.cs" />
     <Compile Include="Controllers\RelationshipsController.cs" />
     <Compile Include="Controllers\RoleGroupsController.cs" />
@@ -234,12 +238,19 @@
     <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Models\Account\ChangeSecurityQuestionModel.cs" />
     <Compile Include="Models\Account\UpdateProfileModel.cs" />
+    <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\AuditLog\EditModel.cs" />
     <Compile Include="Models\AuditLog\ListItem.cs" />
     <Compile Include="Models\AuditLog\ListModel.cs" />
     <Compile Include="Models\Comments\EditModel.cs" />
     <Compile Include="Models\Comments\ListItem.cs" />
     <Compile Include="Models\Comments\ListModel.cs" />
+    <Compile Include="Models\Contacts\CommentTypeEditModel.cs" />
+    <Compile Include="Models\Contacts\CommentTypeListItem.cs" />
+    <Compile Include="Models\Contacts\CreateModel.cs" />
+    <Compile Include="Models\Contacts\EditModel.cs" />
+    <Compile Include="Models\Contacts\ListItem.cs" />
+    <Compile Include="Models\Contacts\ListModel.cs" />
     <Compile Include="Models\Content\ContentEntryModel.cs" />
     <Compile Include="Models\Content\ContentGroupListItem.cs" />
     <Compile Include="Models\Content\ContentGroupModel.cs" />
@@ -282,17 +293,20 @@
     <Compile Include="Models\Users\CreateModel.cs" />
     <Compile Include="Models\Users\EditModel.cs" />
     <Compile Include="Models\Users\ListModel.cs" />
-    <Compile Include="..\CommonAssemblyInfo.cs">
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\ViewBase.cs" />
+    <Content Include="Resources\Base\Contacts\styles.min.css" />
+    <Content Include="Resources\Base\Contacts\styles.css" />
     <Content Include="Resources\Base\Css\bootstrap-theme.css" />
     <Content Include="Resources\Base\Css\bootstrap-theme.min.css" />
     <Content Include="Resources\Base\Css\bootstrap.css" />
     <Content Include="Resources\Base\Css\bootstrap.min.css" />
     <Content Include="Resources\Base\Css\mobile.css" />
     <Content Include="Resources\Base\Css\mobile.min.css" />
+    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Resources\Base\Scripts\angular-animate.js" />
     <Content Include="Resources\Base\Scripts\angular-animate.min.js" />
     <Content Include="Resources\Base\Scripts\angular-csp.css" />
@@ -420,6 +434,9 @@
     <Content Include="Resources\Base\Scripts\angular-touch.min.js.map" />
     <Content Include="Resources\Base\Scripts\angular.min.js.map" />
     <Content Include="Resources\Base\Scripts\errors.json" />
+    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.woff" />
     <None Include="Resources\Base\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Resources\Base\Scripts\jquery.validate.js" />
     <Content Include="Resources\Base\Scripts\jquery.validate.min.js" />
@@ -741,6 +758,12 @@
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zu.js" />
+    <Content Include="Views\Contacts\Edit.spark" />
+    <Content Include="Views\Contacts\List.spark" />
+    <Content Include="Views\Contacts\New.spark" />
+    <Content Include="Views\Contacts\_global.spark" />
+    <Content Include="Views\Contacts\CommentTypeEdit.spark" />
+    <Content Include="Views\Contacts\CommentTypeList.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

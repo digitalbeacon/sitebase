@@ -30,13 +30,12 @@ namespace DigitalBeacon.Web
 		public override void ExecuteResult(ControllerContext context)
 		{
 			var httpContext = HttpContext.Current;
-			// ASP.NET MVC 3.0
 			if (context.Controller.TempData != null && context.Controller.TempData.Count > 0)
 			{
 				context.Controller.TempData.Keep();
 				context.Controller.TempData.Save(context, ((Controller)context.Controller).TempDataProvider);
 			}
-			httpContext.Server.TransferRequest(Url, true); // change to false to pass query string parameters if you have already processed them
+			httpContext.Server.TransferRequest(Url, true, httpContext.Request.HttpMethod, httpContext.Request.Headers, false);
 		}
 	}
 }

@@ -75,6 +75,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 			get { return true; }
 		}
 
+		protected virtual bool CommentTextRequired
+		{
+			get { return true; }
+		}
+
 		protected virtual string FlaggedPropertyName
 		{
 			get { return DefaultFlaggedPropertyName; }
@@ -123,20 +128,39 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			var model = base.ConstructUpdateModel(id);
 			model.PanelPrefix = PanelPrefix.ToCamelCase();
+			model.CanDelete = CanDelete;
+			model.CommentTypeRequired = CommentTypeRequired;
+			model.CommentTextRequired = CommentTextRequired;
 			return model;
 		}
 
 		protected override EditModel ConstructUpdateModel(FormCollection form)
 		{
-			var model = base.ConstructUpdateModel(form);
+			var model = PopulateModelForValidation(new EditModel<T>(CommentTypePropertyName), form);
+			TryUpdateModel(model);
 			model.PanelPrefix = PanelPrefix.ToCamelCase();
+			return model;
+		}
+
+		protected override EditModel PopulateModelForValidation(EditModel model, FormCollection form)
+		{
+			base.PopulateModelForValidation(model, form);
 			model.CanDelete = CanDelete;
+			model.CommentTypeRequired = CommentTypeRequired;
+			model.CommentTextRequired = CommentTextRequired;
 			return model;
 		}
 
 		protected override EditModel ConstructCreateModel()
 		{
-			return new EditModel<T>(CommentTypePropertyName) { Date = DateTime.Today, ParentId = ParentId.Value, PanelPrefix = PanelPrefix.ToCamelCase(), CommentTypeRequired = this.CommentTypeRequired };
+			return new EditModel<T>(CommentTypePropertyName)
+			{
+				Date = DateTime.Today,
+				ParentId = ParentId.Value,
+				PanelPrefix = PanelPrefix.ToCamelCase(),
+				CommentTypeRequired = CommentTypeRequired,
+				CommentTextRequired = CommentTextRequired
+			};
 		}
 
 		protected override string GetSortMember(string member)

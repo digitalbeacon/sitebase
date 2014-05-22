@@ -23,6 +23,12 @@ namespace DigitalBeacon.SiteBase.Controllers
 	{
 		private static readonly IFileService FileService = ServiceFactory.Instance.GetService<IFileService>();
 
+		public static FileResult GetFileResult(long fileId)
+		{
+			var file = FileService.GetFile(fileId);
+			return new FileStreamResult(new MemoryStream(file.FileData.Data), file.ContentType);
+		}
+
 		#region EntityController
 
 		public ActionResult Download(long id)

@@ -1,0 +1,17 @@
+﻿<viewdata model="CommentTypeEditModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbFormPanel panelId="'commentTypeEditPanel'" panelClass="'lookup-edit-panel'">
+	<sbFormRow property="'Name'" />
+	<sbFormRow property="'DisplayOrder'" />
+	<sbFormRow property="P(m => m.Flagged)" />
+	<sbFormRow property="P(m => m.Inactive)" />
+	<sbFormRow inputType="submit" />
+</sbFormPanel>
+
+<content name="readyScript">
+	var commentTypeEditPanel = $('#commentTypeEditPanel').data('sbFormPanel');
+	$('#Inactive', commentTypeEditPanel.element).change(function() {$('#DisplayOrder', commentTypeEditPanel.element).val(this.checked ? '0' : ''); });
+	${ValidationRule("Name", "commentTypeEditPanel", "remote", "'{0}'".FormatWith(Url.Action("validateName", new { Id = Model.Id })), "Error.Name.Duplicate")}
+</content>

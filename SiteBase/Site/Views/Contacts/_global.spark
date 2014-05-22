@@ -1,0 +1,3 @@
+﻿<use namespace="DigitalBeacon.SiteBase.Models.Contacts" />
+
+<global module="'base/contacts'" type="string" />

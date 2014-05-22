@@ -8,7 +8,7 @@ SET Version=
 for %%a in (.) do set Project=%%~na
 
 SETLOCAL EnableDelayedExpansion
-FOR /F "tokens=2" %%i IN (SiteBase\CommonAssemblyInfo.cs) DO (
+FOR /F "tokens=2" %%i IN (CommonAssemblyInfo.cs) DO (
 	SET token=%%i
 	SET token=!token:")]=!
 	IF "!token:~0,19!"=="AssemblyFileVersion" SET Version=-!token:~21!

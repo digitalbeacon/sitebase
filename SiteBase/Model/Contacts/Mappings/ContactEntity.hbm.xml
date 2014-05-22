@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--                       Copyright (c) 2007-2014                          -->
+<!--                         Digital Beacon, LLC                            -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- Generated with MyGeneration using the NHibernate Mappings template -->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DigitalBeacon.SiteBase.Model">
+	<joined-subclass name="DigitalBeacon.SiteBase.Model.Contacts.ContactEntity" extends="DigitalBeacon.SiteBase.Model.PersonEntity, DigitalBeacon.SiteBase.Model" table="`Contact`" lazy="true" schema="`sitebase`">
+		<key column="PersonId" />
+		<property name="Enabled" column="`Enabled`" type="Boolean" not-null="true" />
+		<property name="UserId" column="`UserId`" type="Int64" />
+		<property name="AssociationId" column="`AssociationId`" type="Int64" not-null="true" />
+		<property name="Relationship" column="`RelationshipId`" type="DigitalBeacon.SiteBase.Model.Relationship, DigitalBeacon.SiteBase.Model" />
+		<many-to-one name="Photo" column="`PhotoId`" class="DigitalBeacon.SiteBase.Model.FileEntity, DigitalBeacon.SiteBase.Model" cascade="all" />
+		<property name="PhotoWidth" column="`PhotoWidth`" type="Int32" />
+		<property name="PhotoHeight" column="`PhotoHeight`" type="Int32" />
+		<property name="ContactType" column="`ContactTypeId`" type="DigitalBeacon.SiteBase.Model.Contacts.ContactType, DigitalBeacon.SiteBase.Model" />
+	</joined-subclass>
+</hibernate-mapping>

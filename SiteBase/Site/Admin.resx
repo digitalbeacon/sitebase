@@ -513,4 +513,58 @@
   <data name="Comments.Flagged.Tooltip" xml:space="preserve">
     <value>This comment is flagged.</value>
   </data>
+  <data name="ContactCommentTypes.Plural.Label" xml:space="preserve">
+    <value>Contact Comment Types</value>
+  </data>
+  <data name="ContactCommentTypes.Singular.Label" xml:space="preserve">
+    <value>Contact Comment Type</value>
+  </data>
+  <data name="Contacts.Plural.Label" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="Contacts.Singular.Label" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="ContactTypes.Plural.Label" xml:space="preserve">
+    <value>Contact Types</value>
+  </data>
+  <data name="ContactTypes.Singular.Label" xml:space="preserve">
+    <value>Contact Type</value>
+  </data>
+  <data name="Comments.Text.Label" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="ContactCommentTypes.Plural.Label.Short" xml:space="preserve">
+    <value>Comment Types</value>
+  </data>
+  <data name="ContactCommentTypes.Singular.Label.Short" xml:space="preserve">
+    <value>Comment Type</value>
+  </data>
+  <data name="Contacts.FlaggedComment.Tooltip" xml:space="preserve">
+    <value>This contact has one or more flagged comments.</value>
+  </data>
+  <data name="Contacts.Inactive.Warning" xml:space="preserve">
+    <value>Contact is currently inactive.</value>
+  </data>
+  <data name="Contacts.CommentType.HelpText" xml:space="preserve">
+    <value>The comment will only be saved if a comment type is selected.</value>
+  </data>
+  <data name="Comments.Create.Confirmation" xml:space="preserve">
+    <value>{1} for **{0}** added.</value>
+  </data>
+  <data name="Comments.Delete.Confirmation" xml:space="preserve">
+    <value>{1} for **{0}** deleted.</value>
+  </data>
+  <data name="Comments.Description.Format" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="Comments.Plural.Label" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Comments.Singular.Label" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Comments.Update.Confirmation" xml:space="preserve">
+    <value>{1} for **{0}** saved.</value>
+  </data>
 </root>

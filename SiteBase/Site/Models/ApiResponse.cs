@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------- //
 
 using System.Collections.Generic;
+
 namespace DigitalBeacon.SiteBase.Models
 {
 	public class ApiResponse

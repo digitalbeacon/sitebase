@@ -1,0 +1,21 @@
+﻿<viewdata model="ListModel[[CommentTypeListItem]]" />
+
+<content name="header">${Model.Heading}</content>
+
+<sbMessagePanel />
+
+<sbListPanel panelId="'commentTypeListPanel'">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.Name)
+		.HeaderHtmlAttributes(new { @class = "name" });
+	columns.Bound(x => x.Flagged)
+		.HeaderHtmlAttributes(new { @class = "flag" })
+		.ClientTemplate("<input type='checkbox' disabled='disabled' name='Flag' <#= Flagged ? \"checked='checked'\" : \"\" #> />");
+	columns.Bound(x => x.Inactive)
+		.HeaderHtmlAttributes(new { @class = "inactive" })
+		.ClientTemplate("<input type='checkbox' disabled='disabled' <#= Inactive ? \"checked='checked'\" : \"\" #> />");
+}).Render();
+%>
+</sbListPanel>

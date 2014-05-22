@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------- //
 
 using System.Collections.Generic;
-using DigitalBeacon.SiteBase.Model;
-using DigitalBeacon.Model;
+using DigitalBeacon.SiteBase.Model.Contacts;
 
 namespace DigitalBeacon.SiteBase.Business
 {
@@ -16,16 +15,22 @@ namespace DigitalBeacon.SiteBase.Business
 		#region Contacts
 
 		/// <summary>
+		/// Gets the contact.
+		/// </summary>
+		/// <param name="contactId">The contact ID.</param>
+		ContactEntity GetContact(long contactId);
+
+		/// <summary>
 		/// Gets the contact count.
 		/// </summary>
 		/// <param name="searchInfo">The search info.</param>
-		long GetContactCount(SearchInfo<ContactEntity> searchInfo);
+		long GetContactCount(ContactSearchInfo searchInfo);
 
 		/// <summary>
 		/// Gets the contacts.
 		/// </summary>
 		/// <param name="searchInfo">The search info.</param>
-		IList<ContactEntity> GetContacts(SearchInfo<ContactEntity> searchInfo);
+		IList<ContactEntity> GetContacts(ContactSearchInfo searchInfo);
 
 		/// <summary>
 		/// Saves the contact.

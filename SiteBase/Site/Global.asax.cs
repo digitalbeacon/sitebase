@@ -19,6 +19,7 @@ using DigitalBeacon.Business;
 using DigitalBeacon.SiteBase.Business.Support;
 using DigitalBeacon.SiteBase.Data;
 using DigitalBeacon.SiteBase.Model;
+using DigitalBeacon.SiteBase.Model.Contacts;
 using DigitalBeacon.SiteBase.SqlUpdate;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.Util;
@@ -304,6 +305,8 @@ namespace DigitalBeacon.SiteBase
 		protected virtual void RegisterLookupAdminTypes()
 		{
 			LookupAdminService.RegisterAcceptedType<PostalCodeEntity>();
+			//LookupAdminService.RegisterAcceptedType<ContactCommentTypeEntity>();
+			LookupAdminService.RegisterAcceptedType<ContactCommentEntity>();
 		}
 
 		protected static void UpgradeDatabase()

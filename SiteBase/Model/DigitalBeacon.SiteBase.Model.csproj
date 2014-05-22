@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AddressEntity.cs">
@@ -68,7 +68,13 @@
     <Compile Include="AuditAction.cs" />
     <Compile Include="AuditActionEntity.cs" />
     <Compile Include="AuditLogEntity.cs" />
-    <Compile Include="ContactEntity.cs" />
+    <Compile Include="Contacts\ContactSearchInfo.cs" />
+    <Compile Include="Contacts\ContactCommentEntity.cs" />
+    <Compile Include="Contacts\ContactCommentType.cs" />
+    <Compile Include="Contacts\ContactCommentTypeEntity.cs" />
+    <Compile Include="Contacts\ContactEntity.cs" />
+    <Compile Include="Contacts\ContactType.cs" />
+    <Compile Include="Contacts\ContactTypeEntity.cs" />
     <Compile Include="FileArchiveEntity.cs" />
     <Compile Include="FileDataEntity.cs" />
     <Compile Include="FileEntity.cs" />
@@ -247,7 +253,6 @@
     <EmbeddedResource Include="Mappings\RoleHomeEntity.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\ContactEntity.hbm.xml" />
     <EmbeddedResource Include="Mappings\FileArchiveEntity.hbm.xml" />
     <EmbeddedResource Include="Mappings\FileDataEntity.hbm.xml" />
     <EmbeddedResource Include="Mappings\FileEntity.hbm.xml" />
@@ -263,6 +268,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Contacts\Mappings\ContactCommentEntity.hbm.xml" />
+    <EmbeddedResource Include="Contacts\Mappings\ContactCommentTypeEntity.hbm.xml" />
+    <EmbeddedResource Include="Contacts\Mappings\ContactEntity.hbm.xml" />
+    <EmbeddedResource Include="Contacts\Mappings\ContactTypeEntity.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

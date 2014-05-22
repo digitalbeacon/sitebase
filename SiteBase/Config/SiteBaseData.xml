@@ -5,7 +5,10 @@
   <Table Alias="AuditAction" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="True" LogicalGroup="">AuditAction</Table>
   <Table Alias="AuditLog" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="False" LogicalGroup="">AuditLog</Table>
   <Table Alias="ComparisonOperator" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="True" LogicalGroup="">ComparisonOperator</Table>
-  <Table Alias="Contact" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="False" LogicalGroup="">Contact</Table>
+  <Table Alias="Contact" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="False" LogicalGroup="Contacts">Contact</Table>
+  <Table Alias="ContactCommentType" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="True" LogicalGroup="Contacts">ContactCommentType</Table>
+  <Table Alias="ContactComment" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="False" LogicalGroup="Contacts">ContactComment</Table>
+  <Table Alias="ContactType" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="True" LogicalGroup="Contacts">ContactType</Table>
   <Table Alias="ContentEntry" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="False" LogicalGroup="Content">ContentEntry</Table>
   <Table Alias="ContentGroup" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="False" LogicalGroup="Content">ContentGroup</Table>
   <Table Alias="ContentGroupType" BaseNamespace="DigitalBeacon.SiteBase" BaseAssemblyName="DigitalBeacon.SiteBase" IsEnum="True" LogicalGroup="Content">ContentGroupType</Table>

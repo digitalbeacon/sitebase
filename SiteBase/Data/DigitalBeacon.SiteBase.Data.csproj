@@ -70,9 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Contacts\NHibernate\ContactDao.cs" />
     <Compile Include="Content\IContentEntryDao.cs" />
     <Compile Include="Content\IContentGroupDao.cs" />
     <Compile Include="Content\NHibernate\ContentEntryDao.cs" />

@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{9077F5
 		SiteBase\Config\authentication.config = SiteBase\Config\authentication.config
 		SiteBase\Config\CommonDao.config = SiteBase\Config\CommonDao.config
 		SiteBase\Config\connectionStrings.config = SiteBase\Config\connectionStrings.config
+		SiteBase\Config\ContactsDao.config = SiteBase\Config\ContactsDao.config
 		SiteBase\Config\ContentDao.config = SiteBase\Config\ContentDao.config
 		SiteBase\Config\GeneratedDao.xml = SiteBase\Config\GeneratedDao.xml
 		SiteBase\Config\log4net.config = SiteBase\Config\log4net.config

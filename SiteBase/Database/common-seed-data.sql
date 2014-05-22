@@ -8,7 +8,7 @@ declare @MobileAppName varchar(100) = ''
 
 -- sql update
 
-INSERT INTO [SqlUpdate]([Version],[PatchNumber],[Module]) VALUES('3.0.0', 999, 'SiteBase')
+INSERT INTO [SqlUpdate]([Version],[PatchNumber],[Module]) VALUES('3.1.0', 999, 'SiteBase')
 
 -- lookup data
 
@@ -418,3 +418,15 @@ INSERT INTO [sitebase].[Navigation] ([Id],[ModificationCounter],[Name])VALUES(1,
 INSERT INTO [sitebase].[Navigation] ([Id],[ModificationCounter],[Name])VALUES(2,0,'Top Right')
 INSERT INTO [sitebase].[Navigation] ([Id],[ModificationCounter],[Name])VALUES(3,0,'Left')
 SET IDENTITY_INSERT [sitebase].[Navigation] OFF
+
+-- contact type
+
+SET IDENTITY_INSERT [sitebase].[ContactType] ON
+INSERT INTO [sitebase].[ContactType] ([Id],[ModificationCounter],[Name])VALUES(1,0,'Default')
+SET IDENTITY_INSERT [sitebase].[ContactType] OFF
+
+-- contact comment type
+
+SET IDENTITY_INSERT [sitebase].[ContactCommentType] ON
+INSERT INTO [sitebase].[ContactCommentType] ([Id],[ModificationCounter],[Name],[Flagged],[DisplayOrder])VALUES(1,0,'Note',0,1)
+SET IDENTITY_INSERT [sitebase].[ContactCommentType] OFF

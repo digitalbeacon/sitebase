@@ -1,0 +1,85 @@
+﻿<viewdata model="ListModel" />
+
+<content name="header">
+	${Model.Heading}
+</content>
+
+<sbMessagePanel />
+
+<content name="searchPanelFilters">
+	${Html.DropDownListFor(m => m.CommentTypeId, Model.ListItems[Model.PropertyName(m => m.CommentTypeId)], string.Empty)}
+	${Html.DropDownListFor(m => m.Inactive, Model.ListItems[Model.PropertyName(m => m.Inactive)])}
+</content>
+
+<var panelId="'contactListPanel'" />
+
+<sbListPanel hideSearchPanelWhenEmpty="false" enableRemove="Model.CanDelete">
+<%
+grid.Columns(columns =>
+{
+	columns.Bound(x => x.HasFlaggedComment)
+		.Title(String.Empty)
+		.Sortable(false)
+		.HeaderHtmlAttributes(new { @class = "icon" })
+		.Template(x => { Response.Write(x.HasFlaggedComment ? "<span class=\"flagged\"><span class=\"text\">*</span></span>" : String.Empty); })
+		.ClientTemplate("<#= HasFlaggedComment ? \"<span class='flagged'><span class='text'>*</span></span>\" : \"\" #>");
+	columns.Bound(x => x.Inactive)
+		.HeaderHtmlAttributes(new { @class = "inactive hidden" })
+		.HtmlAttributes(new { @class = "inactive hidden" })
+		.ClientTemplate("<input type='checkbox' disabled='disabled' <#= Inactive ? \"checked='checked'\" : \"\" #> />");
+	columns.Bound(x => x.LastName)
+		.HeaderHtmlAttributes(new { @class = "last-name" });
+	columns.Bound(x => x.FirstName)
+		.HeaderHtmlAttributes(new { @class = "first-name" });
+	columns.Bound(x => x.MobilePhone)
+		.HeaderHtmlAttributes(new { @class = "phone" });
+	columns.Bound(x => x.Email)
+		.HeaderHtmlAttributes(new { @class = "email" });
+	columns.Bound(x => x.DateOfBirth)
+		.HeaderHtmlAttributes(new { @class = "date" })
+		.Format("{0:d}");
+	columns.Bound(x => x.Age)
+		.HeaderHtmlAttributes(new { @class = "age" });
+})
+.Sortable(sorting =>
+{
+	sorting.OrderBy(sort => sort.Add(x => x.LastName).Ascending());
+})
+.Render();
+%>
+	<content name="readyScript">
+		$('#${panelId}').bind('dataBound', function() {
+			var ${panelId} = $(this).data('sbListPanel');
+			$('tbody td .flagged', this).bt('${Text("Contacts.FlaggedComment.Tooltip").EscapeForJavaScript()}');
+			if ($('#Inactive', this).val() == 'False') {
+				$('.inactive', this).removeClass('hidden');
+			}
+			else {
+				$('.inactive', this).addClass('hidden');
+			}
+		});
+	</content>
+	<div style="display:none">
+		<sbActionLink id="'report'" action="'index'" controller="'contactReport'" text="'Contacts.Report.Label'" />
+		<sbActionLink id="'detailReport'" action="'index'" controller="'contactReport'" text="'Contacts.DetailReport.Label'" />
+		<sbActionLink id="'export'" action="'index'" controller="'contactReport'" text="'Common.Export.Label'" />
+	</div>
+</sbListPanel>
+
+<form id="reportForm" method="post" target="_blank">
+	<input type="hidden" name="searchText" />
+	<input type="hidden" name="CommentTypeId" />
+	<input type="hidden" name="Inactive" />
+	<input type="hidden" name="Sort" id="sort" />
+	<input type="hidden" name="FromListView" value="true" />
+	<input type="hidden" name="ShowDetails" id="showDetails" />
+	<input type="hidden" name="Export" value="false" />
+</form>
+
+<content name="readyScript">
+	var ${panelId} = $('#${panelId}').data('sbListPanel');
+	${panelId}.deleteConfirmText = '${Text("Common.Delete.Confirm")}';
+	$('#CommentTypeId,#Inactive', ${panelId}.element).change(function() { 
+		$('#search', ${panelId}.element).click(); 
+	});
+</content>

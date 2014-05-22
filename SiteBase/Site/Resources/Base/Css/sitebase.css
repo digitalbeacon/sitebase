@@ -54,6 +54,7 @@ span.read-only-field {
 }
 input[type="text"], 
 input[type="password"], 
+input[type="number"], 
 input.t-input, 
 textarea, 
 .read-only-field {
@@ -279,11 +280,11 @@ Styles for form views
 }
 .comment-edit-panel .form-row-label
 {
-	width: 6em;
+	width: 7em;
 }
 .comment-edit-panel textarea
 {
-	width: 40em;
+	width: 39em;
 	height: 9em;
 }
 /*-----------------------------------------------------------------------------

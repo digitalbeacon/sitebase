@@ -5,16 +5,11 @@
 //                                                                        //
 // ---------------------------------------------------------------------- //
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using DigitalBeacon.Business;
 using DigitalBeacon.Model;
-using DigitalBeacon.SiteBase.Business;
-using DigitalBeacon.SiteBase.Business.Support;
+using DigitalBeacon.SiteBase.Model.Contacts;
 using DigitalBeacon.Util;
-using DigitalBeacon.SiteBase.Data;
-using DigitalBeacon.SiteBase.Model;
 
 namespace DigitalBeacon.SiteBase.Business.Support
 {
@@ -28,12 +23,17 @@ namespace DigitalBeacon.SiteBase.Business.Support
 
 		#region IContactService Members
 
-		public long GetContactCount(SearchInfo<ContactEntity> searchInfo)
+		public ContactEntity GetContact(long contactId)
+		{
+			return DataAdapter.Fetch<ContactEntity>(contactId);
+		}
+
+		public long GetContactCount(ContactSearchInfo searchInfo)
 		{
 			return DataAdapter.FetchCount(ProcessSearchInfo(searchInfo));
 		}
 
-		public IList<ContactEntity> GetContacts(SearchInfo<ContactEntity> searchInfo)
+		public IList<ContactEntity> GetContacts(ContactSearchInfo searchInfo)
 		{
 			return DataAdapter.FetchList(ProcessSearchInfo(searchInfo));
 		}
@@ -78,6 +78,7 @@ namespace DigitalBeacon.SiteBase.Business.Support
 		public void DeleteContact(long id)
 		{
 			DeleteContactPhoto(id);
+			DataAdapter.FetchList<ContactCommentEntity>(ContactCommentEntity.ContactIdProperty, id).ForEach(c => DeleteWithAudit(c));
 			DeleteWithAudit<ContactEntity>(id);
 		}
 

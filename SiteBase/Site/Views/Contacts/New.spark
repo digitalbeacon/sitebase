@@ -1,0 +1,54 @@
+﻿<viewdata model="CreateModel" />
+
+<content name="header">${Model.Heading}</content>
+
+<div id="contactNewContainer" class="multi-col">
+	<sbFormPanel panelId="'contactEditPanel'" supportFileInput="true">
+		<div id="col1" class="col">
+			<sbFormRow property="P(m => m.FirstName)" />
+			<sbFormRow property="P(m => m.LastName)" />
+			<sbFormRow property="P(m => m.MiddleName)" />
+			<sbFormRow property="P(m => m.GenderId)" />
+			<sbFormRow property="P(m => m.DateOfBirth)" />
+			<!--<sbFormRow property="P(m => m.Age)" inputType="textBox" maxLength="3" inputReadOnly="true" />-->
+			<sbFormRow property="P(m => m.RaceId)" if="Model.ListItems['RaceId'].Any()" />
+			<sbFormRow property="P(m => m.Email)" />
+			<sbFormRow property="P(m => m.MobilePhone)" mask="WebConstants.PhoneMask" />
+			<sbFormRow property="P(m => m.Photo)" inputType="file" inputSize="13" />
+			<sbFormRow inputType="submit" />
+		</div>
+		<div id="col2" class="col">
+			<sbFormRow property="P(m => m.Line1)" />
+			<!--<sbFormRow property="P(m => m.Line2)" />-->
+			<sbFormRow property="P(m => m.PostalCode)" mask="WebConstants.UsaPostalCodeMask" />
+			<sbFormRow property="P(m => m.City)" />
+			<sbFormRow property="P(m => m.StateId)" includeEmptyOption="true" />
+			<!--<sbFormRow property="P(m => m.County)" />-->
+			<!--<sbFormRow property="P(m => m.DefaultPhoneId)" includeEmptyOption="true" />-->
+			<!--<sbFormRow property="P(m => m.HomePhone)" mask="WebConstants.PhoneMask" />-->
+			<!--<sbFormRow property="P(m => m.WorkPhone)" mask="WebConstants.PhoneMask" />-->
+			<sbFormRow property="P(m => m.CommentTypeId)" includeEmptyOption="true" helpText="'Contacts.CommentType.HelpText'" />
+			<sbFormRow property="P(m => m.CommentDate)" />
+			<sbFormRow property="P(m => m.Comments)" inputType="textArea" />
+		</div>
+	</sbFormPanel>
+</div>
+
+<content name="readyScript">
+	var contactEditPanel = $('#contactEditPanel').data('sbFormPanel');
+	#//${ValidationRule("CommentTypeId", "contactEditPanel", "required", "'#Comments:not(:blank)'", "Validation.Error.Required", "ContactCommentTypes.Singular.Label.Short")}
+	#//${ValidationRule("Comments", "contactEditPanel", "required", "'#CommentTypeId:not(:blank)'", "Validation.Error.Required", "Comments.Text.Label")}
+	var postalCode = $('#PostalCode', contactEditPanel.element);
+	postalCode.change(function() {
+		if (postalCode.val() && $.trim(postalCode.val()).length == 5 && postalCode.data('last-value') != postalCode.val()) {
+			postalCode.data('last-value', postalCode.val());
+			$.get($.digitalbeacon.resolveUrl('~/postalCodes/' + postalCode.val() + '/json'), null, function(response) {
+				if (response) {
+					$('#City', contactEditPanel.element).val(response.City);
+					$('#StateId', contactEditPanel.element).val(response.StateId);
+					$('#County', contactEditPanel.element).val(response.County);
+				}
+			});
+		}
+	});
+</content>
