@@ -24,6 +24,12 @@ sqlcmd %SERVER% -d %DB_NAME% %USER% %PASS% -i common-seed-data.sql
 sqlcmd %SERVER% -d %DB_NAME% %USER% %PASS% -i test-data.sql
 if defined INSERT_POSTAL_CODES sqlcmd %SERVER% -d %DB_NAME% %USER% %PASS% -i postal-codes.sql
 
+echo touching web.config to trigger app pool recycle
+pushd .
+cd ..\Site
+copy /b web.config +,,
+popd
+
 echo Done
 
 if not "%NO_PAUSE%"=="nopause" pause
