@@ -1,0 +1,66 @@
+.lookup-edit-panel
+{
+	width: 30em;
+}
+/* clientListPanel */
+#contactListPanel th.data
+{
+	width: 4em;
+}
+#contactListPanel .data
+{
+	text-align: right;
+}
+#contactListPanel .view a
+{
+	background-image: url(../images/icon-person.png);
+}
+/* clientEditContainer */
+#contactEditContainer #col2
+{
+	margin-top: 2em; /* leave room for navigation buttons */
+}
+#contactEditContainer #form-row-photo input
+{
+}
+#contactEditContainer .photoContainer
+{
+	text-align: center;
+}
+#contactEditContainer .photoContainer .actions
+{
+	text-align: center;
+}
+#contactEditContainer .photoContainer img
+{
+	max-width: 28em;
+	_width: 28em;
+}
+#contactEditContainer a#deletePhoto
+{
+	padding-left: 22px;
+	background: url(../images/icon-delete.gif) no-repeat 0px 3px;
+}
+#contactEditContainer a#rotatePhotoCounterclockwise
+{
+	padding-left: 22px;
+	background: url(../images/icon-rotate-ccw.png) no-repeat 0px 3px;
+}
+#contactEditContainer a#rotatePhotoClockwise
+{
+	padding-left: 22px;
+	background: url(../images/icon-rotate-cw.png) no-repeat 0px 3px;
+}
+#contactEditContainer #item-nav
+{
+	position: absolute;
+	right: 15px;
+}
+#contactEditContainer #dataPanel
+{
+	margin-top: 10px;
+}
+#contactEditContainer #dataPanel .t-content
+{
+	padding: 5px;
+}
