@@ -10,9 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DigitalBeacon.SiteBase.Mobile</RootNamespace>
     <AssemblyName>DigitalBeacon.SiteBase.Mobile.Scripts</AssemblyName>
-<!--	
+    <!--	
     <TargetFrameworkIdentifier>Blade</TargetFrameworkIdentifier>
--->	
+-->
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FrameworkPathOverride>..\..\3rdParty\Blade</FrameworkPathOverride>
     <FileAlignment>512</FileAlignment>
@@ -45,14 +45,24 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BaseService.cs" />
     <Compile Include="BaseController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BaseDetailsController.cs" />
+    <Compile Include="BaseListController.cs" />
+    <Compile Include="Contacts\ContactsController.cs" />
+    <Compile Include="Contacts\ContactService.cs" />
+    <Compile Include="Contacts\ContactsModule.cs" />
+    <Compile Include="Contacts\DetailsController.cs" />
+    <Compile Include="Content\ContentController.cs" />
+    <Compile Include="Content\ContentModule.cs" />
     <Compile Include="Identity\IdentityModule.cs" />
     <Compile Include="Identity\IdentityController.cs" />
     <Compile Include="Identity\IdentityService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,54 @@
+﻿<default heading="''" />
+
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
+			<button type="button" class="navbar-toggle" data-toggle="collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="~/">${heading.DefaultTo(Text("Site.Title"))}</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+		<div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+			<var navItems="(IList[[NavigationItem]])ViewData['TopLeftNav']" />
+			<ul class="nav navbar-nav" if="navItems != null && navItems.Count > 0">
+				<for each="var item in navItems">
+					<li if="item.Items.Count == 0"><a href="${Url.Content(item.Url)}">${item.Text}</a></li>
+					<li class="dropdown" if="item.Items.Count > 0">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">${item.Text}<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li each="var subItem in item.Items"><a href="${Url.Content(subItem.Url)}">${subItem.Text}</a></li>
+						</ul>
+					</li>
+				</for>
+			</ul>
+#/*			
+			<form class="navbar-form navbar-left" role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search">
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+#*/			
+			<set navItems="(IList[[NavigationItem]])ViewData['TopRightNav']" />
+			<ul class="nav navbar-nav navbar-right" if="navItems != null && navItems.Count > 0">
+				<for each="var item in navItems">
+					<li if="item.Items.Count == 0"><a href="${item.Url.HasText() ? Url.Content(item.Url) : '#'}" class="${'inactive'}?{item.Url.IsNullOrBlank()}">${item.Text}</a></li>
+					<li class="dropdown" if="item.Items.Count > 0">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">${item.Text}<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li each="var subItem in item.Items"><a href="${Url.Content(subItem.Url)}">${subItem.Text}</a></li>
+						</ul>
+					</li>
+				</for>
+			</ul>
+		</div>
+	</div>
+</nav>

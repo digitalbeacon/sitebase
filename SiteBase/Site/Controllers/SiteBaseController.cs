@@ -95,7 +95,8 @@ namespace DigitalBeacon.SiteBase.Controllers
 		/// </summary>
 		private void LoadNavigationData()
 		{
-			foreach (Navigation nav in Enum.GetValues(typeof(Navigation)))
+			var navs = IsMobile ? new[] { Navigation.TopLeft, Navigation.TopRight } : new[] { Navigation.TopLeft, Navigation.TopRight, Navigation.Left };
+			foreach (Navigation nav in navs)
 			{
 				var navItems = new List<NavigationItem>();
 				var navEntities = ModuleService.GetNavigationItems(CurrentAssociationId, nav, IsAuthenticated ? CurrentUserId : (long?)null);

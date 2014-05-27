@@ -1,0 +1,26 @@
+﻿<use master="ContentOnly" />
+
+<viewdata model="ListModel" />
+
+#//<sbClientListPanel items="'contacts'" item="'contact'">"{0} {1} ({2})".formatWith(contact.FirstName, contact.LastName, contact.Id)</sbClientListPanel>
+
+<content name="searchPanelFilters">
+	<sbClientSearchItem propertyName="'CommentTypeId'" includeEmptyOption="true" />
+	<sbClientSearchItem propertyName="'Inactive'" />
+</content>
+
+<content var="itemContent">
+	<a class="list-group-item" ng-repeat="contact in contacts" ng-click="showDetails(contact.Id)" ng-class="{ 'list-group-item-danger': contact.HasFlaggedComment }">
+		#//<span class="badge" ng-show="contact.Flagged"><span class="glyphicon glyphicon-flag"></span></span>
+		<div class="row">
+			<div class="col-sm-3 visible-xs"><h4>{{ "{0} {1}".formatWith(contact.FirstName, contact.LastName) }}</h4></div>
+			<div class="col-sm-2 hidden-xs">{{ "{0} {1}".formatWith(contact.FirstName, contact.LastName) }}</div>
+			<div class="col-sm-2"><span ng-show="contact.DateOfBirth">${Text("Common.DateOfBirth.Label")}: </span>{{ contact.DateOfBirth.toDate() | date : 'M/d/yyyy' }}<span ng-show="contact.Age"><span ng-show="contact.DateOfBirth">,</span> ${Text("Common.Age.Label")}: {{ contact.Age }}</span></div>
+			<div class="col-sm-2"><span ng-show="contact.MobilePhone">${Text("Common.MobilePhone.Label")}: </span>{{ contact.MobilePhone }}</div>
+			<div class="col-sm-2"><span ng-show="contact.Email">${Text("Common.Email.Label")}: </span>{{ contact.Email }}</div>
+			<div class="col-sm-1 hidden-xs">{{ contact.Id }}</div>
+		</div>
+	</a>
+</content>
+
+<sbClientListPanel items="'contacts'" item="'contact'" />

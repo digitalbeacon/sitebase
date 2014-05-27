@@ -9,9 +9,14 @@
 <global editor="'Editor'" type="string" />
 <global password="'Password'" type="string" />
 <global dropDownList="'DropDownList'" type="string" />
-<global checkBox="'CheckBox'" type="string" />	
-<global file="'File'" type="string" />	
-<global submit="'Submit'" type="string" />	
+<global checkBox="'CheckBox'" type="string" />
+<global radioButtonList="'RadioButtonList'" type="string" />
+<global date="'Date'" type="string" />
+<global email="'Email'" type="string" />
+<global phone="'Phone'" type="string" />
+<global file="'File'" type="string" />
+<global submit="'Submit'" type="string" />
+<global hidden="'Hidden'" type="string" />
 <global requiredMessage="'RequiredMessage'" type="string" />
 
 <macro name="Json" arg="IDictionary[[string, object]]">{!{String.Join(", ", arg.Where(x => x.Value != null).Select(x => "{0}: {1}".FormatWith(x.Key, (x.Value is string && ((string)x.Value) != "null") ? "'{0}'".FormatWith(x.Value) : (x.Value is bool ? x.Value.ToString().ToLowerInvariant() : x.Value))).ToArray())}}</macro>

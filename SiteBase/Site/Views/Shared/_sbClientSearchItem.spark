@@ -1,0 +1,4 @@
+﻿<default includeEmptyOption="false" />
+<default emptyOptionText="string.Empty" />
+
+${Html.DropDownList(propertyName, Model.ListItems[propertyName], includeEmptyOption ? emptyOptionText : null, new { @class = "form-control", ng_model = propertyName })}

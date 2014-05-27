@@ -50,9 +50,12 @@
     <Compile Include="ControllerHelper.cs" />
     <Compile Include="Imports\SiteBase.cs" />
     <Compile Include="ng\Angular.cs" />
+    <Compile Include="ng\ILocation.cs" />
     <Compile Include="ng\IModule.cs" />
     <Compile Include="ng\IRouteProvider.cs" />
+    <Compile Include="ng\ILocationProvider.cs" />
     <Compile Include="ng\IServiceProvider.cs" />
+    <Compile Include="ng\Scope.cs" />
     <Compile Include="ng\Route.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Editor.cs" />

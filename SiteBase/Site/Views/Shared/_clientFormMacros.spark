@@ -1,4 +1,4 @@
-﻿<macro name="ClientFormRow" options="FormRowOptions">
+﻿<macro name="ClientFormRow" options="FormRowOptions" clientEvents="dynamic" clientModel="string">
 
 	<set options.RowId="'form-row-' + options.Property.ToLowerHyphenated()" if="options.GenerateRowId && options.Property.HasText()" />
 	<set options.RowId="options.RowId + '-' + options.SubProperty.ToLowerHyphenated()" if="options.GenerateRowId && options.SubProperty.HasText()" />
@@ -13,6 +13,7 @@
 			</if>
 			<set propName="Model.GetType().GetProperty(options.Property).Name" />
 			<set propName="'{0}.{1}'.FormatWith(propName, options.Model.GetType().GetProperty(options.Property).PropertyType.GetProperty(options.SubProperty).Name)" if="options.SubProperty.HasText()" />
+			<var clientPropName="'{0}.{1}'.FormatWith(clientModel, propName.ToCamelCase())" />
 			<var propMetadata="ModelMetadata.FromStringExpression(propName, options.ViewData)" />
 			<var propRequired="options.Required.HasValue ? options.Required.Value : propMetadata.IsRequired" />
 			<var propReadOnly="options.InputReadOnly.HasValue ? options.InputReadOnly.Value : propMetadata.IsReadOnly" />
@@ -27,26 +28,45 @@
 			${Html.Label(propName)}
 			<span class="form-row-content">
 				<if condition="options.InputType == null && propReadOnly">
-					${Html.Editor(propName, 'ReadOnlyField')}
+					${Html.Editor(propName, "ReadOnlyField")}
 				</if>
 				<else if="options.InputType == null">
-					${Html.Editor(propName)}
+					${Html.Editor(propName, null, new { readOnly = propReadOnly, cssClass = "form-control", ngModel = clientPropName, maxLength = options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty})}
 				</else>
 				<else if="options.InputType == textBox">
-					<sbTextBox propertyName="propName" readOnly="propReadOnly" ngModel="propName" cssClass="'form-control'" maxLength="options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty" />
+					<sbTextBox propertyName="propName" readOnly="propReadOnly" ngModel="clientPropName" cssClass="'form-control'" maxLength="options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty" />
 				</else>
 				<else if="options.InputType == textArea">
-					${this.TextArea(propName).DoNotAutoLabel()}
+					${this.TextArea(propName).DoNotAutoLabel().Class("form-control").Attr("ng-model", clientPropName)}
 				</else>
 				<else if="options.InputType == password">
-					${Html.Password(propName, null, new { class = "form-control", ng_model = propName })}
+					${this.Password(propName).Class("form-control").Attr("ng-model", clientPropName)}
+				</else>
+				<else if="options.InputType == date">
+					${Html.Editor(propName, "ClientDate", new { readOnly = propReadOnly, cssClass = "form-control", ngModel = clientPropName, maxLength = options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty})}
+				</else>
+				<else if="options.InputType == email">
+					${Html.Editor(propName, "ClientEmail", new { readOnly = propReadOnly, cssClass = "form-control", ngModel = clientPropName, maxLength = options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty})}
+				</else>
+				<else if="options.InputType == phone">
+					${Html.Editor(propName, "ClientPhone", new { readOnly = propReadOnly, cssClass = "form-control", ngModel = clientPropName, maxLength = options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty})}
+				</else>
+				<else if="options.InputType == radioButtonList">
+					<div class="btn-group btn-group-justified input-group">
+						<for each="var listItem in options.Model.ListItems[propName]">
+							#//${Html.RadioButton(propName, listItem.Value, new { class = "form-control", ng_model = clientPropName, text = listItem.Text })}
+							#//${this.RadioButton(propName).Value(listItem.Value).Class("form-control").Attr("ng-model", clientPropName).Label(listItem.Text)}
+							${this.Label(propName).Value(listItem.Text).Class("btn btn-default").Attr("ng-model", clientPropName).Attr("btn-radio", listItem.Value).Attr("uncheckable", "uncheckable")}
+							#//<label btn-radio="'${listItem.Value}'" class="btn btn-default" ng-model="${clientPropName}" uncheckable>${listItem.Text}</label>
+						</for>
+					</div>
 				</else>
 				<else if="options.InputType == dropDownList">
 					<if condition="options.IncludeEmptyOption">
-						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty)}
+						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty, new { class = "form-control", ng_model = clientPropName })}
 					</if>
 					<else>
-						${Html.DropDownList(propName, options.Model.ListItems[propName])}
+						${Html.DropDownList(propName, options.Model.ListItems[propName], new { class = "form-control", ng_model = clientPropName })}
 					</else>
 				</else>
 				<else if="options.InputType == checkBox">
@@ -75,10 +95,10 @@
 					<var customText="options.CustomText" />
 					<set customText="'Common.Save.Label'" if="customText == null && options.IsEntityModel" />
 					<set customText="'Common.Submit.Label'" if="customText == null && !options.IsEntityModel" />
-					<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${options.OnClick}?{options.OnClick.HasText()}" if="options.EnableSave">${Text(customText)}</button>
+					<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onClick}?{clientEvents.onClick != null}" if="options.EnableSave">${Text(customText)}</button>
 					!{options.RenderContent}
-					<button type="submit" id="delete" class="delete btn" name="Delete" ng-click="${options.OnDeleteClick}?{options.OnDeleteClick.HasText()}" if="options.EnableDelete">${Text('Common.Delete.Label')}</button>
-					<button type="submit" id="cancel" class="cancel btn" name="Cancel" ng-click="${options.OnCancelClick}?{options.OnCancelClick.HasText()}" if="options.EnableCancel">${Text('Common.Cancel.Label')}</button>
+					<button type="submit" id="delete" class="delete btn" name="Delete" ng-click="${clientEvents.onDeleteClick}?{clientEvents.onDeleteClick != null}" if="options.EnableDelete">${Text('Common.Delete.Label')}</button>
+					<button type="submit" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancelClick}?{clientEvents.onCancelClick != null}" if="options.EnableCancel">${Text('Common.Cancel.Label')}</button>
 				</if>
 				<else>
 					!{options.RenderContent}
@@ -86,5 +106,4 @@
 			</span>
 		</else>
 	</div>
-
 </macro>

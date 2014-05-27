@@ -1,5 +1,7 @@
 ﻿<use import="_clientFormMacros" />
 
+<default clientFormPanel="true" />
+<default clientModel="'formData'" />
 <default displayMessagePanel="true" />
 
 <sbClientMessagePanel if="displayMessagePanel" />

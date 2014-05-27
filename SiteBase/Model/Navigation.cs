@@ -14,6 +14,7 @@ namespace DigitalBeacon.SiteBase.Model
 	{
 		TopLeft = 1,
 		TopRight = 2,
-		Left = 3
+		Left = 3,
+		Mobile = 4
 	}
 }

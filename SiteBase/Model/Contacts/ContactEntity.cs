@@ -21,25 +21,25 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 	{
 		#region Private Members
 		private bool _enabled;
+		private ContactType? _contactType;
 		private long? _userId;
 		private long _associationId;
 		private Relationship? _relationship;
 		private FileEntity _photo;
 		private int? _photoWidth;
 		private int? _photoHeight;
-		private ContactType? _contactType;
 		#endregion
 		
 		#region Properties Names
 			
 		public const string EnabledProperty = "Enabled";
+		public const string ContactTypeProperty = "ContactType";
 		public const string UserIdProperty = "UserId";
 		public const string AssociationIdProperty = "AssociationId";
 		public const string RelationshipProperty = "Relationship";
 		public const string PhotoProperty = "Photo";
 		public const string PhotoWidthProperty = "PhotoWidth";
 		public const string PhotoHeightProperty = "PhotoHeight";
-		public const string ContactTypeProperty = "ContactType";
 			
 		#endregion
 
@@ -50,13 +50,13 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 		public ContactEntity()
 		{
 			_enabled = false; 
+			_contactType = null;
 			_userId = null;
 			_associationId = 0;
 			_relationship = null;
 			_photo = null;
 			_photoWidth = null;
 			_photoHeight = null;
-			_contactType = null;
 		}
 		#endregion
 		
@@ -69,6 +69,15 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 		{
 			get { return _enabled; }
 			set { _enabled = value; }
+		}
+			
+		/// <summary>
+		/// ContactType property
+		/// </summary>		
+		public virtual ContactType? ContactType
+		{
+			get { return _contactType; }
+			set { _contactType = value; }
 		}
 			
 		/// <summary>
@@ -123,15 +132,6 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 		{
 			get { return _photoHeight; }
 			set { _photoHeight = value; }
-		}
-			
-		/// <summary>
-		/// ContactType property
-		/// </summary>		
-		public virtual ContactType? ContactType
-		{
-			get { return _contactType; }
-			set { _contactType = value; }
 		}
 			
 		#endregion

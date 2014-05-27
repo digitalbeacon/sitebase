@@ -24,9 +24,9 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 		{
 		}
 
-		public void signIn(string username, string password)
+		public void signIn()
 		{
-			_identityService.signIn(new { Username = username, Password = password },
+			_identityService.signIn(formData,
 				(Action<dynamic>)(response => ApiResponseHelper.handleResponse(response, Scope)));
 		}
 	}

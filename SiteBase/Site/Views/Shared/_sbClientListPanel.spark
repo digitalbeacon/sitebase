@@ -1,44 +1,24 @@
-﻿<use import="_gridMacros" />
-
-<default listModel="Model" />
-<default panelId="ViewContext.RouteData.Values['controller'].ToString() + 'ListPanel'" />
-<default panelClass="null" type="string" />
-<default nestedPanelId="panelId" />
-<default listAction="Url.Action('index')" />
-<default enableSelect="true" />
-<default enableRemove="true" />
+﻿<default item="'i'" />
+<default items="'items'" />
+<default itemContent="''" />
+<default listModel="Model as ListModelBase" type="ListModelBase" />
+<default heading="listModel.IfNotNull(x => x.Heading)" />
 <default enableNew="!listModel.ParentId.HasValue || listModel.ParentId.Value > 0" />
-<default selectAction="String.Empty" />
-<default newAction="listModel.ParentId.HasValue ? Url.Action('new', new { id = String.Empty, parentId = listModel.ParentId.Value }) : Url.Action('new', new { id = String.Empty })" />
-<default enableAjaxBinding="true" />
-<default enableCustomBinding="true" />
-<default displaySearchPanel="true" />
-<default hideSearchPanelWhenEmpty="true" />
-<default enableSequencer="true" />
-<default sequencerKey="ViewContext.RouteData.Values['controller'].ToString()" />
-<default maintainSelection="false" />
-<default enableNoItemsMessage="hideSearchPanelWhenEmpty" />
-<default noItemsMessage="null" type="string" />
 <default singularLabel="listModel.SingularLabel" />
 <default pluralLabel="listModel.PluralLabel" />
-#//<default alwaysShowNewLink="false" />
-<default selectClass="null" type="string" />
 
-<set noItemsMessage="'Common.NoEntities.Text'" if="noItemsMessage.IsNullOrBlank()" />
-<default gridId="nestedPanelId + '-grid'" />
+<default displaySearchPanel="true" />
+<default onClick="'showDetails({0}.Id)'.FormatWith(item)" type="string" />
 
-<div id="${nestedPanelId}" class="list-panel ${panelClass}?{panelClass.HasText()}">
-	<sbClientSearchPanel if="displaySearchPanel" />
-	<use content="searchPanel" if="Content.ContainsKey('searchPanel')" />
-	<div class="new-container no-script">
-		<a if="enableNew && listModel.TotalCount > 0" id="new" class="new" href="${newAction}">${Text("Common.NewEntity.Label", singularLabel)}</a>
-	</div>
+#//<content name="header" if="listModel != null && listModel.Heading.HasText()">${listModel.Heading}</content>
 
-	<div class="no-items" style="display:none?{!enableNoItemsMessage || listModel.TotalCount > 0}">
-		${Text(noItemsMessage, pluralLabel)}
-		<div class="button-panel actions" if="enableNew">
-			<a class="new" href="${newAction}">${Text("Common.NewEntity.Label", singularLabel)}</a>
-		</div>
-	</div>
-	<render />
+<sbClientSearchPanel if="displaySearchPanel" />
+
+<button class="btn btn-default" ng-click="addNew()" if="enableNew">${Text("Common.NewEntity.Label", singularLabel)}</button>
+
+<div class="list-group">
+	<if condition="itemContent.HasText()">!{itemContent}</if>
+	<else><a class="list-group-item" ng-repeat="${item} in ${items}" ng-click="${onClick}?{onClick.HasText()}"><render /></a></else>
 </div>
+
+<button class="btn btn-default" ng-click="loadMore()" ng-show="Page &lt; PageCount">Load More</button>

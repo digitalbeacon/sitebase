@@ -1,16 +1,58 @@
 ﻿<default listModel="Model" />
 <default listAction="Url.Action('index')" />
 <default hideSearchPanelWhenEmpty="true" />
+<default heading="''" />
 
 #/*
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#/">${heading.DefaultTo(Text("Site.Title"))}</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+			<div class="row">
+				<div class="col-sm-3 no-padding-x">
+					<form class="navbar-form navbar-left" role="search">
+						<span class="input-group">
+							#//<span class="input-group-btn">
+							#//	<button class="btn btn-default" type="submit" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+							#//</span>
+							<input type="text" class="form-control" placeholder="Search" ng-model="SearchText" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" ng-show="SearchText || IsFiltered" ng-click="clearSearchText()"><span class="glyphicon glyphicon-ban-circle"></span></button>
+							</span>
+						</span>
+					</form>
+				</div>
+				<div class="col-sm-6 no-padding-x">
+					<form class="navbar-form navbar-left no-padding-x">
+						<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
+						<span ng-show="SortTextOptions && SortTextOptions.length">
+							<select class="form-control" ng-model="SortText" ng-options="o.value as o.text for o in SortTextOptions" />
+							<select class="form-control" ng-model="SortDirection" ng-options="o.value as o.text for o in SortDirectionOptions" />
+						</span>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
+#*/
+
+#/*
+
 <div class="search-panel" style="display:none?{hideSearchPanelWhenEmpty && listModel.TotalCount == 0}">
 	<form action="${listAction}">
-		<input id="search" class="search" type="image" src="~/resources/base/images/icon-search.png" title="${Text('Common.Search.Label')}" />
-		<sbTextBox propertyName="'searchText'" maxLength="100" cssClass="'search-text'" />
 		<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
-	</form>
-	<form action="${listAction}" class="clear-search-form">
-		<input id="clearSearch" class="clear-search" type="image" src="~/resources/base/images/icon-delete.gif" title="${Text('Common.Clear.Label')}" />
 	</form>
 </div>
 */

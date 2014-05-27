@@ -5,6 +5,8 @@
 //                                                                        //
 // ---------------------------------------------------------------------- //
 
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Web.Mvc;
 using DigitalBeacon.SiteBase.Web.Models;
 
@@ -42,9 +44,6 @@ namespace DigitalBeacon.SiteBase.Models
 		public string SingularLabel { get; set; }
 		public string PluralLabel { get; set; }
 		public ViewDataDictionary ViewData { get; set; }
-		public string OnClick { get; set; }
-		public string OnDeleteClick { get; set; }
-		public string OnCancelClick { get; set; }
 		public string RenderContent { get; set; }
 	}
 }

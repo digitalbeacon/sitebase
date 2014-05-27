@@ -1,0 +1,7 @@
+﻿<use master="ContentOnly" />
+
+<sbClientFormPanel item="'client'">
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="(key,val) in getDisplayObject(${item})">{{ '{0}: {1}'.formatWith(key, val) }}</li>
+	</ul>
+</sbClientFormPanel>

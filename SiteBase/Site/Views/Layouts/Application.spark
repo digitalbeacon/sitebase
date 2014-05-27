@@ -10,17 +10,15 @@
 
 	<div id="pageBox">
 		<div id="pageContainer">
+			<div id="topNav">
+				<sbClientNavbar />
+			</div>
 			<div id="contentPanel">
 				<use content="view"/>
 			</div>
 		</div>	
 	</div>
 	<div id="footer">
-		<div id="footerLinks">
-			<a href="~/" if="true">Home</a> |
-			<a href="~/identity/signIn" if="!IsAuthenticated">Sign In</a>
-			<a href="~/identity/signOut" if="IsAuthenticated">Sign Out</a>
-		</div>
 		<sbSiteTypeSelector />
 		<div id="copyright">!{Text("Site.Copyright")}</div>
 	</div>

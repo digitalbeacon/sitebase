@@ -5,9 +5,10 @@
 <div ng-controller="identityController">
 	
 	<sbClientFormPanel panelId="'signInPanel'">
-		<sbClientFormRow property="'Username'" required="true" focus="true" inputType="textBox" />
+		<sbHidden propertyName="'ReturnUrl'" if="Model.ReturnUrl.HasText()" />
+		<sbClientFormRow property="'Username'" required="true" focus="true" />
 		<sbClientFormRow property="'Password'" inputType="password" />
-		<sbClientFormRow inputType="submit" onClick="'signIn(Username, Password)'" />
+		<sbClientFormRow inputType="submit" onClick="'signIn()'" />
 	#/*	
 		<sbClientFormRow rowClass="'actions'">
 			<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />
@@ -15,9 +16,6 @@
 		<sbClientFormRow rowClass="'actions'">
 			<sbActionLink action="'recoverUsername'" text="'Identity.ForgotUsername.Label'" />
 		</sbClientFormRow>
-		<if condition="Model.ReturnUrl.HasText()">
-			${Html.HiddenFor(m => m.ReturnUrl)}
-		</if>
 	#*/
 	</sbClientFormPanel>
 </div>

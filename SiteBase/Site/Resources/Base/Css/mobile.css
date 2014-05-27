@@ -177,6 +177,11 @@ img
 	cursor: pointer;
 }
 
+a.inactive
+{
+	cursor: default;
+}
+
 .no-padding
 {
 	padding: 0 !important;
@@ -197,4 +202,9 @@ img
 	padding-bottom: 0 !important;
 	margin-top: 0 !important;
 	margin-bottom: 0 !important;
+}
+
+.navbar
+{
+	margin-bottom: 0;
 }

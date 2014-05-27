@@ -15,6 +15,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using DigitalBeacon.Business;
 using DigitalBeacon.Model;
+using DigitalBeacon.SiteBase.Models;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
@@ -315,6 +316,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 			if (!EnableListAction)
 			{
 				throw new NotImplementedException("List action is not implemented.");
+			}
+			if (IsMobile && !IsTemplateRequest && MobileModuleName.HasText())
+			{
+				return View("Index");
 			}
 			if (RequireParentId)
 			{
@@ -649,7 +654,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 						}
 						else
 						{
-							if (RenderPartial)
+							if (IsApiRequest)
+							{
+								return Json(new ApiResponse { Success = true, Message = confirmationText });
+							}
+							else if (RenderPartial)
 							{
 								retVal = RedirectToMessageAction(GetNewHeading(), confirmationText);
 								if (entity != null)
@@ -669,7 +678,20 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (retVal == null)
 			{
-				if (ValidationRedirect)
+				if (IsApiRequest)
+				{
+					var response = new ApiResponse();
+					foreach (var key in ModelState.Keys)
+					{
+						var errors = ModelState[key].Errors.Select(x => x.ErrorMessage).ToArray();
+						if (errors.Length > 0)
+						{
+							response.ValidationErrors[key] = errors;
+						}
+					}
+					return Json(response);
+				}
+				else if (ValidationRedirect)
 				{
 					retVal = GetValidationRedirect(GetNewHeading());
 					if (!RenderPartial)
@@ -677,7 +699,6 @@ namespace DigitalBeacon.SiteBase.Controllers
 						MessageModel.ReturnUrl = Url.Action(ListActionName, new { id = String.Empty });
 						MessageModel.ReturnText = ReturnTextPlural;
 					}
-
 				}
 				else
 				{

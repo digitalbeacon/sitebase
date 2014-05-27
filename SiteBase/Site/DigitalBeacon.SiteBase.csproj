@@ -330,9 +330,6 @@
     <EmbeddedResource Include="Views\Shared\_sbClientFormRow.spark" />
     <EmbeddedResource Include="Views\Shared\_sbClientMessagePanel.spark" />
     <EmbeddedResource Include="Views\Identity\Mobile\_global.spark" />
-    <EmbeddedResource Include="Views\Identity\Mobile\SignInTemplate.spark">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\Content\Mobile\FlexibleContent.spark" />
     <EmbeddedResource Include="Views\Shared\Content\Mobile\_global.spark" />
   </ItemGroup>
@@ -760,15 +757,28 @@
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zu.js" />
     <Content Include="Views\Contacts\Edit.spark" />
     <Content Include="Views\Contacts\List.spark" />
-    <Content Include="Views\Contacts\New.spark" />
+    <Content Include="Views\Contacts\New.spark">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Contacts\_global.spark" />
     <Content Include="Views\Contacts\CommentTypeEdit.spark" />
     <Content Include="Views\Contacts\CommentTypeList.spark" />
+    <Content Include="Views\Contacts\Mobile\EditTemplate.spark" />
+    <Content Include="Views\Contacts\Mobile\ListTemplate.spark" />
+    <Content Include="Views\Contacts\Mobile\_global.spark" />
+    <Content Include="Views\Shared\_sbHidden.spark" />
+    <EmbeddedResource Include="Views\Shared\_sbClientNavbar.spark" />
+    <Content Include="Views\Contacts\Mobile\NewTemplate.spark">
+      <SubType>Designer</SubType>
+    </Content>
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientDate.spark" />
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientEmail.spark" />
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientPhone.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Views\Shared\_sbSiteTypeSelector.spark" />
-    <EmbeddedResource Include="Views\Shared\Mobile.spark">
+    <EmbeddedResource Include="Views\Shared\Mobile\Index.spark">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\_sbViewBag.spark" />

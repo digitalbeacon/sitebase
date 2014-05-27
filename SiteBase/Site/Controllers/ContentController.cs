@@ -158,7 +158,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 			if (IsMobile)
 			{
-				MobileModuleName = string.Empty;
+				MobileModuleName = "content";
 				return View("Content/Mobile/FlexibleContent", AddTransientMessages(model));
 			}
 
