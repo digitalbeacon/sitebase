@@ -43,7 +43,6 @@ namespace DigitalBeacon.SiteBase.Web
 		public const string RenderTypePartialWrapped = "PartialWrapped";
 		public const string RenderTypeJson = "Json";
 		public const string RenderTypeTemplate = "Template";
-		public const string RenderTypeApi = "Api";
 
 		public const string ContentTypeJson = "application/json";
 

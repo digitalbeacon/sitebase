@@ -25,6 +25,7 @@
 <default onCancelClick="null" type="string" />
 <default enableDelete="onDeleteClick.HasText()" />
 <default enableCancel="onCancelClick.HasText()" />
+<default initClientModel="false" />
 
 <content name="formRowContent" if="enableRenderContent"><render /></content>
 
@@ -43,9 +44,10 @@ ${ClientFormRow(new FormRowOptions {
 	EnableDelete = enableDelete,
 	EnableCancel = enableCancel,
 	Model = Model,
+	IsEntityModel = isEntityModel,
 	ViewData = ViewData,
 	RenderContent = enableRenderContent ? Content["formRowContent"].ToString() : null
-}, clientEvents, clientModel)}
+}, clientEvents, clientModel, initClientModel)}
 
 <if condition="enableRenderContent">
 # Content.Remove("formRowContent");

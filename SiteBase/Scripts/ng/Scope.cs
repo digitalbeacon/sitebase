@@ -16,6 +16,18 @@ namespace ng
 	public class Scope
 	{
 		[ScriptName("$on")]
-		public extern void on(string eventStr, dynamic func);
+		public extern void on(string eventName, dynamic func);
+
+		[ScriptName("$apply")]
+		public extern void apply();
+
+		[ScriptName("$emit")]
+		public extern void emit(string eventName, object args = null);
+
+		[ScriptName("$broadcast")]
+		public extern void broadcast(string eventName, object args = null);
+
+		[ScriptName("$watch")]
+		public extern void watch(string expression, dynamic listener);
 	}
 }

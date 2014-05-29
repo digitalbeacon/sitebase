@@ -317,7 +317,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				throw new NotImplementedException("List action is not implemented.");
 			}
-			if (IsMobile && !IsTemplateRequest && MobileModuleName.HasText())
+			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
 			{
 				return View("Index");
 			}
@@ -472,7 +472,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				throw new NotImplementedException("Show action is not implemented.");
 			}
-			var model = ConstructUpdateModel(id);
+			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
+			{
+				return View("Index");
+			}
+			var model = IsTemplateRequest ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
 			model.Heading = GetEditHeading(model);
 			model.Sequencer = GetParamAsString(EntityModel.SequencerProperty);
 			if (IsJsonRequest)
@@ -497,9 +501,17 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				throw new NotImplementedException("Edit action is not implemented.");
 			}
-			var model = ConstructUpdateModel(id);
+			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
+			{
+				return View("Index");
+			}
+			var model = IsTemplateRequest ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
 			model.Heading = GetEditHeading(model);
 			model.Sequencer = GetParamAsString(EntityModel.SequencerProperty);
+			if (IsJsonRequest)
+			{
+				return Json(model, JsonRequestBehavior.AllowGet);
+			}
 			return View(EditView, AddTransientMessages(PopulateSelectLists(model)));
 		}
 
@@ -541,7 +553,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 						Model = model;
 						Entity = entity;
 						var confirmationText = GetResource("{0}.Update.Confirmation", "Common.Update.Confirmation", GetDescription(model), SingularLabel);
-						if (RenderPartial)
+						if (IsJsonRequest)
+						{
+							retVal = Json(new ApiResponse { Success = true, Message = confirmationText });
+						}
+						else if (RenderPartial)
 						{
 							retVal = RedirectToMessageAction(GetEditHeading(model), confirmationText);
 							var routeValues = new RouteValueDictionary();
@@ -566,7 +582,20 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (retVal == null)
 			{
-				if (ValidationRedirect)
+				if (IsJsonRequest)
+				{
+					var response = new ApiResponse();
+					foreach (var key in ModelState.Keys)
+					{
+						var errors = ModelState[key].Errors.Select(x => x.ErrorMessage).ToArray();
+						if (errors.Length > 0)
+						{
+							response.ValidationErrors[key] = errors;
+						}
+					}
+					retVal = Json(response);
+				}
+				else if (ValidationRedirect)
 				{
 					retVal = GetValidationRedirect(GetEditHeading(model));
 					if (!RenderPartial)
@@ -602,6 +631,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 			if (RequireParentId)
 			{
 				parentId.Guard("parentId");
+			}
+			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
+			{
+				return View("Index");
 			}
 			ParentId = parentId;
 			var model = ConstructCreateModel();
@@ -654,9 +687,9 @@ namespace DigitalBeacon.SiteBase.Controllers
 						}
 						else
 						{
-							if (IsApiRequest)
+							if (IsJsonRequest)
 							{
-								return Json(new ApiResponse { Success = true, Message = confirmationText });
+								retVal = Json(new ApiResponse { Success = true, Message = confirmationText });
 							}
 							else if (RenderPartial)
 							{
@@ -678,7 +711,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (retVal == null)
 			{
-				if (IsApiRequest)
+				if (IsJsonRequest)
 				{
 					var response = new ApiResponse();
 					foreach (var key in ModelState.Keys)
@@ -689,7 +722,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 							response.ValidationErrors[key] = errors;
 						}
 					}
-					return Json(response);
+					retVal = Json(response);
 				}
 				else if (ValidationRedirect)
 				{
@@ -759,7 +792,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 				{
 					DeleteEntity(entity, model);
 					var confirmationText = GetResource("{0}.Delete.Confirmation", "Common.Delete.Confirmation", GetDescription(model), SingularLabel);
-					if (RenderPartial)
+					if (IsJsonRequest)
+					{
+						retVal = Json(new ApiResponse { Success = true, Message = confirmationText });
+					}
+					else if (RenderPartial)
 					{
 						retVal = RedirectToMessageAction(GetDeleteHeading(model), confirmationText);
 					}
@@ -771,15 +808,35 @@ namespace DigitalBeacon.SiteBase.Controllers
 				}
 				catch (EntityDependencyException)
 				{
-					retVal = RedirectToErrorAction(GetDeleteHeading(model),
-						GetResource("{0}.Error.DeleteEntity.Dependency", "Error.DeleteEntity.Dependency"));
-					MessageModel.ReturnUrl = EnableEditAction ? Url.Action(EditActionName) : Url.Action(ListActionName, new { id = String.Empty });
-					MessageModel.ReturnText = EnableEditAction ? ReturnTextSingular : ReturnTextPlural;
+					var errorMessage = GetResource("{0}.Error.DeleteEntity.Dependency", "Error.DeleteEntity.Dependency");
+					if (IsJsonRequest)
+					{
+						retVal = Json(new ApiResponse { Success = false, ErrorMessage = errorMessage });
+					}
+					else
+					{
+						retVal = RedirectToErrorAction(GetDeleteHeading(model), errorMessage);
+						MessageModel.ReturnUrl = EnableEditAction ? Url.Action(EditActionName) : Url.Action(ListActionName, new { id = String.Empty });
+						MessageModel.ReturnText = EnableEditAction ? ReturnTextSingular : ReturnTextPlural;
+					}
 				}
 			}
 			if (retVal == null)
 			{
-				if (ValidationRedirect)
+				if (IsJsonRequest)
+				{
+					var response = new ApiResponse();
+					foreach (var key in ModelState.Keys)
+					{
+						var errors = ModelState[key].Errors.Select(x => x.ErrorMessage).ToArray();
+						if (errors.Length > 0)
+						{
+							response.ValidationErrors[key] = errors;
+						}
+					}
+					retVal = Json(response);
+				}
+				else if (ValidationRedirect)
 				{
 					retVal = GetValidationRedirect(GetDeleteHeading(model));
 					if (!RenderPartial)
@@ -826,7 +883,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			if (CheckCustomResources)
 			{
 				var key = customKey.FormatWith(BaseName);
-				var customText = GetLocalizedText(key);
+				var customText = GetLocalizedTextWithFormatting(key);
 				if (customText != key)
 				{
 					text = customText;
@@ -834,7 +891,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (text == null)
 			{
-				text = GetLocalizedText(defaultKey);
+				text = GetLocalizedTextWithFormatting(defaultKey);
 			}
 			return args != null ? text.FormatWith(args) : text;
 		}

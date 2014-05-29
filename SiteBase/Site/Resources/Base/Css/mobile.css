@@ -204,7 +204,18 @@ a.inactive
 	margin-bottom: 0 !important;
 }
 
+.list-actions,
+.list-group
+{
+	margin-bottom: 10px;
+}
+
 .navbar
 {
 	margin-bottom: 0;
+}
+
+.ng-hide
+{
+	display: none;
 }

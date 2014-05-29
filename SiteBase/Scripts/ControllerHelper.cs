@@ -22,10 +22,5 @@ namespace DigitalBeacon.SiteBase
 		{
 			return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Json" });
 		}
-
-		public static string getApiUrl(string targetUrl)
-		{
-			return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Api" });
-		}
 	}
 }

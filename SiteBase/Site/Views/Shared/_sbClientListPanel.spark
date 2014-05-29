@@ -7,18 +7,31 @@
 <default singularLabel="listModel.SingularLabel" />
 <default pluralLabel="listModel.PluralLabel" />
 
+<default displayMessagePanel="true" />
 <default displaySearchPanel="true" />
+
 <default onClick="'showDetails({0}.Id)'.FormatWith(item)" type="string" />
 
 #//<content name="header" if="listModel != null && listModel.Heading.HasText()">${listModel.Heading}</content>
 
 <sbClientSearchPanel if="displaySearchPanel" />
 
-<button class="btn btn-default" ng-click="addNew()" if="enableNew">${Text("Common.NewEntity.Label", singularLabel)}</button>
 
-<div class="list-group">
-	<if condition="itemContent.HasText()">!{itemContent}</if>
-	<else><a class="list-group-item" ng-repeat="${item} in ${items}" ng-click="${onClick}?{onClick.HasText()}"><render /></a></else>
+<div ng-show="list.visible">
+	<sbClientMessagePanel if="displayMessagePanel" />
+	
+	<div class="btn-group btn-group-justified list-actions">
+		<a class="btn btn-primary" ng-click="addNew()" if="enableNew">${Text("Common.NewEntity.Label", singularLabel)}</a>
+	</div>
+	
+	<div class="list-group">
+		<if condition="itemContent.HasText()">!{itemContent}</if>
+		<else><a class="list-group-item" ng-repeat="${item} in ${items}" ng-click="${onClick}?{onClick.HasText()}"><render /></a></else>
+	</div>
+
+	<div class="btn-group btn-group-justified">
+		<a class="btn btn-primary" ng-click="loadMore()" ng-show="page &lt; pageCount">Load More</a>
+	</div>
 </div>
 
-<button class="btn btn-default" ng-click="loadMore()" ng-show="Page &lt; PageCount">Load More</button>
+<div ui-view></div>

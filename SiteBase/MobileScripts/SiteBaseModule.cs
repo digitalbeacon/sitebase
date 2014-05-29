@@ -6,19 +6,24 @@
 // ---------------------------------------------------------------------- //
 
 using System;
+using ng;
 
-namespace DigitalBeacon.SiteBase.Mobile.Content
+namespace DigitalBeacon.SiteBase.Mobile
 {
-	[ScriptIgnoreNamespace]
-	public class ContentController : BaseController
+	public static class SiteBaseModule
 	{
-		public ContentController(dynamic scope)
+		static SiteBaseModule()
 		{
-			Scope = scope;
-		}
-
-		public override void init()
-		{
+			Angular.module("sitebase", new[] { "ngSanitize", "ui.bootstrap" })
+				.config(new dynamic[] 
+				{ 
+					"$httpProvider",
+					(Action<dynamic>)
+					((httpProvider) =>
+					{
+						httpProvider.defaults.transformResponse.push(new Func<object, object>(data => Utils.convertDateStringsToDates(data)));
+					})
+				});
 		}
 	}
 }

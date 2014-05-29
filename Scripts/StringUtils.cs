@@ -47,6 +47,11 @@ namespace DigitalBeacon
 			return jQuery.trim(str).length > 0;
 		}
 
+		public static bool isDateString(string dateStr)
+		{
+			return DateRegex.test(dateStr);
+		}
+
 		public static Date toDate(string dateStr)
 		{
 			if (!dateStr)

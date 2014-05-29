@@ -10,7 +10,6 @@ using ng;
 
 namespace DigitalBeacon.SiteBase.Mobile.Identity
 {
-	[ScriptIgnoreNamespace]
 	public class IdentityService
 	{
 		static IdentityService()
@@ -23,7 +22,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 					(resource =>
 					{
 						return resource(
-							ControllerHelper.getApiUrl("~/identity/:operation"),
+							ControllerHelper.getJsonUrl("~/identity/:operation"),
 							new { },
 							new
 							{

@@ -23,6 +23,6 @@ namespace ng
 		IModule filter(string name, dynamic[] inlineAnnotadedFunction);
 		IModule filter(dynamic obj);
 
-		void controller(string name, dynamic controllerFactoryFunction);
+		IModule controller(string name, dynamic controllerFactoryFunction);
 	}
 }

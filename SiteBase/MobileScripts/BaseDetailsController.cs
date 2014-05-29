@@ -18,6 +18,12 @@ namespace DigitalBeacon.SiteBase.Mobile
 	{
 		public int id;
 
+		public override void init()
+		{
+			base.init();
+			hideList();
+		}
+
 		public object getDisplayObject(dynamic x)
 		{
 			var retVal = new object();
@@ -33,6 +39,34 @@ namespace DigitalBeacon.SiteBase.Mobile
 			return retVal;
 		}
 
+		protected void showList(dynamic response = null)
+		{
+			Scope.emit("showList", response);
+		}
+
+		protected void hideList()
+		{
+			Scope.emit("hideList");
+		}
+
+		//	scope.filteredProperties = (Func<object, object>)
+		//		(x =>
+		//		{
+		//			var retVal = new object();
+		//			foreach (var key in Object.keys(x))
+		//			{
+		//				var val = x[key];
+		//				if (!val || (val is Array && val.length == 0))
+		//				{
+		//					continue;
+		//				}
+		//				retVal[key] = x[key];
+		//			}
+		//			return retVal;
+		//		});
+
 		public abstract void submit();
+
+		public virtual void delete() { }
 	}
 }

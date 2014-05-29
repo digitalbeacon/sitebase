@@ -31,7 +31,7 @@ namespace DigitalBeacon.SiteBase
 					var alerts = new dynamic[0];
 					if (response.Message != null)
 					{
-						alerts.push(new { type = "sucess", msg = response.Message });
+						alerts.push(new { type = "success", msg = response.Message });
 					}
 					if (response.ErrorMessage != null)
 					{
@@ -45,7 +45,8 @@ namespace DigitalBeacon.SiteBase
 						}
 					}
 					scope.alerts = alerts;
-					scope.validationErrors = response.ValidationErrors ?? new { };
+					scope.validationErrors = response.ValidationErrors ?? new Dictionary<string[]>();
+					window.scrollTo(0, 0);
 				}
 			}
 		}

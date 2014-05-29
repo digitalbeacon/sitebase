@@ -31,7 +31,7 @@ DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse = function (obj, scope) 
             var alerts = new Array(0);
             if (response.Message !== null) {
                 alerts.push({
-                    type: 'sucess',
+                    type: 'success',
                     msg: response.Message
                 });
             }
@@ -56,8 +56,8 @@ DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse = function (obj, scope) 
                 }
             }
             scope.alerts = alerts;
-            scope.validationErrors = response.ValidationErrors || {
-            };
+            scope.validationErrors = response.ValidationErrors || {};
+            scrollTo(0, 0);
         }
     }
 };
@@ -86,11 +86,6 @@ DigitalBeacon.SiteBase.ControllerHelper.getTemplateUrl = function (targetUrl) {
 DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl = function (targetUrl) {
     return DigitalBeacon.Utils.mergeParams($.digitalbeacon.resolveUrl(targetUrl), {
         renderType: 'Json'
-    });
-};
-DigitalBeacon.SiteBase.ControllerHelper.getApiUrl = function (targetUrl) {
-    return DigitalBeacon.Utils.mergeParams($.digitalbeacon.resolveUrl(targetUrl), {
-        renderType: 'Api'
     });
 };
 

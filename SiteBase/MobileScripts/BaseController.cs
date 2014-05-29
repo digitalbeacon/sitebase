@@ -7,30 +7,35 @@
 
 using System;
 using System.Collections.Generic;
+using jQueryLib;
 using ng;
 
 namespace DigitalBeacon.SiteBase.Mobile
 {
-	[ScriptIgnoreNamespace]
 	public abstract class BaseController
 	{
-		private dynamic _scope;
-		private dynamic _routeParams;
+		private Scope _scope;
+		private dynamic _state;
 		private ILocation _location;
 
 		public dynamic[] alerts;
-		public Dictionary<object> formData = new Dictionary<object>();
+		public dynamic formData = new Dictionary<object>();
 
-		protected dynamic Scope
+		protected Scope Scope
 		{
-			get { return _scope ?? this; }
+			get { return ((dynamic)_scope) ?? this; }
 			set { _scope = value; }
 		}
 
-		protected dynamic RouteParams
+		protected dynamic State
 		{
-			get { return _routeParams; }
-			set { _routeParams = value; }
+			get { return _state; }
+			set { _state = value; }
+		}
+
+		protected dynamic StateParams
+		{
+			get { return _state ? _state.@params : new Dictionary<object>(); }
 		}
 
 		protected dynamic Location
@@ -39,11 +44,26 @@ namespace DigitalBeacon.SiteBase.Mobile
 			set { _location = value; }
 		}
 
+		public virtual void init()
+		{
+		}
+
+		public void clearAlerts()
+		{
+			if (alerts && alerts.length > 0)
+			{
+				alerts.length = 0;
+			}
+		}
+
 		public void closeAlert(int index)
 		{
 			alerts.splice(index, 1);
 		}
 
-		public abstract void init();
+		public static void extend(object target, object obj)
+		{
+			((BaseController)jQuery.extend(target, obj)).init();
+		}
 	}
 }

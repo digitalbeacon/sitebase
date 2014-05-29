@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE;BLADE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>626</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,17 +52,17 @@
     </Compile>
     <Compile Include="BaseDetailsController.cs" />
     <Compile Include="BaseListController.cs" />
-    <Compile Include="Contacts\ContactsController.cs" />
+    <Compile Include="SiteBaseModule.cs" />
+    <Compile Include="Contacts\ContactListController.cs" />
     <Compile Include="Contacts\ContactService.cs" />
     <Compile Include="Contacts\ContactsModule.cs" />
-    <Compile Include="Contacts\DetailsController.cs" />
-    <Compile Include="Content\ContentController.cs" />
-    <Compile Include="Content\ContentModule.cs" />
+    <Compile Include="Contacts\ContactDetailsController.cs" />
     <Compile Include="Identity\IdentityModule.cs" />
     <Compile Include="Identity\IdentityController.cs" />
     <Compile Include="Identity\IdentityService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BaseListState.cs" />
     <Compile Include="ListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

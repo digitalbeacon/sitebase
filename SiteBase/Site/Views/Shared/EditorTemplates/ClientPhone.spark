@@ -1,7 +1,7 @@
 ﻿<use master="" />
 <%
 var dp = this.TelephoneBox(ViewData.ModelMetadata.PropertyName)
-	.Value((DateTime?)ViewData.ModelMetadata.Model);
+	.Value(ViewData.ModelMetadata.Model);
 if (ViewData.ModelMetadata.IsReadOnly)
 {
 	dp.Attr("readonly", "readonly");
@@ -14,5 +14,16 @@ if (ViewData.ContainsKey("cssClass") && ViewData["cssClass"].ToString().HasText(
 if (ViewData.ContainsKey("ngModel") && ViewData["ngModel"].ToString().HasText())
 {
 	dp.Attr("ng-model", ViewData["ngModel"].ToString());
+	if (ViewData.ContainsKey("ngInit") && (bool)ViewData["ngInit"])
+	{
+		if (ViewData.ModelMetadata.ModelType.IsPrimitive)
+		{
+			dp.Attr("ng-init", "{0}={1}".FormatWith(ViewData["ngModel"], ViewData.ModelMetadata.Model));
+		}
+		else
+		{
+			dp.Attr("ng-init", "{0}='{1}'".FormatWith(ViewData["ngModel"], ViewData.ModelMetadata.Model.ToSafeString().EscapeForJavaScript()));
+		}
+	}
 }
 %>${dp}

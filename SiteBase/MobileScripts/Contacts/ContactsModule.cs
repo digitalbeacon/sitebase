@@ -16,55 +16,52 @@ using DigitalBeacon.SiteBase.Mobile;
 
 namespace DigitalBeacon.SiteBase.Mobile.Contacts
 {
-	[ScriptIgnoreNamespace]
 	public static class ContactsModule
 	{
 		static ContactsModule()
 		{
-			Angular.module("contacts", new[] { "ngRoute", "ui.bootstrap", "contactService" })
-				.config(new dynamic[] 
+			Angular.module("contacts", new[] { "sitebase", "ui.router", "contactService" })
+				.config(new object[] 
 				{ 
-					"$routeProvider",
+					"$stateProvider",
+					"$urlRouterProvider",
 					"$locationProvider",
-					(Action<IRouteProvider, ILocationProvider>)
-					((routeProvider, locationProvider) =>
+					(Action<dynamic, dynamic, ILocationProvider>)
+					((stateProvider, urlRouterProvider, locationProvider) =>
 					{
-						routeProvider
-							.when("/", new Route
-							{
-								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/"),
-								controller = getContactsController()
-							})
-							.when("/new", new Route
-							{
-								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/new"),
-								controller = getContactsController()
-							})
-							.when("/:id", new Route
-							{
-								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/edit"),
-								controller = getContactsController()
-							})
-							.otherwise(new { redirectTo = "/" });
 						locationProvider.html5Mode(true);
+						urlRouterProvider.otherwise(digitalbeacon.resolveUrl("~/contacts"));
+						stateProvider
+							.state("list", new
+							{
+								url = digitalbeacon.resolveUrl("~/contacts"),
+								templateUrl = ControllerHelper.getTemplateUrl("~/contacts"),
+								controller = "contactListController"
+							})
+							.state("list.new", new
+							{
+								url = "/new",
+								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/new"),
+								controller = "contactDetailsController"
+							})
+							.state("list.edit", new
+							{
+								url = "/{id:[0-9]{1,4}}",
+								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/0/edit"),
+								controller = "contactDetailsController"
+							});
 					})
-				});
-
-			//var app = Angular.module("contacts", new[] { "ui.bootstrap", "contactService" });
-			//app.controller("contactsController", (Action<dynamic, dynamic>)ClientsController.instance);
-		}
-
-		static object getContactsController()
-		{
-			return new object[] { "$scope", "$routeParams", "$location", "contactService", 
-									(Action<dynamic, dynamic, ILocation, ContactService>)
-									((scope, routeParams, location, contactService) => 
-										extend(scope, new ContactsController(scope, routeParams, location, contactService))) };
-		}
-
-		static void extend(object target, object object1)
-		{
-			((BaseController)jQuery.extend(target, object1)).init();
+				})
+				.controller("contactListController",
+					new object[] { "$scope", "$state", "$location", "contactService", 
+						(Action<Scope, dynamic, ILocation, ContactService>)
+						((scope, state, location, contactService) => 
+							BaseController.extend(scope, new ContactListController(scope, state, location, contactService))) })
+				.controller("contactDetailsController",
+					new object[] { "$scope", "$state", "$location", "contactService", 
+						(Action<Scope, dynamic, ILocation, ContactService>)
+						((scope, state, location, contactService) => 
+							BaseController.extend(scope, new ContactDetailsController(scope, state, location, contactService))) });
 		}
 	}
 }

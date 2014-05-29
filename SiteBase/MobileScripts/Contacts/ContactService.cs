@@ -15,7 +15,6 @@ using DigitalBeacon.SiteBase;
 
 namespace DigitalBeacon.SiteBase.Mobile.Contacts
 {
-	[ScriptIgnoreNamespace]
 	public class ContactService : BaseService
 	{
 		static ContactService()
@@ -28,8 +27,8 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 					(resource =>
 					{
 						return resource(
-							ControllerHelper.getApiUrl("~/contacts/:id"),
-							new { },
+							ControllerHelper.getJsonUrl("~/contacts/:id"),
+							new { id = "@id" },
 							new
 							{
 								update = new { method = "PUT" },

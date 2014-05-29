@@ -1305,16 +1305,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value>The JSON request flag</value>
 		protected bool IsJsonRequest
 		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypeJson.ToLowerInvariant()); ; }
-		}
-
-		/// <summary>
-		/// Gets the API request flag
-		/// </summary>
-		/// <value>The API request flag</value>
-		protected bool IsApiRequest
-		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypeApi.ToLowerInvariant()); ; }
+			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypeJson.ToLowerInvariant()); }
 		}
 
 		/// <summary>

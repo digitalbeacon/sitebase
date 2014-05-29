@@ -5,6 +5,7 @@
 //                                                                        //
 // ---------------------------------------------------------------------- //
 
+using System.ComponentModel;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Web;
@@ -64,12 +65,14 @@ namespace DigitalBeacon.SiteBase.Models
 		[LocalizedDisplayName("Common.Fax.Label")]
 		public virtual string Fax { get; set; }
 
+		[ReadOnly(true)]
 		public virtual Country? Country
 		{
 			get { return CountryId.HasValue? (Country)CountryId.Value : (Country?)null; }
 			set { CountryId = value.HasValue ? (long)value.Value : (long?)null; }
 		}
 
+		[ReadOnly(true)]
 		public virtual State? State
 		{
 			get { return StateId.HasValue ? (State)StateId.Value : (State?)null; }

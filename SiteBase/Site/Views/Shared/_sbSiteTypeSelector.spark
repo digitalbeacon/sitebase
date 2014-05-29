@@ -1,3 +1,3 @@
 ﻿<div id="siteTypeSelector" if="SupportsMobile">
-	<a href="${Url.Content("~/?{0}={1}".FormatWith(WebConstants.MobileKey, IsMobile ? 0 : 1))}">${Text(IsMobile ? "Common.DesktopSiteSelector.Label" : "Common.MobileSiteSelector.Label")}</a>
+	<a href="${Url.Content("~/?{0}={1}".FormatWith(WebConstants.MobileKey, IsMobile ? 0 : 1))}" target="_self">${Text(IsMobile ? "Common.DesktopSiteSelector.Label" : "Common.MobileSiteSelector.Label")}</a>
 </div>

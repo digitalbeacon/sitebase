@@ -14,9 +14,9 @@ namespace DigitalBeacon
 	public static class ObjectExtensions
 	{
 		//[ScriptMixin]
-		public static bool hasValue(this object obj)
-		{
-			return (bool)obj;
-		}
+		//public static bool hasValue(this object obj)
+		//{
+		//	return (bool)obj;
+		//}
 	}
 }

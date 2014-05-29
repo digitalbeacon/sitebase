@@ -61,7 +61,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		[HttpPost]
 		public ActionResult SignIn(SignInModel model)
 		{
-			if (IsApiRequest)
+			if (IsJsonRequest)
 			{
 				return ApiSignIn(model);
 			}

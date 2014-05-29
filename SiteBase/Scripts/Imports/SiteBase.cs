@@ -23,6 +23,13 @@ namespace DigitalBeacon.SiteBase
 
 	[ScriptExternal]
 	[ScriptNamespace("$.sb")]
+	public static class localization
+	{
+		public static string confirmText;
+	}
+
+	[ScriptExternal]
+	[ScriptNamespace("$.sb")]
 	public abstract class FormPanel
 	{
 		public abstract void updateContent(string content);

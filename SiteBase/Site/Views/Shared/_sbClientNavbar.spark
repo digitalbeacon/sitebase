@@ -20,11 +20,11 @@
 			<var navItems="(IList[[NavigationItem]])ViewData['TopLeftNav']" />
 			<ul class="nav navbar-nav" if="navItems != null && navItems.Count > 0">
 				<for each="var item in navItems">
-					<li if="item.Items.Count == 0"><a href="${Url.Content(item.Url)}">${item.Text}</a></li>
+					<li if="item.Items.Count == 0"><a href="${Url.Content(item.Url)}" target="_self">${item.Text}</a></li>
 					<li class="dropdown" if="item.Items.Count > 0">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">${item.Text}<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li each="var subItem in item.Items"><a href="${Url.Content(subItem.Url)}">${subItem.Text}</a></li>
+							<li each="var subItem in item.Items"><a href="${Url.Content(subItem.Url)}" target="_self">${subItem.Text}</a></li>
 						</ul>
 					</li>
 				</for>
@@ -40,11 +40,11 @@
 			<set navItems="(IList[[NavigationItem]])ViewData['TopRightNav']" />
 			<ul class="nav navbar-nav navbar-right" if="navItems != null && navItems.Count > 0">
 				<for each="var item in navItems">
-					<li if="item.Items.Count == 0"><a href="${item.Url.HasText() ? Url.Content(item.Url) : '#'}" class="${'inactive'}?{item.Url.IsNullOrBlank()}">${item.Text}</a></li>
+					<li if="item.Items.Count == 0"><a href="${item.Url.HasText() ? Url.Content(item.Url) : '#'}" target="_self" class="${'inactive'}?{item.Url.IsNullOrBlank()}">${item.Text}</a></li>
 					<li class="dropdown" if="item.Items.Count > 0">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">${item.Text}<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li each="var subItem in item.Items"><a href="${Url.Content(subItem.Url)}">${subItem.Text}</a></li>
+							<li each="var subItem in item.Items"><a href="${Url.Content(subItem.Url)}" target="_self">${subItem.Text}</a></li>
 						</ul>
 					</li>
 				</for>

@@ -3,6 +3,8 @@
 <default clientFormPanel="true" />
 <default clientModel="'formData'" />
 <default displayMessagePanel="true" />
+<default isEntityModel="typeof(EntityModel).IsAssignableFrom(Model.GetType())" />
+<default initClientModel="false" />
 
 <sbClientMessagePanel if="displayMessagePanel" />
 

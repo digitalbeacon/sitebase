@@ -36,5 +36,27 @@ namespace DigitalBeacon
 			}
 			return url;
 		}
+
+		public static object convertDateStringsToDates(object input, int level = 0)
+		{
+			if (!digitalbeacon.isObject(input))
+			{
+				return input;
+			}
+			foreach (var key in Object.keys(input))
+			{
+				if (!((dynamic)input).hasOwnProperty(key)) continue;
+				var value = input[key];
+				if (digitalbeacon.isString(value) && StringUtils.isDateString(value))
+				{
+					input[key] = StringUtils.toDate(value);
+				}
+				else if (value && digitalbeacon.isObject(value) && level < 10)
+				{
+					convertDateStringsToDates(value, level++);
+				}
+			}
+			return input;
+		}
 	}
 }

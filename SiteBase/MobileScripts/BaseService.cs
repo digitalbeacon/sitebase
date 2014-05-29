@@ -9,7 +9,6 @@ using System;
 
 namespace DigitalBeacon.SiteBase.Mobile
 {
-	[ScriptIgnoreNamespace]
 	public abstract class BaseService
 	{
 		[ScriptExternal]
@@ -19,9 +18,12 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public extern void search(object parameters, dynamic response);
 
 		[ScriptExternal]
-		public extern void save(object parameters, Action<ApiResponse> responseHandler = null);
+		public extern void save(object postData, Action<ApiResponse> responseHandler = null);
 
 		[ScriptExternal]
-		public extern void update(object parameters, Action<ApiResponse> responseHandler = null);
+		public extern void update(object parameters, object postData, Action<ApiResponse> responseHandler = null);
+
+		[ScriptExternal]
+		public extern void delete(object parameters, Action<ApiResponse> responseHandler = null);
 	}
 }

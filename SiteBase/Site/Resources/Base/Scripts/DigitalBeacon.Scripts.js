@@ -6,9 +6,6 @@ DigitalBeacon.ObjectExtensions = (function() {
     }
     return ObjectExtensions;
 })();
-DigitalBeacon.ObjectExtensions.hasValue = function (obj) {
-    return obj;
-};
 
 DigitalBeacon.StringBuilder = (function() {
     function StringBuilder() {
@@ -55,6 +52,9 @@ DigitalBeacon.StringUtils.formatWith = function (format, arg1, arg2, arg3, arg4,
 };
 DigitalBeacon.StringUtils.hasText = function (str) {
     return $.trim(str).length > 0;
+};
+DigitalBeacon.StringUtils.isDateString = function (dateStr) {
+    return DigitalBeacon.StringUtils.DateRegex.test(dateStr);
 };
 DigitalBeacon.StringUtils.toDate = function (dateStr) {
     if (!dateStr) {
@@ -104,6 +104,27 @@ DigitalBeacon.Utils.mergeParams = function (url, args) {
         }
     }
     return url;
+};
+DigitalBeacon.Utils.convertDateStringsToDates = function (input, level) {
+    level = (level !== undefined) ? level : 0;
+    if (!$.digitalbeacon.isObject(input)) {
+        return input;
+    }
+    var key = null;
+    var $key_enum = Object.keys(input).GetEnumerator();
+    while($key_enum.MoveNext()) {
+        key = $key_enum.get_Current();
+        if (!(input).hasOwnProperty(key)) {
+            continue;
+        }
+        var value = input[key];
+        if ($.digitalbeacon.isString(value) && DigitalBeacon.StringUtils.isDateString(value)) {
+            input[key] = DigitalBeacon.StringUtils.toDate(value);
+        } else if (value && $.digitalbeacon.isObject(value) && level < 10) {
+            DigitalBeacon.Utils.convertDateStringsToDates(value, level++);
+        }
+    }
+    return input;
 };
 
 String.prototype.formatWith = function(arg1, arg2, arg3, arg4, arg5) {

@@ -771,7 +771,6 @@
     <Content Include="Views\Contacts\Mobile\NewTemplate.spark">
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientDate.spark" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientEmail.spark" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientPhone.spark" />
     <None Include="Web.config">

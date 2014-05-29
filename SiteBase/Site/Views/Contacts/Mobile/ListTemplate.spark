@@ -15,7 +15,7 @@
 		<div class="row">
 			<div class="col-sm-3 visible-xs"><h4>{{ "{0} {1}".formatWith(contact.FirstName, contact.LastName) }}</h4></div>
 			<div class="col-sm-2 hidden-xs">{{ "{0} {1}".formatWith(contact.FirstName, contact.LastName) }}</div>
-			<div class="col-sm-2"><span ng-show="contact.DateOfBirth">${Text("Common.DateOfBirth.Label")}: </span>{{ contact.DateOfBirth.toDate() | date : 'M/d/yyyy' }}<span ng-show="contact.Age"><span ng-show="contact.DateOfBirth">,</span> ${Text("Common.Age.Label")}: {{ contact.Age }}</span></div>
+			<div class="col-sm-2"><span ng-show="contact.DateOfBirth">${Text("Common.DateOfBirth.Label")}: </span>{{ contact.DateOfBirth | date : 'M/d/yyyy' }}<span ng-show="contact.Age"><span ng-show="contact.DateOfBirth">,</span> ${Text("Common.Age.Label")}: {{ contact.Age }}</span></div>
 			<div class="col-sm-2"><span ng-show="contact.MobilePhone">${Text("Common.MobilePhone.Label")}: </span>{{ contact.MobilePhone }}</div>
 			<div class="col-sm-2"><span ng-show="contact.Email">${Text("Common.Email.Label")}: </span>{{ contact.Email }}</div>
 			<div class="col-sm-1 hidden-xs">{{ contact.Id }}</div>

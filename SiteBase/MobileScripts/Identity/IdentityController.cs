@@ -9,7 +9,6 @@ using System;
 
 namespace DigitalBeacon.SiteBase.Mobile.Identity
 {
-	[ScriptIgnoreNamespace]
 	public class IdentityController : BaseController
 	{
 		private IdentityService _identityService;
@@ -22,6 +21,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 
 		public override void init()
 		{
+			base.init();
 		}
 
 		public void signIn()

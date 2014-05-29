@@ -27,6 +27,17 @@ if (ViewData.ContainsKey("cssClass") && ViewData["cssClass"].ToString().HasText(
 if (ViewData.ContainsKey("ngModel") && ViewData["ngModel"].ToString().HasText())
 {
 	attributes["ng-model"] = ViewData["ngModel"].ToString();
+	if (ViewData.ContainsKey("ngInit") && (bool)ViewData["ngInit"])
+	{
+		if (ViewData.ModelMetadata.ModelType.IsPrimitive)
+		{
+			attributes["ng-init"] = "{0}={1}".FormatWith(attributes["ng-model"], ViewData.ModelMetadata.Model);
+		}
+		else
+		{
+			attributes["ng-init"] = "{0}='{1}'".FormatWith(attributes["ng-model"], ViewData.ModelMetadata.Model.ToSafeString().EscapeForJavaScript());
+		}
+	}
 }
 IEnumerable<ModelValidator> validators = ModelValidatorProviders.Providers.GetValidators(ViewData.ModelMetadata, ViewContext);
 ModelClientValidationRule rule = validators.SelectMany(v => v.GetClientValidationRules()).FirstOrDefault(m => m.ValidationType == "stringLength");
