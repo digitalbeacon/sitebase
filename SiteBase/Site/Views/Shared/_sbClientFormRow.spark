@@ -16,35 +16,61 @@
 <default mask="null" type="string" />
 <default maxLength="null" type="int?" />
 <default isEntityModel="false" />
-<default enableSave="true" />
 <default inputSize="0" />
 <default enableRenderContent="inputType == renderContent || !property.HasText()" />
 <default focus="false" />
+<default enableBulkCreate="false" />
+<default enableCaptcha="false" />
+<default singularLabel="string.Empty" />
+<default pluralLabel="string.Empty" />
+
 <default onClick="null" type="string" />
 <default onDeleteClick="null" type="string" />
 <default onCancelClick="null" type="string" />
+<default enableSave="true" />
 <default enableDelete="onDeleteClick.HasText()" />
 <default enableCancel="onCancelClick.HasText()" />
+<set onDeleteClick="'delete()'" if="onDeleteClick.IsNullOrBlank()" />
+<set onCancelClick="'cancel()'" if="onCancelClick.IsNullOrBlank()" />
 <default initClientModel="false" />
 
 <content name="formRowContent" if="enableRenderContent"><render /></content>
 
 <var clientEvents="new ExpandoObject()" type="dynamic" />
-<set clientEvents.onClick="onClick" if="onClick.HasText()" />
+<set clientEvents.onClick="onClick" />
 <set clientEvents.onDeleteClick="onDeleteClick" if="onDeleteClick.HasText()" />
 <set clientEvents.onCancelClick="onCancelClick" if="onCancelClick.HasText()" />
 
-${ClientFormRow(new FormRowOptions { 
+${ClientFormRow(new FormRowOptions {
 	Property = property, 
 	SubProperty = subProperty,
 	Label = label,
 	InputType = inputType,
 	Required = required,
+	InputReadOnly = inputReadOnly,
+	CustomText = customText,
+	IncludeEmptyOption = includeEmptyOption,
+	HelpText = helpText, 
+	Validation = validation,
+	Validations = validations,
+	GenerateRowId = generateRowId,
+	RowId = rowId,
+	RowClass = rowClass,
+	RowStyle = rowStyle,
+	Mask = mask,
+	Focus = focus,
+	MaxLength = maxLength,
+	IsEntityModel = isEntityModel,
 	EnableSave = enableSave,
 	EnableDelete = enableDelete,
 	EnableCancel = enableCancel,
+	EnableBulkCreate = enableBulkCreate,
+	EnableCaptcha = enableCaptcha,
+	InputSize = inputSize,
 	Model = Model,
-	IsEntityModel = isEntityModel,
+	FormPanelId = panelId,
+	SingularLabel = singularLabel,
+	PluralLabel = pluralLabel,
 	ViewData = ViewData,
 	RenderContent = enableRenderContent ? Content["formRowContent"].ToString() : null
 }, clientEvents, clientModel, initClientModel)}

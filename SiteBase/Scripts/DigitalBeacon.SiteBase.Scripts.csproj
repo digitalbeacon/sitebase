@@ -56,6 +56,7 @@
     <Compile Include="ng\IRouteProvider.cs" />
     <Compile Include="ng\ILocationProvider.cs" />
     <Compile Include="ng\IServiceProvider.cs" />
+    <Compile Include="ng\NgModelController.cs" />
     <Compile Include="ng\Scope.cs" />
     <Compile Include="ng\Route.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

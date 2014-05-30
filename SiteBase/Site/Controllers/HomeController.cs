@@ -17,12 +17,6 @@ namespace DigitalBeacon.SiteBase.Controllers
 	{
 		public ActionResult Index(string id)
 		{
-			//if (IsMobile)
-			//{
-			//  MobileModuleName = ModuleService.GetGlobalSetting("MobileAppName").IfNotNull(x => x.Value);
-			//	return View("Mobile");
-			//}
-
 			var roleHome = IdentityService.GetRoleHome(CurrentAssociationId, IsAuthenticated ? CurrentUserId : (long?)null);
 			if (roleHome != null)
 			{

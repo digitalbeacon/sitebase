@@ -661,18 +661,23 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <summary>
 		/// HTML encode text and convert markdown to HTML
 		/// </summary>
-		static protected internal string GetSafeFormattedText(string text, bool removeEnclosingParagraphTags = true)
+		static protected internal IHtmlString GetSafeFormattedText(object input, bool removeEnclosingParagraphTags = true)
 		{
+			if (input is IHtmlString)
+			{
+				return input as IHtmlString;
+			}
+			var text = input.ToSafeString();
 			if (text.IsNullOrBlank())
 			{
-				return text;
+				return MvcHtmlString.Empty;
 			}
 			text = new Markdown().Transform(HttpUtility.HtmlEncode(text.Replace("****", string.Empty))).Trim();
 			if (removeEnclosingParagraphTags && text.IndexOf("<p", 3) == -1 && text.StartsWith("<p>") && text.EndsWith("</p>"))
 			{
 				text = text.Substring(3, text.Length - 7);
 			}
-			return text.Replace("**", string.Empty);
+			return MvcHtmlString.Create(text.Replace("**", string.Empty));
 		}
 
 		/// <summary>
@@ -689,7 +694,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <summary>
 		/// Gets the localized string with markdown formatting applied.
 		/// </summary>
-		static protected internal string GetLocalizedTextWithFormatting(string key, params object[] args)
+		static protected internal IHtmlString GetLocalizedTextWithFormatting(string key, params object[] args)
 		{
 			return GetSafeFormattedText(ResourceManager.Instance.GetString(key, args));
 		}

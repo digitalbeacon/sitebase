@@ -65,7 +65,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 		//			return retVal;
 		//		});
 
-		public abstract void submit();
+		public abstract void submit(bool isValid);
 
 		public virtual void delete() { }
 	}

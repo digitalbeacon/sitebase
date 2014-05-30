@@ -1,52 +1,39 @@
 ﻿<use master="" />
+<default htmlAttributes="(IDictionary[[string,object]])ViewData['htmlAttributes'] ?? new Dictionary[[string,object]]()" />
+<var inputType="(string)ViewData['inputType']" />
 <%
-Dictionary<string, object> attributes = new Dictionary<string, object>();
-//{
-//	{"class", "text-box single-line"}
-//};
-if (ViewData["readOnly"] as bool? ?? ViewData.ModelMetadata.IsReadOnly)
+MvcContrib.FluentHtml.Elements.IElement input;
+if (inputType == "Email")
 {
-	attributes["readonly"] = "true";
-	attributes["class"] = "read-only";
+	input = this.EmailBox(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
 }
-if (!(ViewData["autoComplete"] as bool? ?? HttpContext.Current.IsDebuggingEnabled))
+if (inputType == "Password")
 {
-	attributes["autocomplete"] = "off";
+	input = this.Password(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
 }
-if (ViewData.ContainsKey("cssClass") && ViewData["cssClass"].ToString().HasText())
+else
 {
-	if (attributes.ContainsKey("class"))
-	{
-		attributes["class"] += " " + ViewData["cssClass"].ToString();
-	}
-	else
-	{
-		attributes["class"] = ViewData["cssClass"].ToString();
-	}
+	input = this.TextBox(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
 }
-if (ViewData.ContainsKey("ngModel") && ViewData["ngModel"].ToString().HasText())
+foreach (var attr in htmlAttributes)
 {
-	attributes["ng-model"] = ViewData["ngModel"].ToString();
-	if (ViewData.ContainsKey("ngInit") && (bool)ViewData["ngInit"])
+	input.SetAttr(attr.Key, attr.Value);
+}
+if (htmlAttributes.ContainsKey("readonly"))
+{
+	input.AddClass("readOnly");
+}
+if (!htmlAttributes.ContainsKey("autocomplete") && !HttpContext.Current.IsDebuggingEnabled)
+{
+	input.SetAttr("autocomplete", "off");
+}
+if (!htmlAttributes.ContainsKey("maxlength"))
+{
+	var validators = ModelValidatorProviders.Providers.GetValidators(ViewData.ModelMetadata, ViewContext);
+	var rule = validators.SelectMany(v => v.GetClientValidationRules()).FirstOrDefault(m => m.ValidationType == "length");
+	if (rule != null && rule.ValidationParameters.ContainsKey("max"))
 	{
-		if (ViewData.ModelMetadata.ModelType.IsPrimitive)
-		{
-			attributes["ng-init"] = "{0}={1}".FormatWith(attributes["ng-model"], ViewData.ModelMetadata.Model);
-		}
-		else
-		{
-			attributes["ng-init"] = "{0}='{1}'".FormatWith(attributes["ng-model"], ViewData.ModelMetadata.Model.ToSafeString().EscapeForJavaScript());
-		}
+		input.SetAttr("maxlength", rule.ValidationParameters["max"]);
 	}
 }
-IEnumerable<ModelValidator> validators = ModelValidatorProviders.Providers.GetValidators(ViewData.ModelMetadata, ViewContext);
-ModelClientValidationRule rule = validators.SelectMany(v => v.GetClientValidationRules()).FirstOrDefault(m => m.ValidationType == "stringLength");
-if (rule != null && rule.ValidationParameters.ContainsKey("maximumLength"))
-{
-	attributes["maxlength"] = rule.ValidationParameters["maximumLength"];
-}
-else if (ViewData.ContainsKey("maxLength") && ViewData["maxLength"].ToString().HasText())
-{
-	attributes["maxlength"] = ViewData["maxLength"].ToString();
-}
-%>${Html.TextBox(String.Empty, ViewData.TemplateInfo.FormattedModelValue, attributes)}
+%>${input}

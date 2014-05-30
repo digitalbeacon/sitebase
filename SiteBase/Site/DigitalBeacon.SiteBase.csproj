@@ -766,13 +766,12 @@
     <Content Include="Views\Contacts\Mobile\EditTemplate.spark" />
     <Content Include="Views\Contacts\Mobile\ListTemplate.spark" />
     <Content Include="Views\Contacts\Mobile\_global.spark" />
-    <Content Include="Views\Shared\_sbHidden.spark" />
+    <EmbeddedResource Include="Views\Shared\_sbHidden.spark" />
     <EmbeddedResource Include="Views\Shared\_sbClientNavbar.spark" />
     <Content Include="Views\Contacts\Mobile\NewTemplate.spark">
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientEmail.spark" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\ClientPhone.spark" />
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\String.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -920,7 +919,6 @@
     <EmbeddedResource Include="Views\Shared\Delete.spark" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\DateTime.spark" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\ReadOnlyField.spark" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\String.spark" />
     <EmbeddedResource Include="Views\Shared\LookupEdit.spark" />
     <EmbeddedResource Include="Views\Shared\LookupList.spark" />
     <EmbeddedResource Include="Views\Shared\Message.spark" />

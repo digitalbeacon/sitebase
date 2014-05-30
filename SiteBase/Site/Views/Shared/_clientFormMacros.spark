@@ -4,74 +4,94 @@
 	<set options.RowId="options.RowId + '-' + options.SubProperty.ToLowerHyphenated()" if="options.GenerateRowId && options.SubProperty.HasText()" />
 	<set options.RowClass="' ' + options.RowClass" if="options.RowClass.HasText()" />
 
-	<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}">
-		<if condition="options.Property.HasText()">
-			<var propName="options.Property" />
-			<if condition="options.SubProperty.IsNullOrBlank() && propName.IndexOf('.') >= 0">
-				<set options.Property="propName.Substring(0, propName.IndexOf('.'))" />
-				<set options.SubProperty="propName.Substring(propName.IndexOf('.') + 1)" />
+	<if condition="options.Property.HasText()">
+		<var propName="options.Property" />
+		<if condition="options.SubProperty.IsNullOrBlank() && propName.IndexOf('.') >= 0">
+			<set options.Property="propName.Substring(0, propName.IndexOf('.'))" />
+			<set options.SubProperty="propName.Substring(propName.IndexOf('.') + 1)" />
+		</if>
+		<set propName="Model.GetType().GetProperty(options.Property).Name" />
+		<set propName="'{0}.{1}'.FormatWith(propName, options.Model.GetType().GetProperty(options.Property).PropertyType.GetProperty(options.SubProperty).Name)" if="options.SubProperty.HasText()" />
+		<var clientPropName="'{0}.{1}'.FormatWith(clientModel, propName)" />
+		<var propMetadata="ModelMetadata.FromStringExpression(propName, options.ViewData)" />
+		<var propRequired="options.Required.HasValue ? options.Required.Value : propMetadata.IsRequired" />
+		<var propReadOnly="options.InputReadOnly.HasValue ? options.InputReadOnly.Value : propMetadata.IsReadOnly" />
+		<set initClientModel="false" if="initClientModel && propMetadata.Model.ToSafeString().IsNullOrBlank()" />
+		<default ngInitValue="string.Empty" />
+		<set ngInitValue="'{0}=\'{1:M/d/yyyy}\''.FormatWith(clientPropName, propMetadata.Model)" if="initClientModel && (propMetadata.ModelType == typeof(DateTime) || propMetadata.ModelType == typeof(DateTime?))" />
+		<set ngInitValue="'{0}={2}{1}{2}'.FormatWith(clientPropName, propMetadata.Model, propMetadata.ModelType.IsPrimitive ? '\'' : String.Empty)" if="initClientModel && ngInitValue.IsNullOrBlank()" />
+		
+		<if condition="options.InputType == null">
+			<if condition="propMetadata.ModelType == typeof(bool) || propMetadata.ModelType == typeof(bool?)">
+				<set options.InputType="checkBox" />
 			</if>
-			<set propName="Model.GetType().GetProperty(options.Property).Name" />
-			<set propName="'{0}.{1}'.FormatWith(propName, options.Model.GetType().GetProperty(options.Property).PropertyType.GetProperty(options.SubProperty).Name)" if="options.SubProperty.HasText()" />
-			<var clientPropName="'{0}.{1}'.FormatWith(clientModel, propName)" />
-			<var propMetadata="ModelMetadata.FromStringExpression(propName, options.ViewData)" />
-			<var propRequired="options.Required.HasValue ? options.Required.Value : propMetadata.IsRequired" />
-			<var propReadOnly="options.InputReadOnly.HasValue ? options.InputReadOnly.Value : propMetadata.IsReadOnly" />
-			<set initClientModel="false" if="initClientModel && propMetadata.Model.ToSafeString().IsNullOrBlank()" />
-			<default ngInitValue="string.Empty" />
-			<set ngInitValue="'{0}=\'{1:M/d/yyyy}\''.FormatWith(clientPropName, propMetadata.Model)" if="initClientModel && (propMetadata.ModelType == typeof(DateTime) || propMetadata.ModelType == typeof(DateTime?))" />
-			<set ngInitValue="'{0}={2}{1}{2}'.FormatWith(clientPropName, propMetadata.Model, propMetadata.ModelType.IsPrimitive ? '\'' : String.Empty)" if="initClientModel && ngInitValue.IsNullOrBlank()" />
-			<if condition="options.InputType == null">
-				<if condition="propMetadata.ModelType == typeof(bool) || propMetadata.ModelType == typeof(bool?)">
-					<set options.InputType="checkBox" />
-				</if>
-				<else if="options.Model.ListItems.ContainsKey(propName)">
-					<set options.InputType="dropDownList" />
-				</else>
-			</if>
-			${Html.Label(propName)}
+			<else if="propMetadata.ModelType == typeof(DateTime) || propMetadata.ModelType == typeof(DateTime?)">
+				<set options.InputType="date" />
+			</else>
+			<else if="options.Model.ListItems.ContainsKey(propName)">
+				<set options.InputType="dropDownList" />
+			</else>
+		</if>
+		<var ngFormProp="'{0}.{1}'.FormatWith(options.FormPanelId, propName)" />
+
+		<var attr="new Dictionary[[string,object]]()" />
+		<var validationErrors="new Dictionary[[string,object]]()" />
+
+		<for each="var v in Html.GetUnobtrusiveValidationAttributes(propName)">
+			#//<span class="help-block">${v.Key}: ${v.Value}</span>
+			<sbSet dictionary="validationErrors" key="'required'" value="v.Value" if="v.Key == 'data-val-required'" />
+			<sbSet dictionary="validationErrors" key="'pattern'" value="v.Value" if="v.Key == 'data-val-regex'" />
+			<sbSet dictionary="validationErrors" key="'maxlength'" value="v.Value" if="v.Key == 'data-val-length'" />
+			<sbSet dictionary="validationErrors" key="'date'" value="v.Value" if="v.Key == 'data-val-date'" />
+			<sbSet dictionary="attr" key="'maxlength'" value="v.Value" if="v.Key == 'data-val-length-max'" />
+			<sbSet dictionary="attr" key="'ng-maxlength'" value="v.Value" if="v.Key == 'data-val-length-max'" />
+			<sbSet dictionary="attr" key="'ng-pattern'" value="'/' + v.Value.ToString() + '/'" if="v.Key == 'data-val-regex-pattern'" />
+		</for>
+		
+		<sbSet dictionary="attr" key="'ng-model'" value="clientPropName" />
+		<sbSet dictionary="attr" key="'ng-init'" value="ngInitValue" if="ngInitValue.HasText()" />
+		<sbSet dictionary="attr" key="'class'" value="'form-control'" />
+		<sbSet dictionary="attr" key="'required'" value="string.Empty" if="propRequired" />
+		<sbSet dictionary="attr" key="'readonly'" value="string.Empty" if="propReadOnly" />
+		<sbSet dictionary="attr" key="'maxlength'" value="options.MaxLength.ToString()" if="options.MaxLength.HasValue" />
+		<sbSet dictionary="attr" key="'ui-mask'" value="options.Mask" if="options.Mask.HasText()" />
+
+		#//<for each="var v in attr">
+		#//	<span class="help-block">${v.Key}: ${v.Value}</span>
+		#//</for>
+		
+		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group has-feedback${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}"
+			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || ${clientModel}.submitted) }">
+			${Html.Label(propName, new { class = "control-label" })}
 			<span class="form-row-content">
 				<if condition="options.InputType == null && propReadOnly">
 					${Html.Editor(propName, "ReadOnlyField")}
 				</if>
-				<else if="options.InputType == null">
-					${Html.Editor(propName, null, new { readOnly = propReadOnly, cssClass = "form-control", ngModel = clientPropName, ngInit = initClientModel, maxLength = options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty})}
-				</else>
-				<else if="options.InputType == textBox">
-					<sbTextBox propertyName="propName" readOnly="propReadOnly" ngModel="clientPropName" ngInit="initClientModel" cssClass="'form-control'" maxLength="options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty" />
-				</else>
 				<else if="options.InputType == textArea">
-					${this.TextArea(propName).DoNotAutoLabel().Class("form-control").Attr("ng-model", clientPropName)}
+					${this.TextArea(propName).DoNotAutoLabel().Class("form-control").Attr("ng-model", clientPropName).Attr("ng-required", propRequired ? "true" : "false")}
 				</else>
 				<else if="options.InputType == password">
-					${this.Password(propName).Class("form-control").Attr("ng-model", clientPropName)}
+					${Html.Editor(propName, "string", new { inputType = password, htmlAttributes = attr })}
 				</else>
 				<else if="options.InputType == date">
-					<input type="text" class="form-control" datepicker-popup="M/d/yyyy" ng-model="${clientPropName}" ng-init="${ngInitValue}?{initClientModel}" />
-				</else>
-				<else if="options.InputType == email">
-					${Html.Editor(propName, "ClientEmail", new { readOnly = propReadOnly, cssClass = "form-control", ngModel = clientPropName, ngInit = initClientModel, maxLength = options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty})}
-				</else>
-				<else if="options.InputType == phone">
-					${Html.Editor(propName, "ClientPhone", new { readOnly = propReadOnly, cssClass = "form-control", ngModel = clientPropName, ngInit = initClientModel, maxLength = options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty})}
+					<sbSet dictionary="attr" key="'datepicker-popup'" value="'M/d/yyyy'" />
+					<sbSet dictionary="attr" key="'show-weeks'" value="'false'" />
+					${Html.Editor(propName, "string", new { htmlAttributes = attr })}
 				</else>
 				<else if="options.InputType == radioButtonList">
 					<div class="btn-group btn-group-justified input-group">
 						<for each="var listItem in options.Model.ListItems[propName]">
-							#//${Html.RadioButton(propName, listItem.Value, new { class = "form-control", ng_model = clientPropName, text = listItem.Text })}
-							#//${this.RadioButton(propName).Value(listItem.Value).Class("form-control").Attr("ng-model", clientPropName).Label(listItem.Text)}
-							${this.Label(propName).Value(listItem.Text).Class("btn btn-default").Attr("ng-model", clientPropName).Attr("btn-radio", listItem.Value).Attr("uncheckable", "uncheckable")}
-							#//<label btn-radio="'${listItem.Value}'" class="btn btn-default" ng-model="${clientPropName}" uncheckable>${listItem.Text}</label>
+							${this.Label(propName).Value(listItem.Text).Class("btn btn-default").Attr("ng-model", clientPropName).Attr("btn-radio", listItem.Value).Attr("uncheckable", string.Empty)}
 						</for>
 					</div>
 					<div class="ng-hide" ng-init="${ngInitValue}" if="initClientModel"></div>
 				</else>
 				<else if="options.InputType == dropDownList">
 					<if condition="options.IncludeEmptyOption">
-						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty, new { class = "form-control", ng_model = clientPropName })}
+						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty, attr)}
 					</if>
 					<else>
-						${Html.DropDownList(propName, options.Model.ListItems[propName], new { class = "form-control", ng_model = clientPropName })}
+						${Html.DropDownList(propName, options.Model.ListItems[propName], attr)}
 					</else>
 					<div class="ng-hide" ng-init="${ngInitValue}" if="initClientModel"></div>
 				</else>
@@ -86,16 +106,22 @@
 						${this.FileUpload(propName).DoNotAutoLabel()}
 					</else>
 				</else>
+				<else>
+					${Html.Editor(propName, null, new { htmlAttributes = attr })}
+				</else>
 				${options.RenderContent}
 			</span>
-			<content name="readyScript" if="options.Mask.HasText()">
-				$('#${options.FormPanelId} #${propName.Replace(".", "_")}').mask('${options.Mask}', { placeholder: ' ' });
-			</content>
-			<content name="readyScript" if="options.Focus">
-				setTimeout(function() { $('#${options.FormPanelId} #${propName.Replace(".", "_")}').focus(); }, 0);
-			</content>
-		</if>
-		<else>
+			<for each="var v in validationErrors">
+				<span ng-show="${ngFormProp}.$error.${v.Key} && (!${ngFormProp}.$pristine || model.submitted)" class="ng-hide help-block">${v.Value}</span>
+			</for>
+			<span class="glyphicon glyphicon-asterisk form-control-feedback" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
+		</div>
+		<content name="readyScript" if="options.Focus">
+			setTimeout(function() { $('#${options.FormPanelId} #${propName.Replace(".", "_")}').focus(); }, 0);
+		</content>
+	</if>
+	<else>
+		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}">
 			<span class="form-row-content">
 				<if condition="options.InputType == submit">
 					<var customText="options.CustomText" />
@@ -103,14 +129,15 @@
 					<set customText="'Common.Submit.Label'" if="customText == null && !options.IsEntityModel" />
 					<div class="btn-group btn-group-justified">
 						<div class="btn-group" if="options.EnableSave">
+							#//<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onClick}?{clientEvents.onClick != null}" ng-disabled="${options.FormPanelId}.$invalid">${Text(customText)}</button>
 							<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onClick}?{clientEvents.onClick != null}">${Text(customText)}</button>
 						</div>
 						!{options.RenderContent}
 						<div class="btn-group" if="options.EnableDelete">
-							<button type="submit" id="delete" class="delete btn btn-danger" name="Delete" ng-click="${clientEvents.onDeleteClick}?{clientEvents.onDeleteClick != null}">${Text('Common.Delete.Label')}</button>
+							<button type="button" id="delete" class="delete btn btn-danger" name="Delete" ng-click="${clientEvents.onDeleteClick}?{clientEvents.onDeleteClick != null}">${Text('Common.Delete.Label')}</button>
 						</div>
 						<div class="btn-group" if="options.EnableCancel">
-							<button type="submit" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancelClick}?{clientEvents.onCancelClick != null}">${Text('Common.Cancel.Label')}</button>
+							<button type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancelClick}?{clientEvents.onCancelClick != null}">${Text('Common.Cancel.Label')}</button>
 						</div>
 					</div>
 				</if>
@@ -118,6 +145,6 @@
 					!{options.RenderContent}
 				</else>
 			</span>
-		</else>
-	</div>
+		</div>
+	</else>
 </macro>

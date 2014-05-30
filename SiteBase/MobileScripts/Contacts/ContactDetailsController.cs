@@ -25,7 +25,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		public ContactDetailsController(Scope scope, dynamic state, ILocation location, ContactService contactService)
 		{
 			Scope = scope;
-			State = state;
+			RouterState = state;
 			Location = location;
 			_contactService = contactService;
 		}
@@ -33,27 +33,33 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		public override void init()
 		{
 			base.init();
-			if (StateParams.id)
+			if (RouterParams.id)
 			{
-				formData = _contactService.get(new { id = StateParams.id });
+				model = _contactService.get(new { id = RouterParams.id });
 			}
 		}
 
-		public override void submit()
+		public override void submit(bool isValid)
 		{
-			if (formData.Id)
+			model.submitted = true;
+			if (!isValid)
 			{
-				_contactService.update(new { id = formData.Id }, formData, new Action<dynamic>(response => handleResponse(response)));
+				window.scrollTo(0, 0);
 				return;
 			}
-			_contactService.save(formData, new Action<dynamic>(response => handleResponse(response)));
+			if (model.Id)
+			{
+				_contactService.update(new { id = model.Id }, model, new Action<dynamic>(response => handleResponse(response)));
+				return;
+			}
+			_contactService.save(model, new Action<dynamic>(response => handleResponse(response)));
 		}
 
 		public override void delete()
 		{
-			if (formData.Id && window.confirm(localization.confirmText))
+			if (model.Id && window.confirm(localization.confirmText))
 			{
-				_contactService.delete(new { id = formData.Id }, new Action<dynamic>(response => handleResponse(response)));
+				_contactService.delete(new { id = model.Id }, new Action<dynamic>(response => handleResponse(response)));
 			}
 		}
 

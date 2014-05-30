@@ -2,13 +2,13 @@
 
 <content name="header">${Text("Identity.SignIn.Heading")}</content>
 
-<div ng-controller="identityController">
+<div ng-controller="signInController">
 	
 	<sbClientFormPanel panelId="'signInPanel'">
 		<sbHidden propertyName="'ReturnUrl'" if="Model.ReturnUrl.HasText()" />
-		<sbClientFormRow property="'Username'" required="true" focus="true" />
-		<sbClientFormRow property="'Password'" inputType="password" />
-		<sbClientFormRow inputType="submit" onClick="'signIn()'" />
+		<sbClientFormRow property="'Username'" focus="true" />
+		<sbClientFormRow property="'Password'" inputType="password" maxLength="20" />
+		<sbClientFormRow inputType="submit" />
 	#/*	
 		<sbClientFormRow rowClass="'actions'">
 			<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />

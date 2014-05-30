@@ -1,13 +1,17 @@
 ﻿<use import="_clientFormMacros" />
 
+<default panelId="ViewContext.RouteData.Values['controller'].ToString() + 'EditPanel'" />
 <default clientFormPanel="true" />
-<default clientModel="'formData'" />
+<default clientModel="'model'" />
 <default displayMessagePanel="true" />
 <default isEntityModel="typeof(EntityModel).IsAssignableFrom(Model.GetType())" />
 <default initClientModel="false" />
+<default enableClientValidation="true" />
 
 <sbClientMessagePanel if="displayMessagePanel" />
 
-<form role="form">
+# HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
+
+<form id="${panelId}" name="${panelId}" ng-submit="submit(${panelId}.$valid)" role="form" novalidate>
 	<render />
 </form>

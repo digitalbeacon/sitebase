@@ -15,11 +15,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 	public abstract class BaseController
 	{
 		private Scope _scope;
-		private dynamic _state;
+		private dynamic _routerState;
 		private ILocation _location;
 
-		public dynamic[] alerts;
-		public dynamic formData = new Dictionary<object>();
+		public Alert[] alerts = new Alert[0];
+		public dynamic model = new Dictionary<object>();
 
 		protected Scope Scope
 		{
@@ -27,15 +27,15 @@ namespace DigitalBeacon.SiteBase.Mobile
 			set { _scope = value; }
 		}
 
-		protected dynamic State
+		protected dynamic RouterState
 		{
-			get { return _state; }
-			set { _state = value; }
+			get { return _routerState; }
+			set { _routerState = value; }
 		}
 
-		protected dynamic StateParams
+		protected dynamic RouterParams
 		{
-			get { return _state ? _state.@params : new Dictionary<object>(); }
+			get { return _routerState ? _routerState.@params : new Dictionary<object>(); }
 		}
 
 		protected dynamic Location
@@ -48,11 +48,40 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 		}
 
-		public void clearAlerts()
+		public bool hasAlert(string key)
+		{
+			if (!alerts || alerts.length == 0)
+			{
+				return false;
+			}
+			for (var i = 0; i < alerts.length; i++)
+			{
+				if (alerts[i].key == key)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public void clearAlerts(string key = null)
 		{
 			if (alerts && alerts.length > 0)
 			{
-				alerts.length = 0;
+				if (key)
+				{
+					for (var i = alerts.length -1; i >= 0; i--)
+					{
+						if (alerts[i].key == key)
+						{
+							closeAlert(i);
+						}
+					}
+				}
+				else
+				{
+					alerts.length = 0;
+				}
 			}
 		}
 

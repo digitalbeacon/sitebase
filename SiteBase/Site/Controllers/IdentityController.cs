@@ -109,7 +109,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						response.RedirectUrl = model.ReturnUrl.DefaultTo(FormsAuthentication.GetRedirectUrl(model.Username, false));
 						break;
 					case AuthenticationStatus.AccountLocked:
-						response.ErrorMessage = GetLocalizedText("Identity.Error.AccountLocked");
+						response.ErrorMessage = GetLocalizedTextWithFormatting("Identity.Error.AccountLocked").ToHtmlString();
 						break;
 					case AuthenticationStatus.PasswordUpdateRequired:
 						Session[PasswordUpdateRequiredUsernameKey] = model.Username;
@@ -118,7 +118,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						break;
 					default:
 						//case AuthenticationStatus.Failed:
-						response.ErrorMessage = GetLocalizedText("Identity.Error.InvalidCredentials");
+						response.ErrorMessage = GetLocalizedTextWithFormatting("Identity.Error.InvalidCredentials").ToHtmlString();
 						break;
 				}
 			}

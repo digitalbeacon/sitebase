@@ -167,9 +167,9 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <summary>
 		/// HTML encode text and convert markdown to HTML
 		/// </summary>
-		protected string M(string text, bool removeEnclosingParagraphTags = true)
+		protected string M(object text, bool removeEnclosingParagraphTags = true)
 		{
-			return BaseController.GetSafeFormattedText(text, removeEnclosingParagraphTags);
+			return BaseController.GetSafeFormattedText(text, removeEnclosingParagraphTags).ToHtmlString();
 		}
 
 		/// <summary>

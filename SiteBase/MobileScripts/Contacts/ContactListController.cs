@@ -24,7 +24,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		public ContactListController(Scope scope, dynamic state, ILocation location, ContactService contactService)
 		{
 			Scope = scope;
-			State = state;
+			RouterState = state;
 			Location = location;
 			_contactService = contactService;
 			//Scope.on("$destroy", new Action(() => console.log("here")));

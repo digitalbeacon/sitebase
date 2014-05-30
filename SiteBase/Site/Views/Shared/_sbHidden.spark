@@ -1,5 +1,5 @@
 ﻿<default clientFormPanel="false" />
-<default clientModel="'formData'" />
+<default clientModel="'model'" />
 <default suppressClientModel="false" />
 
 <if condition="clientFormPanel">

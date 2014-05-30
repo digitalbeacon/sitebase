@@ -14,15 +14,16 @@ namespace ng
 	[ScriptIgnoreNamespace]
 	public interface IModule
 	{
-		IModule config(dynamic[] inlineAnnotadedFunction);
+		IModule config(dynamic f);
 
-		IModule factory(string name, dynamic[] inlineAnnotadedFunction);
+		IModule factory(string name, dynamic f);
 		IModule factory(dynamic obj);
 		
-		IModule filter(string name, dynamic filterFactoryFunction);
-		IModule filter(string name, dynamic[] inlineAnnotadedFunction);
+		IModule filter(string name, dynamic f);
 		IModule filter(dynamic obj);
 
-		IModule controller(string name, dynamic controllerFactoryFunction);
+		IModule controller(string name, dynamic f);
+
+		IModule directive(string name, dynamic f);
 	}
 }

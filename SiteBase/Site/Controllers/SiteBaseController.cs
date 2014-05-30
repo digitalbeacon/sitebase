@@ -71,6 +71,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				LoadUserData();
 				LoadNavigationData();
+				if (IsMobile && MobileModuleName == null)
+				{
+					MobileModuleName = ModuleService.GetGlobalSetting("MobileAppName").IfNotNull(x => x.Value).DefaultTo("sitebase");
+				}
 			}
 			base.OnResultExecuting(filterContext);
 		}

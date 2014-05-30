@@ -555,7 +555,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						var confirmationText = GetResource("{0}.Update.Confirmation", "Common.Update.Confirmation", GetDescription(model), SingularLabel);
 						if (IsJsonRequest)
 						{
-							retVal = Json(new ApiResponse { Success = true, Message = confirmationText });
+							retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString() });
 						}
 						else if (RenderPartial)
 						{
@@ -689,7 +689,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						{
 							if (IsJsonRequest)
 							{
-								retVal = Json(new ApiResponse { Success = true, Message = confirmationText });
+								retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString() });
 							}
 							else if (RenderPartial)
 							{
@@ -794,7 +794,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 					var confirmationText = GetResource("{0}.Delete.Confirmation", "Common.Delete.Confirmation", GetDescription(model), SingularLabel);
 					if (IsJsonRequest)
 					{
-						retVal = Json(new ApiResponse { Success = true, Message = confirmationText });
+						retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString() });
 					}
 					else if (RenderPartial)
 					{
@@ -811,7 +811,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 					var errorMessage = GetResource("{0}.Error.DeleteEntity.Dependency", "Error.DeleteEntity.Dependency");
 					if (IsJsonRequest)
 					{
-						retVal = Json(new ApiResponse { Success = false, ErrorMessage = errorMessage });
+						retVal = Json(new ApiResponse { Success = false, ErrorMessage = GetSafeFormattedText(errorMessage).ToHtmlString() });
 					}
 					else
 					{
@@ -883,7 +883,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			if (CheckCustomResources)
 			{
 				var key = customKey.FormatWith(BaseName);
-				var customText = GetLocalizedTextWithFormatting(key);
+				var customText = GetLocalizedText(key);
 				if (customText != key)
 				{
 					text = customText;
@@ -891,7 +891,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (text == null)
 			{
-				text = GetLocalizedTextWithFormatting(defaultKey);
+				text = GetLocalizedText(defaultKey);
 			}
 			return args != null ? text.FormatWith(args) : text;
 		}

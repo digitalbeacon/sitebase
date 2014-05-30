@@ -41,8 +41,8 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public virtual void addNew()
 		{
 			clearAlerts();
-			State.go("list.new");
-			formData = new Dictionary<object>();
+			RouterState.go("list.new");
+			model = new Dictionary<object>();
 			//Location.path("/new");
 			//window.location.href = "#/new";
 		}
@@ -50,7 +50,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public virtual void showDetails(int id)
 		{
 			clearAlerts();
-			State.go("list.edit", new { id = id });
+			RouterState.go("list.edit", new { id = id });
 			//Location.path("/" + id);
 			//window.location.href = "#/" + id;
 		}
@@ -64,7 +64,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public virtual void showList(dynamic response = null)
 		{
 			list.visible = true;
-			State.go("list");
+			RouterState.go("list");
 			enableLoadMoreOnScroll();
 			if (response)
 			{
