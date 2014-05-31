@@ -430,7 +430,12 @@ angular.module('identityService', ['ngResource']).factory('identityService', ['$
     });
 })]);
 angular.module('sitebase', ['ngSanitize', 'ui.bootstrap', 'ui.mask']).config(['$httpProvider', (function(httpProvider) {
+    httpProvider.defaults.transformRequest.push(function(data) {
+        $.sb.onAjaxStart();
+        return data;
+    });
     httpProvider.defaults.transformResponse.push(function(data) {
+        $.sb.onAjaxEnd();
         return DigitalBeacon.Utils.convertDateStringsToDates(data);
     });
 })]);

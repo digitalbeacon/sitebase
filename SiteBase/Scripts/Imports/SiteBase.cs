@@ -16,9 +16,11 @@ namespace DigitalBeacon.SiteBase
 	[ScriptName("sb")]
 	public static class sitebase
 	{
-		public static void modalBox(Dictionary<object> args) { }
-		public static void modalBox(string message) { }
-		public static void displayMessage(string message, string heading, string cssClass, string additionalButtonText, Action additionalButtonAction) { }
+		public extern static void modalBox(Dictionary<object> args);
+		public extern static void modalBox(string message);
+		public extern static void displayMessage(string message, string heading, string cssClass, string additionalButtonText, Action additionalButtonAction);
+		public extern static void onAjaxStart();
+		public extern static void onAjaxEnd();
 	}
 
 	[ScriptExternal]
