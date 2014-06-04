@@ -38,7 +38,19 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			list.sortDirection = list.sortDirectionOptions[1].value;
 			//SearchFields = new Option[0];
 			//SearchFields.push(new Option("Last Name", "LastName"));
-			search();
+			if (isListState())
+			{
+				search();
+			}
+		}
+
+		public override void showList(ApiResponse response = null)
+		{
+			base.showList(response);
+			if (list.pageCount < 0)
+			{
+				search();
+			}
 		}
 
 		public override void search(bool requestMore = false)

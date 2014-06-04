@@ -19,9 +19,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 				.config(new dynamic[] 
 				{ 
 					"$httpProvider",
-					(Action<dynamic>)
-					((httpProvider) =>
+					"$locationProvider",
+					(Action<dynamic, ILocationProvider>)
+					((httpProvider, locationProvider) =>
 					{
+						locationProvider.html5Mode(true);
 						httpProvider.defaults.transformRequest.push(
 							new Func<object, object>(data => 
 							{

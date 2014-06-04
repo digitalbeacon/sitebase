@@ -236,3 +236,9 @@ a.inactive
 {
 	display: none;
 }
+
+.message-panel pre
+{
+	background: inherit;
+	border: none;
+}

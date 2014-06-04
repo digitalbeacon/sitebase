@@ -21,30 +21,27 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 	{
 		private ContactService _contactService;
 
-		public dynamic contact;
 		public string photoUrl;
 
-		public ContactDetailsController(Scope scope, dynamic state, ILocation location, ContactService contactService)
+		public ContactDetailsController(Scope scope, object state, ILocation location, ContactService contactService) : base(scope, state, location)
 		{
-			Scope = scope;
-			RouterState = state;
-			Location = location;
 			_contactService = contactService;
 		}
 
-		public override void init()
-		{
-			base.init();
-			if (RouterParams.id)
-			{
-				load(RouterParams.id);
-			}
-		}
-
-		private void load(int id)
+		protected override void load(int id)
 		{
 			model = _contactService.get(new { id = id },
-				new Action<dynamic>(response => photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/photo?x={1}".formatWith((int)response.Id, (int)response.PhotoId))));
+				new Action<dynamic>(response =>
+				{
+					if (response.Id)
+					{
+						photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/photo?x={1}".formatWith((int)response.Id, (int)response.PhotoId));
+					}
+					else
+					{
+						ApiResponseHelper.handleResponse(response, Scope);
+					}
+				}));
 		}
 
 		public override void submit(bool isValid)
@@ -58,15 +55,11 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 
 			if (data.fileInput)
 			{
-				_contactService.save(model.Id, model, data.fileInput.files, new Action<ApiResponse>(response =>
-					{
-						ApiResponseHelper.handleResponse(response, Scope);
-						load(model.Id);
-					}));
+				_contactService.saveWithFileData(model.Id, model, data.fileInput.files, SaveHandler);
 			}
 			else
 			{
-				_contactService.save(model.Id, model, ReturnToList);
+				_contactService.save(model.Id, model, SaveHandler);
 			}
 		}
 
@@ -99,15 +92,6 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			if (model.Id && window.confirm(localization.confirmText))
 			{
 				_contactService.rotatePhotoClockwise(model.Id, ResponseHandler);
-			}
-		}
-
-		protected override void handleResponse(ApiResponse response)
-		{
-			ApiResponseHelper.handleResponse(response, Scope);
-			if (response.Success)
-			{
-				load(model.Id);
 			}
 		}
 	}

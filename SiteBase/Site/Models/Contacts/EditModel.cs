@@ -58,7 +58,6 @@ namespace DigitalBeacon.SiteBase.Models.Contacts
 		[LocalizedDisplayName("Common.MiddleName.Label")]
 		public virtual string MiddleName { get; set; }
 
-		[Required]
 		[LocalizedDisplayName("Common.Gender.Label")]
 		public virtual long? GenderId { get; set; }
 

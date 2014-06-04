@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Reflection;
@@ -29,7 +30,6 @@ using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
 using DigitalBeacon.Web;
-using DigitalBeacon.Web.Util;
 using MarkdownSharp;
 using Newtonsoft.Json.Linq;
 using Spark;
@@ -290,6 +290,11 @@ namespace DigitalBeacon.SiteBase.Web
 					msg.Body = ModuleService.GetModuleSettingValueWithSubstitutions(ms, substitutions);
 					MailService.QueueEmail(CurrentAssociationId, msg, true);
 					filterContext.Result = RedirectToDefaultErrorAction();
+					filterContext.ExceptionHandled = true;
+				}
+				else if (IsJsonRequest)
+				{
+					filterContext.Result = Json(new { Success = false, ErrorMessage = "<pre>" + HttpUtility.HtmlEncode(filterContext.Exception.ToString()) + "</pre>" }, JsonRequestBehavior.AllowGet);
 					filterContext.ExceptionHandled = true;
 				}
 			}
@@ -1104,6 +1109,10 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <returns></returns>
 		protected ActionResult RedirectToDefaultErrorAction()
 		{
+			if (IsJsonRequest)
+			{
+				return Json(new { Success = false, ErrorMessage = GetLocalizedTextWithFormatting("Error.Unspecified").ToHtmlString() }, JsonRequestBehavior.AllowGet);
+			}
 			return RedirectToMessageAction(null);
 		}
 
@@ -1314,7 +1323,9 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value>The JSON request flag</value>
 		protected bool IsJsonRequest
 		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypeJson.ToLowerInvariant()); }
+			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypeJson.ToLowerInvariant())
+							|| (RenderType.IsNullOrBlank() && HttpContext.Request.AcceptTypes.Contains("application/json"));
+			}
 		}
 
 		/// <summary>

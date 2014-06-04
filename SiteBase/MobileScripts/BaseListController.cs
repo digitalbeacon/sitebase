@@ -23,8 +23,16 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public override void init()
 		{
 			base.init();
-			Scope.on("showList", new Action<object, object>((evt, args) => { showList(args); }));
-			Scope.on("hideList", new Action(() => { hideList(); }));
+			list.visible = isListState();
+			Scope.on("hideDetails", new Action<object, ApiResponse>((evt, args) => { showList(args); }));
+			Scope.on("showDetails", new Action(() => { hideList(); }));
+			Scope.watch(new Func<string>(() => Location.url()), new Action<string>(url =>
+			{
+				if (!list.visible && url && isListState())
+				{
+					showList();
+				}
+			}));
 		}
 
 		public abstract void search(bool requestMore = false);
@@ -61,7 +69,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			disableLoadMoreOnScroll();
 		}
 
-		public virtual void showList(dynamic response = null)
+		public virtual void showList(ApiResponse response = null)
 		{
 			list.visible = true;
 			RouterState.go("list");
@@ -74,6 +82,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 				}
 				ApiResponseHelper.handleResponse(response, Scope);
 			}
+		}
+
+		protected bool isListState()
+		{
+			return RouterState.current.name == "list";
 		}
 
 		protected virtual void clearSearchText()
@@ -94,19 +107,19 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected virtual void enableLoadMoreOnScroll()
 		{
-			if (list.pageCount <= 1)
+			if (list.pageCount <= 1 || !list.visible)
 			{
 				return;
 			}
-
+			window.scrollTo(0, 0);
 			jQuery.Select(window.self).on("scroll.sbClientListPanel", null, null,
 				(Action<jQueryLib.Event>)(e =>
 				{
 					var w = jQuery.Select(window.self);
 					var d = jQuery.Select(window.document);
 					//console.log("{0}, {1}, {2}".formatWith(w.scrollTop(), d.height(), w.height()));
-					//console.log("{0}, {1}".formatWith(w.scrollTop(), jQuery.Select(window.document).height() - w.height() - FooterHeight));
-					if ((w.scrollTop() >= d.height() - w.height() - list.footerHeight) || (w.scrollTop() >= d.height() / 2))
+					//console.log("{0}, {1}".formatWith(w.scrollTop(), jQuery.Select(window.document).height() - w.height() - list.footerHeight));
+					if (d.height() > w.height() && ((w.scrollTop() >= d.height() - w.height() - list.footerHeight) || (w.scrollTop() >= d.height() / 2)))
 					{
 						loadMore();
 					}

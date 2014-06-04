@@ -25,5 +25,7 @@ namespace ng
 		IModule controller(string name, dynamic f);
 
 		IModule directive(string name, dynamic f);
+
+		IModule run(dynamic f);
 	}
 }

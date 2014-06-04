@@ -12,9 +12,10 @@ namespace DigitalBeacon.SiteBase
 	public class ApiResponse
 	{
 		public bool Success;
-		public string RedirectUrl;
 		public string Message;
 		public string ErrorMessage;
 		public Dictionary<string[]> ValidationErrors;
+		public int Id;
+		public string RedirectUrl;
 	}
 }

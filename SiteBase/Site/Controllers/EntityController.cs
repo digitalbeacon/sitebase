@@ -689,7 +689,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						{
 							if (IsJsonRequest)
 							{
-								retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString() });
+								retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString(), Id = Entity.Id });
 							}
 							else if (RenderPartial)
 							{

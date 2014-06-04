@@ -23,8 +23,5 @@ namespace DigitalBeacon
 		public extern static string htmlDecode(string s);
 		public extern static void registerJQueryPlugin(string name, Func<object, object, object> fn);
 		public extern static bool isOfType(object obj, string type);
-		public extern static bool isString(object obj);
-		public extern static bool isObject(object obj);
-		public extern static bool isDefined(object obj);
 	}
 }

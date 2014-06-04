@@ -29,5 +29,8 @@ namespace ng
 
 		[ScriptName("$watch")]
 		public extern void watch(string expression, dynamic listener);
+
+		[ScriptName("$watch")]
+		public extern void watch(Func<object> expression, dynamic listener);
 	}
 }

@@ -7,10 +7,11 @@ DigitalBeacon.SiteBase.ApiResponse = (function() {
     }
     var p = ApiResponse.prototype;
     p.Success = null;
-    p.RedirectUrl = null;
     p.Message = null;
     p.ErrorMessage = null;
     p.ValidationErrors = null;
+    p.Id = null;
+    p.RedirectUrl = null;
     return ApiResponse;
 })();
 
@@ -23,36 +24,38 @@ DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse = function (obj, scope) 
     scope = (scope !== undefined) ? scope : null;
     var response = obj;
     if (response !== null) {
-        if (response.RedirectUrl !== null) {
+        if (response.RedirectUrl) {
             location.assign(response.RedirectUrl);
         } else if (scope === null) {
             alert(response.Message || response.ErrorMessage || DigitalBeacon.SiteBase.ApiResponseHelper.toString(response.ValidationErrors));
         } else {
             var alerts = new Array(0);
-            if (response.Message !== null) {
+            if (response.Message) {
                 alerts.push({
                     type: 'success',
                     msg: response.Message
                 });
             }
-            if (response.ErrorMessage !== null) {
+            if (response.ErrorMessage) {
                 alerts.push({
                     type: 'danger',
                     msg: response.ErrorMessage
                 });
             }
-            var key = null;
-            var $key_enum = Object.keys(response.ValidationErrors).GetEnumerator();
-            while($key_enum.MoveNext()) {
-                key = $key_enum.get_Current();
-                var msg = null;
-                var $msg_enum = response.ValidationErrors[key].GetEnumerator();
-                while($msg_enum.MoveNext()) {
-                    msg = $msg_enum.get_Current();
-                    alerts.push({
-                        type: 'danger',
-                        msg: msg
-                    });
+            if (response.ValidationErrors) {
+                var key = null;
+                var $key_enum = Object.keys(response.ValidationErrors).GetEnumerator();
+                while($key_enum.MoveNext()) {
+                    key = $key_enum.get_Current();
+                    var msg = null;
+                    var $msg_enum = response.ValidationErrors[key].GetEnumerator();
+                    while($msg_enum.MoveNext()) {
+                        msg = $msg_enum.get_Current();
+                        alerts.push({
+                            type: 'danger',
+                            msg: msg
+                        });
+                    }
                 }
             }
             scope.alerts = alerts;

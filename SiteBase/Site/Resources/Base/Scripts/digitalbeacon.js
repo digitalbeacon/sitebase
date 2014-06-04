@@ -112,24 +112,6 @@
 		this.isOfType = function (obj, type) {
 			return typeof obj === type;
 		};
-		/*-----------------------------------------------------------------------------
-		Check if object is of type string
-		-----------------------------------------------------------------------------*/
-		this.isString = function (obj) {
-			return this.isOfType(obj, "string");
-		};
-		/*-----------------------------------------------------------------------------
-		Check if object is of type object
-		-----------------------------------------------------------------------------*/
-		this.isObject = function (obj) {
-			return this.isOfType(obj, "object");
-		};
-		/*-----------------------------------------------------------------------------
-		Check if object is defined
-		-----------------------------------------------------------------------------*/
-		this.isDefined = function (obj) {
-			return !this.isOfType(obj, "undefined");
-		};
 	};
 	/*-----------------------------------------------------------------------------
 	Add trim method to String object if not defined

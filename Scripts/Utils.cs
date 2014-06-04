@@ -37,9 +37,24 @@ namespace DigitalBeacon
 			return url;
 		}
 
+		public static bool isString(object obj)
+		{
+			return digitalbeacon.isOfType(obj, "string");
+		}
+
+		public static bool isObject(object obj)
+		{
+			return obj != null && digitalbeacon.isOfType(obj, "object");
+		}
+
+		public static bool isDefined(object obj)
+		{
+			return !digitalbeacon.isOfType(obj, "undefined");
+		}
+
 		public static object convertDateStringsToDates(object input, int level = 0)
 		{
-			if (!digitalbeacon.isObject(input))
+			if (!isObject(input))
 			{
 				return input;
 			}
@@ -47,11 +62,11 @@ namespace DigitalBeacon
 			{
 				if (!((dynamic)input).hasOwnProperty(key)) continue;
 				var value = input[key];
-				if (digitalbeacon.isString(value) && StringUtils.isDateString(value))
+				if (isString(value) && StringUtils.isDateString(value))
 				{
 					input[key] = StringUtils.toDate(value);
 				}
-				else if (value && digitalbeacon.isObject(value) && level < 10)
+				else if (value && isObject(value) && level < 10)
 				{
 					convertDateStringsToDates(value, level++);
 				}

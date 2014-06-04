@@ -11,17 +11,27 @@ using System.Dom;
 using System.Html;
 using DigitalBeacon.SiteBase;
 using DigitalBeacon.SiteBase.Mobile;
+using ng;
 
 namespace DigitalBeacon.SiteBase.Mobile
 {
 	public abstract class BaseDetailsController : BaseController
 	{
-		public int id;
+		protected BaseDetailsController(Scope scope, object state, ILocation location)
+		{
+			Scope = scope;
+			RouterState = state;
+			Location = location;
+		}
 
 		public override void init()
 		{
 			base.init();
-			hideList();
+			if (RouterParams.id)
+			{
+				load(RouterParams.id);
+			}
+			show();
 		}
 
 		public object getDisplayObject(dynamic x)
@@ -39,15 +49,17 @@ namespace DigitalBeacon.SiteBase.Mobile
 			return retVal;
 		}
 
-		protected void showList(dynamic response = null)
+		protected void hide(dynamic response = null)
 		{
-			Scope.emit("showList", response);
+			Scope.emit("hideDetails", response);
 		}
 
-		protected void hideList()
+		protected void show()
 		{
-			Scope.emit("hideList");
+			Scope.emit("showDetails");
 		}
+
+		protected abstract void load(int id);
 
 		//	scope.filteredProperties = (Func<object, object>)
 		//		(x =>
@@ -71,7 +83,16 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		public virtual void cancel()
 		{
-			showList();
+			hide();
+		}
+
+		protected override void handleResponse(ApiResponse response)
+		{
+			ApiResponseHelper.handleResponse(response, Scope);
+			if (response.Success)
+			{
+				load(model.Id);
+			}
 		}
 
 		protected Action<ApiResponse> ReturnToList
@@ -82,12 +103,35 @@ namespace DigitalBeacon.SiteBase.Mobile
 				{
 					if (response.Success)
 					{
-						showList(response);
+						hide(response);
 					}
 					else
 					{
 						ApiResponseHelper.handleResponse(response, Scope);
 					}
+				});
+			}
+		}
+
+		protected Action<ApiResponse> SaveHandler
+		{
+			get
+			{
+				return new Action<ApiResponse>(response =>
+				{
+					if (response.Success)
+					{
+						data.fileInput = null;
+						if (model.Id)
+						{
+							load(model.Id);
+						}
+						else if (response.Id)
+						{
+							RouterState.go("list.edit", new { id = response.Id });
+						}
+					}
+					ApiResponseHelper.handleResponse(response, Scope);
 				});
 			}
 		}

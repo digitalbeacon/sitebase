@@ -58,6 +58,7 @@
 		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group has-feedback${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}"
 			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || ${clientModel}.submitted) }">
 			${Html.Label(propName, new { class = "control-label" })}
+			<span class="glyphicon glyphicon-asterisk" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
 			<span class="form-row-content">
 				<if condition="options.InputType == null && propReadOnly">
 					${Html.Editor(propName, "ReadOnlyField")}
@@ -109,7 +110,7 @@
 			<for each="var v in validationErrors">
 				<span ng-show="${ngFormProp}.$error.${v.Key} && (!${ngFormProp}.$pristine || model.submitted)" class="ng-hide help-block">${v.Value}</span>
 			</for>
-			<span class="glyphicon glyphicon-asterisk form-control-feedback" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
+			#//<span class="glyphicon glyphicon-asterisk form-control-feedback" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
 		</div>
 		<content name="readyScript" if="options.Focus">
 			setTimeout(function() { $('#${options.FormPanelId} #${propName.Replace(".", "_")}').focus(); }, 0);

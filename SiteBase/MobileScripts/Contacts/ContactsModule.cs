@@ -24,13 +24,9 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				.config(new object[] 
 				{ 
 					"$stateProvider",
-					"$urlRouterProvider",
-					"$locationProvider",
-					(Action<dynamic, dynamic, ILocationProvider>)
-					((stateProvider, urlRouterProvider, locationProvider) =>
+					(Action<dynamic>)
+					((stateProvider) =>
 					{
-						locationProvider.html5Mode(true);
-						urlRouterProvider.otherwise(digitalbeacon.resolveUrl("~/contacts"));
 						stateProvider
 							.state("list", new
 							{
@@ -50,7 +46,6 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/0/edit"),
 								controller = "contactDetailsController"
 							});
-						digitalbeacon.loadCssFile("~/resources/base/contacts/styles.css");
 					})
 				})
 				.controller("contactListController",
@@ -62,7 +57,16 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 					new object[] { "$scope", "$state", "$location", "contactService", 
 						(Action<Scope, dynamic, ILocation, ContactService>)
 						((scope, state, location, contactService) => 
-							BaseController.extend(scope, new ContactDetailsController(scope, state, location, contactService))) });
+							BaseController.extend(scope, new ContactDetailsController(scope, state, location, contactService))) })
+				.run(new object[]
+				{
+					"$state",
+					new Action<dynamic>(state => 
+					{
+						digitalbeacon.loadCssFile("~/resources/base/contacts/styles.css");
+						state.transitionTo("list");
+					})
+				});
 		}
 	}
 }

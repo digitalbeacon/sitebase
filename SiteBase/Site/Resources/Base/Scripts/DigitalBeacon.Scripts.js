@@ -105,9 +105,18 @@ DigitalBeacon.Utils.mergeParams = function (url, args) {
     }
     return url;
 };
+DigitalBeacon.Utils.isString = function (obj) {
+    return $.digitalbeacon.isOfType(obj, 'string');
+};
+DigitalBeacon.Utils.isObject = function (obj) {
+    return obj !== null && $.digitalbeacon.isOfType(obj, 'object');
+};
+DigitalBeacon.Utils.isDefined = function (obj) {
+    return !$.digitalbeacon.isOfType(obj, 'undefined');
+};
 DigitalBeacon.Utils.convertDateStringsToDates = function (input, level) {
     level = (level !== undefined) ? level : 0;
-    if (!$.digitalbeacon.isObject(input)) {
+    if (!DigitalBeacon.Utils.isObject(input)) {
         return input;
     }
     var key = null;
@@ -118,9 +127,9 @@ DigitalBeacon.Utils.convertDateStringsToDates = function (input, level) {
             continue;
         }
         var value = input[key];
-        if ($.digitalbeacon.isString(value) && DigitalBeacon.StringUtils.isDateString(value)) {
+        if (DigitalBeacon.Utils.isString(value) && DigitalBeacon.StringUtils.isDateString(value)) {
             input[key] = DigitalBeacon.StringUtils.toDate(value);
-        } else if (value && $.digitalbeacon.isObject(value) && level < 10) {
+        } else if (value && DigitalBeacon.Utils.isObject(value) && level < 10) {
             DigitalBeacon.Utils.convertDateStringsToDates(value, level++);
         }
     }

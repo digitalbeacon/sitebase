@@ -51,7 +51,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				});
 		}
 
-		public void save(string id, object model, object[] files, Action<ApiResponse> responseHandler = null)
+		public void saveWithFileData(string id, object model, object[] files, Action<ApiResponse> responseHandler = null)
 		{
 			sendFormData(_http, "contacts", id, model, files, responseHandler);
 		}

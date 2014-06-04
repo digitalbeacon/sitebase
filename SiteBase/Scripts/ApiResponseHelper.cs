@@ -18,7 +18,7 @@ namespace DigitalBeacon.SiteBase
 			var response = (ApiResponse)obj;
 			if (response != null)
 			{
-				if (response.RedirectUrl != null)
+				if (response.RedirectUrl)
 				{
 					window.location.assign(response.RedirectUrl);
 				}
@@ -29,19 +29,22 @@ namespace DigitalBeacon.SiteBase
 				else
 				{
 					var alerts = new dynamic[0];
-					if (response.Message != null)
+					if (response.Message)
 					{
 						alerts.push(new { type = "success", msg = response.Message });
 					}
-					if (response.ErrorMessage != null)
+					if (response.ErrorMessage)
 					{
 						alerts.push(new { type = "danger", msg = response.ErrorMessage });
 					}
-					foreach (var key in Object.keys(response.ValidationErrors))
+					if (response.ValidationErrors)
 					{
-						foreach (var msg in response.ValidationErrors[key])
+						foreach (var key in Object.keys(response.ValidationErrors))
 						{
-							alerts.push(new { type = "danger", msg = msg });
+							foreach (var msg in response.ValidationErrors[key])
+							{
+								alerts.push(new { type = "danger", msg = msg });
+							}
 						}
 					}
 					scope.alerts = alerts;
