@@ -83,7 +83,8 @@ DigitalBeacon.SiteBase.ControllerHelper.getTemplateUrl = function (targetUrl) {
         renderType: 'Template'
     });
 };
-DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl = function (targetUrl) {
+DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl = function (targetUrl, parameters) {
+    parameters = (parameters !== undefined) ? parameters : null;
     return DigitalBeacon.Utils.mergeParams($.digitalbeacon.resolveUrl(targetUrl), {
         renderType: 'Json'
     });

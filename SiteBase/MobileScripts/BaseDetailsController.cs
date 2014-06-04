@@ -68,5 +68,28 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public abstract void submit(bool isValid);
 
 		public virtual void delete() { }
+
+		public virtual void cancel()
+		{
+			showList();
+		}
+
+		protected Action<ApiResponse> ReturnToList
+		{
+			get
+			{
+				return new Action<ApiResponse>(response =>
+				{
+					if (response.Success)
+					{
+						showList(response);
+					}
+					else
+					{
+						ApiResponseHelper.handleResponse(response, Scope);
+					}
+				});
+			}
+		}
 	}
 }

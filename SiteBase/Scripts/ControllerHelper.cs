@@ -18,7 +18,7 @@ namespace DigitalBeacon.SiteBase
 			return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Template" });
 		}
 
-		public static string getJsonUrl(string targetUrl)
+		public static string getJsonUrl(string targetUrl, object parameters = null)
 		{
 			return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Json" });
 		}

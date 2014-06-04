@@ -234,7 +234,9 @@ $(document).ready(function() {
 		-----------------------------------------------------------------------------*/
 		this.onAjaxStart = function () {
 			$.sitebase.ajaxCounter++;
-			if (!$.sitebase.$mask) { return; }
+			if (!$.sitebase.$mask) {
+				$.sitebase.$mask = $('#mask');
+			}
 			if ($.sitebase.ajaxTimerId1 || $.sitebase.ajaxTimerId2)
 			{
 				return;
@@ -253,15 +255,15 @@ $(document).ready(function() {
 		this.onAjaxEnd = function () {
 			$.sitebase.ajaxCounter--;
 			if (!$.sitebase.$mask) { return; }
-			if ($.sitebase.ajaxTimerId1 || $.sitebase.ajaxTimerId2)
-			{
-				window.clearTimeout($.sitebase.ajaxTimerId1);
-				window.clearTimeout($.sitebase.ajaxTimerId2);
-				$.sitebase.ajaxTimerId1 = 0;
-				$.sitebase.ajaxTimerId2 = 0;
-			}
 			if ($.sitebase.ajaxCounter <= 0)
 			{
+				if ($.sitebase.ajaxTimerId1 || $.sitebase.ajaxTimerId2)
+				{
+					window.clearTimeout($.sitebase.ajaxTimerId1);
+					window.clearTimeout($.sitebase.ajaxTimerId2);
+					$.sitebase.ajaxTimerId1 = 0;
+					$.sitebase.ajaxTimerId2 = 0;
+				}
 				$.sitebase.ajaxCounter = 0;
 				$.sitebase.$mask.fadeOut(0);
 				$.sitebase.hideLoadingModalBox();

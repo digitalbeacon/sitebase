@@ -124,6 +124,12 @@
 		this.isObject = function (obj) {
 			return this.isOfType(obj, "object");
 		};
+		/*-----------------------------------------------------------------------------
+		Check if object is defined
+		-----------------------------------------------------------------------------*/
+		this.isDefined = function (obj) {
+			return !this.isOfType(obj, "undefined");
+		};
 	};
 	/*-----------------------------------------------------------------------------
 	Add trim method to String object if not defined

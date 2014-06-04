@@ -50,6 +50,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/0/edit"),
 								controller = "contactDetailsController"
 							});
+						digitalbeacon.loadCssFile("~/resources/base/contacts/styles.css");
 					})
 				})
 				.controller("contactListController",

@@ -7,6 +7,7 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     function BaseController() {
         this.alerts = new Array(0);
         this.model = {};
+        this.data = {};
     }
     var p = BaseController.prototype;
     p._scope = null;
@@ -32,6 +33,14 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     p.set_Location = function(value) {
         this._location = value;
+    };
+    p.get_DefaultHandler = function() {
+        return Blade.del(this, function(response) {
+            DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope())});
+    };
+    p.get_ResponseHandler = function() {
+        return Blade.del(this, function(response) {
+            this.handleResponse(response)});
     };
     p.init = function () {
     };
@@ -63,10 +72,93 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     p.closeAlert = function (index) {
         this.alerts.splice(index, 1);
     };
+    p.fileChanged = function (fileInput) {
+        if (!fileInput) {
+            return;
+        }
+        var files = fileInput.files;
+        if (fileInput.files && fileInput.files.length) {
+            this.data.fileInput = fileInput;
+        } else {
+            this.data.fileInput = null;
+        }
+    };
+    p.handleResponse = function (response) {
+    };
     return BaseController;
 })();
 DigitalBeacon.SiteBase.Mobile.BaseController.extend = function (target, obj) {
     ($.extend(target, obj)).init();
+};
+
+DigitalBeacon.SiteBase.Mobile.BaseEntityService = (function() {
+    function BaseEntityService() {
+    }
+    var p = BaseEntityService.prototype;
+    p.$Resource = null;
+    p.get_Resource = function() {
+        return this.$Resource;
+    };
+    p.set_Resource = function(value) {
+        this.$Resource = value;
+    };
+    p.get = function (parameters, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        return this.get_Resource().get(parameters, responseHandler);
+    };
+    p.search = function (parameters, response) {
+        this.get_Resource().search(parameters, response);
+    };
+    p.save = function (id, postData, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        if (id) {
+            this.get_Resource().update({
+                id: id
+            }, postData, responseHandler);
+        } else {
+            this.get_Resource().save(postData, responseHandler);
+        }
+    };
+    p.delete = function (parameters, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        this.get_Resource().delete(parameters, responseHandler);
+    };
+    p.sendFormData = function (http, entityTarget, id, model, files, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        var headers = {};
+        headers['Content-Type'] = undefined;
+        http({
+            method: id ? 'PUT' : 'POST',
+            url: DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl('~/' + entityTarget + (id ? ('/' + id) : '')),
+            headers: headers,
+            data: DigitalBeacon.SiteBase.Mobile.BaseEntityService.constructFormData(model, files),
+            transformRequest: Blade.del(this, function(x) {
+                return x;
+            })
+        }).success(responseHandler);
+    };
+    Blade.impl(BaseEntityService, 'DigitalBeacon.SiteBase.Mobile.IEntityService');
+    return BaseEntityService;
+})();
+DigitalBeacon.SiteBase.Mobile.BaseEntityService.constructFormData = function (model, files) {
+    var data = new FormData();
+    var k = null;
+    var $k_enum = Object.keys(model).GetEnumerator();
+    while($k_enum.MoveNext()) {
+        k = $k_enum.get_Current();
+        if (k === 'ListItems' || k.slice(0, 1) === '$') {
+            continue;
+        }
+        if (model[k] || $.digitalbeacon.isOfType(model[k], 'boolean')) {
+            data.append(k, model[k]);
+        }
+    }
+    if (files) {
+        for(var i = 0; i < files.length; i++) {
+            data.append('file' + i, files[i]);
+        }
+    }
+    return data;
 };
 
 DigitalBeacon.SiteBase.Mobile.BaseListState = (function() {
@@ -85,12 +177,6 @@ DigitalBeacon.SiteBase.Mobile.BaseListState = (function() {
     p.footerHeight = 140;
     p.visible = true;
     return BaseListState;
-})();
-
-DigitalBeacon.SiteBase.Mobile.BaseService = (function() {
-    function BaseService() {
-    }
-    return BaseService;
 })();
 if(!DigitalBeacon.SiteBase.Mobile.Contacts) DigitalBeacon.SiteBase.Mobile.Contacts = {};
 
@@ -135,6 +221,15 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     }
     var p = BaseDetailsController.prototype;
     p.id = null;
+    p.get_ReturnToList = function() {
+        return Blade.del(this, function(response) {
+            if (response.Success) {
+                this.showList(response);
+            } else {
+                DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+            }
+        });
+    };
     p.init = function () {
         $base.init.call(this);
         this.hideList();
@@ -163,6 +258,9 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     p.submit = function (isValid) {
     };
     p.delete = function () {
+    };
+    p.cancel = function () {
+        this.showList();
     };
     return BaseDetailsController;
 })();
@@ -262,13 +360,18 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
     var p = ContactDetailsController.prototype;
     p._contactService = null;
     p.contact = null;
+    p.photoUrl = null;
     p.init = function () {
         $base.init.call(this);
         if (this.get_RouterParams().id) {
-            this.model = this._contactService.get({
-                id: this.get_RouterParams().id
-            });
+            this.load(this.get_RouterParams().id);
         }
+    };
+    p.load = function (id) {
+        this.model = this._contactService.get({
+            id: id
+        }, Blade.del(this, function(response) {
+            this.photoUrl = $.digitalbeacon.resolveUrl('~/contacts/{0}/photo?x={1}'.formatWith(response.Id, response.PhotoId))}));
     };
     p.submit = function (isValid) {
         this.model.submitted = true;
@@ -276,33 +379,42 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
             scrollTo(0, 0);
             return;
         }
-        if (this.model.Id) {
-            this._contactService.update({
-                id: this.model.Id
-            }, this.model, Blade.del(this, function(response) {
-                this.handleResponse(response)}));
-            return;
+        if (this.data.fileInput) {
+            this._contactService.save(this.model.Id, this.model, this.data.fileInput.files, Blade.del(this, function(response) {
+                DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+                this.load(this.model.Id);
+            }));
+        } else {
+            this._contactService.save(this.model.Id, this.model, this.get_ReturnToList());
         }
-        this._contactService.save(this.model, Blade.del(this, function(response) {
-            this.handleResponse(response)}));
     };
     p.delete = function () {
         if (this.model.Id && confirm($.sb.localization.confirmText)) {
             this._contactService.delete({
                 id: this.model.Id
-            }, Blade.del(this, function(response) {
-                this.handleResponse(response)}));
+            }, this.get_ReturnToList());
+        }
+    };
+    p.deletePhoto = function () {
+        if (this.model.Id && confirm($.sb.localization.confirmText)) {
+            this._contactService.deletePhoto(this.model.Id, this.get_ResponseHandler());
+        }
+    };
+    p.rotatePhotoCounterclockwise = function () {
+        if (this.model.Id && confirm($.sb.localization.confirmText)) {
+            this._contactService.rotatePhotoCounterclockwise(this.model.Id, this.get_ResponseHandler());
+        }
+    };
+    p.rotatePhotoClockwise = function () {
+        if (this.model.Id && confirm($.sb.localization.confirmText)) {
+            this._contactService.rotatePhotoClockwise(this.model.Id, this.get_ResponseHandler());
         }
     };
     p.handleResponse = function (response) {
+        DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
         if (response.Success) {
-            this.showList(response);
-        } else {
-            DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+            this.load(this.model.Id);
         }
-    };
-    p.cancel = function () {
-        this.showList();
     };
     return ContactDetailsController;
 })();
@@ -365,11 +477,68 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
 })();
 
 DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
-    Blade.derive(ContactService, DigitalBeacon.SiteBase.Mobile.BaseService);
-    var $base = DigitalBeacon.SiteBase.Mobile.BaseService.prototype;
-    function ContactService() {
+    Blade.derive(ContactService, DigitalBeacon.SiteBase.Mobile.BaseEntityService);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseEntityService.prototype;
+    function ContactService(http, resource) {
         $base.constructor.call(this);
+        this._http = http;
+        this.set_Resource(resource(DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl('~/contacts/:id/:action'), {
+            id: '@id'
+        }, {
+            update: {
+                method: 'PUT'
+            },
+            search: {
+                method: 'POST',
+                params: {
+                    action: 'search'
+                }
+            },
+            deletePhoto: {
+                method: 'POST',
+                params: {
+                    action: 'deletePhoto'
+                }
+            },
+            rotatePhotoCounterclockwise: {
+                method: 'POST',
+                params: {
+                    action: 'rotatePhotoCounterclockwise'
+                }
+            },
+            rotatePhotoClockwise: {
+                method: 'POST',
+                params: {
+                    action: 'rotatePhotoClockwise'
+                }
+            }
+        }));
     }
+    var p = ContactService.prototype;
+    p._http = null;
+    p.save = function (id, model, files, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        this.sendFormData(this._http, 'contacts', id, model, files, responseHandler);
+    };
+    p.deletePhoto = function (id, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        this.get_Resource().deletePhoto({
+            id: id
+        }, responseHandler);
+    };
+    p.rotatePhotoCounterclockwise = function (id, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        this.get_Resource().rotatePhotoCounterclockwise({
+            id: id
+        }, responseHandler);
+    };
+    p.rotatePhotoClockwise = function (id, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        this.get_Resource().rotatePhotoClockwise({
+            id: id
+        }, responseHandler);
+    };
+    Blade.impl(ContactService, 'DigitalBeacon.SiteBase.Mobile.IEntityService');
     return ContactService;
 })();
 
@@ -413,6 +582,7 @@ angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config([
         templateUrl: DigitalBeacon.SiteBase.ControllerHelper.getTemplateUrl('~/contacts/0/edit'),
         controller: 'contactDetailsController'
     });
+    $.digitalbeacon.loadCssFile('~/resources/base/contacts/styles.css');
 })]).controller('contactListController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
     DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController(scope, state, location, contactService))})]).controller('contactDetailsController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
     DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController(scope, state, location, contactService))})]);
@@ -439,18 +609,6 @@ angular.module('sitebase', ['ngSanitize', 'ui.bootstrap', 'ui.mask']).config(['$
         return DigitalBeacon.Utils.convertDateStringsToDates(data);
     });
 })]);
-angular.module('contactService', ['ngResource']).factory('contactService', ['$resource', (function(resource) {
-    return resource(DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl('~/contacts/:id'), {
-        id: '@id'
-    }, {
-        update: {
-            method: 'PUT'
-        },
-        search: {
-            method: 'POST',
-            params: {
-                id: 'search'
-            }
-        }
-    });
+angular.module('contactService', ['ngResource']).factory('contactService', ['$http', '$resource', (function(http, resource) {
+    return new DigitalBeacon.SiteBase.Mobile.Contacts.ContactService(http, resource);
 })]);

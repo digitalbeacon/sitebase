@@ -2,21 +2,37 @@
 
 <viewdata model="EditModel" />
 
-<sbClientFormPanel item="'contact'" enableCancel="true" enableDelete="true">
-	<sbClientFormRow property="P(m => m.FirstName)" focus="true" />
-	<sbClientFormRow property="P(m => m.LastName)" />
-	<sbClientFormRow property="P(m => m.MiddleName)" />
-	<sbClientFormRow property="P(m => m.GenderId)" inputType="radioButtonList" />
-	<sbClientFormRow property="P(m => m.DateOfBirth)" inputType="date" />
-	#//<sbClientFormRow property="P(m => m.Age)" inputType="textBox" maxLength="3" inputReadOnly="true" />
-	<sbClientFormRow property="P(m => m.RaceId)" if="Model.ListItems['RaceId'].Any()" />
-	<sbClientFormRow property="P(m => m.Email)" inputType="email" />
-	<sbClientFormRow property="P(m => m.MobilePhone)" inputType="phone" mask="WebConstants.PhoneMask" />
-	#//<sbClientFormRow property="P(m => m.Photo)" inputType="file" inputSize="13" />
-	<sbClientFormRow property="P(m => m.Line1)" />
-	#//<sbClientFormRow property="P(m => m.Line2)" />
-	<sbClientFormRow property="P(m => m.PostalCode)" mask="WebConstants.UsaPostalCodeMask" />
-	<sbClientFormRow property="P(m => m.City)" />
-	<sbClientFormRow property="P(m => m.StateId)" includeEmptyOption="true" />
-	<sbClientFormRow inputType="submit" />
-</sbClientFormPanel>
+<div id="contactEditContainer">
+
+	<sbClientMessagePanel />
+	
+	<div class="photoContainer" ng-show="model.PhotoId">
+		#//<img src="${Url.Content('~/resources/images/no-photo.gif')}" class="ng-hide shadow" ng-hide="model.PhotoId" />
+		<img ng-src="{{ photoUrl }}" class="shadow" />
+		<div class="button-panel actions">
+			<a id="rotatePhotoCounterclockwise" ng-click="rotatePhotoCounterclockwise()" href="#">${Text("Common.RotatePhotoCounterclockwise.Label")}</a>
+			<a id="rotatePhotoClockwise" ng-click="rotatePhotoClockwise()" href="#">${Text("Common.RotatePhotoClockwise.Label")}</a>
+			<a id="deletePhoto" ng-click="deletePhoto()" href="#">${Text("Common.DeletePhoto.Label")}</a>
+		</div>
+	</div>
+
+	<sbClientFormPanel item="'contact'" enableCancel="true" enableDelete="true" displayMessagePanel="false">
+		<sbClientFormRow property="P(m => m.FirstName)" focus="true" />
+		<sbClientFormRow property="P(m => m.LastName)" />
+		<sbClientFormRow property="P(m => m.MiddleName)" />
+		<sbClientFormRow property="P(m => m.GenderId)" inputType="radioButtonList" />
+		<sbClientFormRow property="P(m => m.DateOfBirth)" inputType="date" />
+		#//<sbClientFormRow property="P(m => m.Age)" inputType="textBox" maxLength="3" inputReadOnly="true" />
+		<sbClientFormRow property="P(m => m.RaceId)" if="Model.ListItems['RaceId'].Any()" />
+		<sbClientFormRow property="P(m => m.Email)" inputType="email" />
+		<sbClientFormRow property="P(m => m.MobilePhone)" inputType="phone" mask="WebConstants.PhoneMask" />
+		<sbClientFormRow property="P(m => m.Photo)" inputType="file" inputSize="13" />
+		<sbClientFormRow property="P(m => m.Line1)" />
+		#//<sbClientFormRow property="P(m => m.Line2)" />
+		<sbClientFormRow property="P(m => m.PostalCode)" mask="WebConstants.UsaPostalCodeMask" />
+		<sbClientFormRow property="P(m => m.City)" />
+		<sbClientFormRow property="P(m => m.StateId)" includeEmptyOption="true" />
+		<sbClientFormRow inputType="submit" />
+	</sbClientFormPanel>
+	
+</div>

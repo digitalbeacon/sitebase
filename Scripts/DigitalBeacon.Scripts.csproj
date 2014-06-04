@@ -41,12 +41,14 @@
   <ItemGroup>
     <Reference Include="jQuery" />
     <Reference Include="mscorlib" />
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Imports\FormData.cs" />
     <Compile Include="StringUtils.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="StringBuilder.cs" />

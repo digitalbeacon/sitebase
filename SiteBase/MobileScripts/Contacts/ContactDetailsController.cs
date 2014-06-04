@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------- //
 
 using System;
+using System.Browser;
 using System.Dom;
 using System.Html;
 using DigitalBeacon;
@@ -21,6 +22,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		private ContactService _contactService;
 
 		public dynamic contact;
+		public string photoUrl;
 
 		public ContactDetailsController(Scope scope, dynamic state, ILocation location, ContactService contactService)
 		{
@@ -35,8 +37,14 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			base.init();
 			if (RouterParams.id)
 			{
-				model = _contactService.get(new { id = RouterParams.id });
+				load(RouterParams.id);
 			}
+		}
+
+		private void load(int id)
+		{
+			model = _contactService.get(new { id = id },
+				new Action<dynamic>(response => photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/photo?x={1}".formatWith((int)response.Id, (int)response.PhotoId))));
 		}
 
 		public override void submit(bool isValid)
@@ -47,37 +55,60 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				window.scrollTo(0, 0);
 				return;
 			}
-			if (model.Id)
+
+			if (data.fileInput)
 			{
-				_contactService.update(new { id = model.Id }, model, new Action<dynamic>(response => handleResponse(response)));
-				return;
+				_contactService.save(model.Id, model, data.fileInput.files, new Action<ApiResponse>(response =>
+					{
+						ApiResponseHelper.handleResponse(response, Scope);
+						load(model.Id);
+					}));
 			}
-			_contactService.save(model, new Action<dynamic>(response => handleResponse(response)));
+			else
+			{
+				_contactService.save(model.Id, model, ReturnToList);
+			}
 		}
 
 		public override void delete()
 		{
 			if (model.Id && window.confirm(localization.confirmText))
 			{
-				_contactService.delete(new { id = model.Id }, new Action<dynamic>(response => handleResponse(response)));
+				_contactService.delete(new { id = model.Id }, ReturnToList);
 			}
 		}
 
-		private void handleResponse(dynamic response)
+		public void deletePhoto()
 		{
+			if (model.Id && window.confirm(localization.confirmText))
+			{
+				_contactService.deletePhoto(model.Id, ResponseHandler);
+			}
+		}
+
+		public void rotatePhotoCounterclockwise()
+		{
+			if (model.Id && window.confirm(localization.confirmText))
+			{
+				_contactService.rotatePhotoCounterclockwise(model.Id, ResponseHandler);
+			}
+		}
+
+		public void rotatePhotoClockwise()
+		{
+			if (model.Id && window.confirm(localization.confirmText))
+			{
+				_contactService.rotatePhotoClockwise(model.Id, ResponseHandler);
+			}
+		}
+
+		protected override void handleResponse(ApiResponse response)
+		{
+			ApiResponseHelper.handleResponse(response, Scope);
 			if (response.Success)
 			{
-				showList(response);
+				load(model.Id);
 			}
-			else
-			{
-				ApiResponseHelper.handleResponse(response, Scope);
-			}
-		}
-
-		public void cancel()
-		{
-			showList();
 		}
 	}
 }

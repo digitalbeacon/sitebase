@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------- //
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Web.Mvc;
 
 namespace DigitalBeacon.SiteBase.Web.Models
@@ -34,42 +35,49 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// Gets or sets the heading.
 		/// </summary>
 		/// <value>The heading.</value>
+		[ReadOnly(true)]
 		public string Heading { get; set; }
 
 		/// <summary>
 		/// Gets or sets the content.
 		/// </summary>
 		/// <value>The content.</value>
+		[ReadOnly(true)]
 		public string Content { get; set; }
 
 		/// <summary>
 		/// Gets or sets the return URL.
 		/// </summary>
 		/// <value>The return URL.</value>
+		[ReadOnly(true)]
 		public string ReturnUrl { get; set; }
 
 		/// <summary>
 		/// Gets or sets the return text.
 		/// </summary>
 		/// <value>The return text.</value>
+		[ReadOnly(true)]
 		public string ReturnText { get; set; }
 
 		/// <summary>
 		/// Gets or sets the additional return URL.
 		/// </summary>
 		/// <value>The return URL.</value>
+		[ReadOnly(true)]
 		public string AdditionalReturnUrl { get; set; }
 
 		/// <summary>
 		/// Gets or sets the additional return text.
 		/// </summary>
 		/// <value>The return text.</value>
+		[ReadOnly(true)]
 		public string AdditionalReturnText { get; set; }
 
 		/// <summary>
 		/// Gets the messages.
 		/// </summary>
 		/// <value>The messages.</value>
+		[ReadOnly(true)]
 		public List<string> Messages 
 		{
 			get
@@ -86,6 +94,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// Gets the errors.
 		/// </summary>
 		/// <value>The errors.</value>
+		[ReadOnly(true)]
 		public List<string> Errors
 		{
 			get
@@ -102,6 +111,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// Gets the list items.
 		/// </summary>
 		/// <value>The list items.</value>
+		[ReadOnly(true)]
 		public Dictionary<string, IEnumerable<SelectListItem>> ListItems 
 		{
 			get

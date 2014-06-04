@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Html;
 using jQueryLib;
 using ng;
 
@@ -20,6 +21,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		public Alert[] alerts = new Alert[0];
 		public dynamic model = new Dictionary<object>();
+		public dynamic data = new Dictionary<object>();
 
 		protected Scope Scope
 		{
@@ -42,6 +44,16 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 			get { return _location; }
 			set { _location = value; }
+		}
+
+		protected Action<ApiResponse> DefaultHandler
+		{
+			get { return new Action<ApiResponse>(response => ApiResponseHelper.handleResponse(response, Scope)); }
+		}
+
+		protected Action<ApiResponse> ResponseHandler
+		{
+			get { return new Action<ApiResponse>(response => handleResponse(response)); }
 		}
 
 		public virtual void init()
@@ -90,9 +102,30 @@ namespace DigitalBeacon.SiteBase.Mobile
 			alerts.splice(index, 1);
 		}
 
+		public void fileChanged(dynamic fileInput)
+		{
+			if (!fileInput)
+			{
+				return;
+			}
+			var files = fileInput.files;
+			if (fileInput.files && fileInput.files.length)
+			{
+				data.fileInput = fileInput;
+			}
+			else
+			{
+				data.fileInput = null;
+			}
+		}
+
 		public static void extend(object target, object obj)
 		{
 			((BaseController)jQuery.extend(target, obj)).init();
+		}
+
+		protected virtual void handleResponse(ApiResponse response)
+		{
 		}
 	}
 }

@@ -17,6 +17,7 @@ using DigitalBeacon.Model;
 using DigitalBeacon.SiteBase.Business;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Model.Contacts;
+using DigitalBeacon.SiteBase.Models;
 using DigitalBeacon.SiteBase.Models.Contacts;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.SiteBase.Web.Models;
@@ -72,7 +73,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			ActionResult retVal = null;
 			ContactService.DeleteContactPhoto(id);
-			if (RenderPartial)
+			if (IsJsonRequest)
+			{
+				retVal = Json(new ApiResponse { Success = true, Message = GetLocalizedTextWithFormatting("Common.DeletePhoto.Confirmation").ToHtmlString() });
+			}
+			else if (RenderPartial)
 			{
 				retVal = RedirectToMessageAction(SingularLabel, "Common.DeletePhoto.Confirmation");
 				MessageModel.ReturnUrl = Url.Action(EditActionName, new { renderType = WebConstants.RenderTypePartial });
@@ -128,6 +133,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 				};
 
 				ContactService.SaveContact(contact);
+			}
+			if (IsJsonRequest)
+			{
+				return Json(new ApiResponse { Success = true });
 			}
 			return RedirectToAction(EditActionName);
 		}

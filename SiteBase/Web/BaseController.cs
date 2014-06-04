@@ -181,7 +181,11 @@ namespace DigitalBeacon.SiteBase.Web
 		protected override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
 			base.OnActionExecuted(filterContext);
-			if (RenderPartial)
+			if (IsJsonRequest && !(filterContext.Result is JsonResult))
+			{
+
+			}
+			else if (RenderPartial)
 			{
 				if (filterContext.Result is RedirectToRouteResult)
 				{

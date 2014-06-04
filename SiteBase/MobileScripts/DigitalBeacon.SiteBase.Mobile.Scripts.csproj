@@ -46,7 +46,8 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BaseService.cs" />
+    <Compile Include="BaseEntityService.cs" />
+    <Compile Include="IEntityService.cs" />
     <Compile Include="BaseController.cs">
       <SubType>Code</SubType>
     </Compile>

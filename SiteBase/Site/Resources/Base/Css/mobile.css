@@ -97,6 +97,10 @@ img
 	padding: 10px;
 }
 
+.button-panel {
+	margin: 10px 0;
+}
+
 #languageSelector, 
 #siteTypeSelector,
 #footerLinks {
