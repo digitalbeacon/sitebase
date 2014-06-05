@@ -46,8 +46,8 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Alert.cs" />
     <Compile Include="ApiResponse.cs" />
-    <Compile Include="ApiResponseHelper.cs" />
     <Compile Include="ControllerHelper.cs" />
     <Compile Include="Imports\SiteBase.cs" />
     <Compile Include="ng\Angular.cs" />

@@ -48,7 +48,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected Action<ApiResponse> DefaultHandler
 		{
-			get { return new Action<ApiResponse>(response => ApiResponseHelper.handleResponse(response, Scope)); }
+			get { return new Action<ApiResponse>(response => ControllerHelper.handleResponse(response, Scope)); }
 		}
 
 		protected Action<ApiResponse> ResponseHandler
@@ -102,6 +102,13 @@ namespace DigitalBeacon.SiteBase.Mobile
 			alerts.splice(index, 1);
 		}
 
+		public void openCalendar(dynamic evt, string dataKey)
+		{
+			evt.preventDefault();
+			evt.stopPropagation();
+			data[dataKey] = data[dataKey] ? false : true;
+		}
+
 		public void fileChanged(dynamic fileInput)
 		{
 			if (!fileInput)
@@ -117,6 +124,16 @@ namespace DigitalBeacon.SiteBase.Mobile
 			{
 				data.fileInput = null;
 			}
+		}
+
+		protected bool HasFileInput
+		{
+			get { return data.fileInput; }
+		}
+
+		protected object[] Files
+		{
+			get { return data.fileInput.files; }
 		}
 
 		public static void extend(object target, object obj)

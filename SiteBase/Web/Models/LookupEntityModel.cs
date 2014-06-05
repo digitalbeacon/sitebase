@@ -10,6 +10,7 @@ using DigitalBeacon.Web;
 using DigitalBeacon.Web.Validation;
 using DigitalBeacon.Model;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace DigitalBeacon.SiteBase.Web.Models
 {
@@ -38,10 +39,19 @@ namespace DigitalBeacon.SiteBase.Web.Models
 			EntityType = entityType;
 		}
 
+		[ReadOnly(true)]
 		public Type EntityType { get; set; }
+		
+		[ReadOnly(true)]
 		public bool IsCoded { get; set; }
+		
+		[ReadOnly(true)]
 		public PropertyInfo DisplayOrderPropertyInfo { get; set; }
+
+		[ReadOnly(true)]
 		public PropertyInfo CommentPropertyInfo { get; set; }
+
+		[ReadOnly(true)]
 		public bool SupportsInactive { get; set; }
 
 		public bool UseDisplayOrder 

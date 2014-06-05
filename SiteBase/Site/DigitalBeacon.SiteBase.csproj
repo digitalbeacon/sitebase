@@ -319,10 +319,6 @@
     <Content Include="Resources\Base\Scripts\DigitalBeacon.Scripts.min.js" />
     <Content Include="Resources\Base\Scripts\DigitalBeacon.SiteBase.Mobile.Scripts.js" />
     <Content Include="Resources\Base\Scripts\DigitalBeacon.SiteBase.Mobile.Scripts.min.js" />
-    <Content Include="Resources\Base\Scripts\ui-bootstrap-0.10.0.js" />
-    <Content Include="Resources\Base\Scripts\ui-bootstrap-0.10.0.min.js" />
-    <Content Include="Resources\Base\Scripts\ui-bootstrap-tpls-0.10.0.js" />
-    <Content Include="Resources\Base\Scripts\ui-bootstrap-tpls-0.10.0.min.js" />
     <EmbeddedResource Include="Views\Identity\Mobile\SignIn.spark">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -443,6 +439,12 @@
     <Content Include="Resources\Base\Scripts\sitebase.listPanel.js" />
     <Content Include="Resources\Base\Scripts\sitebase.listPanel.min.js" />
     <Content Include="Resources\Base\Scripts\sitebase.min.js" />
+    <Content Include="Resources\Base\Scripts\ui-bootstrap-tpls-0.11.0.js" />
+    <Content Include="Resources\Base\Scripts\ui-bootstrap-tpls-0.11.0.min.js" />
+    <Content Include="Resources\Base\Scripts\ui-utils-ieshiv.js" />
+    <Content Include="Resources\Base\Scripts\ui-utils-ieshiv.min.js" />
+    <Content Include="Resources\Base\Scripts\ui-utils.js" />
+    <Content Include="Resources\Base\Scripts\ui-utils.min.js" />
     <Content Include="Resources\Base\Users\styles.css" />
     <Content Include="Resources\Base\Users\styles.min.css" />
     <Content Include="Resources\Images\background.gif" />

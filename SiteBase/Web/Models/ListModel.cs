@@ -16,6 +16,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 {
 	public class ListModel<T> : ListModelBase
 	{
+		[ReadOnly(true)]
 		public IEnumerable<T> Items
 		{
 			get { return (IEnumerable<T>)UntypedItems; }
@@ -38,13 +39,19 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		[LocalizedDisplayName("Common.SearchText.Label")]
 		public string SearchText { get; set; }
 
+		[ReadOnly(true)]
 		public string SingularLabel { get; set; }
+
+		[ReadOnly(true)]
 		public string PluralLabel { get; set; }
 
+		[ReadOnly(true)]
 		public IEnumerable UntypedItems { get; set; }
 
+		[ReadOnly(true)]
 		public long? ParentId { get; set; }
 
+		[ReadOnly(true)]
 		public int Pages
 		{
 			get { return PageSize == 0 ? 1 : (int)Math.Ceiling(TotalCount / (double)PageSize); }

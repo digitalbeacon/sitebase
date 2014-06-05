@@ -70,9 +70,14 @@
 					${Html.Editor(propName, "string", new { inputType = password, htmlAttributes = attr })}
 				</else>
 				<else if="options.InputType == date">
-					<sbSet dictionary="attr" key="'datepicker-popup'" value="'M/d/yyyy'" />
-					<sbSet dictionary="attr" key="'show-weeks'" value="'false'" />
-					${Html.Editor(propName, "string", new { htmlAttributes = attr })}
+					<span class="input-group">
+						<sbSet dictionary="attr" key="'datepicker-popup'" value="'M/d/yyyy'" />
+						<sbSet dictionary="attr" key="'is-open'" value="'data.isOpen' + propName" />
+						${Html.Editor(propName, "string", new { htmlAttributes = attr })}
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="openCalendar($event, 'isOpen${propName}')"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</span>
 				</else>
 				<else if="options.InputType == radioButtonList">
 					<div class="btn-group btn-group-justified input-group">

@@ -19,7 +19,7 @@
 	<sbClientFormPanel item="'contact'" enableCancel="true" enableDelete="true" displayMessagePanel="false">
 		<sbClientFormRow property="P(m => m.FirstName)" focus="true" />
 		<sbClientFormRow property="P(m => m.LastName)" />
-		<sbClientFormRow property="P(m => m.MiddleName)" />
+		#//<sbClientFormRow property="P(m => m.MiddleName)" />
 		<sbClientFormRow property="P(m => m.GenderId)" inputType="radioButtonList" />
 		<sbClientFormRow property="P(m => m.DateOfBirth)" inputType="date" />
 		#//<sbClientFormRow property="P(m => m.Age)" inputType="textBox" maxLength="3" inputReadOnly="true" />

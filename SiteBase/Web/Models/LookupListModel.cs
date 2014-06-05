@@ -6,13 +6,15 @@
 // ---------------------------------------------------------------------- //
 
 using System;
+using System.ComponentModel;
 using DigitalBeacon.Model;
 
 namespace DigitalBeacon.SiteBase.Web.Models
 {
 	public class LookupListModel<T> : LookupListModel where T : INamedEntity
 	{
-		public LookupListModel() : base(typeof(T))
+		public LookupListModel()
+			: base(typeof(T))
 		{
 			EntityType = typeof(T);
 		}
@@ -20,9 +22,16 @@ namespace DigitalBeacon.SiteBase.Web.Models
 
 	public class LookupListModel : ListModel<LookupInfo>
 	{
+		[ReadOnly(true)]
 		public Type EntityType { get; set; }
+
+		[ReadOnly(true)]
 		public bool IsCoded { get; set; }
+
+		[ReadOnly(true)]
 		public bool UseDisplayOrder { get; set; }
+
+		[ReadOnly(true)]
 		public bool SupportsInactive { get; set; }
 
 		public LookupListModel(Type entityType)

@@ -36,11 +36,17 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     p.get_DefaultHandler = function() {
         return Blade.del(this, function(response) {
-            DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope())});
+            DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope())});
     };
     p.get_ResponseHandler = function() {
         return Blade.del(this, function(response) {
             this.handleResponse(response)});
+    };
+    p.get_HasFileInput = function() {
+        return this.data.fileInput;
+    };
+    p.get_Files = function() {
+        return this.data.fileInput.files;
     };
     p.init = function () {
     };
@@ -71,6 +77,11 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     p.closeAlert = function (index) {
         this.alerts.splice(index, 1);
+    };
+    p.openCalendar = function (evt, dataKey) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        this.data[dataKey] = this.data[dataKey] ? false : true;
     };
     p.fileChanged = function (fileInput) {
         if (!fileInput) {
@@ -146,7 +157,7 @@ DigitalBeacon.SiteBase.Mobile.BaseEntityService.constructFormData = function (mo
     var $k_enum = Object.keys(model).GetEnumerator();
     while($k_enum.MoveNext()) {
         k = $k_enum.get_Current();
-        if (k === 'ListItems' || k.slice(0, 1) === '$') {
+        if (k.slice(0, 1) === '$') {
             continue;
         }
         if (model[k] || $.digitalbeacon.isOfType(model[k], 'boolean')) {
@@ -173,7 +184,7 @@ DigitalBeacon.SiteBase.Mobile.BaseListState = (function() {
     p.sortDirection = null;
     p.sortTextOptions = null;
     p.page = 1;
-    p.pageSize = 4;
+    p.pageSize = 10;
     p.footerHeight = 140;
     p.visible = true;
     return BaseListState;
@@ -228,29 +239,40 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
             if (response.Success) {
                 this.hide(response);
             } else {
-                DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
             }
         });
     };
     p.get_SaveHandler = function() {
         return Blade.del(this, function(response) {
+            var responseHandled = false;
             if (response.Success) {
                 this.data.fileInput = null;
                 if (this.model.Id) {
                     this.load(this.model.Id);
                 } else if (response.Id) {
+                    responseHandled = true;
+                    this.get_RouterState().get('list.edit').data = {
+                        alerts: DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response)
+                    };
                     this.get_RouterState().go('list.edit', {
                         id: response.Id
                     });
                 }
             }
-            DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+            if (!responseHandled) {
+                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
+            }
         });
     };
     p.init = function () {
         $base.init.call(this);
         if (this.get_RouterParams().id) {
             this.load(this.get_RouterParams().id);
+        }
+        if (this.get_RouterState().current.data && this.get_RouterState().current.data.alerts) {
+            this.alerts = this.get_RouterState().current.data.alerts;
+            this.get_RouterState().current.data.alerts = null;
         }
         this.show();
     };
@@ -277,15 +299,23 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     };
     p.load = function (id) {
     };
-    p.submit = function (isValid) {
+    p.save = function () {
     };
     p.delete = function () {
     };
     p.cancel = function () {
         this.hide();
     };
+    p.submit = function (isValid) {
+        this.model.submitted = true;
+        if (!isValid) {
+            scrollTo(0, 0);
+            return;
+        }
+        this.save();
+    };
     p.handleResponse = function (response) {
-        DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+        DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
         if (response.Success) {
             this.load(this.model.Id);
         }
@@ -309,6 +339,9 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
         }));
         this.get_Scope().$on('showDetails', Blade.del(this, function() {
             this.hideList();
+        }));
+        this.get_Scope().$on('alerts', Blade.del(this, function(evt, args) {
+            this.alerts = args;
         }));
         this.get_Scope().$watch(Blade.del(this, function() {
             return this.get_Location().url();
@@ -351,7 +384,7 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
             if (response.Success) {
                 this.search();
             }
-            DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+            DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
         }
     };
     p.isListState = function () {
@@ -404,18 +437,13 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
             if (response.Id) {
                 this.photoUrl = $.digitalbeacon.resolveUrl('~/contacts/{0}/photo?x={1}'.formatWith(response.Id, response.PhotoId));
             } else {
-                DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope());
+                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
             }
         }));
     };
-    p.submit = function (isValid) {
-        this.model.submitted = true;
-        if (!isValid) {
-            scrollTo(0, 0);
-            return;
-        }
-        if (this.data.fileInput) {
-            this._contactService.saveWithFileData(this.model.Id, this.model, this.data.fileInput.files, this.get_SaveHandler());
+    p.save = function () {
+        if (this.get_HasFileInput()) {
+            this._contactService.saveWithFileData(this.model.Id, this.model, this.get_Files(), this.get_SaveHandler());
         } else {
             this._contactService.save(this.model.Id, this.model, this.get_SaveHandler());
         }
@@ -596,7 +624,7 @@ DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
             return;
         }
         this._identityService.signIn(this.model, (Blade.del(this, function(response) {
-            DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse(response, this.get_Scope())})));
+            DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope())})));
     };
     return SignInController;
 })();
@@ -634,7 +662,7 @@ angular.module('identityService', ['ngResource']).factory('identityService', ['$
         }
     });
 })]);
-angular.module('sitebase', ['ngSanitize', 'ui.bootstrap', 'ui.mask']).config(['$httpProvider', '$locationProvider', (function(httpProvider, locationProvider) {
+angular.module('sitebase', ['ngSanitize', 'ui.bootstrap', 'ui.mask']).config(['$httpProvider', '$locationProvider', 'datepickerConfig', (function(httpProvider, locationProvider, datepickerConfig) {
     locationProvider.html5Mode(true);
     httpProvider.defaults.transformRequest.push(function(data) {
         $.sb.onAjaxStart();
@@ -644,6 +672,7 @@ angular.module('sitebase', ['ngSanitize', 'ui.bootstrap', 'ui.mask']).config(['$
         $.sb.onAjaxEnd();
         return DigitalBeacon.Utils.convertDateStringsToDates(data);
     });
+    datepickerConfig.showWeeks = false;
 })]);
 angular.module('contactService', ['ngResource']).factory('contactService', ['$http', '$resource', (function(http, resource) {
     return new DigitalBeacon.SiteBase.Mobile.Contacts.ContactService(http, resource);

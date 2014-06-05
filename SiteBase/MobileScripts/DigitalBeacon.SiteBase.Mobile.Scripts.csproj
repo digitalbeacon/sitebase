@@ -53,7 +53,6 @@
     </Compile>
     <Compile Include="BaseDetailsController.cs" />
     <Compile Include="BaseListController.cs" />
-    <Compile Include="Alert.cs" />
     <Compile Include="SiteBaseModule.cs" />
     <Compile Include="Contacts\ContactListController.cs" />
     <Compile Include="Contacts\ContactService.cs" />

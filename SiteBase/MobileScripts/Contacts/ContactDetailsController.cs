@@ -39,23 +39,16 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 					}
 					else
 					{
-						ApiResponseHelper.handleResponse(response, Scope);
+						ControllerHelper.handleResponse(response, Scope);
 					}
 				}));
 		}
 
-		public override void submit(bool isValid)
+		protected override void save()
 		{
-			model.submitted = true;
-			if (!isValid)
+			if (HasFileInput)
 			{
-				window.scrollTo(0, 0);
-				return;
-			}
-
-			if (data.fileInput)
-			{
-				_contactService.saveWithFileData(model.Id, model, data.fileInput.files, SaveHandler);
+				_contactService.saveWithFileData(model.Id, model, Files, SaveHandler);
 			}
 			else
 			{

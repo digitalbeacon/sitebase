@@ -16,6 +16,7 @@ $(document).ready(function() {
 	-----------------------------------------------------------------------------*/
 	$.sitebase = new function() {
 		this.debug = false;
+		this.isMobile = document.isMobile || false;
 		this.ajaxTimerId1 = 0;
 		this.ajaxTimerId2 = 0;
 		this.ajaxCounter = 0;
@@ -36,10 +37,13 @@ $(document).ready(function() {
 		-----------------------------------------------------------------------------*/
 		this.init = function() {
 			this._addSignOutConfirmation();
-			this._initAjaxFeedback();
-			this._setTooltipDefaults();
-			this.displayMessageSummaryAsModalBox();
-			this.addTooltips(); // decorate server-generated field validation error messages
+			if (!this.isMobile)
+			{
+				this._initAjaxFeedback();
+				this._setTooltipDefaults();
+				this.displayMessageSummaryAsModalBox();
+				this.addTooltips(); // decorate server-generated field validation error messages
+			}
 		};
 		/*-----------------------------------------------------------------------------
 		Log message to javascript console

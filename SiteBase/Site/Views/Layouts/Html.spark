@@ -101,6 +101,7 @@ Html.Telerik().StyleSheetRegistrar().Render();
 			</content>
 
 			<script type="text/javascript" if="Request.ApplicationPath != '/'">document.appContextPath = '${Request.ApplicationPath}';</script>
+			<script type="text/javascript" if="IsMobile">document.isMobile = true;</script>
 			<% 
 if (Content.ContainsKey("readyScript"))
 {
@@ -139,7 +140,7 @@ Html.Telerik().ScriptRegistrar().Globalization(true).jQuery(!IsMobile).Render();
 			<use content="scripts" if="Content.ContainsKey('scripts')" />
 
 			#// Session Auditor
-			<script type="text/javascript" if="IsAuthenticated">DigitalBeacon.SiteBase.SessionAuditor.instance().start();</script>
+			<script type="text/javascript" if="IsAuthenticated && !IsMobile">DigitalBeacon.SiteBase.SessionAuditor.instance().start();</script>
 			
 			#// Google Analytics
 			<script type="text/javascript" if="GoogleAnalyticsId.HasText()">

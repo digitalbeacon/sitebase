@@ -30,6 +30,9 @@ namespace DigitalBeacon.SiteBase.Models.Contacts
 		//[Required]
 		//public override long? StateId { get; set; }
 
+		[LocalizedDisplayName("Common.Phone.Label")]
+		public override string MobilePhone { get; set; }
+
 		#endregion
 
 		[ReadOnly(true)]

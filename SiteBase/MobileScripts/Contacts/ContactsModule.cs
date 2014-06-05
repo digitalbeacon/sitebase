@@ -44,18 +44,18 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 							{
 								url = "/{id:[0-9]{1,4}}",
 								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/0/edit"),
-								controller = "contactDetailsController"
+								controller = "contactDetailsController",
 							});
 					})
 				})
 				.controller("contactListController",
 					new object[] { "$scope", "$state", "$location", "contactService", 
-						(Action<Scope, dynamic, ILocation, ContactService>)
+						(Action<Scope, object, ILocation, ContactService>)
 						((scope, state, location, contactService) => 
 							BaseController.extend(scope, new ContactListController(scope, state, location, contactService))) })
 				.controller("contactDetailsController",
 					new object[] { "$scope", "$state", "$location", "contactService", 
-						(Action<Scope, dynamic, ILocation, ContactService>)
+						(Action<Scope, object, ILocation, ContactService>)
 						((scope, state, location, contactService) => 
 							BaseController.extend(scope, new ContactDetailsController(scope, state, location, contactService))) })
 				.run(new object[]

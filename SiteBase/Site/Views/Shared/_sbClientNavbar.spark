@@ -1,4 +1,4 @@
-﻿<default heading="''" />
+﻿<default heading="ViewBag.Heading" type="string" />
 
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">

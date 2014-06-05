@@ -20,8 +20,9 @@ namespace DigitalBeacon.SiteBase.Mobile
 				{ 
 					"$httpProvider",
 					"$locationProvider",
-					(Action<dynamic, ILocationProvider>)
-					((httpProvider, locationProvider) =>
+					"datepickerConfig",
+					(Action<dynamic, ILocationProvider, dynamic>)
+					((httpProvider, locationProvider, datepickerConfig) =>
 					{
 						locationProvider.html5Mode(true);
 						httpProvider.defaults.transformRequest.push(
@@ -36,6 +37,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 								sitebase.onAjaxEnd();
 								return Utils.convertDateStringsToDates(data);
 							}));
+						datepickerConfig.showWeeks = false;
 					})
 				});
 		}

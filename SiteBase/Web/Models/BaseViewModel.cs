@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace DigitalBeacon.SiteBase.Web.Models
 {
@@ -36,6 +37,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The heading.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public string Heading { get; set; }
 
 		/// <summary>
@@ -43,6 +45,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The content.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public string Content { get; set; }
 
 		/// <summary>
@@ -50,6 +53,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The return URL.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public string ReturnUrl { get; set; }
 
 		/// <summary>
@@ -57,6 +61,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The return text.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public string ReturnText { get; set; }
 
 		/// <summary>
@@ -64,6 +69,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The return URL.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public string AdditionalReturnUrl { get; set; }
 
 		/// <summary>
@@ -71,6 +77,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The return text.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public string AdditionalReturnText { get; set; }
 
 		/// <summary>
@@ -78,6 +85,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The messages.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public List<string> Messages 
 		{
 			get
@@ -95,6 +103,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The errors.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public List<string> Errors
 		{
 			get
@@ -112,6 +121,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		/// <value>The list items.</value>
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public Dictionary<string, IEnumerable<SelectListItem>> ListItems 
 		{
 			get

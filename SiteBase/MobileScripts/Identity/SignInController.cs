@@ -33,7 +33,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 				return;
 			}
 			_identityService.signIn(model,
-				(Action<dynamic>)(response => ApiResponseHelper.handleResponse(response, Scope)));
+				(Action<dynamic>)(response => ControllerHelper.handleResponse(response, Scope)));
 		}
 	}
 }

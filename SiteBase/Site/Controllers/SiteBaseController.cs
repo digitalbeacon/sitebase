@@ -13,6 +13,7 @@ using DigitalBeacon.Model;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Models;
 using DigitalBeacon.SiteBase.Web;
+using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
 
 namespace DigitalBeacon.SiteBase.Controllers
@@ -62,6 +63,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		protected override ViewResult View(string viewName, string masterName, object model)
 		{
+			var bvm = model as BaseViewModel;
+			if (bvm != null && bvm.Heading.HasText())
+			{
+				ViewBag.Heading = bvm.Heading;
+			}
 			return base.View(SuppressViewNameTranslation ? viewName : GetViewName(viewName), masterName, model);
 		}
 

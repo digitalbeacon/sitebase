@@ -15,67 +15,6 @@ DigitalBeacon.SiteBase.ApiResponse = (function() {
     return ApiResponse;
 })();
 
-DigitalBeacon.SiteBase.ApiResponseHelper = (function() {
-    function ApiResponseHelper() {
-    }
-    return ApiResponseHelper;
-})();
-DigitalBeacon.SiteBase.ApiResponseHelper.handleResponse = function (obj, scope) {
-    scope = (scope !== undefined) ? scope : null;
-    var response = obj;
-    if (response !== null) {
-        if (response.RedirectUrl) {
-            location.assign(response.RedirectUrl);
-        } else if (scope === null) {
-            alert(response.Message || response.ErrorMessage || DigitalBeacon.SiteBase.ApiResponseHelper.toString(response.ValidationErrors));
-        } else {
-            var alerts = new Array(0);
-            if (response.Message) {
-                alerts.push({
-                    type: 'success',
-                    msg: response.Message
-                });
-            }
-            if (response.ErrorMessage) {
-                alerts.push({
-                    type: 'danger',
-                    msg: response.ErrorMessage
-                });
-            }
-            if (response.ValidationErrors) {
-                var key = null;
-                var $key_enum = Object.keys(response.ValidationErrors).GetEnumerator();
-                while($key_enum.MoveNext()) {
-                    key = $key_enum.get_Current();
-                    var msg = null;
-                    var $msg_enum = response.ValidationErrors[key].GetEnumerator();
-                    while($msg_enum.MoveNext()) {
-                        msg = $msg_enum.get_Current();
-                        alerts.push({
-                            type: 'danger',
-                            msg: msg
-                        });
-                    }
-                }
-            }
-            scope.alerts = alerts;
-            scope.validationErrors = response.ValidationErrors || {};
-            scrollTo(0, 0);
-        }
-    }
-};
-DigitalBeacon.SiteBase.ApiResponseHelper.toString = function (validationErrors) {
-    var s = '';
-    var key = null;
-    var $key_enum = Object.keys(validationErrors).GetEnumerator();
-    while($key_enum.MoveNext()) {
-        key = $key_enum.get_Current();
-        s += (validationErrors[key]).join('\n');
-        s += '\n';
-    }
-    return s;
-};
-
 DigitalBeacon.SiteBase.ControllerHelper = (function() {
     function ControllerHelper() {
     }
@@ -91,6 +30,63 @@ DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl = function (targetUrl, parame
     return DigitalBeacon.Utils.mergeParams($.digitalbeacon.resolveUrl(targetUrl), {
         renderType: 'Json'
     });
+};
+DigitalBeacon.SiteBase.ControllerHelper.getAlerts = function (response) {
+    var alerts = new Array(0);
+    if (response.Message) {
+        alerts.push({
+            type: 'success',
+            msg: response.Message
+        });
+    }
+    if (response.ErrorMessage) {
+        alerts.push({
+            type: 'danger',
+            msg: response.ErrorMessage
+        });
+    }
+    if (response.ValidationErrors) {
+        var key = null;
+        var $key_enum = Object.keys(response.ValidationErrors).GetEnumerator();
+        while($key_enum.MoveNext()) {
+            key = $key_enum.get_Current();
+            var msg = null;
+            var $msg_enum = response.ValidationErrors[key].GetEnumerator();
+            while($msg_enum.MoveNext()) {
+                msg = $msg_enum.get_Current();
+                alerts.push({
+                    type: 'danger',
+                    msg: msg
+                });
+            }
+        }
+    }
+    return alerts;
+};
+DigitalBeacon.SiteBase.ControllerHelper.handleResponse = function (response, scope) {
+    scope = (scope !== undefined) ? scope : null;
+    if (response) {
+        if (response.RedirectUrl) {
+            location.assign(response.RedirectUrl);
+        } else if (scope === null) {
+            alert(response.Message || response.ErrorMessage || DigitalBeacon.SiteBase.ControllerHelper.toString(response.ValidationErrors));
+        } else {
+            scope.alerts = DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response);
+            scope.validationErrors = response.ValidationErrors || {};
+            scrollTo(0, 0);
+        }
+    }
+};
+DigitalBeacon.SiteBase.ControllerHelper.toString = function (validationErrors) {
+    var s = '';
+    var key = null;
+    var $key_enum = Object.keys(validationErrors).GetEnumerator();
+    while($key_enum.MoveNext()) {
+        key = $key_enum.get_Current();
+        s += (validationErrors[key]).join('\n');
+        s += '\n';
+    }
+    return s;
 };
 
 DigitalBeacon.SiteBase.Editor = (function() {

@@ -62,7 +62,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			var data = new FormData();
 			foreach (var k in Object.keys(model))
 			{
-				if (k == "ListItems" || k.slice(0, 1) == "$")
+				if (k.slice(0, 1) == "$")
 				{
 					continue;
 				}

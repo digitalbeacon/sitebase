@@ -31,6 +31,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 			{
 				load(RouterParams.id);
 			}
+			if (RouterState.current.data && RouterState.current.data.alerts)
+			{
+				alerts = RouterState.current.data.alerts;
+				RouterState.current.data.alerts = null;
+			}
 			show();
 		}
 
@@ -61,23 +66,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected abstract void load(int id);
 
-		//	scope.filteredProperties = (Func<object, object>)
-		//		(x =>
-		//		{
-		//			var retVal = new object();
-		//			foreach (var key in Object.keys(x))
-		//			{
-		//				var val = x[key];
-		//				if (!val || (val is Array && val.length == 0))
-		//				{
-		//					continue;
-		//				}
-		//				retVal[key] = x[key];
-		//			}
-		//			return retVal;
-		//		});
-
-		public abstract void submit(bool isValid);
+		protected abstract void save();
 
 		public virtual void delete() { }
 
@@ -86,9 +75,20 @@ namespace DigitalBeacon.SiteBase.Mobile
 			hide();
 		}
 
+		public virtual void submit(bool isValid)
+		{
+			model.submitted = true;
+			if (!isValid)
+			{
+				window.scrollTo(0, 0);
+				return;
+			}
+			save();
+		}
+
 		protected override void handleResponse(ApiResponse response)
 		{
-			ApiResponseHelper.handleResponse(response, Scope);
+			ControllerHelper.handleResponse(response, Scope);
 			if (response.Success)
 			{
 				load(model.Id);
@@ -107,7 +107,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 					}
 					else
 					{
-						ApiResponseHelper.handleResponse(response, Scope);
+						ControllerHelper.handleResponse(response, Scope);
 					}
 				});
 			}
@@ -119,6 +119,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			{
 				return new Action<ApiResponse>(response =>
 				{
+					var responseHandled = false;
 					if (response.Success)
 					{
 						data.fileInput = null;
@@ -128,10 +129,15 @@ namespace DigitalBeacon.SiteBase.Mobile
 						}
 						else if (response.Id)
 						{
+							responseHandled = true;
+							RouterState.get("list.edit").data = new { alerts = ControllerHelper.getAlerts(response) };
 							RouterState.go("list.edit", new { id = response.Id });
 						}
 					}
-					ApiResponseHelper.handleResponse(response, Scope);
+					if (!responseHandled)
+					{
+						ControllerHelper.handleResponse(response, Scope);
+					}
 				});
 			}
 		}

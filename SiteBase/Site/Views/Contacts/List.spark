@@ -1,8 +1,6 @@
 ﻿<viewdata model="ListModel" />
 
-<content name="header">
-	${Model.Heading}
-</content>
+<content name="header">${Model.Heading}</content>
 
 <sbMessagePanel />
 

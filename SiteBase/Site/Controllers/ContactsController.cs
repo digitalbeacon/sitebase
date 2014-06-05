@@ -22,7 +22,6 @@ using DigitalBeacon.SiteBase.Models.Contacts;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
-using DigitalBeacon.Web;
 using DigitalBeacon.Web.Formatters;
 using DigitalBeacon.Web.Util;
 
@@ -37,8 +36,6 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		private const int DefaultImageMaxWidth = 400;
 		private const int DefaultImageMaxHeight = 300;
-
-		private static readonly SsnFormatter SsnFormatter = new SsnFormatter();
 
 		private static readonly IContactService ContactService = ServiceFactory.Instance.GetService<IContactService>();
 
@@ -65,6 +62,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		public ContactsController()
 		{
 			MobileModuleName = "contacts";
+			ViewBag.Heading = GetListHeading();
 			DefaultSort = new[] { new SortItem { Member = ContactEntity.LastNameProperty, SortDirection = ListSortDirection.Ascending } };
 		}
 
@@ -170,7 +168,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		protected override EditModel PopulateSelectLists(EditModel model)
 		{
-			AddSelectList(model, model.PropertyName(m => m.GenderId), LookupService.GetNameList<GenderEntity>());
+			AddSelectList(model, model.PropertyName(m => m.GenderId), LookupService.GetNameList<GenderEntity>().Reverse());
 			AddSelectList(model, ContactEntity.RaceIdProperty, LookupService.GetNameList<RaceEntity>());
 			AddSelectList(model, model.PropertyName(m => m.StateId), LookupService.GetNameList<StateEntity>());
 			AddSelectList(model, model.PropertyName(m => m.DefaultPhoneId), LookupService.GetNameList<PhoneTypeEntity>());
