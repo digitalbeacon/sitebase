@@ -1,6 +1,6 @@
 ﻿<viewdata model="SignInModel" />
 
-<content name="header">${Text("Identity.SignIn.Heading")}</content>
+<content name="header">${Model.Heading.DefaultTo(Text("Identity.SignIn.Heading"))}</content>
 
 <div ng-controller="signInController">
 	

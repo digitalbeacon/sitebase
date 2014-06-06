@@ -44,6 +44,44 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		#region Helper Methods
 
+		protected JsonResult ApiResponse(BaseViewModel model = null)
+		{
+			var response = new ApiResponse();
+			response.Success = ModelState.IsValid && (model == null || model.Errors == null || model.Errors.Count == 0);
+			if (response.Success && model != null && model.Messages != null && model.Messages.Count > 0)
+			{
+				response.Message = model.Messages[0];
+			}
+			else if (!response.Success)
+			{
+				if (model != null && model.Errors != null && model.Errors.Count > 0)
+				{
+					response.ErrorMessage = model.Errors[0];
+				}
+				else
+				{
+					foreach (var key in ModelState.Keys)
+					{
+						var errors = ModelState[key].Errors.Select(x => x.ErrorMessage).ToArray();
+						if (errors.Length > 0)
+						{
+							response.ValidationErrors[key] = errors;
+						}
+					}
+				}
+			}
+			return Json(response);
+		}
+
+		protected virtual void SetHeading(string heading, BaseViewModel model = null)
+		{
+			ViewBag.Heading = heading;
+			if (model != null)
+			{
+				model.Heading = heading;
+			}
+		}
+
 		/// <summary>
 		/// Gets the name of the view.
 		/// </summary>
@@ -51,10 +89,18 @@ namespace DigitalBeacon.SiteBase.Controllers
 		/// <returns></returns>
 		protected virtual string GetViewName(string baseViewName)
 		{
+			if (!IsMobile && !RenderTemplate)
+			{
+				return baseViewName;
+			}
+			if (baseViewName.IsNullOrBlank())
+			{
+				baseViewName = RouteData.Values["action"].ToStringSafe();
+			}
 			return "{0}{1}{2}".FormatWith(
 				(IsMobile && MobileModuleName != null) ? "Mobile/" : string.Empty, 
 				baseViewName,
-				IsTemplateRequest ? "Template" : string.Empty);
+				RenderTemplate ? "Template" : string.Empty);
 		}
 
 		#endregion
@@ -69,6 +115,32 @@ namespace DigitalBeacon.SiteBase.Controllers
 				ViewBag.Heading = bvm.Heading;
 			}
 			return base.View(SuppressViewNameTranslation ? viewName : GetViewName(viewName), masterName, model);
+		}
+
+		protected override void OnActionExecuted(ActionExecutedContext filterContext)
+		{
+			base.OnActionExecuted(filterContext);
+			if (RenderJson)
+			{
+				string url = null;
+				if (filterContext.Result is RedirectToRouteResult)
+				{
+					var result = (RedirectToRouteResult)filterContext.Result;
+					url = Url.RouteUrl(result.RouteName, result.RouteValues);
+				}
+				else if (filterContext.Result is RedirectResult)
+				{
+					url = ((RedirectResult)filterContext.Result).Url;
+				}
+				if (url.HasText())
+				{
+					filterContext.Result = Json(new ApiResponse { RedirectUrl = url });
+				}
+				else if (filterContext.Result is ViewResultBase)
+				{
+					filterContext.Result = ApiResponse(((ViewResultBase)filterContext.Result).Model as BaseViewModel);
+				}
+			}
 		}
 
 		protected override void OnResultExecuting(ResultExecutingContext filterContext)

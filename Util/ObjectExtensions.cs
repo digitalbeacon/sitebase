@@ -76,7 +76,7 @@ namespace DigitalBeacon.Util
 			return !val.Equals(default(T)) ? fn(val) : default(U);
 		}
 
-		public static string ToSafeString(this object anObject)
+		public static string ToStringSafe(this object anObject)
 		{
 			return anObject == null ? String.Empty : anObject.ToString();
 		}

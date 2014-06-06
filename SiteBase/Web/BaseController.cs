@@ -181,11 +181,7 @@ namespace DigitalBeacon.SiteBase.Web
 		protected override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
 			base.OnActionExecuted(filterContext);
-			if (IsJsonRequest && !(filterContext.Result is JsonResult))
-			{
-
-			}
-			else if (RenderPartial)
+			if (RenderPartial)
 			{
 				if (filterContext.Result is RedirectToRouteResult)
 				{
@@ -229,6 +225,13 @@ namespace DigitalBeacon.SiteBase.Web
 			if (!ControllerContext.IsChildAction)
 			{
 				CloseNHibernateSession();
+			}
+			if (filterContext.HttpContext.Response.StatusCode == 302)
+			{
+				// use 303 redirect response (See Other) instead of customary 302 response to deal with
+				// strange behavior associated with redirecting after an HTTP DELETE operation
+				// see http://softwareas.com/the-weirdness-of-ajax-redirects-some-workarounds/
+				filterContext.HttpContext.Response.StatusCode = 303;
 			}
 		}
 
@@ -292,7 +295,7 @@ namespace DigitalBeacon.SiteBase.Web
 					filterContext.Result = RedirectToDefaultErrorAction();
 					filterContext.ExceptionHandled = true;
 				}
-				else if (IsJsonRequest)
+				else if (RenderJson)
 				{
 					filterContext.Result = Json(new { Success = false, ErrorMessage = "<pre>" + HttpUtility.HtmlEncode(filterContext.Exception.ToString()) + "</pre>" }, JsonRequestBehavior.AllowGet);
 					filterContext.ExceptionHandled = true;
@@ -676,7 +679,7 @@ namespace DigitalBeacon.SiteBase.Web
 			{
 				return input as IHtmlString;
 			}
-			var text = input.ToSafeString();
+			var text = input.ToStringSafe();
 			if (text.IsNullOrBlank())
 			{
 				return MvcHtmlString.Empty;
@@ -815,7 +818,7 @@ namespace DigitalBeacon.SiteBase.Web
 				var regExp = new Regex("({0})=([^&]*)".FormatWith(key));
 				if (regExp.IsMatch(url))
 				{
-					regExp.Replace(url, "{0}={1}".FormatWith(key, Url.Encode(values[key].ToSafeString())));
+					regExp.Replace(url, "{0}={1}".FormatWith(key, Url.Encode(values[key].ToStringSafe())));
 				}
 				else
 				{
@@ -829,7 +832,7 @@ namespace DigitalBeacon.SiteBase.Web
 					{
 						sb.Append('&');
 					}
-					url = sb.AppendFormat("{0}={1}", key, Url.Encode(values[key].ToSafeString())).ToString();
+					url = sb.AppendFormat("{0}={1}", key, Url.Encode(values[key].ToStringSafe())).ToString();
 				}
 			}
 			return url;
@@ -933,7 +936,7 @@ namespace DigitalBeacon.SiteBase.Web
 		protected internal string GetParamAsString(string key)
 		{
 			var val = GetParam<object>(key);
-			return val != null ? val.ToSafeString() : null;
+			return val != null ? val.ToStringSafe() : null;
 		}
 
 		/// <summary>
@@ -944,7 +947,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <param name="expiration">The expiration.</param>
 		protected void SetCookieValue(string key, object value, DateTime? expiration = null)
 		{
-			var c = new HttpCookie(key, value.ToSafeString());
+			var c = new HttpCookie(key, value.ToStringSafe());
 			c.Expires = expiration ?? DateTime.MaxValue;
 			Response.SetCookie(c);
 		}
@@ -1012,33 +1015,19 @@ namespace DigitalBeacon.SiteBase.Web
 		}
 
 		/// <summary>
-		/// Gets or sets the transient messages that can be passed to a redirected view.
-		/// </summary>
-		/// <value>The transient messages.</value>
-		protected internal IList<string> TransientMessages
-		{
-			get
-			{
-				var retVal = TempData[WebConstants.TransientMessagesKey] as IList<string>;
-				if (retVal == null)
-				{
-					retVal = new List<string>();
-					TempData[WebConstants.TransientMessagesKey] = retVal;
-				}
-				return retVal;
-			}
-		}
-
-		/// <summary>
 		/// Adds the transient messages to the specified model if a transient message exists.
 		/// </summary>
 		/// <param name="model">The model.</param>
 		/// <returns></returns>
 		protected BaseViewModel AddTransientMessages(BaseViewModel model)
 		{
-			foreach (var msg in TransientMessages)
+			var messages = TempData[WebConstants.TransientMessagesKey] as IList<string>;
+			if (messages != null)
 			{
-				model.Messages.Add(msg);
+				foreach (var msg in messages)
+				{
+					model.Messages.Add(msg);
+				}
 			}
 			return model;
 		}
@@ -1072,7 +1061,13 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <param name="args">The args.</param>
 		protected internal void AddTransientMessage(string message, params object[] args)
 		{
-			TransientMessages.Add(GetLocalizedText(message, args));
+			var messages = TempData.Peek(WebConstants.TransientMessagesKey) as IList<string>;
+			if (messages == null)
+			{
+				messages = new List<string>();
+				TempData[WebConstants.TransientMessagesKey] = messages;
+			}
+			messages.Add(GetLocalizedText(message, args));
 		}
 
 		/// <summary>
@@ -1109,7 +1104,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <returns></returns>
 		protected ActionResult RedirectToDefaultErrorAction()
 		{
-			if (IsJsonRequest)
+			if (RenderJson)
 			{
 				return Json(new { Success = false, ErrorMessage = GetLocalizedTextWithFormatting("Error.Unspecified").ToHtmlString() }, JsonRequestBehavior.AllowGet);
 			}
@@ -1123,7 +1118,7 @@ namespace DigitalBeacon.SiteBase.Web
 		protected ActionResult RedirectToMessageAction(BaseViewModel messageModel)
 		{
 			MessageModel = messageModel;
-			return RedirectToAction("message", new { id = (string)null });
+			return RedirectToAction("message", new { id = RouteData.Values["id"].ToStringSafe() });
 		}
 
 		/// <summary>
@@ -1314,16 +1309,16 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value><c>true</c> if request is for partial display; otherwise, <c>false</c>.</value>
 		protected bool RenderPartial
 		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()); }
+			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()); }
 		}
 
 		/// <summary>
 		/// Gets the JSON request flag
 		/// </summary>
 		/// <value>The JSON request flag</value>
-		protected bool IsJsonRequest
+		protected bool RenderJson
 		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypeJson.ToLowerInvariant())
+			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypeJson.ToLowerInvariant())
 							|| (RenderType.IsNullOrBlank() && HttpContext.Request.AcceptTypes.Contains("application/json"));
 			}
 		}
@@ -1332,9 +1327,9 @@ namespace DigitalBeacon.SiteBase.Web
 		/// Gets a value indicating whether request is for client template data.
 		/// </summary>
 		/// <value><c>true</c> if request is for client template; otherwise, <c>false</c>.</value>
-		protected bool IsTemplateRequest
+		protected bool RenderTemplate
 		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypeTemplate.ToLowerInvariant()); }
+			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypeTemplate.ToLowerInvariant()); }
 		}
 
 		#endregion

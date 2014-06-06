@@ -2,7 +2,7 @@
 
 <content name="header">${Model.Heading}</content>
 
-<var keysReadOnly="ViewContext.RouteData.Values['action'].ToSafeString().EqualsIgnoreCase('manage')" />
+<var keysReadOnly="ViewContext.RouteData.Values['action'].ToStringSafe().EqualsIgnoreCase('manage')" />
 
 <sbFormPanel panelId="'permissionEditPanel'" enableDelete="false" enableBulkCreate="false">
 	${Html.Hidden(WebConstants.RenderTypeKey, RenderPartial ? WebConstants.RenderTypePartial : WebConstants.RenderTypeDefault)}

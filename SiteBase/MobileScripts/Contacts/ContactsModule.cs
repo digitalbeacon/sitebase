@@ -31,19 +31,19 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 							.state("list", new
 							{
 								url = digitalbeacon.resolveUrl("~/contacts"),
-								templateUrl = ControllerHelper.getTemplateUrl("~/contacts"),
+								templateUrl = digitalbeacon.resolveUrl("~/contacts/template"),
 								controller = "contactListController"
 							})
 							.state("list.new", new
 							{
 								url = "/new",
-								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/new"),
+								templateUrl = digitalbeacon.resolveUrl("~/contacts/new/template"),
 								controller = "contactDetailsController"
 							})
 							.state("list.edit", new
 							{
 								url = "/{id:[0-9]{1,4}}",
-								templateUrl = ControllerHelper.getTemplateUrl("~/contacts/0/edit"),
+								templateUrl = digitalbeacon.resolveUrl("~/contacts/0/edit/template"),
 								controller = "contactDetailsController",
 							});
 					})

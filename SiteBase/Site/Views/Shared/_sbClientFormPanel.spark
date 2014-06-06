@@ -12,6 +12,6 @@
 
 # HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
 
-<form id="${panelId}" name="${panelId}" ng-submit="submit(${panelId}.$valid)" role="form" novalidate>
+<form id="${panelId}" name="${panelId}" ng-submit="submitForm(${panelId}.$valid)" role="form" novalidate>
 	<render />
 </form>

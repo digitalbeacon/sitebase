@@ -29,6 +29,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 		public const string PasswordUpdateRequiredUsernameKey = "Identity.PasswordUpdateRequiredUsername";
 		public const string PasswordUpdateRequiredPasswordKey = "Identity.PasswordUpdateRequiredPassword";
 
+		public IdentityController()
+		{
+			MobileModuleName = "identity";
+		}
+
 		#region SignIn
 
 		/// <summary>
@@ -38,15 +43,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 		/// <returns></returns>
 		public ActionResult SignIn(string returnUrl)
 		{
-			if (IsTemplateRequest)
-			{
-				return View("SignIn", new SignInModel { ReturnUrl = returnUrl });
-			}
-			if (IsMobile)
-			{
-				MobileModuleName = "identity";
-				return View("SignIn", new SignInModel { ReturnUrl = returnUrl });
-			}
+			//if (IsMobile)
+			//{
+			//	return View(new SignInModel { ReturnUrl = returnUrl, Heading = GetLocalizedText("Identity.SignIn.Heading") });
+			//}
 			var setting = ModuleService.GetGlobalModuleSetting(ModuleDefinition.Login, "Login.Content");
 			var loginHeading = setting != null ? setting.Subject : null;
 			var loginContent = setting != null ? setting.Value : null;
@@ -61,11 +61,6 @@ namespace DigitalBeacon.SiteBase.Controllers
 		[HttpPost]
 		public ActionResult SignIn(SignInModel model)
 		{
-			if (IsJsonRequest)
-			{
-				return ApiSignIn(model);
-			}
-
 			ActionResult retVal = null;
 
 			if (ModelState.IsValid)
@@ -94,46 +89,6 @@ namespace DigitalBeacon.SiteBase.Controllers
 			model.Heading = setting != null ? setting.Subject : null;
 			model.Content = setting != null ? setting.Value : null;
 			return retVal ?? View(model);
-		}
-
-		private ActionResult ApiSignIn(SignInModel model)
-		{
-			var response = new ApiResponse();
-			if (ModelState.IsValid)
-			{
-				switch (IdentityService.AuthenticateUser(model.Username, model.Password))
-				{
-					case AuthenticationStatus.Success:
-						FormsAuthentication.SetAuthCookie(model.Username, false);
-						response.Success = true;
-						response.RedirectUrl = model.ReturnUrl.DefaultTo(FormsAuthentication.GetRedirectUrl(model.Username, false));
-						break;
-					case AuthenticationStatus.AccountLocked:
-						response.ErrorMessage = GetLocalizedTextWithFormatting("Identity.Error.AccountLocked").ToHtmlString();
-						break;
-					case AuthenticationStatus.PasswordUpdateRequired:
-						Session[PasswordUpdateRequiredUsernameKey] = model.Username;
-						Session[PasswordUpdateRequiredPasswordKey] = model.Password;
-						response.RedirectUrl = Url.Action("ChangePassword", "Identity");
-						break;
-					default:
-						//case AuthenticationStatus.Failed:
-						response.ErrorMessage = GetLocalizedTextWithFormatting("Identity.Error.InvalidCredentials").ToHtmlString();
-						break;
-				}
-			}
-			else
-			{
-				foreach (var key in ModelState.Keys)
-				{
-					var errors = ModelState[key].Errors.Select(x => x.ErrorMessage).ToArray();
-					if (errors.Length > 0)
-					{
-						response.ValidationErrors[key] = errors;
-					}
-				}
-			}
-			return Json(response);
 		}
 
 		#endregion
@@ -166,7 +121,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				return new HttpForbiddenResult();
 			}
-			return View(PopulateListItems(new RegisterModel { 
+			return View(PopulateListItems(new RegisterModel {
 				ShowMiddleName = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityShowMiddleName).ValueAsBoolean ?? false,
 				RequireAddress = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityRequireAddress).ValueAsBoolean ?? false
 			}));

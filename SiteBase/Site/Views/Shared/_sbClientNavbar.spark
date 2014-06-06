@@ -1,4 +1,5 @@
 ﻿<default heading="ViewBag.Heading" type="string" />
+<set heading="Content['header'].ToStringSafe()" if="Content.ContainsKey('header')" />
 
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">

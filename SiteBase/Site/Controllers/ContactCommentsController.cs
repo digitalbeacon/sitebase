@@ -99,7 +99,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		protected override EditModel ConstructModel(ContactCommentEntity entity)
 		{
 			var model = base.ConstructModel(entity);
-			model.CommentType = entity.CommentType.IfNotNull(x => x.Id.ToSafeString());
+			model.CommentType = entity.CommentType.IfNotNull(x => x.Id.ToStringSafe());
 			return model;
 		}
 

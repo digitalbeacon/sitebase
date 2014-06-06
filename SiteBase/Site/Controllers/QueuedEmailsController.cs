@@ -180,7 +180,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				{
 					model.TemplateId = ((long)entity.Template.Value).ToString();
 				}
-				model.MessageId = entity.MessageId.ToSafeString();
+				model.MessageId = entity.MessageId.ToStringSafe();
 			}
 			return model;
 		}
@@ -236,14 +236,14 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				Id = entity.Id,
 				TemplateId = entity.Template.HasValue? ((long)entity.Template.Value).ToString() : null,
-				MessageId = entity.MessageId.ToSafeString(),
+				MessageId = entity.MessageId.ToStringSafe(),
 				SendDate = entity.SendDate,
 				Subject = entity.Subject,
 				Body = entity.Body,
 				DateProcessed = entity.DateProcessed,
 				DateSent = entity.DateSent,
 				ErrorMessage = entity.ErrorMessage,
-				From = (entity.SenderEmail.HasText() ? entity.SenderEmail : new MailMessage().From.ToString()).ToSafeString().Replace("\"", String.Empty),
+				From = (entity.SenderEmail.HasText() ? entity.SenderEmail : new MailMessage().From.ToString()).ToStringSafe().Replace("\"", String.Empty),
 				To = ConstructRecipientString(entity.Recipients, false, false, false),
 				Cc = ConstructRecipientString(entity.Recipients, true, false, false),
 				Bcc = ConstructRecipientString(entity.Recipients, false, true, false),
@@ -318,7 +318,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				recipients = recipients.Where(x => !x.Cc && !x.Bcc);
 			}
-			return String.Join(", ", recipients.Select(x => nameOnly ? x.Email.Substring(0, x.Email.IndexOf('<')) : x.Email).ToArray()).ToSafeString().Replace("\"", String.Empty);
+			return String.Join(", ", recipients.Select(x => nameOnly ? x.Email.Substring(0, x.Email.IndexOf('<')) : x.Email).ToArray()).ToStringSafe().Replace("\"", String.Empty);
 		}
 
 		#endregion

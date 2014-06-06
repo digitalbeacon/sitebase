@@ -6,15 +6,14 @@
 // ---------------------------------------------------------------------- //
 
 using System;
-using jQueryLib;
 
 namespace DigitalBeacon.SiteBase.Mobile.Identity
 {
-	public class SignInController : BaseController
+	public class RegistrationController : BaseController
 	{
 		private IdentityService _identityService;
 
-		public SignInController(dynamic scope, IdentityService identityService)
+		public RegistrationController(dynamic scope, IdentityService identityService)
 		{
 			Scope = scope;
 			_identityService = identityService;
@@ -26,8 +25,8 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 		}
 
 		public override void submit()
-		{
-			_identityService.signIn(model,
+		{ 
+			_identityService.register(model,
 				(Action<dynamic>)(response => ControllerHelper.handleResponse(response, Scope)));
 		}
 	}

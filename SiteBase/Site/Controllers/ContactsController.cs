@@ -49,7 +49,8 @@ namespace DigitalBeacon.SiteBase.Controllers
 			Mapper.CreateMap<AddressEntity, ListItem>()
 				.ForMember(t => t.Id, o => o.Ignore())
 				.ForMember(t => t.MobilePhone, o => o.MapFrom(s => s.MobilePhoneText));
-			Mapper.CreateMap<ContactEntity, EditModel>();
+			Mapper.CreateMap<ContactEntity, EditModel>()
+				.ForMember(t => t.Photo, o => o.Ignore());
 			Mapper.CreateMap<AddressEntity, EditModel>()
 				.ForMember(t => t.Id, o => o.Ignore());
 			Mapper.CreateMap<EditModel, ContactEntity>()
@@ -71,7 +72,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			ActionResult retVal = null;
 			ContactService.DeleteContactPhoto(id);
-			if (IsJsonRequest)
+			if (RenderJson)
 			{
 				retVal = Json(new ApiResponse { Success = true, Message = GetLocalizedTextWithFormatting("Common.DeletePhoto.Confirmation").ToHtmlString() });
 			}
@@ -132,7 +133,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 				ContactService.SaveContact(contact);
 			}
-			if (IsJsonRequest)
+			if (RenderJson)
 			{
 				return Json(new ApiResponse { Success = true });
 			}

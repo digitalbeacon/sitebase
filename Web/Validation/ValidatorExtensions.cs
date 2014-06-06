@@ -37,7 +37,7 @@ namespace DigitalBeacon.Web.Validation
 		{
 			if (typeof(TProperty) == typeof(string))
 			{
-				return rule.Must(x => !x.ToSafeString().IsNullOrBlank());
+				return rule.Must(x => !x.ToStringSafe().IsNullOrBlank());
 			}
 			return rule.NotEmpty();
 		}

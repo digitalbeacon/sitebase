@@ -75,115 +75,140 @@ namespace DigitalBeacon.SiteBase
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+			const string renderTypeRegex = "^(|json|template|partial|partialwrapped)$";
+			const string notRenderTypeRegex = "^(?!(json|template|partial|partialwrapped)$).*$";
+
 			routes.MapRoute(
 				"DependencyUpdate",
 				"{parentController}/{parentId}/{controller}/{id}",
-				new { action = "Update" },
+				new { action = "update" },
 				new { parentId = @"\d+", id = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Put) }
 			);
 
 			routes.MapRoute(
 				"DependencyDelete",
 				"{parentController}/{parentId}/{controller}/{id}",
-				new { action = "Delete" },
+				new { action = "delete" },
 				new { parentId = @"\d+", id = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Delete) }
 			);
-/*
-			routes.MapRoute(
-				"DependencyCreate",
-				"{parentController}/{parentId}/{controller}",
-				new { action = "Create" },
-				new { parentId = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Post) }
-			);
-*/
+			/*
+						routes.MapRoute(
+							"DependencyCreate",
+							"{parentController}/{parentId}/{controller}",
+							new { action = "Create" },
+							new { parentId = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Post) }
+						);
+			*/
 			routes.MapRoute(
 				"DependencyEntityPaging",
 				"{parentController}/{parentId}/{controller}/{action}/page/{page}",
-				new { action = "Index" },
+				new { action = "index" },
 				new { parentId = @"\d+", page = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Get) }
 			);
 
 			routes.MapRoute(
 				"DependencyIdPaging",
 				"{parentController}/{parentId}/{controller}/{action}/{id}/page/{page}",
-				new { action = "Index" },
+				new { action = "index" },
 				new { parentId = @"\d+", page = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Get) }
 			);
 
 			routes.MapRoute(
 				"DependencyActionPaging",
 				"{parentController}/{parentId}/{controller}/{action}/page/{page}",
-				new { action = "Index" },
+				new { action = "index" },
 				new { parentId = @"\d+", page = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Get) }
 			);
 
 			routes.MapRoute(
 				"DependencyEntity",
 				"{parentController}/{parentId}/{controller}/{id}/{action}",
-				new { action = "Show" },
-				new { parentId = @"\d+", id = @"\d+" }
+				new { action = "show" },
+				new { parentId = @"\d+", id = @"\d+", action = notRenderTypeRegex }
 			);
 
 			routes.MapRoute(
 				"Dependency",
 				"{parentController}/{parentId}/{controller}/{action}",
 				new { },
-				new { parentId = @"\d+" }
+				new { parentId = @"\d+", action = notRenderTypeRegex }
 			);
 
 			routes.MapRoute(
 				"Update",
-				"{controller}/{id}",
-				new { action = "Update" },
-				new { id = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Put) }
+				"{controller}/{id}/{renderType}",
+				new { action = "update", renderType = UrlParameter.Optional },
+				new { id = @"\d+", renderType = renderTypeRegex, httpVerb = new HttpVerbConstraint(HttpVerbs.Put) }
 			);
 
 			routes.MapRoute(
 				"Delete",
-				"{controller}/{id}",
-				new { action = "Delete" },
-				new { id = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Delete) }
+				"{controller}/{id}/{renderType}",
+				new { action = "delete", renderType = UrlParameter.Optional },
+				new { id = @"\d+", renderType = renderTypeRegex, httpVerb = new HttpVerbConstraint(HttpVerbs.Delete) }
 			);
 
 			routes.MapRoute(
 				"Create",
-				"{controller}",
-				new { action = "Create" },
-				new { httpVerb = new HttpVerbConstraint(HttpVerbs.Post) }
+				"{controller}/{renderType}",
+				new { action = "create", renderType = UrlParameter.Optional },
+				new { renderType = renderTypeRegex, httpVerb = new HttpVerbConstraint(HttpVerbs.Post) }
 			);
 
 			routes.MapRoute(
 				"EntityPaging",
 				"{controller}/{id}/{action}/page/{page}",
-				new { action = "Show" },
+				new { action = "show" },
 				new { id = @"\d+", page = @"\d+" }
 			);
 
 			routes.MapRoute(
 				"IdPaging",
 				"{controller}/{action}/{id}/page/{page}",
-				new { action = "Index" },
+				new { action = "index" },
 				new { page = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Get) }
 			);
 
 			routes.MapRoute(
 				"ActionPaging",
 				"{controller}/{action}/page/{page}",
-				new { action = "Index" },
+				new { action = "index" },
 				new { page = @"\d+", httpVerb = new HttpVerbConstraint(HttpVerbs.Get) }
 			);
 
 			routes.MapRoute(
-				"Entity",
-				"{controller}/{id}/{action}",
-				new { action = "Show" },
-				new { id = @"\d+" }
+				"EntityAction",
+				"{controller}/{id}/{action}/{renderType}",
+				new { action = "show", renderType = UrlParameter.Optional },
+				new { id = @"\d+", action = notRenderTypeRegex, renderType = renderTypeRegex }
 			);
 
 			routes.MapRoute(
-				"Default", // Route name
-				"{controller}/{action}/{id}", // URL with parameters
-				new { controller = "home", action = "index", id = UrlParameter.Optional } // Parameter defaults
+				"Entity",
+				"{controller}/{id}/{renderType}",
+				new { action = "show" },
+				new { id = @"\d+", renderType = renderTypeRegex }
+			);
+
+			routes.MapRoute(
+				"Detail",
+				"{controller}/{action}/{id}/{renderType}",
+				new { renderType = UrlParameter.Optional },
+				new { id = notRenderTypeRegex, renderType = renderTypeRegex }
+			);
+
+			routes.MapRoute(
+				"Action",
+				"{controller}/{action}/{renderType}",
+				new { renderType = UrlParameter.Optional },
+				new { action = notRenderTypeRegex, renderType = renderTypeRegex }
+			);
+
+			routes.MapRoute(
+				"Default",
+				"{controller}/{renderType}",
+				new { controller = "home", action = "index", renderType = UrlParameter.Optional },
+				new { renderType = renderTypeRegex }
 			);
 
 			//RouteDebug.RouteDebugger.RewriteRoutesForTesting(routes);

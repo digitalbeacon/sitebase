@@ -16,7 +16,7 @@
 		<var propMetadata="ModelMetadata.FromStringExpression(propName, options.ViewData)" />
 		<var propRequired="options.Required.HasValue ? options.Required.Value : propMetadata.IsRequired" />
 		<var propReadOnly="options.InputReadOnly.HasValue ? options.InputReadOnly.Value : propMetadata.IsReadOnly" />
-		<set initClientModel="false" if="initClientModel && propMetadata.Model.ToSafeString().IsNullOrBlank()" />
+		<set initClientModel="false" if="initClientModel && propMetadata.Model.ToStringSafe().IsNullOrBlank()" />
 		<default ngInitValue="string.Empty" />
 		<set ngInitValue="'{0}=\'{1:M/d/yyyy}\''.FormatWith(clientPropName, propMetadata.Model)" if="initClientModel && (propMetadata.ModelType == typeof(DateTime) || propMetadata.ModelType == typeof(DateTime?))" />
 		<set ngInitValue="'{0}={2}{1}{2}'.FormatWith(clientPropName, propMetadata.Model, propMetadata.ModelType.IsPrimitive ? '\'' : String.Empty)" if="initClientModel && ngInitValue.IsNullOrBlank()" />
@@ -54,11 +54,14 @@
 		<sbSet dictionary="attr" key="'readonly'" value="string.Empty" if="propReadOnly" />
 		<sbSet dictionary="attr" key="'maxlength'" value="options.MaxLength.ToString()" if="options.MaxLength.HasValue" />
 		<sbSet dictionary="attr" key="'ui-mask'" value="options.Mask" if="options.Mask.HasText()" />
+		<sbSet dictionary="attr" key="'popover'" value="Text(options.HelpText)" if="options.HelpText.HasText()" />
+		<sbSet dictionary="attr" key="'popover-trigger'" value="'focus'" if="options.HelpText.HasText()" />
 		
 		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group has-feedback${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}"
 			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || ${clientModel}.submitted) }">
 			${Html.Label(propName, new { class = "control-label" })}
 			<span class="glyphicon glyphicon-asterisk" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
+			#//<span class="glyphicon glyphicon-info-sign" if="options.HelpText.HasText()"></span>
 			<span class="form-row-content">
 				<if condition="options.InputType == null && propReadOnly">
 					${Html.Editor(propName, "ReadOnlyField")}

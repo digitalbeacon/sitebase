@@ -83,7 +83,7 @@ namespace DigitalBeacon.SiteBase.Web
 		protected string GetParamAsString(string key)
 		{
 			var val = GetParam<object>(key);
-			return val != null ? val.ToSafeString() : null;
+			return val != null ? val.ToStringSafe() : null;
 		}
 
 		/// <summary>
@@ -130,7 +130,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value><c>true</c> if request is for partial display; otherwise, <c>false</c>.</value>
 		public bool RenderPartial
 		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()); }
+			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()); }
 		}
 
 		/// <summary>

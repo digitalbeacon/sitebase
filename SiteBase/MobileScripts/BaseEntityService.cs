@@ -49,7 +49,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			http(new
 			{
 				method = id ? "PUT" : "POST",
-				url = ControllerHelper.getJsonUrl("~/" + entityTarget + (id ? ("/" + id) : "")),
+				url = digitalbeacon.resolveUrl("~/" + entityTarget + (id ? ("/" + id) : "") + "/json"),
 				headers = headers,
 				data = constructFormData(model, files),
 				transformRequest = new Func<object, object>(x => x)

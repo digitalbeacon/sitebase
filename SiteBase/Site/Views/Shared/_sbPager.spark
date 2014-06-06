@@ -6,7 +6,7 @@
 <default currentPage="Model.Page" />
 <default pages="Model.Pages" />
 <default action="ViewContext.RouteData.Values['action'].ToString()" />
-<default id="ViewContext.RouteData.Values['id'].ToSafeString()" />
+<default id="ViewContext.RouteData.Values['id'].ToStringSafe()" />
 
 <div id="pager" if="pages > 1">
 	<if condition="currentPage > 1">

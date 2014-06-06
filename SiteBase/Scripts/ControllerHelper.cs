@@ -14,15 +14,15 @@ namespace DigitalBeacon.SiteBase
 {
 	public static class ControllerHelper
 	{
-		public static string getTemplateUrl(string targetUrl)
-		{
-			return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Template" });
-		}
+		//public static string getTemplateUrl(string targetUrl)
+		//{
+		//	return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Template" });
+		//}
 
-		public static string getJsonUrl(string targetUrl, object parameters = null)
-		{
-			return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Json" });
-		}
+		//public static string getJsonUrl(string targetUrl, object parameters = null)
+		//{
+		//	return Utils.mergeParams(digitalbeacon.resolveUrl(targetUrl), new { renderType = "Json" });
+		//}
 
 		public static Alert[] getAlerts(ApiResponse response)
 		{

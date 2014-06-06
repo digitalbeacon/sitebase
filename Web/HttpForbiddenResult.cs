@@ -18,7 +18,7 @@ namespace DigitalBeacon.Web
 			{
 				throw new ArgumentNullException("context");
 			}
-			context.HttpContext.Response.StatusCode = 0x193; // 403
+			context.HttpContext.Response.StatusCode = 403;
 		}
 	}
 }

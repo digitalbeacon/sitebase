@@ -1,0 +1,32 @@
+﻿<viewdata model="RegisterModel" />
+
+<content name="header">${Text("Identity.Register.Heading")}</content>
+
+<var countryVisible="Model.ListItems.ContainsKey(AddressEntity.CountryProperty)" />
+
+<div ng-controller="registrationController">
+	<sbClientFormPanel panelId="'registrationPanel'">
+		<sbClientFormRow property="'FirstName'" focus="true" />
+		<sbClientFormRow property="'MiddleName'" if="Model.ShowMiddleName" />
+		<sbClientFormRow property="'LastName'" />
+		<sbClientFormRow property="'Email'" />
+		<sbClientFormRow property="'Username'" required="true" helpText="'Identity.Error.Username.Invalid'" if="!WebConstants.UseEmailForUsername" />
+		<sbClientFormRow property="'Password'" inputType="password" helpText="'Identity.Error.Password.Invalid'" />
+		<sbClientFormRow property="'PasswordConfirm'" inputType="password" />
+		<sbClientFormRow property="'SecurityQuestion'" />
+		<sbClientFormRow property="'SecurityAnswer'" inputType="password" />
+		<if condition="countryVisible">
+			<sbClientFormRow property="'Country'" required="Model.RequireAddress" />
+		</if>
+		<else>
+			${Html.HiddenFor(m => m.Country)}
+		</else>
+		<sbClientFormRow property="'Line1'" required="Model.RequireAddress" />
+		<sbClientFormRow property="'Line2'" />
+		<sbClientFormRow property="'City'" required="Model.RequireAddress" />
+		<sbClientFormRow property="'State'" required="Model.RequireState && !countryVisible" />
+		<sbClientFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
+		<sbClientFormRow inputType="submit" />
+	</sbClientFormPanel>
+</div>
+

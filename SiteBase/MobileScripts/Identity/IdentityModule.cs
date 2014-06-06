@@ -19,7 +19,12 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 					new object[] { "$scope", "identityService", 
 						(Action<dynamic, IdentityService>)
 						((scope, identityService) => 
-							BaseController.extend(scope, new SignInController(scope, identityService))) });
+							BaseController.extend(scope, new SignInController(scope, identityService))) })
+				.controller("registrationController",
+					new object[] { "$scope", "identityService", 
+						(Action<dynamic, IdentityService>)
+						((scope, identityService) => 
+							BaseController.extend(scope, new RegistrationController(scope, identityService))) });
 		}
 	}
 }

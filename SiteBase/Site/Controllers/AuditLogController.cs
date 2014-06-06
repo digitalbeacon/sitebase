@@ -77,7 +77,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				Action = entity.Action.Name,
 				Username = entity.User != null ? entity.User.Username : String.Empty,
 				EntityType = entity.EntityType,
-				RefId = entity.RefId.ToSafeString(),
+				RefId = entity.RefId.ToStringSafe(),
 				Details = entity.Details
 			};
 		}
@@ -96,7 +96,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				Action = entity.Action.Name,
 				Username = entity.User != null ? entity.User.Username : String.Empty,
 				EntityType = entity.EntityType,
-				RefId = entity.RefId.ToSafeString()
+				RefId = entity.RefId.ToStringSafe()
 			});
 		}
 

@@ -21,7 +21,7 @@ namespace DigitalBeacon.SiteBase.Models.Identity
 		public string Username { get; set; }
 
 		[Required]
-		//[StringLength(100)]
+		[StringLength(100)]
 		[LocalizedDisplayName("Common.Password.Label")]
 		public string Password { get; set; }
 	}

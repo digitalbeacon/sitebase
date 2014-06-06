@@ -20,17 +20,6 @@ DigitalBeacon.SiteBase.ControllerHelper = (function() {
     }
     return ControllerHelper;
 })();
-DigitalBeacon.SiteBase.ControllerHelper.getTemplateUrl = function (targetUrl) {
-    return DigitalBeacon.Utils.mergeParams($.digitalbeacon.resolveUrl(targetUrl), {
-        renderType: 'Template'
-    });
-};
-DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl = function (targetUrl, parameters) {
-    parameters = (parameters !== undefined) ? parameters : null;
-    return DigitalBeacon.Utils.mergeParams($.digitalbeacon.resolveUrl(targetUrl), {
-        renderType: 'Json'
-    });
-};
 DigitalBeacon.SiteBase.ControllerHelper.getAlerts = function (response) {
     var alerts = new Array(0);
     if (response.Message) {

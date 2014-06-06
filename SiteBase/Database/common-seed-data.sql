@@ -8,7 +8,7 @@ declare @MobileAppName varchar(100) = ''
 
 -- sql update
 
-INSERT INTO [SqlUpdate]([Version],[PatchNumber],[Module]) VALUES('3.1.0', 999, 'SiteBase')
+INSERT INTO [SqlUpdate]([Version],[PatchNumber],[Module]) VALUES('3.1.1', 999, 'SiteBase')
 
 -- lookup data
 

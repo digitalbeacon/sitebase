@@ -75,14 +75,8 @@ namespace DigitalBeacon.SiteBase.Mobile
 			hide();
 		}
 
-		public virtual void submit(bool isValid)
+		public override void submit()
 		{
-			model.submitted = true;
-			if (!isValid)
-			{
-				window.scrollTo(0, 0);
-				return;
-			}
 			save();
 		}
 

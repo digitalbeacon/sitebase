@@ -39,7 +39,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		{
 			_http = http;
 			Resource = resource(
-				ControllerHelper.getJsonUrl("~/contacts/:id/:action"),
+				digitalbeacon.resolveUrl("~/contacts/:id/:action/json"),
 				new { id = "@id" },
 				new
 				{

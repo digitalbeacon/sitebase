@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------- //
 
 using System.ComponentModel;
+using System.Web.Script.Serialization;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Web;
@@ -66,6 +67,7 @@ namespace DigitalBeacon.SiteBase.Models
 		public virtual string Fax { get; set; }
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual Country? Country
 		{
 			get { return CountryId.HasValue? (Country)CountryId.Value : (Country?)null; }
@@ -73,6 +75,7 @@ namespace DigitalBeacon.SiteBase.Models
 		}
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual State? State
 		{
 			get { return StateId.HasValue ? (State)StateId.Value : (State?)null; }

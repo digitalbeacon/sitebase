@@ -2,7 +2,7 @@
 
 <default panelId="ViewContext.RouteData.Values['controller'].ToString() + 'EditPanel'" />
 <default panelClass="null" type="string" />
-<default modelId="ViewContext.RouteData.Values['id'].ToSafeString().HasText() ? ViewContext.RouteData.Values['id'].ToString().ToInt64() ?? 0 : 0" type="long" />
+<default modelId="ViewContext.RouteData.Values['id'].ToStringSafe().HasText() ? ViewContext.RouteData.Values['id'].ToString().ToInt64() ?? 0 : 0" type="long" />
 <default form="null" type="IDisposable" />
 <default formAction="null" type="string" />
 <default formRouteValues="null" type="object" />

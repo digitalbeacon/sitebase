@@ -37,12 +37,12 @@ namespace DigitalBeacon.SiteBase.Web
 		public const string MessageModelKey = "SiteBase.MessageModel";
 		public const string TransientMessagesKey = "SiteBase.TransientMessagesKey";
 		public const string RenderTypeKey = "RenderType";
-		public const string RenderTypeDefault = "Default";
-		public const string RenderTypeMobile = "Mobile";
-		public const string RenderTypePartial = "Partial";
-		public const string RenderTypePartialWrapped = "PartialWrapped";
-		public const string RenderTypeJson = "Json";
-		public const string RenderTypeTemplate = "Template";
+		public const string RenderTypeDefault = "default";
+		public const string RenderTypeMobile = "mobile";
+		public const string RenderTypePartial = "partial";
+		public const string RenderTypePartialWrapped = "partialWrapped";
+		public const string RenderTypeJson = "json";
+		public const string RenderTypeTemplate = "template";
 
 		public const string ContentTypeJson = "application/json";
 

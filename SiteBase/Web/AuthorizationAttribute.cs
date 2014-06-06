@@ -253,7 +253,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value><c>true</c> if request is for partial display; otherwise, <c>false</c>.</value>
 		public bool RenderPartial
 		{
-			get { return RenderType.ToSafeString().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()) ; }
+			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()) ; }
 		}
 
 		/// <summary>

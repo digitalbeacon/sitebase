@@ -6,7 +6,7 @@
 	${Html.HiddenFor(m => m.Language)}
 	${Html.HiddenFor(m => m.Type)}
 	<sbFormRow property="'Language'" inputType="renderContent">
-		<span class="read-only-field">${Model.ListItems[ResourceEntity.LanguageProperty].Where(x => x.Value == Model.Language.ToSafeString()).Select(x => x.Text).SingleOrDefault()}</span>
+		<span class="read-only-field">${Model.ListItems[ResourceEntity.LanguageProperty].Where(x => x.Value == Model.Language.ToStringSafe()).Select(x => x.Text).SingleOrDefault()}</span>
 	</sbFormRow>
 	<sbFormRow property="'Type'" inputType="renderContent">
 		<span class="read-only-field">${Model.ListItems[ResourceEntity.TypeProperty].Where(x => x.Value == Model.Type).Select(x => x.Text).SingleOrDefault()}&nbsp;</span>

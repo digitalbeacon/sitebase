@@ -7,6 +7,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Web.Script.Serialization;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Model.Contacts;
 using DigitalBeacon.Web;
@@ -42,6 +43,7 @@ namespace DigitalBeacon.SiteBase.Models.Contacts
 		public long PhotoId { get; set; }
 
 		[LocalizedDisplayName("Common.Photo.Label")]
+		[ScriptIgnore]
 		public string Photo { get; set; }
 
 		[LocalizedDisplayName("Common.Inactive.Label")]
@@ -75,6 +77,7 @@ namespace DigitalBeacon.SiteBase.Models.Contacts
 		public virtual int? Age { get; set; }
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual Gender? Gender
 		{
 			get { return GenderId.HasValue ? (Gender)GenderId.Value : (Gender?)null; }

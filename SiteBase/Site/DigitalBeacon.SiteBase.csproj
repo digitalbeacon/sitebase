@@ -774,6 +774,9 @@
       <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="Views\Shared\EditorTemplates\String.spark" />
+    <EmbeddedResource Include="Views\Identity\Mobile\Register.spark">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -797,7 +800,6 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="Config\" />
-    <Folder Include="Controllers\Mobile\" />
     <Folder Include="Resources\Base\telerik\" />
     <Folder Include="Resources\Css\" />
     <Folder Include="Resources\Scripts\" />

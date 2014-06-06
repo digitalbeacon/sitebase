@@ -22,11 +22,12 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 					(resource =>
 					{
 						return resource(
-							ControllerHelper.getJsonUrl("~/identity/:operation"),
+							digitalbeacon.resolveUrl("~/identity/:operation/json"),
 							new { },
 							new
 							{
-								signIn = new { method = "POST", @params = new { operation = "signIn" } }
+								signIn = new { method = "POST", @params = new { operation = "signIn" } },
+								register = new { method = "POST", @params = new { operation = "register" } }
 							});
 					})
 				});
@@ -34,5 +35,8 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 
 		[ScriptExternal]
 		public extern void signIn(dynamic parameters, Action<ApiResponse> responseHandler);
+
+		[ScriptExternal]
+		public extern void register(dynamic parameters, Action<ApiResponse> responseHandler);
 	}
 }

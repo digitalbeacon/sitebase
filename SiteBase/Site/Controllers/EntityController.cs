@@ -317,7 +317,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				throw new NotImplementedException("List action is not implemented.");
 			}
-			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
+			if (IsMobile && !RenderTemplate && !RenderJson && MobileModuleName.HasText())
 			{
 				return View("Index");
 			}
@@ -344,7 +344,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				model.PluralLabel = PluralLabel;
 			}
 
-			if (IsTemplateRequest)
+			if (RenderTemplate)
 			{
 				return View(ListView, AddTransientMessages(model));
 			}
@@ -472,14 +472,14 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				throw new NotImplementedException("Show action is not implemented.");
 			}
-			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
+			if (IsMobile && !RenderTemplate && !RenderJson && MobileModuleName.HasText())
 			{
 				return View("Index");
 			}
-			var model = IsTemplateRequest ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
+			var model = RenderTemplate ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
 			model.Heading = GetEditHeading(model);
 			model.Sequencer = GetParamAsString(EntityModel.SequencerProperty);
-			if (IsJsonRequest)
+			if (RenderJson)
 			{
 				return Json(model, JsonRequestBehavior.AllowGet);
 			}
@@ -501,14 +501,14 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				throw new NotImplementedException("Edit action is not implemented.");
 			}
-			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
+			if (IsMobile && !RenderTemplate && !RenderJson && MobileModuleName.HasText())
 			{
 				return View("Index");
 			}
-			var model = IsTemplateRequest ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
+			var model = RenderTemplate ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
 			model.Heading = GetEditHeading(model);
 			model.Sequencer = GetParamAsString(EntityModel.SequencerProperty);
-			if (IsJsonRequest)
+			if (RenderJson)
 			{
 				return Json(model, JsonRequestBehavior.AllowGet);
 			}
@@ -553,7 +553,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						Model = model;
 						Entity = entity;
 						var confirmationText = GetResource("{0}.Update.Confirmation", "Common.Update.Confirmation", GetDescription(model), SingularLabel);
-						if (IsJsonRequest)
+						if (RenderJson)
 						{
 							retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString() });
 						}
@@ -582,7 +582,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (retVal == null)
 			{
-				if (IsJsonRequest)
+				if (RenderJson)
 				{
 					var response = new ApiResponse();
 					foreach (var key in ModelState.Keys)
@@ -632,7 +632,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				parentId.Guard("parentId");
 			}
-			if (IsMobile && !IsTemplateRequest && !IsJsonRequest && MobileModuleName.HasText())
+			if (IsMobile && !RenderTemplate && !RenderJson && MobileModuleName.HasText())
 			{
 				return View("Index");
 			}
@@ -687,7 +687,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						}
 						else
 						{
-							if (IsJsonRequest)
+							if (RenderJson)
 							{
 								retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString(), Id = Entity.Id });
 							}
@@ -711,7 +711,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (retVal == null)
 			{
-				if (IsJsonRequest)
+				if (RenderJson)
 				{
 					var response = new ApiResponse();
 					foreach (var key in ModelState.Keys)
@@ -792,7 +792,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				{
 					DeleteEntity(entity, model);
 					var confirmationText = GetResource("{0}.Delete.Confirmation", "Common.Delete.Confirmation", GetDescription(model), SingularLabel);
-					if (IsJsonRequest)
+					if (RenderJson)
 					{
 						retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString() });
 					}
@@ -809,7 +809,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				catch (EntityDependencyException)
 				{
 					var errorMessage = GetResource("{0}.Error.DeleteEntity.Dependency", "Error.DeleteEntity.Dependency");
-					if (IsJsonRequest)
+					if (RenderJson)
 					{
 						retVal = Json(new ApiResponse { Success = false, ErrorMessage = GetSafeFormattedText(errorMessage).ToHtmlString() });
 					}
@@ -823,7 +823,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			if (retVal == null)
 			{
-				if (IsJsonRequest)
+				if (RenderJson)
 				{
 					var response = new ApiResponse();
 					foreach (var key in ModelState.Keys)

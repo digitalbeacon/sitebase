@@ -60,6 +60,21 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 		}
 
+		public virtual void submitForm(bool isValid)
+		{
+			model.submitted = true;
+			if (!isValid)
+			{
+				window.scrollTo(0, 0);
+				return;
+			}
+			submit();
+		}
+
+		public virtual void submit()
+		{
+		}
+
 		public bool hasAlert(string key)
 		{
 			if (!alerts || alerts.length == 0)

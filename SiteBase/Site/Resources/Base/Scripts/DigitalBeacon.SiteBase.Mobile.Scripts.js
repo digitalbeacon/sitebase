@@ -50,6 +50,16 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     p.init = function () {
     };
+    p.submitForm = function (isValid) {
+        this.model.submitted = true;
+        if (!isValid) {
+            scrollTo(0, 0);
+            return;
+        }
+        this.submit();
+    };
+    p.submit = function () {
+    };
     p.hasAlert = function (key) {
         if (!this.alerts || this.alerts.length === 0) {
             return false;
@@ -140,7 +150,7 @@ DigitalBeacon.SiteBase.Mobile.BaseEntityService = (function() {
         headers['Content-Type'] = undefined;
         http({
             method: id ? 'PUT' : 'POST',
-            url: DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl('~/' + entityTarget + (id ? ('/' + id) : '')),
+            url: $.digitalbeacon.resolveUrl('~/' + entityTarget + (id ? ('/' + id) : '') + '/json'),
             headers: headers,
             data: DigitalBeacon.SiteBase.Mobile.BaseEntityService.constructFormData(model, files),
             transformRequest: Blade.del(this, function(x) {
@@ -306,12 +316,7 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     p.cancel = function () {
         this.hide();
     };
-    p.submit = function (isValid) {
-        this.model.submitted = true;
-        if (!isValid) {
-            scrollTo(0, 0);
-            return;
-        }
+    p.submit = function () {
         this.save();
     };
     p.handleResponse = function (response) {
@@ -545,7 +550,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
     function ContactService(http, resource) {
         $base.constructor.call(this);
         this._http = http;
-        this.set_Resource(resource(DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl('~/contacts/:id/:action'), {
+        this.set_Resource(resource($.digitalbeacon.resolveUrl('~/contacts/:id/:action/json'), {
             id: '@id'
         }, {
             update: {
@@ -605,6 +610,26 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
     return ContactService;
 })();
 
+DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController = (function() {
+    Blade.derive(RegistrationController, DigitalBeacon.SiteBase.Mobile.BaseController);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
+    function RegistrationController(scope, identityService) {
+        $base.constructor.call(this);
+        this.set_Scope(scope);
+        this._identityService = identityService;
+    }
+    var p = RegistrationController.prototype;
+    p._identityService = null;
+    p.init = function () {
+        $base.init.call(this);
+    };
+    p.submit = function () {
+        this._identityService.register(this.model, (Blade.del(this, function(response) {
+            DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope())})));
+    };
+    return RegistrationController;
+})();
+
 DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
     Blade.derive(SignInController, DigitalBeacon.SiteBase.Mobile.BaseController);
     var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
@@ -618,11 +643,7 @@ DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
     p.init = function () {
         $base.init.call(this);
     };
-    p.submit = function (isValid) {
-        this.model.submitted = true;
-        if (!isValid) {
-            return;
-        }
+    p.submit = function () {
         this._identityService.signIn(this.model, (Blade.del(this, function(response) {
             DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope())})));
     };
@@ -632,15 +653,15 @@ DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
 angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config(['$stateProvider', (function(stateProvider) {
     stateProvider.state('list', {
         url: $.digitalbeacon.resolveUrl('~/contacts'),
-        templateUrl: DigitalBeacon.SiteBase.ControllerHelper.getTemplateUrl('~/contacts'),
+        templateUrl: $.digitalbeacon.resolveUrl('~/contacts/template'),
         controller: 'contactListController'
     }).state('list.new', {
         url: '/new',
-        templateUrl: DigitalBeacon.SiteBase.ControllerHelper.getTemplateUrl('~/contacts/new'),
+        templateUrl: $.digitalbeacon.resolveUrl('~/contacts/new/template'),
         controller: 'contactDetailsController'
     }).state('list.edit', {
         url: '/{id:[0-9]{1,4}}',
-        templateUrl: DigitalBeacon.SiteBase.ControllerHelper.getTemplateUrl('~/contacts/0/edit'),
+        templateUrl: $.digitalbeacon.resolveUrl('~/contacts/0/edit/template'),
         controller: 'contactDetailsController'
     });
 })]).controller('contactListController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
@@ -650,14 +671,21 @@ angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config([
     state.transitionTo('list');
 }]);
 angular.module('identity', ['sitebase', 'identityService']).controller('signInController', ['$scope', 'identityService', (function(scope, identityService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Identity.SignInController(scope, identityService))})]);
+    DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Identity.SignInController(scope, identityService))})]).controller('registrationController', ['$scope', 'identityService', (function(scope, identityService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController(scope, identityService))})]);
 angular.module('identityService', ['ngResource']).factory('identityService', ['$resource', (function(resource) {
-    return resource(DigitalBeacon.SiteBase.ControllerHelper.getJsonUrl('~/identity/:operation'), {
+    return resource($.digitalbeacon.resolveUrl('~/identity/:operation/json'), {
     }, {
         signIn: {
             method: 'POST',
             params: {
                 operation: 'signIn'
+            }
+        },
+        register: {
+            method: 'POST',
+            params: {
+                operation: 'register'
             }
         }
     });
