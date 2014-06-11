@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Html;
+using ng;
 
 namespace DigitalBeacon.SiteBase.Mobile
 {
@@ -68,7 +69,14 @@ namespace DigitalBeacon.SiteBase.Mobile
 				}
 				if (model[k] || digitalbeacon.isOfType(model[k], "boolean"))
 				{
-					data.append(k, model[k]);
+					if (Angular.isDate(model[k]))
+					{
+						data.append(k, window.JSON.stringify(model[k]).replace("\"", "").replace("\"", ""));
+					}
+					else
+					{
+						data.append(k, model[k]);
+					}
 				}
 			}
 			if (files)

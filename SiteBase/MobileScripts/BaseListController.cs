@@ -26,6 +26,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			list.visible = isListState();
 			Scope.on("hideDetails", new Action<object, ApiResponse>((evt, args) => { showList(args); }));
 			Scope.on("showDetails", new Action(() => { hideList(); }));
+			Scope.on("detailsChanged", new Action(() => { getStateData("list").refresh = true; }));
 			Scope.on("alerts", new Action<object, Alert[]>((evt, args) => { alerts = args; }));
 			Scope.watch(new Func<string>(() => Location.url()), new Action<string>(url =>
 			{
@@ -70,13 +71,14 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 			list.visible = true;
 			RouterState.go("list");
+			if (list.pageCount < 0 || getStateData("list").refresh)
+			{
+				getStateData("list").refresh = false;
+				search();
+			}
 			enableLoadMoreOnScroll();
 			if (response)
 			{
-				if (response.Success)
-				{
-					search();
-				}
 				ControllerHelper.handleResponse(response, Scope);
 			}
 		}

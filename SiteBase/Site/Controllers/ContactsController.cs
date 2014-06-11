@@ -9,6 +9,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -37,6 +39,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		private const int DefaultImageMaxWidth = 400;
 		private const int DefaultImageMaxHeight = 300;
 
+		private static readonly IFileService FileService = ServiceFactory.Instance.GetService<IFileService>();
 		private static readonly IContactService ContactService = ServiceFactory.Instance.GetService<IContactService>();
 
 		private byte[] _photoData;
@@ -96,6 +99,23 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				return FilesController.GetFileResult(contact.Photo.Id);
 				//return new TransferResult(Url.Action("show", "files", new { id = contact.Photo.Id }));
+			}
+			return new FilePathResult("~/resources/base/images/transparent.gif", "image/gif");
+		}
+
+		public ActionResult Thumbnail(long id, int size = 90)
+		{
+			var contact = ContactService.GetContact(id);
+			if (contact != null && contact.Photo != null)
+			{
+				if (size <= 0)
+				{
+					size = 90;
+				}
+				var file = FileService.GetFile(contact.Photo.Id);
+				var image = Image.FromStream(new MemoryStream(file.FileData.Data));
+				image = ImageUtil.CreateThumbnail(image, size);
+				return new FileStreamResult(new MemoryStream(ImageUtil.GetBytes(image)), file.ContentType);
 			}
 			return new FilePathResult("~/resources/base/images/transparent.gif", "image/gif");
 		}

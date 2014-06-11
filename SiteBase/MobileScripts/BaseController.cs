@@ -117,7 +117,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			alerts.splice(index, 1);
 		}
 
-		public void openCalendar(dynamic evt, string dataKey)
+		public void toggle(dynamic evt, string dataKey)
 		{
 			evt.preventDefault();
 			evt.stopPropagation();
@@ -158,6 +158,20 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected virtual void handleResponse(ApiResponse response)
 		{
+		}
+
+		protected dynamic getStateData(string stateName)
+		{
+			var state = RouterState.get(stateName);
+			if (state)
+			{
+				if (!Utils.isDefined(state.data))
+				{
+					state.data = new { };
+				}
+				return state.data;
+			}
+			return null;
 		}
 	}
 }

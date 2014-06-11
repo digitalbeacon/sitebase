@@ -44,15 +44,6 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			}
 		}
 
-		public override void showList(ApiResponse response = null)
-		{
-			base.showList(response);
-			if (list.pageCount < 0)
-			{
-				search();
-			}
-		}
-
 		public override void search(bool requestMore = false)
 		{
 			if (!requestMore)
@@ -65,7 +56,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				{
 					PageSize = list.pageSize,
 					Page = list.page,
-					SearchText = list.searchText, 
+					SearchText = list.searchText,
 					SortValue = getSortValue(),
 					CommentTypeId = CommentTypeId,
 					BirthMonth = BirthMonth,
@@ -76,11 +67,22 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 
 		private void handleResponse(dynamic response, bool isRequestForMore)
 		{
+			foreach (dynamic c in response.Data)
+			{
+				if (c.PhotoId)
+				{
+					c.photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/thumbnail?x={1}".formatWith((int)c.Id, (int)c.PhotoId));
+				}
+				//else
+				//{
+				//	c.photoUrl = digitalbeacon.resolveUrl("~/resources/images/stock.gif");
+				//}
+			}
 			if (isRequestForMore)
 			{
-				foreach (object c in response.Data)
+				foreach (dynamic c in response.Data)
 				{
-					contacts.push(c);
+					contacts.push((object)c);
 				}
 			}
 			else

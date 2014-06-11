@@ -3,49 +3,46 @@
 <default hideSearchPanelWhenEmpty="true" />
 <default heading="''" />
 
-#/*
-<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#/">${heading.DefaultTo(Text("Site.Title"))}</a>
-		</div>
+<div class="search-panel">
+	<button class="btn pull-left new" type="button" ng-click="addNew()"><span class="glyphicon glyphicon-plus"></span></button>
+	<form role="search">
+		<span class="input-group">
+			<input type="text" class="form-control" placeholder="Search" ng-model="list.searchText" />
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button" ng-click="clearSearchText()" ng-show="list.searchText || list.isFiltered"><span class="glyphicon glyphicon-ban-circle"></span></button>
+				<button class="btn btn-default" type="submit" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+			</span>
+		</span>
+	</form>
+</div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
-			<div class="row">
-				<div class="col-sm-3 no-padding-x">
-					<form class="navbar-form navbar-left" role="search">
-						<span class="input-group">
-							#//<span class="input-group-btn">
-							#//	<button class="btn btn-default" type="submit" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
-							#//</span>
-							<input type="text" class="form-control" placeholder="Search" ng-model="SearchText" />
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" ng-show="SearchText || IsFiltered" ng-click="clearSearchText()"><span class="glyphicon glyphicon-ban-circle"></span></button>
-							</span>
-						</span>
-					</form>
-				</div>
-				<div class="col-sm-6 no-padding-x">
-					<form class="navbar-form navbar-left no-padding-x">
-						<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
-						<span ng-show="SortTextOptions && SortTextOptions.length">
-							<select class="form-control" ng-model="SortText" ng-options="o.value as o.text for o in SortTextOptions" />
-							<select class="form-control" ng-model="SortDirection" ng-options="o.value as o.text for o in SortDirectionOptions" />
-						</span>
-					</form>
-				</div>
-			</div>
-		</div>
+#/*
+
+<div class="row">
+	<div class="col-xs-1">
 	</div>
-</nav>
+	<div class="col-xs-11">
+	</div>
+</div>
+
+<form class="navbar-form navbar-left" role="search">
+	<span class="input-group">
+		#//<span class="input-group-btn">
+		#//	<button class="btn btn-default" type="submit" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+		#//</span>
+		<input type="text" class="form-control" placeholder="Search" ng-model="SearchText" />
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="button" ng-show="SearchText || IsFiltered" ng-click="clearSearchText()"><span class="glyphicon glyphicon-ban-circle"></span></button>
+		</span>
+	</span>
+</form>
+<form class="navbar-form navbar-left no-padding-x">
+	<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
+	<span ng-show="SortTextOptions && SortTextOptions.length">
+		<select class="form-control" ng-model="SortText" ng-options="o.value as o.text for o in SortTextOptions" />
+		<select class="form-control" ng-model="SortDirection" ng-options="o.value as o.text for o in SortDirectionOptions" />
+	</span>
+</form>
 #*/
 
 #/*

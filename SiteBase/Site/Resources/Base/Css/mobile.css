@@ -101,6 +101,11 @@ img
 	margin: 10px 0;
 }
 
+.button-panel button
+{
+	margin-bottom: 5px;
+}
+
 #languageSelector, 
 #siteTypeSelector,
 #footerLinks {
@@ -232,6 +237,11 @@ a.inactive
 	margin-bottom: 0;
 }
 
+.alert
+{
+	margin-bottom: 5px;
+}
+
 .ng-hide
 {
 	display: none;
@@ -241,4 +251,21 @@ a.inactive
 {
 	background: inherit;
 	border: none;
+}
+
+.search-panel
+{
+	padding-bottom: 5px;
+}
+
+.search-panel .new
+{
+	margin-right: 5px;
+}
+
+.list-thumbnail
+{
+	width: 90px;
+	height: 90px;
+	margin-left: 10px;
 }

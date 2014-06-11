@@ -27,16 +27,20 @@
 {
 	text-align: center;
 }
+#contactEditContainer .photoContainer ul
+{
+	text-align: left;
+}
 #contactEditContainer .photoContainer .actions
 {
-	text-align: center;
+	/*text-align: center;*/
 }
 #contactEditContainer .photoContainer img
 {
 	max-width: 28em;
 	_width: 28em;
 }
-#contactEditContainer a#deletePhoto
+/*#contactEditContainer a#deletePhoto
 {
 	padding-left: 22px;
 	background: url(../images/icon-delete.gif) no-repeat 0px 3px;
@@ -50,7 +54,7 @@
 {
 	padding-left: 22px;
 	background: url(../images/icon-rotate-cw.png) no-repeat 0px 3px;
-}
+}*/
 #contactEditContainer #item-nav
 {
 	position: absolute;

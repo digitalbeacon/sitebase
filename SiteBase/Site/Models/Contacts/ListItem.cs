@@ -47,5 +47,7 @@ namespace DigitalBeacon.SiteBase.Models.Contacts
 		}
 
 		public bool HasFlaggedComment { get; set; }
+
+		public long? PhotoId { get; set; }
 	}
 }

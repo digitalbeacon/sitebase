@@ -64,6 +64,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 			Scope.emit("showDetails");
 		}
 
+		protected void detailsChanged()
+		{
+			Scope.emit("detailsChanged");
+		}
+
 		protected abstract void load(int id);
 
 		protected abstract void save();
@@ -116,6 +121,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 					var responseHandled = false;
 					if (response.Success)
 					{
+						detailsChanged();
 						data.fileInput = null;
 						if (model.Id)
 						{
@@ -124,7 +130,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 						else if (response.Id)
 						{
 							responseHandled = true;
-							RouterState.get("list.edit").data = new { alerts = ControllerHelper.getAlerts(response) };
+							getStateData("list.edit").alerts = ControllerHelper.getAlerts(response);
 							RouterState.go("list.edit", new { id = response.Id });
 						}
 					}

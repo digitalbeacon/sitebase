@@ -2,7 +2,7 @@
 
 <viewdata model="CreateModel" />
 
-<sbClientFormPanel item="'contact'">
+<sbClientFormPanel item="'contact'" enableCancel="true">
 	<sbClientFormRow property="P(m => m.FirstName)" focus="true" />
 	<sbClientFormRow property="P(m => m.LastName)" />
 	#//<sbClientFormRow property="P(m => m.MiddleName)" />
@@ -21,5 +21,5 @@
 	<sbClientFormRow property="P(m => m.CommentDate)" />
 	<sbClientFormRow property="P(m => m.Comments)" inputType="textArea" />
 	<sbClientFormRow property="P(m => m.Photo)" inputType="file" />
-	<sbClientFormRow inputType="submit" onClick="'submit()'" onCancelClick="'cancel()'" />
+	<sbClientFormRow inputType="submit" />
 </sbClientFormPanel>

@@ -78,7 +78,7 @@
 						<sbSet dictionary="attr" key="'is-open'" value="'data.isOpen' + propName" />
 						${Html.Editor(propName, "string", new { htmlAttributes = attr })}
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="openCalendar($event, 'isOpen${propName}')"><i class="glyphicon glyphicon-calendar"></i></button>
+							<button type="button" class="btn btn-default" ng-click="toggle($event, 'isOpen${propName}')"><i class="glyphicon glyphicon-calendar"></i></button>
 						</span>
 					</span>
 				</else>

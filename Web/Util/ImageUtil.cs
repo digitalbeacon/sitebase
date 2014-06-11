@@ -71,6 +71,54 @@ namespace DigitalBeacon.Web.Util
 			return outputStream.ToArray();
 		}
 
+		public static Image Crop(Image image, Rectangle cropRect)
+		{
+			var target = new Bitmap(cropRect.Width, cropRect.Height);
+			using (var g = Graphics.FromImage(target))
+			{
+				g.DrawImage(image, new Rectangle(0, 0, target.Width, target.Height), cropRect, GraphicsUnit.Pixel);
+			}
+			return target;
+		}
+
+		public static Image CreateThumbnail(Image image, int width)
+		{
+			if (image.Height != image.Width)
+			{
+				Rectangle cropRect;
+				if (image.Height > image.Width)
+				{
+					cropRect = new Rectangle(0, (image.Height - image.Width) / 2, image.Width, image.Width);
+				}
+				else
+				{
+					cropRect = new Rectangle((image.Width - image.Height) / 2, 0, image.Height, image.Height);
+				}
+				var croppedImage = Crop(image, cropRect);
+				if (cropRect.Width != width)
+				{
+					return Resize(croppedImage, new Size(width, width));
+				}
+				else
+				{
+					return croppedImage;
+				}
+			}
+			else if (image.Width != width)
+			{
+				return Resize(image, new Size(width, width));
+			}
+			else
+			{
+				return image;
+			}
+		}
+
+		public static byte[] GetBytes(Image image)
+		{
+			return (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+		}
+
 		private static ImageCodecInfo GetEncoderInfo(String mimeType)
 		{
 			foreach (var encoder in ImageCodecInfo.GetImageEncoders())

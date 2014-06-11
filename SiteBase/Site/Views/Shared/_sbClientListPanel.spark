@@ -14,15 +14,14 @@
 
 #//<content name="header" if="listModel != null && listModel.Heading.HasText()">${listModel.Heading}</content>
 
-<sbClientSearchPanel if="displaySearchPanel" />
-
-
 <div ng-show="list.visible">
 	<sbClientMessagePanel if="displayMessagePanel" />
+
+	<sbClientSearchPanel if="displaySearchPanel" />
 	
-	<div class="btn-group btn-group-justified list-actions">
-		<a class="btn btn-primary" ng-click="addNew()" if="enableNew">${Text("Common.NewEntity.Label", singularLabel)}</a>
-	</div>
+	#//<div class="btn-group btn-group-justified list-actions">
+	#//	<a class="btn btn-primary" ng-click="addNew()" if="enableNew">${Text("Common.NewEntity.Label", singularLabel)}</a>
+	#//</div>
 	
 	<div class="list-group">
 		<if condition="itemContent.HasText()">!{itemContent}</if>

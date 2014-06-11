@@ -355,7 +355,7 @@ Initialize list panel with search
 		deleteClass: 'delete',
 		searchPanelClass: 'search-panel',
 		searchId: '#search',
-		searchTextId: '#searchText',
+		searchTextId: '#SearchText',
 		clearSearchId: '#clearSearch',
 		alwaysApplySearch: false,
 		hideSearchPanelWhenEmpty: false,

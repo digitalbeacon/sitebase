@@ -17,5 +17,6 @@ namespace ng
 	public class Angular
 	{
 		public static extern IModule module(string name, string[] requires = null, IFunction configFunction = null);
+		public static extern bool isDate(object obj);
 	}
 }

@@ -60,6 +60,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		{
 			if (model.Id && window.confirm(localization.confirmText))
 			{
+				detailsChanged();
 				_contactService.delete(new { id = model.Id }, ReturnToList);
 			}
 		}
