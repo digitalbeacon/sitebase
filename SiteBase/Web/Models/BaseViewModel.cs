@@ -33,6 +33,14 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		}
 
 		/// <summary>
+		/// Marker for API responses
+		/// </summary>
+		public bool Success 
+		{ 
+			get { return true; }
+		}
+
+		/// <summary>
 		/// Gets or sets the heading.
 		/// </summary>
 		/// <value>The heading.</value>
@@ -52,7 +60,6 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// Gets or sets the return URL.
 		/// </summary>
 		/// <value>The return URL.</value>
-		[ReadOnly(true)]
 		[ScriptIgnore]
 		public string ReturnUrl { get; set; }
 

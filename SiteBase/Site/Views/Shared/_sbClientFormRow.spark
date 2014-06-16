@@ -24,22 +24,22 @@
 <default singularLabel="string.Empty" />
 <default pluralLabel="string.Empty" />
 
-<default onClick="null" type="string" />
-<default onDeleteClick="null" type="string" />
-<default onCancelClick="null" type="string" />
+<default onSubmit="null" type="string" />
+<default onDelete="null" type="string" />
+<default onCancel="null" type="string" />
 <default enableSave="true" />
-<default enableDelete="onDeleteClick.HasText()" />
-<default enableCancel="onCancelClick.HasText()" />
-<set onDeleteClick="'delete()'" if="onDeleteClick.IsNullOrBlank()" />
-<set onCancelClick="'cancel()'" if="onCancelClick.IsNullOrBlank()" />
+<default enableDelete="onDelete.HasText()" />
+<default enableCancel="onCancel.HasText()" />
+<set onDelete="'delete()'" if="onDelete.IsNullOrBlank()" />
+<set onCancel="'cancel()'" if="onCancel.IsNullOrBlank()" />
 <default initClientModel="false" />
 
 <content name="formRowContent" if="enableRenderContent"><render /></content>
 
 <var clientEvents="new ExpandoObject()" type="dynamic" />
-<set clientEvents.onClick="onClick" />
-<set clientEvents.onDeleteClick="onDeleteClick" if="onDeleteClick.HasText()" />
-<set clientEvents.onCancelClick="onCancelClick" if="onCancelClick.HasText()" />
+<set clientEvents.onSubmit="onSubmit" />
+<set clientEvents.onDelete="onDelete" if="onDelete.HasText()" />
+<set clientEvents.onCancel="onCancel" if="onCancel.HasText()" />
 
 ${ClientFormRow(new FormRowOptions {
 	Property = property, 

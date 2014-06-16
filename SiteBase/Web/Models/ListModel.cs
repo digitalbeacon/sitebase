@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web.Script.Serialization;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Validation;
 
@@ -46,6 +47,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		public string PluralLabel { get; set; }
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public IEnumerable UntypedItems { get; set; }
 
 		[ReadOnly(true)]

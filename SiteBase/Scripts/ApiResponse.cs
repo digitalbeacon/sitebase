@@ -15,7 +15,7 @@ namespace DigitalBeacon.SiteBase
 		public string Message;
 		public string ErrorMessage;
 		public Dictionary<string[]> ValidationErrors;
-		public int Id;
 		public string RedirectUrl;
+		public dynamic Data;
 	}
 }

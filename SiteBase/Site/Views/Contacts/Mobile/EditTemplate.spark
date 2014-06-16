@@ -4,29 +4,7 @@
 
 <sbClientMessagePanel />
 
-<div id="contactEditContainer" ng-show="model.Id">
-
-	<div class="photoContainer" ng-show="model.PhotoId">
-		#//<img src="${Url.Content('~/resources/images/no-photo.gif')}" class="ng-hide shadow" ng-hide="model.PhotoId" />
-		
-		<div class="button-panel actions">
-			<div class="btn-group" dropdown is-open="data.isOpenPhotoActions">
-				<img ng-src="{{ photoUrl }}" class="shadow dropdown-toggle" />
-				<ul class="dropdown-menu" role="menu">
-					<li><a id="deletePhoto" ng-click="deletePhoto()" href="#">${Text("Common.DeletePhoto.Label")}</a></li>
-					<li><a id="rotatePhotoCounterclockwise" ng-click="rotatePhotoCounterclockwise()" href="#">${Text("Common.RotatePhotoCounterclockwise.Label")}</a></li>
-					<li><a id="rotatePhotoClockwise" ng-click="rotatePhotoClockwise()" href="#">${Text("Common.RotatePhotoClockwise.Label")}</a></li>
-				</ul>
-			</div>
-		</div>
-#/*		
-		<div class="button-panel actions">
-			<button id="rotatePhotoCounterclockwise" class="btn" ng-click="rotatePhotoCounterclockwise()" href="#">${Text("Common.RotatePhotoCounterclockwise.Label")}</button>
-			<button id="rotatePhotoClockwise" class="btn" ng-click="rotatePhotoClockwise()" href="#">${Text("Common.RotatePhotoClockwise.Label")}</button>
-			<button id="deletePhoto" class="btn" ng-click="deletePhoto()" href="#"><span class="glyphicon glyphicon-remove"></span> ${Text("Common.DeletePhoto.Label")}</button>
-		</div>
-#*/		
-	</div>
+<div id="contactEditContainer" class="contactContainer" ng-show="data.model.Id">
 
 	<sbClientFormPanel item="'contact'" enableCancel="true" enableDelete="true" displayMessagePanel="false">
 		<sbClientFormRow property="P(m => m.FirstName)" focus="true" />
@@ -49,4 +27,4 @@
 	
 </div>
 
-<button class="btn ng-hide" ng-click="cancel()" ng-hide="model.Id">${Text("Common.ReturnToEntity.Label", Text("Contacts.Plural.Label"))}</button>
+<button class="btn ng-hide" ng-click="cancel()" ng-hide="data.model.Id">${Text("Common.ReturnToEntity.Label", Text("Contacts.Plural.Label"))}</button>

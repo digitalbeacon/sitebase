@@ -10,7 +10,7 @@
 </content>
 
 <content var="itemContent">
-	<a class="list-group-item" ng-repeat="contact in contacts" ng-click="showDetails(contact.Id)" ng-class="{ 'list-group-item-danger': contact.HasFlaggedComment }">
+	<a class="list-group-item" ng-repeat="contact in data.contacts" ng-click="showDetails(contact.Id)" ng-class="{ 'list-group-item-danger': contact.HasFlaggedComment }">
 		#//<span class="badge" ng-show="contact.Flagged"><span class="glyphicon glyphicon-flag"></span></span>
 		<img ng-src="{{ contact.photoUrl }}" class="img-thumbnail list-thumbnail pull-right" ng-show="contact.photoUrl" />
 		<div class="row">

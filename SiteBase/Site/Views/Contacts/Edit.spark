@@ -4,7 +4,7 @@
 
 <var panelId="'contactEditPanel'" />
 
-<div id="contactEditContainer" class="multi-col">
+<div id="contactEditContainer" class="contactContainer multi-col">
 	<sbMessagePanel />
 	<div id="col1" class="col">
 		<sbFormPanel supportFileInput="true" enableDelete="!Model.IsNew && Model.CanDelete" displayMessagePanel="false">

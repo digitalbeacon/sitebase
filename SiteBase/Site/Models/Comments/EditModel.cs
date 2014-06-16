@@ -8,8 +8,11 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Web.Script.Serialization;
 using DigitalBeacon.Model;
+using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.SiteBase.Web.Models;
+using DigitalBeacon.Util;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Validation;
 using FluentValidation;
@@ -38,30 +41,42 @@ namespace DigitalBeacon.SiteBase.Models.Comments
 			TypePropertyInfo = entityType.GetProperty(commentTypePropertyName);
 		}
 
+		[ScriptIgnore]
 		public Type EntityType { get; set; }
+
+		[ScriptIgnore]
 		public PropertyInfo TypePropertyInfo { get; set; }
 
+		[ScriptIgnore]
 		public bool SupportsTypeProperty
 		{
 			get { return TypePropertyInfo != null; }
 		}
 
+		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual bool CommentTypeRequired { get; set; }
 
+		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual bool CommentTextRequired { get; set; }
 
 		public virtual long ParentId { get; set; }
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual string PanelPrefix { get; set; }
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual bool CanDelete { get; set; }
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual DateTime? Date { get; set; }
 
 		[ReadOnly(true)]
+		[ScriptIgnore]
 		public virtual string Text { get; set; }
 
 		[LocalizedDisplayName("Comments.Text.Label")]
@@ -72,10 +87,10 @@ namespace DigitalBeacon.SiteBase.Models.Comments
 		}
 		
 		[LocalizedDisplayName("Common.Date.Label")]
-		public virtual DateTime? CommentDate
+		public string CommentDate
 		{
-			get { return Date; }
-			set { Date = value; }
+			get { return Date.HasValue ? Date.Value.ToString(WebConstants.DefaultDateTimeFormat) : string.Empty; }
+			set { Date = value.ToDate(); }
 		}
 
 		[LocalizedDisplayName("Common.Type.Label")]

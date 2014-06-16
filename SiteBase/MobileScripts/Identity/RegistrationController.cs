@@ -19,14 +19,14 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 			_identityService = identityService;
 		}
 
-		public override void init()
+		protected override void init()
 		{
 			base.init();
 		}
 
-		public override void submit()
+		protected override void submit(string modelName)
 		{ 
-			_identityService.register(model,
+			_identityService.register(ScopeData.model,
 				(Action<dynamic>)(response => ControllerHelper.handleResponse(response, Scope)));
 		}
 	}

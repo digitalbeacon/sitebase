@@ -3,7 +3,7 @@
 <default suppressClientModel="false" />
 
 <if condition="clientFormPanel">
-	<default clientPropertyName="(clientModel.HasText() && !suppressClientModel) ? '{0}.{1}'.FormatWith(clientModel, propertyName) : propertyName" />
+	<default clientPropertyName="(clientModel.HasText() && !suppressClientModel) ? 'data.{0}.{1}'.FormatWith(clientModel, propertyName) : propertyName" />
 	!{Html.Hidden(propertyName, null, new { ng_model = clientPropertyName, ng_init = "{0}='{1}'".FormatWith(clientPropertyName, ModelMetadata.FromStringExpression(propertyName, ViewData).Model) })}
 </if>
 <else>

@@ -7,6 +7,7 @@
 
 using System;
 using System.Html;
+using jQueryLib;
 using ng;
 
 namespace DigitalBeacon.SiteBase.Mobile.Contacts
@@ -15,11 +16,10 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 	{
 		private ContactService _contactService;
 
-		public string CommentTypeId = "";
-		public string BirthMonth = "";
-		public string Inactive = "";
-
-		public dynamic[] contacts;
+		protected new ContactListScopeData ScopeData
+		{
+			get { return (ContactListScopeData)data; }
+		}
 
 		public ContactListController(Scope scope, dynamic state, ILocation location, ContactService contactService)
 		{
@@ -30,12 +30,13 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			//Scope.on("$destroy", new Action(() => console.log("here")));
 		}
 
-		public override void init()
+		protected override void init()
 		{
 			base.init();
-			list.sortTextOptions = new[] { new Option("Last Name", "LastName") };
-			list.sortText = list.sortTextOptions[0].value;
-			list.sortDirection = list.sortDirectionOptions[1].value;
+			//jQuery.extend(data, new ContactListScopeData());
+			ScopeData.sortTextOptions = new[] { new Option("Last Name", "LastName") };
+			ScopeData.sortText = ScopeData.sortTextOptions[0].value;
+			ScopeData.sortDirection = ScopeData.sortDirectionOptions[1].value;
 			//SearchFields = new Option[0];
 			//SearchFields.push(new Option("Last Name", "LastName"));
 			if (isListState())
@@ -48,19 +49,19 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		{
 			if (!requestMore)
 			{
-				list.page = 1;
+				ScopeData.page = 1;
 			}
-			list.isFiltered = list.searchText && list.searchText.hasText();
+			ScopeData.isFiltered = ScopeData.searchText && ScopeData.searchText.hasText();
 			_contactService.search(
 				new 
 				{
-					PageSize = list.pageSize,
-					Page = list.page,
-					SearchText = list.searchText,
+					PageSize = ScopeData.pageSize,
+					Page = ScopeData.page,
+					SearchText = ScopeData.searchText,
 					SortValue = getSortValue(),
-					CommentTypeId = CommentTypeId,
-					BirthMonth = BirthMonth,
-					Inactive = Inactive
+					CommentTypeId = ScopeData.CommentTypeId,
+					BirthMonth = ScopeData.BirthMonth,
+					Inactive = ScopeData.Inactive
 				}, 
 				(Action<dynamic>)(x => handleResponse(x, requestMore)));
 		}
@@ -73,24 +74,29 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				{
 					c.photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/thumbnail?x={1}".formatWith((int)c.Id, (int)c.PhotoId));
 				}
-				//else
-				//{
-				//	c.photoUrl = digitalbeacon.resolveUrl("~/resources/images/stock.gif");
-				//}
 			}
 			if (isRequestForMore)
 			{
 				foreach (dynamic c in response.Data)
 				{
-					contacts.push((object)c);
+					ScopeData.contacts.push((object)c);
 				}
 			}
 			else
 			{
-				contacts = response.Data;
-				list.pageCount = Math.ceil(response.Total / list.pageSize);
+				ScopeData.contacts = response.Data;
+				ScopeData.pageCount = Math.ceil(response.Total / ScopeData.pageSize);
 				enableLoadMoreOnScroll();
 			}
+		}
+
+		[ScriptObjectLiteral]
+		public class ContactListScopeData : ListScopeData
+		{
+			public string CommentTypeId;
+			public string BirthMonth;
+			public string Inactive;
+			public dynamic[] contacts;
 		}
 	}
 }

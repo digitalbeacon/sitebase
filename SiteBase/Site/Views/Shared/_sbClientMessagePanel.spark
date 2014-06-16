@@ -1,5 +1,5 @@
-﻿<div ng-show="alerts && alerts.length" class="message-panel ng-hide">
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg"></span></alert>
+﻿<div ng-show="data.alerts && data.alerts.length" class="message-panel ng-hide">
+	<alert ng-repeat="alert in data.alerts" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg"></span></alert>
 </div>
 
 <if condition="Model.Messages.Count > 0">

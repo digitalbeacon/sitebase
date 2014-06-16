@@ -20,15 +20,9 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 			_identityService = identityService;
 		}
 
-		public override void init()
+		protected override void submit(string modelName)
 		{
-			base.init();
-		}
-
-		public override void submit()
-		{
-			_identityService.signIn(model,
-				(Action<dynamic>)(response => ControllerHelper.handleResponse(response, Scope)));
+			_identityService.signIn(ScopeData.model, DefaultHandler);
 		}
 	}
 }

@@ -23,38 +23,39 @@
 #contactEditContainer #form-row-photo input
 {
 }
-#contactEditContainer .photoContainer
+.contactContainer .photoContainer
 {
 	text-align: center;
 }
-#contactEditContainer .photoContainer ul
+.contactContainer .photoContainer ul
 {
 	text-align: left;
 }
-#contactEditContainer .photoContainer .actions
+.contactContainer .photoContainer .actions
 {
 	/*text-align: center;*/
 }
-#contactEditContainer .photoContainer img
+.contactContainer .photoContainer img
 {
 	max-width: 28em;
 	_width: 28em;
+	cursor: pointer;
 }
-/*#contactEditContainer a#deletePhoto
+.contactContainer a#deletePhoto
 {
 	padding-left: 22px;
 	background: url(../images/icon-delete.gif) no-repeat 0px 3px;
 }
-#contactEditContainer a#rotatePhotoCounterclockwise
+.contactContainer a#rotatePhotoCounterclockwise
 {
 	padding-left: 22px;
 	background: url(../images/icon-rotate-ccw.png) no-repeat 0px 3px;
 }
-#contactEditContainer a#rotatePhotoClockwise
+.contactContainer a#rotatePhotoClockwise
 {
 	padding-left: 22px;
 	background: url(../images/icon-rotate-cw.png) no-repeat 0px 3px;
-}*/
+}
 #contactEditContainer #item-nav
 {
 	position: absolute;
@@ -68,3 +69,9 @@
 {
 	padding: 5px;
 }
+.mobile .contactContainer .photoContainer a
+{
+	margin-left: 10px;
+	background-position-y: 6px;
+}
+

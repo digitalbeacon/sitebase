@@ -678,4 +678,10 @@
   <data name="Common.Enabled.Inactive.Label" xml:space="preserve">
     <value>Inactive</value>
   </data>
+  <data name="Common.Edit.Label" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Common.Details.Label" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>

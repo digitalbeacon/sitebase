@@ -321,6 +321,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				return View("Index");
 			}
+			AllowJsonGet = true;
 			if (RequireParentId)
 			{
 				parentId.Guard("parentId");
@@ -476,6 +477,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				return View("Index");
 			}
+			AllowJsonGet = true;
 			var model = RenderTemplate ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
 			model.Heading = GetEditHeading(model);
 			model.Sequencer = GetParamAsString(EntityModel.SequencerProperty);
@@ -505,6 +507,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				return View("Index");
 			}
+			AllowJsonGet = true;
 			var model = RenderTemplate ? ConstructModel(new TEntity()) : ConstructUpdateModel(id);
 			model.Heading = GetEditHeading(model);
 			model.Sequencer = GetParamAsString(EntityModel.SequencerProperty);
@@ -689,7 +692,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 						{
 							if (RenderJson)
 							{
-								retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString(), Id = Entity.Id });
+								retVal = Json(new ApiResponse { Success = true, Message = GetSafeFormattedText(confirmationText).ToHtmlString(), Data = Entity.Id });
 							}
 							else if (RenderPartial)
 							{

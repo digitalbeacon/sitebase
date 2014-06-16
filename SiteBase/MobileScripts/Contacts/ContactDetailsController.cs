@@ -14,6 +14,7 @@ using DigitalBeacon.SiteBase;
 using DigitalBeacon.SiteBase.Mobile;
 using jQueryLib;
 using ng;
+using ng.ui.router;
 
 namespace DigitalBeacon.SiteBase.Mobile.Contacts
 {
@@ -21,72 +22,168 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 	{
 		private ContactService _contactService;
 
-		public string photoUrl;
+		protected new ContactDetailsScopeData ScopeData
+		{
+			get { return (ContactDetailsScopeData)data; }
+		}
 
-		public ContactDetailsController(Scope scope, object state, ILocation location, ContactService contactService) : base(scope, state, location)
+		public ContactDetailsController(Scope scope, State state, ILocation location, ContactService contactService) : base(scope, state, location)
 		{
 			_contactService = contactService;
 		}
 
-		protected override void load(int id)
+		protected override void init()
 		{
-			model = _contactService.get(new { id = id },
-				new Action<dynamic>(response =>
+			base.init();
+			jQuery.extend(data, new ContactDetailsScopeData 
+			{ 
+				comment = new { },
+				isCollapsedCommentEditor = true
+			});
+			//Scope.watch("data.isCollapsedComments", new Action<object>(arg =>
+			//{
+			//	console.log("data.isCollapsedComments: " + arg);
+			//}));
+		}
+
+		protected override void handleResponse(ApiResponse response)
+		{
+			ScopeData.isOpenPhotoActions = false;
+			base.handleResponse(response);
+		}
+
+		protected override void load(string id)
+		{
+			ScopeData.model = _contactService.get(id, createHandler(response =>
+			{
+				if (response.Id)
 				{
-					if (response.Id)
-					{
-						photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/photo?x={1}".formatWith((int)response.Id, (int)response.PhotoId));
-					}
-					else
-					{
-						ControllerHelper.handleResponse(response, Scope);
-					}
-				}));
+					ScopeData.photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/photo?x={1}".formatWith((object)response.Id, (object)response.PhotoId));
+				}
+			}));
+			getComments(id);
+		}
+
+		protected override void submit(string modelName)
+		{
+			if (modelName == "comment")
+			{
+				saveComment();
+			}
+			else
+			{
+				save();
+			}
 		}
 
 		protected override void save()
 		{
 			if (HasFileInput)
 			{
-				_contactService.saveWithFileData(model.Id, model, Files, SaveHandler);
+				_contactService.saveWithFileData(ScopeData.model.Id, ScopeData.model, Files, SaveHandler);
 			}
 			else
 			{
-				_contactService.save(model.Id, model, SaveHandler);
+				_contactService.save(ScopeData.model.Id, ScopeData.model, SaveHandler);
 			}
 		}
 
 		public override void delete()
 		{
-			if (model.Id && window.confirm(localization.confirmText))
+			if (ScopeData.model.Id && window.confirm(localization.confirmText))
 			{
 				detailsChanged();
-				_contactService.delete(new { id = model.Id }, ReturnToList);
+				_contactService.delete(ScopeData.model.Id, ReturnToList);
 			}
 		}
 
 		public void deletePhoto()
 		{
-			if (model.Id && window.confirm(localization.confirmText))
+			if (ScopeData.model.Id && window.confirm(localization.confirmText))
 			{
-				_contactService.deletePhoto(model.Id, ResponseHandler);
+				_contactService.deletePhoto(ScopeData.model.Id, ResponseHandler);
 			}
 		}
 
 		public void rotatePhotoCounterclockwise()
 		{
-			if (model.Id && window.confirm(localization.confirmText))
+			if (ScopeData.model.Id && window.confirm(localization.confirmText))
 			{
-				_contactService.rotatePhotoCounterclockwise(model.Id, ResponseHandler);
+				_contactService.rotatePhotoCounterclockwise(ScopeData.model.Id, ResponseHandler);
 			}
 		}
 
 		public void rotatePhotoClockwise()
 		{
-			if (model.Id && window.confirm(localization.confirmText))
+			if (ScopeData.model.Id && window.confirm(localization.confirmText))
 			{
-				_contactService.rotatePhotoClockwise(model.Id, ResponseHandler);
+				_contactService.rotatePhotoClockwise(ScopeData.model.Id, ResponseHandler);
 			}
+		}
+
+		private void getComments(string contactId)
+		{
+			if (RouterState.@is("list.display"))
+			{
+				_contactService.getComments(contactId,
+					createHandler(response =>
+					{
+						ScopeData.comments = response.Data.Items;
+						window.setTimeout(new Action(() =>
+							{
+								ScopeData.isCollapsedCommentEditor = true;
+								Scope.apply();
+							}), 0);
+					}));
+			}
+		}
+
+		public void newComment()
+		{
+			ScopeData.comment = new { };
+			resetForm("commentEditPanel", "comment");
+			ScopeData.isCollapsedCommentEditor = false;
+		}
+
+		public void editComment(string commentId)
+		{
+			ScopeData.comment = _contactService.getComment(commentId,
+				new Action<dynamic>(response =>
+				{
+					resetForm("commentEditPanel", "comment");
+					ScopeData.isCollapsedCommentEditor = false;
+				}));
+		}
+
+		private void saveComment()
+		{
+			ScopeData.comment.ParentId = ScopeData.model.Id;
+			_contactService.saveComment(ScopeData.comment.Id, ScopeData.comment, createHandler(response => getComments(ScopeData.model.Id)));
+		}
+
+		public void cancelComment()
+		{
+			ScopeData.isCollapsedCommentEditor = true;
+		}
+
+		public void deleteComment(string commentId)
+		{
+			if (ScopeData.model.Id && commentId && window.confirm(localization.confirmText))
+			{
+				detailsChanged();
+				_contactService.deleteComment(commentId, createHandler(response => getComments(ScopeData.model.Id)));
+			}
+		}
+
+		[ScriptObjectLiteral]
+		public class ContactDetailsScopeData : BaseScopeData
+		{
+			public string photoUrl;
+			public dynamic comment;
+			public object[] comments;
+			public bool isOpenPhotoActions;
+			public bool isCollapsedComments;
+			public bool isCollapsedCommentEditor;
 		}
 	}
 }

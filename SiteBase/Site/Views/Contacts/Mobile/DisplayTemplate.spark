@@ -1,0 +1,92 @@
+﻿<use master="ContentOnly" />
+
+<viewdata model="EditModel" />
+
+<sbClientMessagePanel />
+
+<div id="contactDisplayContainer" class="contactContainer" ng-show="data.model.Id">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a ui-sref="list" class="display-action pull-right" tooltip-placement="left" tooltip="${Text('Common.ReturnToEntity.Label', Text('Contacts.Plural.Label'))}"><span class="glyphicon glyphicon-list"></span></a>
+			<a href="#" ng-click="delete()" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="glyphicon glyphicon-trash"></span></a>
+			<a ui-sref="list.edit({ id: data.model.Id })" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Edit.Label')}"><span class="glyphicon glyphicon-pencil"></span></a>
+			<h3>{{data.model.DisplayName}}</h3>
+		</div>
+		<ul class="list-group">
+			<li class="list-group-item" ng-if="data.model.PhotoId">
+				<div class="photoContainer">
+					<div class="btn-group" dropdown is-open="data.isOpenPhotoActions">
+						<img ng-src="{{ data.photoUrl }}" class="shadow dropdown-toggle" />
+						<ul class="dropdown-menu" role="menu">
+							<li><a id="deletePhoto" ng-click="deletePhoto()" href="#">${Text("Common.DeletePhoto.Label")}</a></li>
+							<li><a id="rotatePhotoCounterclockwise" ng-click="rotatePhotoCounterclockwise()" href="#">${Text("Common.RotatePhotoCounterclockwise.Label")}</a></li>
+							<li><a id="rotatePhotoClockwise" ng-click="rotatePhotoClockwise()" href="#">${Text("Common.RotatePhotoClockwise.Label")}</a></li>
+						</ul>
+					</div>
+				</div>
+			</li>
+			<a class="list-group-item" href="#" ng-click="data.isCollapsedComments = !data.isCollapsedCommentEditor ? data.isCollapsedComments : !data.isCollapsedComments">
+				<span ng-show="data.isCollapsedCommentEditor" ng-click="newComment()" class="display-action pull-right" tooltip="${Text('Common.New.Label')}"><span class="glyphicon glyphicon-plus-sign"></span></span>
+				<h4>${Text('Comments.Plural.Label')} <span ng-if="data.comments && data.comments.length && data.isCollapsedCommentEditor" ng-class="{ 'dropup' : data.isCollapsedComments }"><span class="caret caret-reversed"</span></span></h4>
+			</a>
+			<div collapse="data.isCollapsedCommentEditor">
+				<li class="list-group-item">
+					<sbClientFormPanel clientModel="'comment'" panelId="'commentEditPanel'">
+						<sbClientFormRow property="'CommentType'" includeEmptyOption="false" required="true" />
+						<sbClientFormRow property="'CommentText'" inputType="textArea" />
+						<sbClientFormRow property="'CommentDate'" helpText="'Comments.Date.HelpText'" />
+						<sbClientFormRow inputType="submit" onCancel="'cancelComment()'" />
+					</sbClientFormPanel>
+				</li>
+			</div>
+			<div collapse="data.isCollapsedComments || !data.isCollapsedCommentEditor">
+			#//<div ng-hide="data.isCollapsedComments">
+				<li class="list-group-item" ng-class="{ 'list-group-item-danger' : c.Flagged }" ng-if="data.comments && data.comments.length" ng-repeat="c in data.comments">
+					<a href="#" ng-click="deleteComment(c.Id)" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="glyphicon glyphicon-trash"></span></a>
+					<a href="#" ng-click="editComment(c.Id)" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Edit.Label')}"><span class="glyphicon glyphicon-pencil"></span></a>
+					<h4 class="list-group-item-heading">{{ c.CommentTypeName }}{{ c.Date ? ' - ' : '' }}{{ c.Date | date : 'M/d/yyyy' }}</h4>
+					<p class="list-group-item-text">{{ c.Text }}</p>
+				</li>
+			</div>
+			<a class="list-group-item bg-primary" href="#" ng-click="data.isCollapsedDemographics = !data.isCollapsedDemographics">
+				#//<button ng-click="go('list.edit', { id: data.model.Id })" class="btn btn-link display-action pull-right" tooltip="${Text('Common.Edit.Label')}"><span class="glyphicon glyphicon-pencil"></span></button>
+				<h4>${Text('Common.Details.Label')} <span ng-class="{ 'dropup' : data.isCollapsedDemographics }"><span class="caret caret-reversed"</span></span></h4>
+			</a>
+			<div collapse="data.isCollapsedDemographics">
+				<li class="list-group-item" ng-if="data.model.GenderDisplayValue">
+					<div class="list-group-item-heading">${Text("Common.Gender.Label")}</div>
+					<p class="list-group-item-text">{{ data.model.GenderDisplayValue }}</p>
+				</li>
+				<li class="list-group-item" ng-if="data.model.DateOfBirth">
+					<div class="list-group-item-heading">${Text("Common.DateOfBirth.Label")}</div>
+					<p class="list-group-item-text">{{ data.model.DateOfBirth | date : 'M/d/yyyy' }}</p>
+				</li>
+				<li class="list-group-item" ng-if="data.model.Age">
+					<div class="list-group-item-heading">${Text("Common.Age.Label")}</div>
+					<p class="list-group-item-text">{{ data.model.Age }}</p>
+				</li>
+				<li class="list-group-item" ng-if="data.model.Email">
+					<div class="list-group-item-heading">${Text("Common.Email.Label")}</div>
+					<p class="list-group-item-text">{{ data.model.Email }}</p>
+				</li>
+				<li class="list-group-item" ng-if="data.model.PhoneDisplayValue">
+					<div class="list-group-item-heading">${Text("Common.Phone.Label")}</div>
+					<p class="list-group-item-text">{{ data.model.PhoneDisplayValue }}</p>
+				</li>
+				<li class="list-group-item" ng-if="data.model.Line1 || data.model.City || data.model.StateDisplayValue || data.model.PostalCode">
+					<div class="list-group-item-heading">${Text("Common.Line1.Label")}</div>
+					<p class="list-group-item-text">{{ data.model.Line1 }}<br/>{{ data.model.City }}{{ (data.model.City && data.model.StateDisplayValue) ? ',' : ''}} {{ data.model.StateDisplayValue }} {{ data.model.PostalCode }}</p>
+				</li>
+			</div>
+		</ul>
+		<div class="panel-footer">
+			<a ui-sref="list" class="display-action pull-right" tooltip-placement="left" tooltip="${Text('Common.ReturnToEntity.Label', Text('Contacts.Plural.Label'))}"><span class="glyphicon glyphicon-list"></span></a>
+			<a href="#" ng-click="delete()" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="glyphicon glyphicon-trash"></span></a>
+			<a ui-sref="list.edit({ id: data.model.Id })" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Edit.Label')}"><span class="glyphicon glyphicon-pencil"></span></a>
+			<h3>&nbsp;</h3>
+		</div>
+	</div>
+</div>
+
+<button class="btn ng-hide" ng-click="cancel()" ng-hide="data.model.Id">${Text("Common.ReturnToEntity.Label", Text("Contacts.Plural.Label"))}</button>

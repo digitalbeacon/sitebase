@@ -5,31 +5,24 @@
 //                                                                        //
 // ---------------------------------------------------------------------- //
 
-using System;
-using System.ComponentModel;
-using DigitalBeacon.SiteBase.Web;
-using DigitalBeacon.Util;
 using DigitalBeacon.Web;
-using DigitalBeacon.Web.Validation;
 
 namespace DigitalBeacon.SiteBase.Models.Contacts
 {
 	public class CreateModel : EditModel
 	{
-		[ReadOnly(true)]
-		public DateTime? Date { get; set; }
-
-		[LocalizedDisplayName("Common.Date.Label")]
-		public string CommentDate
+		[LocalizedDisplayName("Comments.Date.Label")]
+		public override string CommentDate 
 		{
-			get { return Date.HasValue ? Date.Value.ToString(WebConstants.DefaultDateTimeFormat) : string.Empty; }
-			set { Date = value.ToDate(); }
+			get { return base.CommentDate; }
+			set { base.CommentDate = value; }
 		}
 
-		[LocalizedDisplayName("ContactCommentTypes.Singular.Label.Short")]
-		public long? CommentTypeId { get; set; }
-
-		[LocalizedDisplayName("Comments.Plural.Label")]
-		public string Comments { get; set; }
+		[LocalizedDisplayName("Comments.Type.Label")]
+		public override string CommentType
+		{
+			get { return base.CommentType; }
+			set { base.CommentType = value; }
+		}
 	}
 }

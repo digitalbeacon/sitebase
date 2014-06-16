@@ -2,7 +2,7 @@
 
 <content name="header">${Model.Heading}</content>
 
-<div id="contactNewContainer" class="multi-col">
+<div id="contactNewContainer" class="contactContainer multi-col">
 	<sbFormPanel panelId="'contactEditPanel'" supportFileInput="true">
 		<div id="col1" class="col">
 			<sbFormRow property="P(m => m.FirstName)" />
@@ -27,9 +27,9 @@
 			<!--<sbFormRow property="P(m => m.DefaultPhoneId)" includeEmptyOption="true" />-->
 			<!--<sbFormRow property="P(m => m.HomePhone)" mask="WebConstants.PhoneMask" />-->
 			<!--<sbFormRow property="P(m => m.WorkPhone)" mask="WebConstants.PhoneMask" />-->
-			<sbFormRow property="P(m => m.CommentTypeId)" includeEmptyOption="true" helpText="'Contacts.CommentType.HelpText'" />
+			<sbFormRow property="P(m => m.CommentType)" includeEmptyOption="true" helpText="'Contacts.CommentType.HelpText'" />
 			<sbFormRow property="P(m => m.CommentDate)" />
-			<sbFormRow property="P(m => m.Comments)" inputType="textArea" />
+			<sbFormRow property="P(m => m.CommentText)" inputType="textArea" />
 		</div>
 	</sbFormPanel>
 </div>

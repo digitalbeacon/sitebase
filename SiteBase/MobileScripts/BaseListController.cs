@@ -6,7 +6,6 @@
 // ---------------------------------------------------------------------- //
 
 using System;
-using System.Collections.Generic;
 using System.Dom;
 using System.Html;
 using DigitalBeacon.SiteBase;
@@ -18,19 +17,32 @@ namespace DigitalBeacon.SiteBase.Mobile
 {
 	public abstract class BaseListController : BaseController
 	{
-		public BaseListState list = new BaseListState();
+		protected new ListScopeData ScopeData
+		{
+			get { return (ListScopeData)data; }
+		}
 
-		public override void init()
+		protected override void init()
 		{
 			base.init();
-			list.visible = isListState();
+			jQuery.extend(data,
+				new ListScopeData
+				{
+					sortDirectionOptions = new[] { new Option("Ascending", ""), new Option("Descending", "-DESC") },
+					page = 1,
+					pageSize = 10,
+					pageCount = -1,
+					footerHeight = 140,
+					listVisible = true
+				});
+			ScopeData.listVisible = isListState();
 			Scope.on("hideDetails", new Action<object, ApiResponse>((evt, args) => { showList(args); }));
 			Scope.on("showDetails", new Action(() => { hideList(); }));
 			Scope.on("detailsChanged", new Action(() => { getStateData("list").refresh = true; }));
-			Scope.on("alerts", new Action<object, Alert[]>((evt, args) => { alerts = args; }));
+			Scope.on("alerts", new Action<object, Alert[]>((evt, args) => { ScopeData.alerts = args; }));
 			Scope.watch(new Func<string>(() => Location.url()), new Action<string>(url =>
 			{
-				if (!list.visible && url && isListState())
+				if (!ScopeData.listVisible && url && isListState())
 				{
 					showList();
 				}
@@ -41,9 +53,9 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		public virtual void loadMore()
 		{
-			if (list.page < list.pageCount)
+			if (ScopeData.page < ScopeData.pageCount)
 			{
-				list.page++;
+				ScopeData.page++;
 				search(true);
 			}
 		}
@@ -52,26 +64,26 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 			clearAlerts();
 			RouterState.go("list.new");
-			model = new Dictionary<object>();
+			ScopeData.model = new { };
 		}
 
 		public virtual void showDetails(int id)
 		{
 			clearAlerts();
-			RouterState.go("list.edit", new { id = id });
+			RouterState.go("list.display", new { id = id });
 		}
 
 		public virtual void hideList()
 		{
-			list.visible = false;
+			ScopeData.listVisible = false;
 			disableLoadMoreOnScroll();
 		}
 
 		public virtual void showList(ApiResponse response = null)
 		{
-			list.visible = true;
+			ScopeData.listVisible = true;
 			RouterState.go("list");
-			if (list.pageCount < 0 || getStateData("list").refresh)
+			if (ScopeData.pageCount < 0 || getStateData("list").refresh)
 			{
 				getStateData("list").refresh = false;
 				search();
@@ -90,23 +102,23 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected virtual void clearSearchText()
 		{
-			list.searchText = "";
-			if (list.isFiltered)
+			ScopeData.searchText = "";
+			if (ScopeData.isFiltered)
 			{
 				search();
 			}
-			list.isFiltered = false;
-			list.page = 1;
+			ScopeData.isFiltered = false;
+			ScopeData.page = 1;
 		}
 
 		protected virtual string getSortValue()
 		{
-			return list.sortText + list.sortDirection;
+			return ScopeData.sortText + ScopeData.sortDirection;
 		}
 
 		protected virtual void enableLoadMoreOnScroll()
 		{
-			if (list.pageCount <= 1 || !list.visible)
+			if (ScopeData.pageCount <= 1 || !ScopeData.listVisible)
 			{
 				return;
 			}
@@ -118,7 +130,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 					var d = jQuery.Select(window.document);
 					//console.log("{0}, {1}, {2}".formatWith(w.scrollTop(), d.height(), w.height()));
 					//console.log("{0}, {1}".formatWith(w.scrollTop(), jQuery.Select(window.document).height() - w.height() - list.footerHeight));
-					if (d.height() > w.height() && ((w.scrollTop() >= d.height() - w.height() - list.footerHeight) || (w.scrollTop() >= d.height() / 2)))
+					if (d.height() > w.height() && ((w.scrollTop() >= d.height() - w.height() - ScopeData.footerHeight) || (w.scrollTop() >= d.height() / 2)))
 					{
 						loadMore();
 					}

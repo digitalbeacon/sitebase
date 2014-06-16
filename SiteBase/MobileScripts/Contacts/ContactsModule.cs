@@ -13,6 +13,7 @@ using ng;
 using jQueryLib;
 using DigitalBeacon.SiteBase;
 using DigitalBeacon.SiteBase.Mobile;
+using ng.ui.router;
 
 namespace DigitalBeacon.SiteBase.Mobile.Contacts
 {
@@ -40,9 +41,15 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 								templateUrl = digitalbeacon.resolveUrl("~/contacts/new/template"),
 								controller = "contactDetailsController"
 							})
+							.state("list.display", new
+							{
+								url = "/{id:[0-9]{1,9}}",
+								templateUrl = digitalbeacon.resolveUrl("~/contacts/0/template"),
+								controller = "contactDetailsController",
+							})
 							.state("list.edit", new
 							{
-								url = "/{id:[0-9]{1,4}}",
+								url = "/{id:[0-9]{1,9}}/edit",
 								templateUrl = digitalbeacon.resolveUrl("~/contacts/0/edit/template"),
 								controller = "contactDetailsController",
 							});
@@ -50,12 +57,12 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				})
 				.controller("contactListController",
 					new object[] { "$scope", "$state", "$location", "contactService", 
-						(Action<Scope, object, ILocation, ContactService>)
+						(Action<Scope, State, ILocation, ContactService>)
 						((scope, state, location, contactService) => 
 							BaseController.extend(scope, new ContactListController(scope, state, location, contactService))) })
 				.controller("contactDetailsController",
 					new object[] { "$scope", "$state", "$location", "contactService", 
-						(Action<Scope, object, ILocation, ContactService>)
+						(Action<Scope, State, ILocation, ContactService>)
 						((scope, state, location, contactService) => 
 							BaseController.extend(scope, new ContactDetailsController(scope, state, location, contactService))) })
 				.run(new object[]

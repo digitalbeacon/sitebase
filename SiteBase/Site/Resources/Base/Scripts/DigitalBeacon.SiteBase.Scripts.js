@@ -10,8 +10,8 @@ DigitalBeacon.SiteBase.ApiResponse = (function() {
     p.Message = null;
     p.ErrorMessage = null;
     p.ValidationErrors = null;
-    p.Id = null;
     p.RedirectUrl = null;
+    p.Data = null;
     return ApiResponse;
 })();
 

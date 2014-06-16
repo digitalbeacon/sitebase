@@ -10,6 +10,8 @@ using System.ComponentModel;
 using System.Web.Script.Serialization;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Model.Contacts;
+using DigitalBeacon.SiteBase.Web;
+using DigitalBeacon.Util;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Validation;
 
@@ -84,11 +86,37 @@ namespace DigitalBeacon.SiteBase.Models.Contacts
 			set { GenderId = value.HasValue ? (long)value.Value : (long?)null; }
 		}
 
+		public virtual string GenderDisplayValue
+		{
+			get { return Gender.ToStringSafe(); }
+		}
+
 		[ReadOnly(true)]
 		public virtual bool Enabled
 		{
 			get { return Inactive.HasValue ? !Inactive.Value : true; }
 			set { Inactive = !value; }
 		}
+
+		public virtual string DisplayName
+		{
+			get { return "{0} {1}".FormatWith(FirstName, LastName); }
+		}
+
+		[ReadOnly(true)]
+		public virtual DateTime? Date { get; set; }
+
+		[LocalizedDisplayName("Common.Date.Label")]
+		public virtual string CommentDate
+		{
+			get { return Date.HasValue ? Date.Value.ToString(WebConstants.DefaultDateTimeFormat) : string.Empty; }
+			set { Date = value.ToDate(); }
+		}
+
+		[LocalizedDisplayName("Common.Type.Label")]
+		public virtual string CommentType { get; set; }
+
+		[LocalizedDisplayName("Comments.Plural.Label")]
+		public virtual string CommentText { get; set; }
 	}
 }

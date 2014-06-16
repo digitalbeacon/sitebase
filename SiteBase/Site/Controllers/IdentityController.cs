@@ -69,7 +69,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				{
 					case AuthenticationStatus.Success:
 						FormsAuthentication.SetAuthCookie(model.Username, false);
-						retVal = Redirect(FormsAuthentication.GetRedirectUrl(model.Username, false));
+						retVal = Redirect(model.ReturnUrl.DefaultTo(FormsAuthentication.GetRedirectUrl(model.Username, false)));
 						break;
 					case AuthenticationStatus.AccountLocked:
 						AddError(model, "Identity.Error.AccountLocked");

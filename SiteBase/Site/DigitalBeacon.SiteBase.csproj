@@ -777,6 +777,9 @@
     <EmbeddedResource Include="Views\Identity\Mobile\Register.spark">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="Views\Contacts\Mobile\DisplayTemplate.spark">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

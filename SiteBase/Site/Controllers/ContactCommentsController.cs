@@ -5,6 +5,10 @@
 //                                                                        //
 // ---------------------------------------------------------------------- //
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using DigitalBeacon.Business;
@@ -13,6 +17,7 @@ using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Model.Contacts;
 using DigitalBeacon.SiteBase.Models.Comments;
 using DigitalBeacon.SiteBase.Web;
+using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
 
 namespace DigitalBeacon.SiteBase.Controllers
@@ -93,6 +98,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			var entity = base.ConstructEntity(model);
 			entity.CommentType = LookupService.Get<ContactCommentTypeEntity>(model.CommentType.ToInt64().Value);
+			if (model.Date == null)
+			{
+				entity.Date = DateTime.Now;
+			}
 			return entity;
 		}
 
@@ -101,6 +110,16 @@ namespace DigitalBeacon.SiteBase.Controllers
 			var model = base.ConstructModel(entity);
 			model.CommentType = entity.CommentType.IfNotNull(x => x.Id.ToStringSafe());
 			return model;
+		}
+
+		protected override IEnumerable ConstructGridItems(IEnumerable<ContactCommentEntity> source, ListModelBase model)
+		{
+			return source.Select(entity => 
+				{
+					var item = Mapper.Map<ListItem>(entity);
+					item.Flagged = entity.CommentType.Flagged;
+					return item;
+				});
 		}
 
 		[HttpPost]

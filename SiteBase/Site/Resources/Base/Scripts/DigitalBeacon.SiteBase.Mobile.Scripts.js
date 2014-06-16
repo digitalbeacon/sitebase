@@ -5,14 +5,15 @@ if(!DigitalBeacon.SiteBase.Mobile) DigitalBeacon.SiteBase.Mobile = {};
 
 DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     function BaseController() {
-        this.alerts = new Array(0);
-        this.model = {};
-        this.data = {};
     }
     var p = BaseController.prototype;
     p._scope = null;
     p._routerState = null;
     p._location = null;
+    p.data = null;
+    p.get_ScopeData = function() {
+        return this.data;
+    };
     p.get_Scope = function() {
         return (this._scope) || this;
     };
@@ -26,7 +27,8 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
         this._routerState = value;
     };
     p.get_RouterParams = function() {
-        return this._routerState ? this._routerState.params : {};
+        return this._routerState ? this._routerState.params : {
+        };
     };
     p.get_Location = function() {
         return this._location;
@@ -43,29 +45,39 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
             this.handleResponse(response)});
     };
     p.get_HasFileInput = function() {
-        return this.data.fileInput;
+        return this.get_ScopeData().fileInput;
     };
     p.get_Files = function() {
-        return this.data.fileInput.files;
+        return this.get_ScopeData().fileInput.files;
     };
     p.init = function () {
+        this.data = {
+            alerts: new Array(0)
+        };
     };
-    p.submitForm = function (isValid) {
-        this.model.submitted = true;
+    p.submitForm = function (modelName, isValid) {
+        this.get_ScopeData()[modelName].submitted = true;
         if (!isValid) {
             scrollTo(0, 0);
             return;
         }
-        this.submit();
+        this.submit(modelName);
     };
-    p.submit = function () {
+    p.resetForm = function (formName, modelName) {
+        modelName = (modelName !== undefined) ? modelName : null;
+        (this.get_Scope()[formName]).$setPristine();
+        if (modelName) {
+            this.get_ScopeData()[modelName].submitted = false;
+        }
+    };
+    p.submit = function (modelName) {
     };
     p.hasAlert = function (key) {
-        if (!this.alerts || this.alerts.length === 0) {
+        if (!this.get_ScopeData().alerts || this.get_ScopeData().alerts.length === 0) {
             return false;
         }
-        for(var i = 0; i < this.alerts.length; i++) {
-            if (this.alerts[i].key === key) {
+        for(var i = 0; i < this.get_ScopeData().alerts.length; i++) {
+            if (this.get_ScopeData().alerts[i].key === key) {
                 return true;
             }
         }
@@ -73,25 +85,25 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     p.clearAlerts = function (key) {
         key = (key !== undefined) ? key : null;
-        if (this.alerts && this.alerts.length > 0) {
+        if (this.get_ScopeData().alerts && this.get_ScopeData().alerts.length > 0) {
             if (key) {
-                for(var i = this.alerts.length - 1; i >= 0; i--) {
-                    if (this.alerts[i].key === key) {
+                for(var i = this.get_ScopeData().alerts.length - 1; i >= 0; i--) {
+                    if (this.get_ScopeData().alerts[i].key === key) {
                         this.closeAlert(i);
                     }
                 }
             } else {
-                this.alerts.length = 0;
+                this.get_ScopeData().alerts.length = 0;
             }
         }
     };
     p.closeAlert = function (index) {
-        this.alerts.splice(index, 1);
+        this.get_ScopeData().alerts.splice(index, 1);
     };
     p.toggle = function (evt, dataKey) {
         evt.preventDefault();
         evt.stopPropagation();
-        this.data[dataKey] = this.data[dataKey] ? false : true;
+        this.get_ScopeData()[dataKey] = this.get_ScopeData()[dataKey] ? false : true;
     };
     p.fileChanged = function (fileInput) {
         if (!fileInput) {
@@ -99,12 +111,13 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
         }
         var files = fileInput.files;
         if (fileInput.files && fileInput.files.length) {
-            this.data.fileInput = fileInput;
+            this.get_ScopeData().fileInput = fileInput;
         } else {
-            this.data.fileInput = null;
+            this.get_ScopeData().fileInput = null;
         }
     };
     p.handleResponse = function (response) {
+        DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
     };
     p.getStateData = function (stateName) {
         var state = this.get_RouterState().get(stateName);
@@ -116,6 +129,19 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
             return state.data;
         }
         return null;
+    };
+    p.go = function (stateName, args) {
+        args = (args !== undefined) ? args : null;
+        this.get_RouterState().go(stateName, args);
+    };
+    p.createHandler = function (handler) {
+        return Blade.del(this, function(response) {
+            if (response.Success) {
+                handler(response);
+            } else {
+                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
+            }
+        });
     };
     return BaseController;
 })();
@@ -134,9 +160,11 @@ DigitalBeacon.SiteBase.Mobile.BaseEntityService = (function() {
     p.set_Resource = function(value) {
         this.$Resource = value;
     };
-    p.get = function (parameters, responseHandler) {
+    p.get = function (id, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
-        return this.get_Resource().get(parameters, responseHandler);
+        return this.get_Resource().get({
+            id: id
+        }, responseHandler);
     };
     p.search = function (parameters, response) {
         this.get_Resource().search(parameters, response);
@@ -151,9 +179,11 @@ DigitalBeacon.SiteBase.Mobile.BaseEntityService = (function() {
             this.get_Resource().save(postData, responseHandler);
         }
     };
-    p.delete = function (parameters, responseHandler) {
+    p.delete = function (id, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
-        this.get_Resource().delete(parameters, responseHandler);
+        this.get_Resource().delete({
+            id: id
+        }, responseHandler);
     };
     p.sendFormData = function (http, entityTarget, id, model, files, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
@@ -196,24 +226,6 @@ DigitalBeacon.SiteBase.Mobile.BaseEntityService.constructFormData = function (mo
     }
     return data;
 };
-
-DigitalBeacon.SiteBase.Mobile.BaseListState = (function() {
-    function BaseListState() {
-        this.sortDirectionOptions = [new Option('Ascending', ''), new Option('Descending', '-DESC')];
-        this.pageCount = -1;
-    }
-    var p = BaseListState.prototype;
-    p.isFiltered = null;
-    p.searchText = null;
-    p.sortText = null;
-    p.sortDirection = null;
-    p.sortTextOptions = null;
-    p.page = 1;
-    p.pageSize = 10;
-    p.footerHeight = 140;
-    p.visible = true;
-    return BaseListState;
-})();
 if(!DigitalBeacon.SiteBase.Mobile.Contacts) DigitalBeacon.SiteBase.Mobile.Contacts = {};
 
 DigitalBeacon.SiteBase.Mobile.Contacts.ContactsModule = (function() {
@@ -270,21 +282,14 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     };
     p.get_SaveHandler = function() {
         return Blade.del(this, function(response) {
-            var responseHandled = false;
             if (response.Success) {
                 this.detailsChanged();
-                this.data.fileInput = null;
-                if (this.model.Id) {
-                    this.load(this.model.Id);
-                } else if (response.Id) {
-                    responseHandled = true;
-                    this.getStateData('list.edit').alerts = DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response);
-                    this.get_RouterState().go('list.edit', {
-                        id: response.Id
-                    });
-                }
-            }
-            if (!responseHandled) {
+                this.get_ScopeData().fileInput = null;
+                this.getStateData('list.display').alerts = DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response);
+                this.get_RouterState().go('list.display', {
+                    id: this.get_ScopeData().model.Id || response.Data
+                });
+            } else {
                 DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
             }
         });
@@ -295,7 +300,7 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
             this.load(this.get_RouterParams().id);
         }
         if (this.get_RouterState().current.data && this.get_RouterState().current.data.alerts) {
-            this.alerts = this.get_RouterState().current.data.alerts;
+            this.get_ScopeData().alerts = this.get_RouterState().current.data.alerts;
             this.get_RouterState().current.data.alerts = null;
         }
         this.show();
@@ -331,15 +336,21 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     p.delete = function () {
     };
     p.cancel = function () {
-        this.hide();
+        if (this.get_RouterState().is('list.edit')) {
+            this.get_RouterState().go('list.display', {
+                id: this.get_ScopeData().model.Id
+            });
+        } else {
+            this.hide();
+        }
     };
-    p.submit = function () {
+    p.submit = function (modelName) {
         this.save();
     };
     p.handleResponse = function (response) {
         DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
         if (response.Success) {
-            this.load(this.model.Id);
+            this.load(this.get_ScopeData().model.Id);
         }
     };
     return BaseDetailsController;
@@ -349,13 +360,23 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
     Blade.derive(BaseListController, DigitalBeacon.SiteBase.Mobile.BaseController);
     var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
     function BaseListController() {
-        this.list = new DigitalBeacon.SiteBase.Mobile.BaseListState();
         $base.constructor.call(this);
     }
     var p = BaseListController.prototype;
+    p.get_ScopeData = function() {
+        return this.data;
+    };
     p.init = function () {
         $base.init.call(this);
-        this.list.visible = this.isListState();
+        $.extend(this.data, {
+            sortDirectionOptions: [new Option('Ascending', ''), new Option('Descending', '-DESC')],
+            page: 1,
+            pageSize: 10,
+            pageCount: -1,
+            footerHeight: 140,
+            listVisible: true
+        });
+        this.get_ScopeData().listVisible = this.isListState();
         this.get_Scope().$on('hideDetails', Blade.del(this, function(evt, args) {
             this.showList(args);
         }));
@@ -366,12 +387,12 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
             this.getStateData('list').refresh = true;
         }));
         this.get_Scope().$on('alerts', Blade.del(this, function(evt, args) {
-            this.alerts = args;
+            this.get_ScopeData().alerts = args;
         }));
         this.get_Scope().$watch(Blade.del(this, function() {
             return this.get_Location().url();
         }), Blade.del(this, function(url) {
-            if (!this.list.visible && url && this.isListState()) {
+            if (!this.get_ScopeData().listVisible && url && this.isListState()) {
                 this.showList();
             }
         }));
@@ -380,31 +401,32 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
         requestMore = (requestMore !== undefined) ? requestMore : false;
     };
     p.loadMore = function () {
-        if (this.list.page < this.list.pageCount) {
-            this.list.page++;
+        if (this.get_ScopeData().page < this.get_ScopeData().pageCount) {
+            this.get_ScopeData().page++;
             this.search(true);
         }
     };
     p.addNew = function () {
         this.clearAlerts();
         this.get_RouterState().go('list.new');
-        this.model = {};
+        this.get_ScopeData().model = {
+        };
     };
     p.showDetails = function (id) {
         this.clearAlerts();
-        this.get_RouterState().go('list.edit', {
+        this.get_RouterState().go('list.display', {
             id: id
         });
     };
     p.hideList = function () {
-        this.list.visible = false;
+        this.get_ScopeData().listVisible = false;
         this.disableLoadMoreOnScroll();
     };
     p.showList = function (response) {
         response = (response !== undefined) ? response : null;
-        this.list.visible = true;
+        this.get_ScopeData().listVisible = true;
         this.get_RouterState().go('list');
-        if (this.list.pageCount < 0 || this.getStateData('list').refresh) {
+        if (this.get_ScopeData().pageCount < 0 || this.getStateData('list').refresh) {
             this.getStateData('list').refresh = false;
             this.search();
         }
@@ -417,25 +439,25 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
         return this.get_RouterState().current.name === 'list';
     };
     p.clearSearchText = function () {
-        this.list.searchText = '';
-        if (this.list.isFiltered) {
+        this.get_ScopeData().searchText = '';
+        if (this.get_ScopeData().isFiltered) {
             this.search();
         }
-        this.list.isFiltered = false;
-        this.list.page = 1;
+        this.get_ScopeData().isFiltered = false;
+        this.get_ScopeData().page = 1;
     };
     p.getSortValue = function () {
-        return this.list.sortText + this.list.sortDirection;
+        return this.get_ScopeData().sortText + this.get_ScopeData().sortDirection;
     };
     p.enableLoadMoreOnScroll = function () {
-        if (this.list.pageCount <= 1 || !this.list.visible) {
+        if (this.get_ScopeData().pageCount <= 1 || !this.get_ScopeData().listVisible) {
             return;
         }
         scrollTo(0, 0);
         $(self).on('scroll.sbClientListPanel', null, null, (Blade.del(this, function(e) {
             var w = $(self);
             var d = $(document);
-            if (d.height() > w.height() && ((w.scrollTop() >= d.height() - w.height() - this.list.footerHeight) || (w.scrollTop() >= d.height() / 2))) {
+            if (d.height() > w.height() && ((w.scrollTop() >= d.height() - w.height() - this.get_ScopeData().footerHeight) || (w.scrollTop() >= d.height() / 2))) {
                 this.loadMore();
             }
         })));
@@ -455,46 +477,100 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
     }
     var p = ContactDetailsController.prototype;
     p._contactService = null;
-    p.photoUrl = null;
+    p.get_ScopeData = function() {
+        return this.data;
+    };
+    p.init = function () {
+        $base.init.call(this);
+        $.extend(this.data, {
+            comment: {
+            },
+            isCollapsedCommentEditor: true
+        });
+    };
+    p.handleResponse = function (response) {
+        this.get_ScopeData().isOpenPhotoActions = false;
+        $base.handleResponse.call(this, response);
+    };
     p.load = function (id) {
-        this.model = this._contactService.get({
-            id: id
-        }, Blade.del(this, function(response) {
+        this.get_ScopeData().model = this._contactService.get(id, this.createHandler(Blade.del(this, function(response) {
             if (response.Id) {
-                this.photoUrl = $.digitalbeacon.resolveUrl('~/contacts/{0}/photo?x={1}'.formatWith(response.Id, response.PhotoId));
-            } else {
-                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
+                this.get_ScopeData().photoUrl = $.digitalbeacon.resolveUrl('~/contacts/{0}/photo?x={1}'.formatWith(response.Id, response.PhotoId));
             }
-        }));
+        })));
+        this.getComments(id);
+    };
+    p.submit = function (modelName) {
+        if (modelName === 'comment') {
+            this.saveComment();
+        } else {
+            this.save();
+        }
     };
     p.save = function () {
         if (this.get_HasFileInput()) {
-            this._contactService.saveWithFileData(this.model.Id, this.model, this.get_Files(), this.get_SaveHandler());
+            this._contactService.saveWithFileData(this.get_ScopeData().model.Id, this.get_ScopeData().model, this.get_Files(), this.get_SaveHandler());
         } else {
-            this._contactService.save(this.model.Id, this.model, this.get_SaveHandler());
+            this._contactService.save(this.get_ScopeData().model.Id, this.get_ScopeData().model, this.get_SaveHandler());
         }
     };
     p.delete = function () {
-        if (this.model.Id && confirm($.sb.localization.confirmText)) {
+        if (this.get_ScopeData().model.Id && confirm($.sb.localization.confirmText)) {
             this.detailsChanged();
-            this._contactService.delete({
-                id: this.model.Id
-            }, this.get_ReturnToList());
+            this._contactService.delete(this.get_ScopeData().model.Id, this.get_ReturnToList());
         }
     };
     p.deletePhoto = function () {
-        if (this.model.Id && confirm($.sb.localization.confirmText)) {
-            this._contactService.deletePhoto(this.model.Id, this.get_ResponseHandler());
+        if (this.get_ScopeData().model.Id && confirm($.sb.localization.confirmText)) {
+            this._contactService.deletePhoto(this.get_ScopeData().model.Id, this.get_ResponseHandler());
         }
     };
     p.rotatePhotoCounterclockwise = function () {
-        if (this.model.Id && confirm($.sb.localization.confirmText)) {
-            this._contactService.rotatePhotoCounterclockwise(this.model.Id, this.get_ResponseHandler());
+        if (this.get_ScopeData().model.Id && confirm($.sb.localization.confirmText)) {
+            this._contactService.rotatePhotoCounterclockwise(this.get_ScopeData().model.Id, this.get_ResponseHandler());
         }
     };
     p.rotatePhotoClockwise = function () {
-        if (this.model.Id && confirm($.sb.localization.confirmText)) {
-            this._contactService.rotatePhotoClockwise(this.model.Id, this.get_ResponseHandler());
+        if (this.get_ScopeData().model.Id && confirm($.sb.localization.confirmText)) {
+            this._contactService.rotatePhotoClockwise(this.get_ScopeData().model.Id, this.get_ResponseHandler());
+        }
+    };
+    p.getComments = function (contactId) {
+        if (this.get_RouterState().is('list.display')) {
+            this._contactService.getComments(contactId, this.createHandler(Blade.del(this, function(response) {
+                this.get_ScopeData().comments = response.Data.Items;
+                setTimeout(Blade.del(this, function() {
+                    this.get_ScopeData().isCollapsedCommentEditor = true;
+                    this.get_Scope().$apply();
+                }), 0);
+            })));
+        }
+    };
+    p.newComment = function () {
+        this.get_ScopeData().comment = {
+        };
+        this.resetForm('commentEditPanel', 'comment');
+        this.get_ScopeData().isCollapsedCommentEditor = false;
+    };
+    p.editComment = function (commentId) {
+        this.get_ScopeData().comment = this._contactService.getComment(commentId, Blade.del(this, function(response) {
+            this.resetForm('commentEditPanel', 'comment');
+            this.get_ScopeData().isCollapsedCommentEditor = false;
+        }));
+    };
+    p.saveComment = function () {
+        this.get_ScopeData().comment.ParentId = this.get_ScopeData().model.Id;
+        this._contactService.saveComment(this.get_ScopeData().comment.Id, this.get_ScopeData().comment, this.createHandler(Blade.del(this, function(response) {
+            this.getComments(this.get_ScopeData().model.Id)})));
+    };
+    p.cancelComment = function () {
+        this.get_ScopeData().isCollapsedCommentEditor = true;
+    };
+    p.deleteComment = function (commentId) {
+        if (this.get_ScopeData().model.Id && commentId && confirm($.sb.localization.confirmText)) {
+            this.detailsChanged();
+            this._contactService.deleteComment(commentId, this.createHandler(Blade.del(this, function(response) {
+                this.getComments(this.get_ScopeData().model.Id)})));
         }
     };
     return ContactDetailsController;
@@ -512,15 +588,14 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
     }
     var p = ContactListController.prototype;
     p._contactService = null;
-    p.CommentTypeId = '';
-    p.BirthMonth = '';
-    p.Inactive = '';
-    p.contacts = null;
+    p.get_ScopeData = function() {
+        return this.data;
+    };
     p.init = function () {
         $base.init.call(this);
-        this.list.sortTextOptions = [new Option('Last Name', 'LastName')];
-        this.list.sortText = this.list.sortTextOptions[0].value;
-        this.list.sortDirection = this.list.sortDirectionOptions[1].value;
+        this.get_ScopeData().sortTextOptions = [new Option('Last Name', 'LastName')];
+        this.get_ScopeData().sortText = this.get_ScopeData().sortTextOptions[0].value;
+        this.get_ScopeData().sortDirection = this.get_ScopeData().sortDirectionOptions[1].value;
         if (this.isListState()) {
             this.search();
         }
@@ -528,17 +603,17 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
     p.search = function (requestMore) {
         requestMore = (requestMore !== undefined) ? requestMore : false;
         if (!requestMore) {
-            this.list.page = 1;
+            this.get_ScopeData().page = 1;
         }
-        this.list.isFiltered = this.list.searchText && this.list.searchText.hasText();
+        this.get_ScopeData().isFiltered = this.get_ScopeData().searchText && this.get_ScopeData().searchText.hasText();
         this._contactService.search({
-            PageSize: this.list.pageSize,
-            Page: this.list.page,
-            SearchText: this.list.searchText,
+            PageSize: this.get_ScopeData().pageSize,
+            Page: this.get_ScopeData().page,
+            SearchText: this.get_ScopeData().searchText,
             SortValue: this.getSortValue(),
-            CommentTypeId: this.CommentTypeId,
-            BirthMonth: this.BirthMonth,
-            Inactive: this.Inactive
+            CommentTypeId: this.get_ScopeData().CommentTypeId,
+            BirthMonth: this.get_ScopeData().BirthMonth,
+            Inactive: this.get_ScopeData().Inactive
         }, (Blade.del(this, function(x) {
             this.handleResponse(x, requestMore)})));
     };
@@ -556,11 +631,11 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
             var $c_enum = response.Data.GetEnumerator();
             while($c_enum.MoveNext()) {
                 c = $c_enum.get_Current();
-                this.contacts.push(c);
+                this.get_ScopeData().contacts.push(c);
             }
         } else {
-            this.contacts = response.Data;
-            this.list.pageCount = Math.ceil(response.Total / this.list.pageSize);
+            this.get_ScopeData().contacts = response.Data;
+            this.get_ScopeData().pageCount = Math.ceil(response.Total / this.get_ScopeData().pageSize);
             this.enableLoadMoreOnScroll();
         }
     };
@@ -602,11 +677,31 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
                 params: {
                     action: 'rotatePhotoClockwise'
                 }
+            },
+            comments: {
+                method: 'GET',
+                params: {
+                    action: 'comments'
+                }
             }
         }));
+        this._commentsResource = resource($.digitalbeacon.resolveUrl('~/contactComments/:id/:action/json'), {
+            id: '@id'
+        }, {
+            update: {
+                method: 'PUT'
+            },
+            search: {
+                method: 'POST',
+                params: {
+                    action: 'search'
+                }
+            }
+        });
     }
     var p = ContactService.prototype;
     p._http = null;
+    p._commentsResource = null;
     p.saveWithFileData = function (id, model, files, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
         this.sendFormData(this._http, 'contacts', id, model, files, responseHandler);
@@ -629,6 +724,34 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
             id: id
         }, responseHandler);
     };
+    p.getComments = function (contactId, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        this.get_Resource().comments({
+            id: contactId
+        }, responseHandler);
+    };
+    p.getComment = function (id, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        return this._commentsResource.get({
+            id: id
+        }, responseHandler);
+    };
+    p.deleteComment = function (commentId, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        this._commentsResource.delete({
+            id: commentId
+        }, responseHandler);
+    };
+    p.saveComment = function (id, comment, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        if (id) {
+            this._commentsResource.update({
+                id: id
+            }, comment, responseHandler);
+        } else {
+            this._commentsResource.save(comment, responseHandler);
+        }
+    };
     Blade.impl(ContactService, 'DigitalBeacon.SiteBase.Mobile.IEntityService');
     return ContactService;
 })();
@@ -646,8 +769,8 @@ DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController = (function() {
     p.init = function () {
         $base.init.call(this);
     };
-    p.submit = function () {
-        this._identityService.register(this.model, (Blade.del(this, function(response) {
+    p.submit = function (modelName) {
+        this._identityService.register(this.get_ScopeData().model, (Blade.del(this, function(response) {
             DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope())})));
     };
     return RegistrationController;
@@ -663,12 +786,8 @@ DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
     }
     var p = SignInController.prototype;
     p._identityService = null;
-    p.init = function () {
-        $base.init.call(this);
-    };
-    p.submit = function () {
-        this._identityService.signIn(this.model, (Blade.del(this, function(response) {
-            DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope())})));
+    p.submit = function (modelName) {
+        this._identityService.signIn(this.get_ScopeData().model, this.get_DefaultHandler());
     };
     return SignInController;
 })();
@@ -682,8 +801,12 @@ angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config([
         url: '/new',
         templateUrl: $.digitalbeacon.resolveUrl('~/contacts/new/template'),
         controller: 'contactDetailsController'
+    }).state('list.display', {
+        url: '/{id:[0-9]{1,9}}',
+        templateUrl: $.digitalbeacon.resolveUrl('~/contacts/0/template'),
+        controller: 'contactDetailsController'
     }).state('list.edit', {
-        url: '/{id:[0-9]{1,4}}',
+        url: '/{id:[0-9]{1,9}}/edit',
         templateUrl: $.digitalbeacon.resolveUrl('~/contacts/0/edit/template'),
         controller: 'contactDetailsController'
     });

@@ -269,3 +269,45 @@ a.inactive
 	height: 90px;
 	margin-left: 10px;
 }
+
+.panel-heading h3,
+.panel-footer h3
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.display-action
+{
+	margin: 5px 10px 5px 10px;
+	font-size: 24px;
+	color: black;
+	cursor: pointer;
+}
+
+.panel .list-group-item:last-child
+{
+	margin-bottom: -1px;
+}
+
+
+.panel a.list-group-item
+{
+	/*margin-bottom: 1px;*/
+}
+
+.panel a.list-group-item h4
+{
+	/*margin-top: 5px;
+	margin-bottom: 5px;*/
+}
+
+div.list-group-item-heading
+{
+	font-weight: bold;
+}
+
+.panel .collapse .list-group-item:first-child {
+  /*border-top: 1px;*/
+  margin-top: 1px;
+}

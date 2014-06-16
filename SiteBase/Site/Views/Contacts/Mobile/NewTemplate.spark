@@ -17,9 +17,9 @@
 	<sbClientFormRow property="P(m => m.PostalCode)" mask="WebConstants.UsaPostalCodeMask" />
 	<sbClientFormRow property="P(m => m.City)" />
 	<sbClientFormRow property="P(m => m.StateId)" includeEmptyOption="true" />
-	<sbClientFormRow property="P(m => m.CommentTypeId)" includeEmptyOption="true" helpText="'Contacts.CommentType.HelpText'" />
-	<sbClientFormRow property="P(m => m.CommentDate)" />
-	<sbClientFormRow property="P(m => m.Comments)" inputType="textArea" />
+	<sbClientFormRow property="P(m => m.CommentType)" includeEmptyOption="true" helpText="'Contacts.CommentType.HelpText'" />
+	<sbClientFormRow property="P(m => m.CommentDate)" helpText="'Comments.Date.HelpText'" />
+	<sbClientFormRow property="P(m => m.CommentText)" inputType="textArea" />
 	<sbClientFormRow property="P(m => m.Photo)" inputType="file" />
 	<sbClientFormRow inputType="submit" />
 </sbClientFormPanel>

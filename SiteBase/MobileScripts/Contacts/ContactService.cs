@@ -19,6 +19,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 	public class ContactService : BaseEntityService
 	{
 		private dynamic _http;
+		private dynamic _commentsResource;
 
 		static ContactService()
 		{
@@ -47,7 +48,16 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 					search = new { method = "POST", @params = new { action = "search" } },
 					deletePhoto = new { method = "POST", @params = new { action = "deletePhoto" } },
 					rotatePhotoCounterclockwise = new { method = "POST", @params = new { action = "rotatePhotoCounterclockwise" } },
-					rotatePhotoClockwise = new { method = "POST", @params = new { action = "rotatePhotoClockwise" } }
+					rotatePhotoClockwise = new { method = "POST", @params = new { action = "rotatePhotoClockwise" } },
+					comments = new { method = "GET", @params = new { action = "comments" } }
+				});
+			_commentsResource = resource(
+				digitalbeacon.resolveUrl("~/contactComments/:id/:action/json"),
+				new { id = "@id" },
+				new
+				{
+					update = new { method = "PUT" },
+					search = new { method = "POST", @params = new { action = "search" } }
 				});
 		}
 
@@ -69,6 +79,33 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		public void rotatePhotoClockwise(string id, Action<ApiResponse> responseHandler = null)
 		{
 			Resource.rotatePhotoClockwise(new { id = id }, responseHandler);
+		}
+
+		public void getComments(string contactId, Action<ApiResponse> responseHandler = null)
+		{
+			Resource.comments(new { id = contactId }, responseHandler);
+		}
+
+		public dynamic getComment(string id, Action<ApiResponse> responseHandler = null)
+		{
+			return _commentsResource.get(new { id = id }, responseHandler);
+		}
+
+		public void deleteComment(string commentId, Action<ApiResponse> responseHandler = null)
+		{
+			_commentsResource.delete(new { id = commentId }, responseHandler);
+		}
+
+		public void saveComment(string id, object comment, Action<ApiResponse> responseHandler = null)
+		{
+			if (id)
+			{
+				_commentsResource.update(new { id = id }, comment, responseHandler);
+			}
+			else
+			{
+				_commentsResource.save(comment, responseHandler);
+			}
 		}
 	}
 }

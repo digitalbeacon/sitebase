@@ -14,7 +14,7 @@
 
 #//<content name="header" if="listModel != null && listModel.Heading.HasText()">${listModel.Heading}</content>
 
-<div ng-show="list.visible">
+<div ng-show="data.listVisible">
 	<sbClientMessagePanel if="displayMessagePanel" />
 
 	<sbClientSearchPanel if="displaySearchPanel" />
@@ -25,7 +25,7 @@
 	
 	<div class="list-group">
 		<if condition="itemContent.HasText()">!{itemContent}</if>
-		<else><a class="list-group-item" ng-repeat="${item} in ${items}" ng-click="${onClick}?{onClick.HasText()}"><render /></a></else>
+		<else><a class="list-group-item" ng-repeat="${item} in data.${items}" ng-click="${onClick}?{onClick.HasText()}"><render /></a></else>
 	</div>
 
 	<div class="btn-group btn-group-justified">

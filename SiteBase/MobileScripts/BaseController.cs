@@ -6,10 +6,10 @@
 // ---------------------------------------------------------------------- //
 
 using System;
-using System.Collections.Generic;
 using System.Html;
 using jQueryLib;
 using ng;
+using ng.ui.router;
 
 namespace DigitalBeacon.SiteBase.Mobile
 {
@@ -18,10 +18,12 @@ namespace DigitalBeacon.SiteBase.Mobile
 		private Scope _scope;
 		private dynamic _routerState;
 		private ILocation _location;
+		public dynamic data;
 
-		public Alert[] alerts = new Alert[0];
-		public dynamic model = new Dictionary<object>();
-		public dynamic data = new Dictionary<object>();
+		protected BaseScopeData ScopeData
+		{
+			get { return (BaseScopeData)data; }
+		}
 
 		protected Scope Scope
 		{
@@ -29,7 +31,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			set { _scope = value; }
 		}
 
-		protected dynamic RouterState
+		protected State RouterState
 		{
 			get { return _routerState; }
 			set { _routerState = value; }
@@ -37,7 +39,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected dynamic RouterParams
 		{
-			get { return _routerState ? _routerState.@params : new Dictionary<object>(); }
+			get { return _routerState ? _routerState.@params : new { }; }
 		}
 
 		protected dynamic Location
@@ -56,34 +58,44 @@ namespace DigitalBeacon.SiteBase.Mobile
 			get { return new Action<ApiResponse>(response => handleResponse(response)); }
 		}
 
-		public virtual void init()
+		protected virtual void init()
 		{
+			data = new BaseScopeData { alerts = new Alert[0] };
 		}
 
-		public virtual void submitForm(bool isValid)
+		public virtual void submitForm(string modelName, bool isValid)
 		{
-			model.submitted = true;
+			ScopeData[modelName].submitted = true;
 			if (!isValid)
 			{
 				window.scrollTo(0, 0);
 				return;
 			}
-			submit();
+			submit(modelName);
 		}
 
-		public virtual void submit()
+		protected void resetForm(string formName, string modelName = null)
+		{
+			((Form)Scope[formName]).setPristine();
+			if (modelName)
+			{
+				ScopeData[modelName].submitted = false;
+			}
+		}
+
+		protected virtual void submit(string modelName)
 		{
 		}
 
 		public bool hasAlert(string key)
 		{
-			if (!alerts || alerts.length == 0)
+			if (!ScopeData.alerts || ScopeData.alerts.length == 0)
 			{
 				return false;
 			}
-			for (var i = 0; i < alerts.length; i++)
+			for (var i = 0; i < ScopeData.alerts.length; i++)
 			{
-				if (alerts[i].key == key)
+				if (ScopeData.alerts[i].key == key)
 				{
 					return true;
 				}
@@ -93,13 +105,13 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		public void clearAlerts(string key = null)
 		{
-			if (alerts && alerts.length > 0)
+			if (ScopeData.alerts && ScopeData.alerts.length > 0)
 			{
 				if (key)
 				{
-					for (var i = alerts.length -1; i >= 0; i--)
+					for (var i = ScopeData.alerts.length -1; i >= 0; i--)
 					{
-						if (alerts[i].key == key)
+						if (ScopeData.alerts[i].key == key)
 						{
 							closeAlert(i);
 						}
@@ -107,21 +119,21 @@ namespace DigitalBeacon.SiteBase.Mobile
 				}
 				else
 				{
-					alerts.length = 0;
+					ScopeData.alerts.length = 0;
 				}
 			}
 		}
 
 		public void closeAlert(int index)
 		{
-			alerts.splice(index, 1);
+			ScopeData.alerts.splice(index, 1);
 		}
 
 		public void toggle(dynamic evt, string dataKey)
 		{
 			evt.preventDefault();
 			evt.stopPropagation();
-			data[dataKey] = data[dataKey] ? false : true;
+			ScopeData[dataKey] = ScopeData[dataKey] ? false : true;
 		}
 
 		public void fileChanged(dynamic fileInput)
@@ -133,22 +145,22 @@ namespace DigitalBeacon.SiteBase.Mobile
 			var files = fileInput.files;
 			if (fileInput.files && fileInput.files.length)
 			{
-				data.fileInput = fileInput;
+				ScopeData.fileInput = fileInput;
 			}
 			else
 			{
-				data.fileInput = null;
+				ScopeData.fileInput = null;
 			}
 		}
 
 		protected bool HasFileInput
 		{
-			get { return data.fileInput; }
+			get { return ScopeData.fileInput; }
 		}
 
 		protected object[] Files
 		{
-			get { return data.fileInput.files; }
+			get { return ScopeData.fileInput.files; }
 		}
 
 		public static void extend(object target, object obj)
@@ -158,6 +170,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected virtual void handleResponse(ApiResponse response)
 		{
+			ControllerHelper.handleResponse(response, Scope);
 		}
 
 		protected dynamic getStateData(string stateName)
@@ -172,6 +185,26 @@ namespace DigitalBeacon.SiteBase.Mobile
 				return state.data;
 			}
 			return null;
+		}
+
+		public void go(string stateName, object args = null)
+		{
+			RouterState.go(stateName, args);
+		}
+
+		protected Action<dynamic> createHandler(Action<dynamic> handler)
+		{
+			return new Action<dynamic>(response =>
+			{
+				if (response.Success)
+				{
+					handler(response);
+				}
+				else
+				{
+					ControllerHelper.handleResponse(response, Scope);
+				}
+			});
 		}
 	}
 }

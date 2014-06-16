@@ -4,7 +4,7 @@
 <default heading="''" />
 
 <div class="search-panel">
-	<button class="btn pull-left new" type="button" ng-click="addNew()"><span class="glyphicon glyphicon-plus"></span></button>
+	<button class="btn pull-left new" type="button" ng-click="addNew()" tooltip-placement="right" tooltip="${Text('Common.NewEntity.Label', singularLabel)}"><span class="glyphicon glyphicon-plus-sign"></span></button>
 	<form role="search">
 		<span class="input-group">
 			<input type="text" class="form-control" placeholder="Search" ng-model="list.searchText" />

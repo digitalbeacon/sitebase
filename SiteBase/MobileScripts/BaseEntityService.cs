@@ -16,9 +16,9 @@ namespace DigitalBeacon.SiteBase.Mobile
 	{
 		protected dynamic Resource { get; set; }
 
-		public virtual dynamic get(object parameters, Action<dynamic> responseHandler = null)
+		public virtual dynamic get(string id, Action<dynamic> responseHandler = null)
 		{
-			return Resource.get(parameters, responseHandler);
+			return Resource.get(new { id = id }, responseHandler);
 		}
 
 		public virtual void search(object parameters, dynamic response)
@@ -38,9 +38,9 @@ namespace DigitalBeacon.SiteBase.Mobile
 			}
 		}
 
-		public virtual void delete(object parameters, Action<ApiResponse> responseHandler = null)
+		public virtual void delete(string id, Action<ApiResponse> responseHandler = null)
 		{
-			Resource.delete(parameters, responseHandler);
+			Resource.delete(new { id = id }, responseHandler);
 		}
 
 		protected void sendFormData(dynamic http, string entityTarget, string id, object model, object[] files, Action<ApiResponse> responseHandler = null)

@@ -12,7 +12,7 @@
 		</if>
 		<set propName="Model.GetType().GetProperty(options.Property).Name" />
 		<set propName="'{0}.{1}'.FormatWith(propName, options.Model.GetType().GetProperty(options.Property).PropertyType.GetProperty(options.SubProperty).Name)" if="options.SubProperty.HasText()" />
-		<var clientPropName="'{0}.{1}'.FormatWith(clientModel, propName)" />
+		<var clientPropName="'data.{0}.{1}'.FormatWith(clientModel, propName)" />
 		<var propMetadata="ModelMetadata.FromStringExpression(propName, options.ViewData)" />
 		<var propRequired="options.Required.HasValue ? options.Required.Value : propMetadata.IsRequired" />
 		<var propReadOnly="options.InputReadOnly.HasValue ? options.InputReadOnly.Value : propMetadata.IsReadOnly" />
@@ -47,6 +47,7 @@
 			<sbSet dictionary="attr" key="'ng-pattern'" value="'/' + v.Value.ToString() + '/'" if="v.Key == 'data-val-regex-pattern'" />
 		</for>
 		
+		<sbSet dictionary="validationErrors" key="'required'" value="Text('Validation.Error.Required', propMetadata.DisplayName)" if="propRequired && !validationErrors.ContainsKey('required')" />
 		<sbSet dictionary="attr" key="'ng-model'" value="clientPropName" />
 		<sbSet dictionary="attr" key="'ng-init'" value="ngInitValue" if="ngInitValue.HasText()" />
 		<sbSet dictionary="attr" key="'class'" value="'form-control'" />
@@ -58,7 +59,7 @@
 		<sbSet dictionary="attr" key="'popover-trigger'" value="'focus'" if="options.HelpText.HasText()" />
 		
 		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group has-feedback${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}"
-			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || ${clientModel}.submitted) }">
+			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || data.${clientModel}.submitted) }">
 			${Html.Label(propName, new { class = "control-label" })}
 			<span class="glyphicon glyphicon-asterisk" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
 			#//<span class="glyphicon glyphicon-info-sign" if="options.HelpText.HasText()"></span>
@@ -116,7 +117,7 @@
 				${options.RenderContent}
 			</span>
 			<for each="var v in validationErrors">
-				<span ng-show="${ngFormProp}.$error.${v.Key} && (!${ngFormProp}.$pristine || model.submitted)" class="ng-hide help-block">${v.Value}</span>
+				<span ng-show="${ngFormProp}.$error.${v.Key} && (!${ngFormProp}.$pristine || data.${clientModel}.submitted)" class="ng-hide help-block">${v.Value}</span>
 			</for>
 			#//<span class="glyphicon glyphicon-asterisk form-control-feedback" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
 		</div>
@@ -133,15 +134,15 @@
 					<set customText="'Common.Submit.Label'" if="customText == null && !options.IsEntityModel" />
 					<div class="btn-group btn-group-justified">
 						<div class="btn-group" if="options.EnableSave">
-							#//<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onClick}?{clientEvents.onClick != null}" ng-disabled="${options.FormPanelId}.$invalid">${Text(customText)}</button>
-							<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onClick}?{clientEvents.onClick != null}">${Text(customText)}</button>
+							#//<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onSubmit}?{clientEvents.onSubmit != null}" ng-disabled="${options.FormPanelId}.$invalid">${Text(customText)}</button>
+							<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onSubmit}?{clientEvents.onSubmit != null}">${Text(customText)}</button>
 						</div>
 						!{options.RenderContent}
 						<div class="btn-group" if="options.EnableDelete">
-							<button type="button" id="delete" class="delete btn btn-danger" name="Delete" ng-click="${clientEvents.onDeleteClick}?{clientEvents.onDeleteClick != null}">${Text('Common.Delete.Label')}</button>
+							<button type="button" id="delete" class="delete btn btn-danger" name="Delete" ng-click="${clientEvents.onDelete}?{clientEvents.onDelete != null}">${Text('Common.Delete.Label')}</button>
 						</div>
 						<div class="btn-group" if="options.EnableCancel">
-							<button type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancelClick}?{clientEvents.onCancelClick != null}">${Text('Common.Cancel.Label')}</button>
+							<button type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancel}?{clientEvents.onCancel != null}">${Text('Common.Cancel.Label')}</button>
 						</div>
 					</div>
 				</if>

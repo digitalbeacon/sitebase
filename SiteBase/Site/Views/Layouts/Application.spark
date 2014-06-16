@@ -8,7 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</content>
 
-	<div id="pageBox">
+	<div id="pageBox" class="mobile">
 		<div id="pageContainer">
 			<div id="topNav">
 				<sbClientNavbar />

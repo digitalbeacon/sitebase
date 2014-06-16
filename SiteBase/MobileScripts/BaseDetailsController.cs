@@ -12,19 +12,20 @@ using System.Html;
 using DigitalBeacon.SiteBase;
 using DigitalBeacon.SiteBase.Mobile;
 using ng;
+using ng.ui.router;
 
 namespace DigitalBeacon.SiteBase.Mobile
 {
 	public abstract class BaseDetailsController : BaseController
 	{
-		protected BaseDetailsController(Scope scope, object state, ILocation location)
+		protected BaseDetailsController(Scope scope, State state, ILocation location)
 		{
 			Scope = scope;
 			RouterState = state;
 			Location = location;
 		}
 
-		public override void init()
+		protected override void init()
 		{
 			base.init();
 			if (RouterParams.id)
@@ -33,7 +34,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			}
 			if (RouterState.current.data && RouterState.current.data.alerts)
 			{
-				alerts = RouterState.current.data.alerts;
+				ScopeData.alerts = RouterState.current.data.alerts;
 				RouterState.current.data.alerts = null;
 			}
 			show();
@@ -69,7 +70,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			Scope.emit("detailsChanged");
 		}
 
-		protected abstract void load(int id);
+		protected abstract void load(string id);
 
 		protected abstract void save();
 
@@ -77,10 +78,17 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		public virtual void cancel()
 		{
-			hide();
+			if (RouterState.@is("list.edit"))
+			{
+				RouterState.go("list.display", new { id = ScopeData.model.Id });
+			}
+			else
+			{
+				hide();
+			}
 		}
 
-		public override void submit()
+		protected override void submit(string modelName)
 		{
 			save();
 		}
@@ -90,7 +98,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			ControllerHelper.handleResponse(response, Scope);
 			if (response.Success)
 			{
-				load(model.Id);
+				load(ScopeData.model.Id);
 			}
 		}
 
@@ -118,23 +126,14 @@ namespace DigitalBeacon.SiteBase.Mobile
 			{
 				return new Action<ApiResponse>(response =>
 				{
-					var responseHandled = false;
 					if (response.Success)
 					{
 						detailsChanged();
-						data.fileInput = null;
-						if (model.Id)
-						{
-							load(model.Id);
-						}
-						else if (response.Id)
-						{
-							responseHandled = true;
-							getStateData("list.edit").alerts = ControllerHelper.getAlerts(response);
-							RouterState.go("list.edit", new { id = response.Id });
-						}
+						ScopeData.fileInput = null;
+						getStateData("list.display").alerts = ControllerHelper.getAlerts(response);
+						RouterState.go("list.display", new { id = ScopeData.model.Id ?? response.Data });
 					}
-					if (!responseHandled)
+					else
 					{
 						ControllerHelper.handleResponse(response, Scope);
 					}

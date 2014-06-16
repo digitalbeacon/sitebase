@@ -7,7 +7,7 @@ if (inputType == "Email")
 {
 	input = this.EmailBox(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
 }
-if (inputType == "Password")
+else if (inputType == "Password")
 {
 	input = this.Password(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
 }

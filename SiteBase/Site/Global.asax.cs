@@ -129,10 +129,17 @@ namespace DigitalBeacon.SiteBase
 
 			routes.MapRoute(
 				"Dependency",
-				"{parentController}/{parentId}/{controller}/{action}",
-				new { },
-				new { parentId = @"\d+", action = notRenderTypeRegex }
+				"{parentController}/{parentId}/{controller}/{action}/{renderType}",
+				new { renderType = UrlParameter.Optional },
+				new { parentId = @"\d+", action = notRenderTypeRegex, renderType = renderTypeRegex }
 			);
+
+			//routes.MapRoute(
+			//	"Dependency",
+			//	"{parentController}/{parentId}/{controller}/{renderType}",
+			//	new { action = "index", renderType = UrlParameter.Optional },
+			//	new { parentId = @"\d+", controller = notRenderTypeRegex, renderType = renderTypeRegex }
+			//);
 
 			routes.MapRoute(
 				"Update",
@@ -152,7 +159,7 @@ namespace DigitalBeacon.SiteBase
 				"Create",
 				"{controller}/{renderType}",
 				new { action = "create", renderType = UrlParameter.Optional },
-				new { renderType = renderTypeRegex, httpVerb = new HttpVerbConstraint(HttpVerbs.Post) }
+				new { controller = notRenderTypeRegex, renderType = renderTypeRegex, httpVerb = new HttpVerbConstraint(HttpVerbs.Post) }
 			);
 
 			routes.MapRoute(
@@ -179,14 +186,14 @@ namespace DigitalBeacon.SiteBase
 			routes.MapRoute(
 				"EntityAction",
 				"{controller}/{id}/{action}/{renderType}",
-				new { action = "show", renderType = UrlParameter.Optional },
+				new { renderType = UrlParameter.Optional },
 				new { id = @"\d+", action = notRenderTypeRegex, renderType = renderTypeRegex }
 			);
 
 			routes.MapRoute(
 				"Entity",
 				"{controller}/{id}/{renderType}",
-				new { action = "show" },
+				new { action = "show", renderType = UrlParameter.Optional },
 				new { id = @"\d+", renderType = renderTypeRegex }
 			);
 
@@ -205,10 +212,22 @@ namespace DigitalBeacon.SiteBase
 			);
 
 			routes.MapRoute(
-				"Default",
+				"Controller",
 				"{controller}/{renderType}",
-				new { controller = "home", action = "index", renderType = UrlParameter.Optional },
-				new { renderType = renderTypeRegex }
+				new { action = "index", renderType = UrlParameter.Optional },
+				new { controller = notRenderTypeRegex, renderType = renderTypeRegex }
+			);
+
+			routes.MapRoute(
+				"DefaultEntity",
+				"{controller}/{id}/{action}",
+				new { id = @"\d+", action = "show" }
+			);
+
+			routes.MapRoute(
+				"Default",
+				"{controller}/{action}/{id}",
+				new { controller = "home", action = "index", id = UrlParameter.Optional }
 			);
 
 			//RouteDebug.RouteDebugger.RewriteRoutesForTesting(routes);

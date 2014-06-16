@@ -24,6 +24,7 @@ using DigitalBeacon.SiteBase.Models.Contacts;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
+using DigitalBeacon.Web;
 using DigitalBeacon.Web.Formatters;
 using DigitalBeacon.Web.Util;
 
@@ -45,6 +46,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		private byte[] _photoData;
 		private int _photoWidth;
 		private int _photoHeight;
+		private bool _populateCommentTypes;
 
 		static ContactsController()
 		{
@@ -120,6 +122,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 			return new FilePathResult("~/resources/base/images/transparent.gif", "image/gif");
 		}
 
+		public ActionResult Comments(long id)
+		{
+			return new TransferResult(Url.Action("index", "contactComments", new { parentId = id, renderType = RenderType }));
+		}
+
 		[HttpPost]
 		public ActionResult RotatePhotoCounterclockwise(long id)
 		{
@@ -167,6 +174,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 			get { return NewViewName; }
 		}
 
+		protected override string DisplayView
+		{
+			get { return RenderTemplate ? DisplayViewName : EditViewName; }
+		}
+
 		protected override ListModelBase ConstructListModel()
 		{
 			var model = new ListModel();
@@ -194,10 +206,9 @@ namespace DigitalBeacon.SiteBase.Controllers
 			AddSelectList(model, model.PropertyName(m => m.StateId), LookupService.GetNameList<StateEntity>());
 			AddSelectList(model, model.PropertyName(m => m.DefaultPhoneId), LookupService.GetNameList<PhoneTypeEntity>());
 
-			var createModel = model as CreateModel;
-			if (createModel != null)
+			if (_populateCommentTypes || RenderTemplate)
 			{
-				AddSelectList(model, createModel.PropertyName(x => x.CommentTypeId), LookupService.GetNameList<ContactCommentTypeEntity>());
+				AddSelectList(model, model.PropertyName(x => x.CommentType), LookupService.GetNameList<ContactCommentTypeEntity>());
 			}
 
 			return model;
@@ -274,7 +285,8 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		protected override EditModel ConstructCreateModel()
 		{
-			var model = new CreateModel 
+			_populateCommentTypes = true;
+			var model = new CreateModel
 			{ 
 				Date = DateTime.Now,
 				DefaultPhoneId = (long)PhoneType.Home
@@ -334,24 +346,20 @@ namespace DigitalBeacon.SiteBase.Controllers
 				entity.PhotoWidth = _photoWidth;
 				entity.PhotoHeight = _photoHeight;
 			}
-			var createModel = model as CreateModel;
-			if (createModel != null)
+			if (entity.AssociationId <= 0)
 			{
 				entity.AssociationId = CurrentAssociationId;
 			}
 			var contact = ContactService.SaveContact(entity);
-			if (createModel != null)
+			if (model.CommentType.ToInt64().HasValue)
 			{
-				if (createModel.CommentTypeId.HasValue)
+				LookupService.SaveEntity(new ContactCommentEntity
 				{
-					LookupService.SaveEntity(new ContactCommentEntity
-					{
-						ContactId = contact.Id,
-						Date = createModel.Date.HasValue ? createModel.Date.Value : DateTime.Now,
-						CommentType = LookupService.Get<ContactCommentTypeEntity>(createModel.CommentTypeId.Value),
-						Text = createModel.Comments
-					});
-				}
+					ContactId = contact.Id,
+					Date = model.Date.HasValue ? model.Date.Value : DateTime.Now,
+					CommentType = LookupService.Get<ContactCommentTypeEntity>(model.CommentType.ToInt64().Value),
+					Text = model.CommentText
+				});
 			}
 			return contact;
 		}

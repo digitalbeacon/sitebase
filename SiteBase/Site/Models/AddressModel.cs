@@ -9,13 +9,17 @@ using System.ComponentModel;
 using System.Web.Script.Serialization;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Web.Models;
+using DigitalBeacon.Util;
 using DigitalBeacon.Web;
+using DigitalBeacon.Web.Formatters;
 using DigitalBeacon.Web.Validation;
 
 namespace DigitalBeacon.SiteBase.Models
 {
 	public class AddressModel : EntityModel
 	{
+		private static PhoneNumberFormatter PhoneFormatter = new PhoneNumberFormatter();
+
 		[LocalizedDisplayName("Common.Country.Label")]
 		public virtual long? CountryId { get; set; }
 
@@ -74,6 +78,11 @@ namespace DigitalBeacon.SiteBase.Models
 			set { CountryId = value.HasValue ? (long)value.Value : (long?)null; }
 		}
 
+		public virtual string CountryDisplayValue
+		{
+			get { return Country.ToStringSafe().ToDisplayCase(); }
+		}
+
 		[ReadOnly(true)]
 		[ScriptIgnore]
 		public virtual State? State
@@ -82,10 +91,20 @@ namespace DigitalBeacon.SiteBase.Models
 			set { StateId = value.HasValue ? (long)value.Value : (long?)null; }
 		}
 
+		public virtual string StateDisplayValue
+		{
+			get { return State.ToStringSafe().ToDisplayCase(); }
+		}
+
 		public virtual PhoneType? DefaultPhone
 		{
 			get { return DefaultPhoneId.HasValue ? (PhoneType)DefaultPhoneId.Value : (PhoneType?)null; }
 			set { DefaultPhoneId = value.HasValue ? (long)value.Value : (long?)null; }
+		}
+
+		public virtual string PhoneDisplayValue
+		{
+			get { return PhoneFormatter.Format(MobilePhone.DefaultTo(HomePhone).DefaultTo(WorkPhone)); }
 		}
 	}
 }

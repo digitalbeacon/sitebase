@@ -15,6 +15,7 @@ using DigitalBeacon.SiteBase.Models;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
+using DigitalBeacon.Web;
 
 namespace DigitalBeacon.SiteBase.Controllers
 {
@@ -39,6 +40,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		}
 
 		protected bool SuppressViewNameTranslation { get; set; }
+		protected bool AllowJsonGet { get; set; }
 		
 		#endregion
 
@@ -48,11 +50,15 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			var response = new ApiResponse();
 			response.Success = ModelState.IsValid && (model == null || model.Errors == null || model.Errors.Count == 0);
-			if (response.Success && model != null && model.Messages != null && model.Messages.Count > 0)
+			if (response.Success)
 			{
-				response.Message = model.Messages[0];
+				response.Data = model;
+				//if (model != null && model.Messages != null && model.Messages.Count > 0)
+				//{
+				//	response.Message = model.Messages[0];
+				//}
 			}
-			else if (!response.Success)
+			else
 			{
 				if (model != null && model.Errors != null && model.Errors.Count > 0)
 				{
@@ -70,7 +76,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 					}
 				}
 			}
-			return Json(response);
+			return Json(response, AllowJsonGet ? JsonRequestBehavior.AllowGet : JsonRequestBehavior.DenyGet);
 		}
 
 		protected virtual void SetHeading(string heading, BaseViewModel model = null)
@@ -120,7 +126,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		protected override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
 			base.OnActionExecuted(filterContext);
-			if (RenderJson)
+			if (RenderJson && !(filterContext.Result is TransferResult))
 			{
 				string url = null;
 				if (filterContext.Result is RedirectToRouteResult)

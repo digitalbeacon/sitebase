@@ -547,7 +547,7 @@
     <value>Contact is currently inactive.</value>
   </data>
   <data name="Contacts.CommentType.HelpText" xml:space="preserve">
-    <value>The comment will only be saved if a comment type is selected.</value>
+    <value>Comments will only be saved if a comment type is selected.</value>
   </data>
   <data name="Comments.Create.Confirmation" xml:space="preserve">
     <value>{1} for **{0}** added.</value>
@@ -566,5 +566,14 @@
   </data>
   <data name="Comments.Update.Confirmation" xml:space="preserve">
     <value>{1} for **{0}** saved.</value>
+  </data>
+  <data name="Comments.Date.HelpText" xml:space="preserve">
+    <value>Leave this field empty to populate the date with the current date and time.</value>
+  </data>
+  <data name="Comments.Date.Label" xml:space="preserve">
+    <value>Comment Date</value>
+  </data>
+  <data name="Comments.Type.Label" xml:space="preserve">
+    <value>Comment Type</value>
   </data>
 </root>

@@ -75,7 +75,7 @@ namespace DigitalBeacon.Util
 			return sb.ToString();
 		}
 
-		public static string SeparatePascalCaseText(string text, object separator)
+		public static string SeparatePascalCaseText(string text, object separator = null)
 		{
 			if (IsNullOrBlank(text))
 			{
@@ -86,7 +86,7 @@ namespace DigitalBeacon.Util
 			{
 				if (Char.IsUpper(sb[i]))
 				{
-					sb.Insert(i++, separator);
+					sb.Insert(i++, separator ?? ' ');
 				}
 			}
 			return sb.ToString();

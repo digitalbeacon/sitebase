@@ -180,6 +180,11 @@ namespace DigitalBeacon.Util
 			return TextUtil.ToLowerHyphenated(s);
 		}
 
+		public static string ToDisplayCase(this string s)
+		{
+			return TextUtil.SeparatePascalCaseText(TextUtil.ToPascalCase(s));
+		}
+
 		#endregion
 	}
 }
