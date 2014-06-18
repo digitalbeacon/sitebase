@@ -6,15 +6,14 @@
 // ---------------------------------------------------------------------- //
 
 using System;
-using jQueryLib;
 
 namespace DigitalBeacon.SiteBase.Mobile.Identity
 {
-	public class RegistrationController : BaseController
+	public class RecoverUsernameController : BaseController
 	{
 		private IdentityService _identityService;
 
-		public RegistrationController(dynamic scope, IdentityService identityService)
+		public RecoverUsernameController(dynamic scope, IdentityService identityService)
 		{
 			Scope = scope;
 			_identityService = identityService;
@@ -22,7 +21,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 
 		protected override void submit(string modelName)
 		{
-			_identityService.register(ScopeData.model, DefaultHandler);
+			_identityService.recoverUsername(ScopeData.model, DefaultHandler);
 		}
 	}
 }

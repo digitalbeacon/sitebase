@@ -17,73 +17,67 @@ using DigitalBeacon.SiteBase.Web;
 
 namespace DigitalBeacon.SiteBase.Models.Identity
 {
-	public class ResetPasswordModel
+	[Validator(typeof(ResetPasswordValidator))]
+	public class ResetPasswordModel : BaseViewModel
 	{
 		public const string StepProperty = "Step";
 
-		public class StepOne : BaseViewModel
+		public int Step { get; set; }
+		public bool GoBack { get; set; }
+
+		public ResetPasswordModel()
 		{
-			public int Step { get; set; }
-			public bool GoBack { get; set; }
-
-			[Required]
-			[StringLength(UserEntity.UsernameMaxLength)]
-			[LocalizedDisplayName("Common.Username.Label")]
-			public string Username { get; set; }
-
-			/// <summary>
-			/// Initializes a new instance of the <see cref="StepOne"/> class.
-			/// </summary>
-			public StepOne()
-			{
-				Step = 1;
-			}
+			Step = 1;
 		}
 
-		[Validator(typeof(StepTwoValidator))]
-		public class StepTwo : StepOne
+		[Required]
+		[StringLength(UserEntity.UsernameMaxLength)]
+		[LocalizedDisplayName("Common.Username.Label")]
+		public string Username { get; set; }
+
+		[ReadOnly(true)]
+		[StringLength(100)]
+		[LocalizedDisplayName("Common.SecurityQuestion.Label")]
+		public string SecurityQuestion { get; set; }
+
+		[StringLength(100)]
+		[LocalizedDisplayName("Common.SecurityAnswer.Label")]
+		public string SecurityAnswer { get; set; }
+
+		[StringLength(20)]
+		[ManagedRegularExpression(WebConstants.PasswordRegexKey, "Identity.Error.Password.Invalid")]
+		[LocalizedDisplayName("Common.NewPassword.Label")]
+		public string Password { get; set; }
+
+		[StringLength(20)]
+		[LocalizedDisplayName("Common.NewPasswordConfirm.Label")]
+		public string PasswordConfirm { get; set; }
+	}
+
+	public class ResetPasswordValidator : BaseValidator<ResetPasswordModel>
+	{
+		public ResetPasswordValidator()
 		{
-			[ReadOnly(true)]
-			[StringLength(100)]
-			[LocalizedDisplayName("Common.SecurityQuestion.Label")]
-			public string SecurityQuestion { get; set; }
-
-			[Required]
-			[StringLength(100)]
-			[LocalizedDisplayName("Common.SecurityAnswer.Label")]
-			public string SecurityAnswer { get; set; }
-
-			[Required]
-			[StringLength(20)]
-			[ManagedRegularExpression(WebConstants.PasswordRegexKey, "Identity.Error.Password.Invalid")]
-			[LocalizedDisplayName("Common.NewPassword.Label")]
-			public string Password { get; set; }
-
-			[Required]
-			[StringLength(20)]
-			[LocalizedDisplayName("Common.NewPasswordConfirm.Label")]
-			public string PasswordConfirm { get; set; }
-
-			/// <summary>
-			/// Initializes a new instance of the <see cref="StepTwo"/> class.
-			/// </summary>
-			public StepTwo()
-			{
-				Step = 2;
-			}
-		}
-
-		public class StepTwoValidator : BaseValidator<StepTwo>
-		{
-			public StepTwoValidator()
-			{
-				RuleFor(x => x.PasswordConfirm)
-					.Equal(x => x.Password)
-					.WithLocalizedMessage("Identity.Error.PasswordConfirm.NotMatched");
-				RuleFor(x => x.Password)
-					.NotEqual(x => x.Username)
-					.WithLocalizedMessage("Identity.Error.Password.Invalid");
-			}
+			RuleFor(x => x.SecurityAnswer)
+				.NotNullOrBlank()
+				.When(x => x.Step > 1)
+				.WithLocalizedMessage("Validation.Error.Required", "Common.SecurityAnswer.Label");
+			RuleFor(x => x.Password)
+				.NotNullOrBlank()
+				.When(x => x.Step > 1)
+				.WithLocalizedMessage("Validation.Error.Required", "Common.NewPassword.Label");
+			RuleFor(x => x.Password)
+				.NotEqual(x => x.Username)
+				.When(x => x.Step > 1)
+				.WithLocalizedMessage("Identity.Error.Password.Invalid");
+			RuleFor(x => x.PasswordConfirm)
+				.NotNullOrBlank()
+				.When(x => x.Step > 1)
+				.WithLocalizedMessage("Validation.Error.Required", "Common.NewPasswordConfirm.Label");
+			RuleFor(x => x.PasswordConfirm)
+				.Equal(x => x.Password)
+				.When(x => x.Step > 1)
+				.WithLocalizedMessage("Identity.Error.PasswordConfirm.NotMatched");
 		}
 	}
 }

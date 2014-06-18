@@ -7,11 +7,13 @@
 <default isEntityModel="typeof(EntityModel).IsAssignableFrom(Model.GetType())" />
 <default initClientModel="false" />
 <default enableClientValidation="true" />
-
-<sbClientMessagePanel if="displayMessagePanel" />
+<default clientController="null" type="string" />
 
 # HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
 
-<form id="${panelId}" name="${panelId}" ng-submit="submitForm('${clientModel}', ${panelId}.$valid)" role="form" novalidate>
-	<render />
-</form>
+<div id="${panelId}" ng-controller="${clientController}?{clientController.HasText()}">
+	<sbClientMessagePanel if="displayMessagePanel" />
+	<form name="${panelId}" ng-submit="submitForm('${clientModel}', ${panelId}.$valid)" role="form" novalidate>
+		<render />
+	</form>
+</div>	

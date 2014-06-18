@@ -59,12 +59,12 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 					new object[] { "$scope", "$state", "$location", "contactService", 
 						(Action<Scope, State, ILocation, ContactService>)
 						((scope, state, location, contactService) => 
-							BaseController.extend(scope, new ContactListController(scope, state, location, contactService))) })
+							BaseController.initScope(scope, new ContactListController(scope, state, location, contactService))) })
 				.controller("contactDetailsController",
 					new object[] { "$scope", "$state", "$location", "contactService", 
 						(Action<Scope, State, ILocation, ContactService>)
 						((scope, state, location, contactService) => 
-							BaseController.extend(scope, new ContactDetailsController(scope, state, location, contactService))) })
+							BaseController.initScope(scope, new ContactDetailsController(scope, state, location, contactService))) })
 				.run(new object[]
 				{
 					"$state",

@@ -62,8 +62,8 @@ namespace DigitalBeacon.SiteBase
 				}
 				else
 				{
-					scope.alerts = getAlerts(response);
-					scope.validationErrors = response.ValidationErrors ?? new Dictionary<string[]>();
+					scope.data.alerts = getAlerts(response);
+					//scope.data.validationErrors = response.ValidationErrors ?? new Dictionary<string[]>();
 					window.scrollTo(0, 0);
 				}
 			}

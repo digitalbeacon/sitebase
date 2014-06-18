@@ -60,16 +60,15 @@
 		
 		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group has-feedback${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}"
 			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || data.${clientModel}.submitted) }">
-			${Html.Label(propName, new { class = "control-label" })}
-			<span class="glyphicon glyphicon-asterisk" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
+			<if condition="propMetadata.DisplayName.HasText()">
+				${Html.Label(propName, new { class = "control-label" })}
+				<small if="propRequired"><span class="glyphicon glyphicon-asterisk" tooltip="${Text('Common.Required.Label')}"></span></small>
+			</if>
 			#//<span class="glyphicon glyphicon-info-sign" if="options.HelpText.HasText()"></span>
 			<span class="form-row-content">
-				<if condition="options.InputType == null && propReadOnly">
-					${Html.Editor(propName, "ReadOnlyField")}
-				</if>
-				<else if="options.InputType == textArea">
+				<if condition="options.InputType == textArea">
 					${this.TextArea(propName).DoNotAutoLabel().Class("form-control").Attr("ng-model", clientPropName).Attr("ng-required", propRequired ? "true" : "false")}
-				</else>
+				</if>
 				<else if="options.InputType == password">
 					${Html.Editor(propName, "string", new { inputType = password, htmlAttributes = attr })}
 				</else>
@@ -132,18 +131,11 @@
 					<var customText="options.CustomText" />
 					<set customText="'Common.Save.Label'" if="customText == null && options.IsEntityModel" />
 					<set customText="'Common.Submit.Label'" if="customText == null && !options.IsEntityModel" />
-					<div class="btn-group btn-group-justified">
-						<div class="btn-group" if="options.EnableSave">
-							#//<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onSubmit}?{clientEvents.onSubmit != null}" ng-disabled="${options.FormPanelId}.$invalid">${Text(customText)}</button>
-							<button type="submit" id="save" class="btn btn-primary" name="Save" ng-click="${clientEvents.onSubmit}?{clientEvents.onSubmit != null}">${Text(customText)}</button>
-						</div>
+					<div>
+						<button if="options.EnableSave" type="submit" id="save" class="btn btn-primary ${options.InputClass}?{options.InputClass.HasText()}" name="Save" ng-click="${clientEvents.onSubmit}?{clientEvents.onSubmit != null}" ng-disabled="${options.FormPanelId}.$pristine || ${options.FormPanelId}.$invalid">${Text(customText)}</button>
 						!{options.RenderContent}
-						<div class="btn-group" if="options.EnableDelete">
-							<button type="button" id="delete" class="delete btn btn-danger" name="Delete" ng-click="${clientEvents.onDelete}?{clientEvents.onDelete != null}">${Text('Common.Delete.Label')}</button>
-						</div>
-						<div class="btn-group" if="options.EnableCancel">
-							<button type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancel}?{clientEvents.onCancel != null}">${Text('Common.Cancel.Label')}</button>
-						</div>
+						<button if="options.EnableDelete" type="button" id="delete" class="delete btn btn-danger" name="Delete" ng-click="${clientEvents.onDelete}?{clientEvents.onDelete != null}">${Text('Common.Delete.Label')}</button>
+						<button if="options.EnableCancel" type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancel}?{clientEvents.onCancel != null}">${Text('Common.Cancel.Label')}</button>
 					</div>
 				</if>
 				<else>

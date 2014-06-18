@@ -49,6 +49,10 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		protected override void handleResponse(ApiResponse response)
 		{
 			ScopeData.isOpenPhotoActions = false;
+			if (response.Success)
+			{
+				detailsChanged();
+			}
 			base.handleResponse(response);
 		}
 
@@ -121,7 +125,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			}
 		}
 
-		private void getComments(string contactId)
+		private void getComments(string contactId, bool setChanged = false)
 		{
 			if (RouterState.@is("list.display"))
 			{
@@ -129,12 +133,17 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 					createHandler(response =>
 					{
 						ScopeData.comments = response.Data.Items;
+						// need to wait for comments to be bound so the scroll height is avaiable to the collapse directive
 						window.setTimeout(new Action(() =>
 							{
 								ScopeData.isCollapsedCommentEditor = true;
 								Scope.apply();
 							}), 0);
 					}));
+			}
+			if (setChanged)
+			{
+				detailsChanged();
 			}
 		}
 
@@ -158,7 +167,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		private void saveComment()
 		{
 			ScopeData.comment.ParentId = ScopeData.model.Id;
-			_contactService.saveComment(ScopeData.comment.Id, ScopeData.comment, createHandler(response => getComments(ScopeData.model.Id)));
+			_contactService.saveComment(ScopeData.comment.Id, ScopeData.comment, createHandler(response => getComments(ScopeData.model.Id, true)));
 		}
 
 		public void cancelComment()

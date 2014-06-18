@@ -1,0 +1,54 @@
+﻿<viewdata model="UpdateProfileModel" />
+
+<content name="header">${Text("Account.UpdateProfile.Heading")}</content>
+
+<var countryVisible="Model.ListItems.ContainsKey(AddressEntity.CountryProperty)" />
+
+<sbClientFormPanel panelId="'updateProfilePanel'" clientController="'updateProfileController'">
+	<sbClientFormRow property="'FirstName'" />
+	<sbClientFormRow property="'MiddleName'" if="Model.ShowMiddleName" />
+	<sbClientFormRow property="'LastName'" />
+	<sbClientFormRow property="'Email'" inputReadOnly="WebConstants.UseEmailForUsername" required="!WebConstants.UseEmailForUsername" />
+	<if condition="Model.ListItems.ContainsKey(UserEntity.LanguageProperty)">
+		<sbClientFormRow property="'Language'" includeEmptyOption="false" />
+	</if>
+	<else>
+		<sbHidden propertyName="'Language'" />
+	</else>
+	#//<sbClientFormRow property="'NotificationPreference'" />
+	<if condition="countryVisible">
+		<sbClientFormRow property="'Country'" required="Model.RequireAddress" />
+	</if>
+	<else>
+		<sbHidden propertyName="'Country'" />
+	</else>
+	<sbClientFormRow property="'Line1'" required="Model.RequireAddress" />
+	<sbClientFormRow property="'Line2'" />
+	<sbClientFormRow property="'City'" required="Model.RequireAddress" />
+	<sbClientFormRow property="'State'" required="Model.RequireState && !countryVisible" />
+	<sbClientFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
+	<sbClientFormRow inputType="submit" />
+</sbClientFormPanel>
+
+#/*
+<content name="readyScript">
+	${ValidationRule("Email", "updateProfilePanel", "remote", "'{0}'".FormatWith(Url.Action("ValidateEmail", "Account")), "Account.Error.DuplicateEmail")}
+	var country = $('#Country', updateProfilePanel.element);
+	var state = $('#State', updateProfilePanel.element);
+	country.change(function() {
+		if (this.value) {
+			$.post($.digitalbeacon.resolveUrl('~/states/list'), { country: this.value }, function(data) {
+				state.find('option:not(:first)').remove();
+				if (data) {
+					$.each(data, function(i, x) {
+						state.append($('<option/>').attr('value', x.Id).text(x.Name));
+					});
+				}
+			});
+		}
+		else {
+			state.find('option:not(:first)').remove();
+		}
+	});
+</content>
+#*/

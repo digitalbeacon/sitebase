@@ -28,6 +28,7 @@ namespace DigitalBeacon.SiteBase.Models
 		public bool GenerateRowId { get; set; }
 		public string RowId { get; set; }
 		public string RowClass { get; set; }
+		public string InputClass { get; set; }
 		public string RowStyle { get; set; }
 		public string Mask { get; set; }
 		public bool Focus { get; set; }

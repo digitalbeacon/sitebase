@@ -27,6 +27,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		private static readonly IMessageService MsgService = ServiceFactory.Instance.GetService<IMessageService>();
 
+		public AccountController()
+		{
+			MobileModuleName = "account";
+		}
+
 		#region Index
 
 		/// <summary>
@@ -61,10 +66,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			ActionResult retVal = null;
 
-			var model = new ChangePasswordModel
-							{ 
-				Username = CurrentUsername 
-			};
+			var model = new ChangePasswordModel { Username = CurrentUsername };
 			TryUpdateModel(model);
 			if (ModelState.IsValid)
 			{
@@ -141,8 +143,9 @@ namespace DigitalBeacon.SiteBase.Controllers
 		/// <returns></returns>
 		public ActionResult UpdateProfile()
 		{
-			var model = ConstructUpdateProfileModel();
-			return View(AddTransientMessages(PopulateListItems(model)));
+			AllowJsonGet = true;
+			var model = ConstructUpdateProfileModel(IsMobile && !RenderJson);
+			return View(AddTransientMessages(RenderJson ? model : PopulateListItems(model)));
 		}
 
 		/// <summary>
@@ -216,19 +219,24 @@ namespace DigitalBeacon.SiteBase.Controllers
 			return Json(true, JsonRequestBehavior.AllowGet);
 		}
 
-		private UpdateProfileModel ConstructUpdateProfileModel()
+		private UpdateProfileModel ConstructUpdateProfileModel(bool forTemplate)
 		{
-			var user = CurrentUser;
 			var model = new UpdateProfileModel
 			{
-				FirstName = user.Person.FirstName,
-				MiddleName = user.Person.MiddleName,
-				LastName = user.Person.LastName,
-				Email = user.Email,
-				Language = user.Language.HasValue ? (long)user.Language.Value : (long?)null,
 				ShowMiddleName = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityShowMiddleName).ValueAsBoolean ?? false,
 				RequireAddress = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityRequireAddress).ValueAsBoolean ?? false
 			};
+			if (forTemplate)
+			{
+				return model;
+			}
+			var user = CurrentUser;
+			model.FirstName = user.Person.FirstName;
+			model.MiddleName = user.Person.MiddleName;
+			model.LastName = user.Person.LastName;
+			model.Email = user.Email;
+			model.Language = user.Language.HasValue ? (long)user.Language.Value : (long?)null;
+
 			if (user.Person.Address != null)
 			{
 				if (user.Person.Address.Country.HasValue)

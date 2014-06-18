@@ -6,23 +6,23 @@
 // ---------------------------------------------------------------------- //
 
 using System;
-using jQueryLib;
+using ng;
 
-namespace DigitalBeacon.SiteBase.Mobile.Identity
+namespace DigitalBeacon.SiteBase.Mobile.Account
 {
-	public class RegistrationController : BaseController
+	public class ChangeSecurityQuestionController : BaseController
 	{
-		private IdentityService _identityService;
+		private AccountService _accountService;
 
-		public RegistrationController(dynamic scope, IdentityService identityService)
+		public ChangeSecurityQuestionController(dynamic scope, AccountService accountService)
 		{
 			Scope = scope;
-			_identityService = identityService;
+			_accountService = accountService;
 		}
 
 		protected override void submit(string modelName)
 		{
-			_identityService.register(ScopeData.model, DefaultHandler);
+			_accountService.changeSecurityQuestion(ScopeData.model, DefaultHandler);
 		}
 	}
 }

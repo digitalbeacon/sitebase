@@ -2,6 +2,19 @@
 if(typeof DigitalBeacon == 'undefined') DigitalBeacon = {};
 if(!DigitalBeacon.SiteBase) DigitalBeacon.SiteBase = {};
 if(!DigitalBeacon.SiteBase.Mobile) DigitalBeacon.SiteBase.Mobile = {};
+if(!DigitalBeacon.SiteBase.Mobile.Account) DigitalBeacon.SiteBase.Mobile.Account = {};
+
+DigitalBeacon.SiteBase.Mobile.Account.AccountModule = (function() {
+    function AccountModule() {
+    }
+    return AccountModule;
+})();
+
+DigitalBeacon.SiteBase.Mobile.Account.AccountService = (function() {
+    function AccountService() {
+    }
+    return AccountService;
+})();
 
 DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     function BaseController() {
@@ -52,7 +65,8 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     p.init = function () {
         this.data = {
-            alerts: new Array(0)
+            model: {
+            }
         };
     };
     p.submitForm = function (modelName, isValid) {
@@ -64,7 +78,7 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
         this.submit(modelName);
     };
     p.resetForm = function (formName, modelName) {
-        modelName = (modelName !== undefined) ? modelName : null;
+        modelName = (modelName !== undefined) ? modelName : 'model';
         (this.get_Scope()[formName]).$setPristine();
         if (modelName) {
             this.get_ScopeData()[modelName].submitted = false;
@@ -96,9 +110,20 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
                 this.get_ScopeData().alerts.length = 0;
             }
         }
+        if (!this.get_ScopeData().alerts) {
+            this.get_ScopeData().alerts = new Array(0);
+        }
     };
     p.closeAlert = function (index) {
         this.get_ScopeData().alerts.splice(index, 1);
+    };
+    p.setAlert = function (msg, isError) {
+        isError = (isError !== undefined) ? isError : true;
+        this.clearAlerts();
+        this.get_ScopeData().alerts.push({
+            msg: msg,
+            type: isError ? 'danger' : 'success'
+        });
     };
     p.toggle = function (evt, dataKey) {
         evt.preventDefault();
@@ -145,7 +170,7 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     return BaseController;
 })();
-DigitalBeacon.SiteBase.Mobile.BaseController.extend = function (target, obj) {
+DigitalBeacon.SiteBase.Mobile.BaseController.initScope = function (target, obj) {
     ($.extend(target, obj)).init();
 };
 
@@ -259,6 +284,73 @@ DigitalBeacon.SiteBase.Mobile.SiteBaseModule = (function() {
     function SiteBaseModule() {
     }
     return SiteBaseModule;
+})();
+
+DigitalBeacon.SiteBase.Mobile.Account.ChangePasswordController = (function() {
+    Blade.derive(ChangePasswordController, DigitalBeacon.SiteBase.Mobile.BaseController);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
+    function ChangePasswordController(scope, accountService) {
+        $base.constructor.call(this);
+        this.set_Scope(scope);
+        this._accountService = accountService;
+    }
+    var p = ChangePasswordController.prototype;
+    p._accountService = null;
+    p.submit = function (modelName) {
+        if (this.get_ScopeData().model.NewPasswordConfirm !== this.get_ScopeData().model.NewPassword) {
+            this.setAlert($.sb.localization.passwordConfirmNotMatched);
+            return;
+        }
+        if (this.get_ScopeData().model.NewPassword === this.get_ScopeData().model.Username) {
+            this.setAlert($.sb.localization.passwordInvalid);
+            return;
+        }
+        this._accountService.changePassword(this.get_ScopeData().model, this.get_DefaultHandler());
+    };
+    return ChangePasswordController;
+})();
+
+DigitalBeacon.SiteBase.Mobile.Account.ChangeSecurityQuestionController = (function() {
+    Blade.derive(ChangeSecurityQuestionController, DigitalBeacon.SiteBase.Mobile.BaseController);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
+    function ChangeSecurityQuestionController(scope, accountService) {
+        $base.constructor.call(this);
+        this.set_Scope(scope);
+        this._accountService = accountService;
+    }
+    var p = ChangeSecurityQuestionController.prototype;
+    p._accountService = null;
+    p.submit = function (modelName) {
+        this._accountService.changeSecurityQuestion(this.get_ScopeData().model, this.get_DefaultHandler());
+    };
+    return ChangeSecurityQuestionController;
+})();
+
+DigitalBeacon.SiteBase.Mobile.Account.UpdateProfileController = (function() {
+    Blade.derive(UpdateProfileController, DigitalBeacon.SiteBase.Mobile.BaseController);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
+    function UpdateProfileController(scope, accountService) {
+        $base.constructor.call(this);
+        this.set_Scope(scope);
+        this._accountService = accountService;
+    }
+    var p = UpdateProfileController.prototype;
+    p._accountService = null;
+    p.init = function () {
+        $base.init.call(this);
+        this._accountService.getProfile(null, this.createHandler(Blade.del(this, function(response) {
+            var defaultLanguage = this.get_ScopeData().model.Language;
+            response.Data.Language = response.Data.Language || defaultLanguage;
+            var defaultCountry = this.get_ScopeData().model.Country;
+            response.Data.Country = response.Data.Country || defaultCountry;
+            response.Data.State = response.Data.State || '';
+            this.get_ScopeData().model = response.Data;
+        })));
+    };
+    p.submit = function (modelName) {
+        this._accountService.updateProfile(this.get_ScopeData().model, this.get_DefaultHandler());
+    };
+    return UpdateProfileController;
 })();
 
 DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
@@ -490,6 +582,9 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
     };
     p.handleResponse = function (response) {
         this.get_ScopeData().isOpenPhotoActions = false;
+        if (response.Success) {
+            this.detailsChanged();
+        }
         $base.handleResponse.call(this, response);
     };
     p.load = function (id) {
@@ -535,7 +630,8 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
             this._contactService.rotatePhotoClockwise(this.get_ScopeData().model.Id, this.get_ResponseHandler());
         }
     };
-    p.getComments = function (contactId) {
+    p.getComments = function (contactId, setChanged) {
+        setChanged = (setChanged !== undefined) ? setChanged : false;
         if (this.get_RouterState().is('list.display')) {
             this._contactService.getComments(contactId, this.createHandler(Blade.del(this, function(response) {
                 this.get_ScopeData().comments = response.Data.Items;
@@ -544,6 +640,9 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
                     this.get_Scope().$apply();
                 }), 0);
             })));
+        }
+        if (setChanged) {
+            this.detailsChanged();
         }
     };
     p.newComment = function () {
@@ -561,7 +660,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
     p.saveComment = function () {
         this.get_ScopeData().comment.ParentId = this.get_ScopeData().model.Id;
         this._contactService.saveComment(this.get_ScopeData().comment.Id, this.get_ScopeData().comment, this.createHandler(Blade.del(this, function(response) {
-            this.getComments(this.get_ScopeData().model.Id)})));
+            this.getComments(this.get_ScopeData().model.Id, true)})));
     };
     p.cancelComment = function () {
         this.get_ScopeData().isCollapsedCommentEditor = true;
@@ -756,6 +855,22 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
     return ContactService;
 })();
 
+DigitalBeacon.SiteBase.Mobile.Identity.RecoverUsernameController = (function() {
+    Blade.derive(RecoverUsernameController, DigitalBeacon.SiteBase.Mobile.BaseController);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
+    function RecoverUsernameController(scope, identityService) {
+        $base.constructor.call(this);
+        this.set_Scope(scope);
+        this._identityService = identityService;
+    }
+    var p = RecoverUsernameController.prototype;
+    p._identityService = null;
+    p.submit = function (modelName) {
+        this._identityService.recoverUsername(this.get_ScopeData().model, this.get_DefaultHandler());
+    };
+    return RecoverUsernameController;
+})();
+
 DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController = (function() {
     Blade.derive(RegistrationController, DigitalBeacon.SiteBase.Mobile.BaseController);
     var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
@@ -766,14 +881,42 @@ DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController = (function() {
     }
     var p = RegistrationController.prototype;
     p._identityService = null;
-    p.init = function () {
-        $base.init.call(this);
-    };
     p.submit = function (modelName) {
-        this._identityService.register(this.get_ScopeData().model, (Blade.del(this, function(response) {
-            DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope())})));
+        this._identityService.register(this.get_ScopeData().model, this.get_DefaultHandler());
     };
     return RegistrationController;
+})();
+
+DigitalBeacon.SiteBase.Mobile.Identity.ResetPasswordController = (function() {
+    Blade.derive(ResetPasswordController, DigitalBeacon.SiteBase.Mobile.BaseController);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
+    function ResetPasswordController(scope, identityService) {
+        $base.constructor.call(this);
+        this.set_Scope(scope);
+        this._identityService = identityService;
+    }
+    var p = ResetPasswordController.prototype;
+    p._identityService = null;
+    p.submit = function (modelName) {
+        if (this.get_ScopeData().model.PasswordConfirm !== this.get_ScopeData().model.Password) {
+            this.setAlert($.sb.localization.passwordConfirmNotMatched);
+            return;
+        }
+        if (this.get_ScopeData().model.Password === this.get_ScopeData().model.Username) {
+            this.setAlert($.sb.localization.passwordInvalid);
+            return;
+        }
+        this._identityService.resetPassword(this.get_ScopeData().model, this.createHandler(Blade.del(this, function(response) {
+            if (response.Data.Step > 1) {
+                angular.extend(this.get_ScopeData().model, response.Data);
+                this.resetForm('resetPasswordPanel');
+            }
+        })));
+    };
+    p.back = function () {
+        this.get_ScopeData().model.Step = 1;
+    };
+    return ResetPasswordController;
 })();
 
 DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
@@ -792,6 +935,39 @@ DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
     return SignInController;
 })();
 
+angular.module('account', ['sitebase', 'accountService']).controller('updateProfileController', ['$scope', 'accountService', (function(scope, accountService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Account.UpdateProfileController(scope, accountService))})]).controller('changePasswordController', ['$scope', 'accountService', (function(scope, accountService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Account.ChangePasswordController(scope, accountService))})]).controller('changeSecurityQuestionController', ['$scope', 'accountService', (function(scope, accountService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Account.ChangeSecurityQuestionController(scope, accountService))})]);
+angular.module('accountService', ['ngResource']).factory('accountService', ['$resource', (function(resource) {
+    return resource($.digitalbeacon.resolveUrl('~/account/:operation/json'), {
+    }, {
+        getProfile: {
+            method: 'GET',
+            params: {
+                operation: 'updateProfile'
+            }
+        },
+        updateProfile: {
+            method: 'POST',
+            params: {
+                operation: 'updateProfile'
+            }
+        },
+        changePassword: {
+            method: 'POST',
+            params: {
+                operation: 'changePassword'
+            }
+        },
+        changeSecurityQuestion: {
+            method: 'POST',
+            params: {
+                operation: 'changeSecurityQuestion'
+            }
+        }
+    });
+})]);
 angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config(['$stateProvider', (function(stateProvider) {
     stateProvider.state('list', {
         url: $.digitalbeacon.resolveUrl('~/contacts'),
@@ -811,14 +987,16 @@ angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config([
         controller: 'contactDetailsController'
     });
 })]).controller('contactListController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController(scope, state, location, contactService))})]).controller('contactDetailsController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController(scope, state, location, contactService))})]).run(['$state', function(state) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController(scope, state, location, contactService))})]).controller('contactDetailsController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController(scope, state, location, contactService))})]).run(['$state', function(state) {
     $.digitalbeacon.loadCssFile('~/resources/base/contacts/styles.css');
     state.transitionTo('list');
 }]);
 angular.module('identity', ['sitebase', 'identityService']).controller('signInController', ['$scope', 'identityService', (function(scope, identityService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Identity.SignInController(scope, identityService))})]).controller('registrationController', ['$scope', 'identityService', (function(scope, identityService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.extend(scope, new DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController(scope, identityService))})]);
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.SignInController(scope, identityService))})]).controller('registrationController', ['$scope', 'identityService', (function(scope, identityService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController(scope, identityService))})]).controller('recoverUsernameController', ['$scope', 'identityService', (function(scope, identityService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.RecoverUsernameController(scope, identityService))})]).controller('resetPasswordController', ['$scope', 'identityService', (function(scope, identityService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.ResetPasswordController(scope, identityService))})]);
 angular.module('identityService', ['ngResource']).factory('identityService', ['$resource', (function(resource) {
     return resource($.digitalbeacon.resolveUrl('~/identity/:operation/json'), {
     }, {
@@ -832,6 +1010,18 @@ angular.module('identityService', ['ngResource']).factory('identityService', ['$
             method: 'POST',
             params: {
                 operation: 'register'
+            }
+        },
+        recoverUsername: {
+            method: 'POST',
+            params: {
+                operation: 'recoverUsername'
+            }
+        },
+        resetPassword: {
+            method: 'POST',
+            params: {
+                operation: 'resetPassword'
             }
         }
     });

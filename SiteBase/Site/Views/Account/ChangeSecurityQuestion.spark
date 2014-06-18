@@ -5,6 +5,6 @@
 <sbFormPanel panelId="'changeSecurityQuestionPanel'">
 	<sbFormRow property="'CurrentPassword'" inputType="password" />
 	<sbFormRow property="'SecurityQuestion'" />
-	<sbFormRow property="'SecurityAnswer'" />
+	<sbFormRow property="'SecurityAnswer'" inputType="password" />
 	<sbFormRow inputType="submit" />
 </sbFormPanel>

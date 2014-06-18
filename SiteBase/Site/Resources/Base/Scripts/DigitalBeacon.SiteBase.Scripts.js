@@ -60,8 +60,7 @@ DigitalBeacon.SiteBase.ControllerHelper.handleResponse = function (response, sco
         } else if (scope === null) {
             alert(response.Message || response.ErrorMessage || DigitalBeacon.SiteBase.ControllerHelper.toString(response.ValidationErrors));
         } else {
-            scope.alerts = DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response);
-            scope.validationErrors = response.ValidationErrors || {};
+            scope.data.alerts = DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response);
             scrollTo(0, 0);
         }
     }

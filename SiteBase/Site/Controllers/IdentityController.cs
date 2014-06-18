@@ -459,38 +459,22 @@ namespace DigitalBeacon.SiteBase.Controllers
 		/// <returns></returns>
 		public ActionResult ResetPassword()
 		{
-			return View(new ResetPasswordModel.StepOne());
+			return View(new ResetPasswordModel());
 		}
 
 		/// <summary>
 		/// Handles the reset password submission
 		/// </summary>
-		/// <param name="form">The form.</param>
+		/// <param name="model">The model.</param>
 		/// <returns></returns>
 		[CaptchaValidator]
 		[HttpPost]
-		public ActionResult ResetPassword(FormCollection form)
+		public ActionResult ResetPassword(ResetPasswordModel model)
 		{
-			ActionResult retVal;
-
-			switch (Convert.ToInt32(form[ResetPasswordModel.StepProperty]))
-			{
-				default:
-					var stepOneModel = new ResetPasswordModel.StepOne();
-					TryUpdateModel(stepOneModel);
-					retVal = ResetPassword(stepOneModel);
-					break;
-				case 2:
-					var stepTwoModel = new ResetPasswordModel.StepTwo();
-					TryUpdateModel(stepTwoModel);
-					retVal = ResetPassword(stepTwoModel);
-					break;
-			}
-
-			return retVal;
+			return model.Step <= 1 ? ResetPasswordStepOne(model) : ResetPasswordStepTwo(model);
 		}
 
-		private ActionResult ResetPassword(ResetPasswordModel.StepOne model)
+		private ActionResult ResetPasswordStepOne(ResetPasswordModel model)
 		{
 			ActionResult retVal = null;
 
@@ -499,18 +483,15 @@ namespace DigitalBeacon.SiteBase.Controllers
 				var user = IdentityService.GetUser(model.Username);
 				if (user != null && user.Approved)
 				{
-					var stepTwoModel = new ResetPasswordModel.StepTwo
-					{
-						Username = user.Username, 
-						SecurityQuestion = user.SecurityQuestion
-					};
-					if (stepTwoModel.SecurityQuestion.IsNullOrBlank())
+					model.SecurityQuestion = user.SecurityQuestion;
+					if (model.SecurityQuestion.IsNullOrBlank())
 					{
 						AddPropertyValidationError(String.Empty, "Identity.Error.ResetPassword.NoSecurityQuestion");
 					}
 					else
 					{
-						retVal = View("ResetPasswordStepTwo", stepTwoModel);
+						model.Step = 2;
+						retVal = View("ResetPasswordStepTwo", model);
 					}
 				}
 				else
@@ -521,7 +502,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			return retVal ?? View(model);
 		}
 
-		private ActionResult ResetPassword(ResetPasswordModel.StepTwo model)
+		private ActionResult ResetPasswordStepTwo(ResetPasswordModel model)
 		{
 			ActionResult retVal = null;
 

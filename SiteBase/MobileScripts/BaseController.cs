@@ -58,9 +58,14 @@ namespace DigitalBeacon.SiteBase.Mobile
 			get { return new Action<ApiResponse>(response => handleResponse(response)); }
 		}
 
+		public static void initScope(object target, object obj)
+		{
+			((BaseController)jQuery.extend(target, obj)).init();
+		}
+
 		protected virtual void init()
 		{
-			data = new BaseScopeData { alerts = new Alert[0] };
+			data = new BaseScopeData { model = new { } };
 		}
 
 		public virtual void submitForm(string modelName, bool isValid)
@@ -74,7 +79,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			submit(modelName);
 		}
 
-		protected void resetForm(string formName, string modelName = null)
+		protected void resetForm(string formName, string modelName = "model")
 		{
 			((Form)Scope[formName]).setPristine();
 			if (modelName)
@@ -122,11 +127,21 @@ namespace DigitalBeacon.SiteBase.Mobile
 					ScopeData.alerts.length = 0;
 				}
 			}
+			if (!ScopeData.alerts)
+			{
+				ScopeData.alerts = new Alert[0];
+			}
 		}
 
 		public void closeAlert(int index)
 		{
 			ScopeData.alerts.splice(index, 1);
+		}
+
+		public void setAlert(string msg, bool isError = true)
+		{
+			clearAlerts();
+			ScopeData.alerts.push(new Alert { msg = msg, type = isError ? "danger" : "success" });
 		}
 
 		public void toggle(dynamic evt, string dataKey)
@@ -161,11 +176,6 @@ namespace DigitalBeacon.SiteBase.Mobile
 		protected object[] Files
 		{
 			get { return ScopeData.fileInput.files; }
-		}
-
-		public static void extend(object target, object obj)
-		{
-			((BaseController)jQuery.extend(target, obj)).init();
 		}
 
 		protected virtual void handleResponse(ApiResponse response)

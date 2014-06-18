@@ -780,6 +780,13 @@
     <Content Include="Views\Contacts\Mobile\DisplayTemplate.spark">
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Views\Identity\Mobile\ResetPassword.spark" />
+    <EmbeddedResource Include="Views\Identity\Mobile\RecoverUsername.spark" />
+    <EmbeddedResource Include="Views\Account\Mobile\_global.spark" />
+    <EmbeddedResource Include="Views\Account\Mobile\UpdateProfile.spark" />
+    <EmbeddedResource Include="Views\Shared\Mobile\PartialNav.spark" />
+    <EmbeddedResource Include="Views\Account\Mobile\ChangePassword.spark" />
+    <EmbeddedResource Include="Views\Account\Mobile\ChangeSecurityQuestion.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -873,7 +880,9 @@
     <EmbeddedResource Include="Views\Identity\RecoverUsername.spark" />
     <EmbeddedResource Include="Views\Identity\Register.spark" />
     <EmbeddedResource Include="Views\Identity\ResetPassword.spark" />
-    <EmbeddedResource Include="Views\Identity\ResetPasswordStepTwo.spark" />
+    <EmbeddedResource Include="Views\Identity\ResetPasswordStepTwo.spark">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Identity\SignIn.spark">
       <SubType>Designer</SubType>
     </EmbeddedResource>

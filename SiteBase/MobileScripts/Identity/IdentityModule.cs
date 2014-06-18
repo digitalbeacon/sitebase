@@ -19,12 +19,22 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 					new object[] { "$scope", "identityService", 
 						(Action<dynamic, IdentityService>)
 						((scope, identityService) => 
-							BaseController.extend(scope, new SignInController(scope, identityService))) })
+							BaseController.initScope(scope, new SignInController(scope, identityService))) })
 				.controller("registrationController",
 					new object[] { "$scope", "identityService", 
 						(Action<dynamic, IdentityService>)
 						((scope, identityService) => 
-							BaseController.extend(scope, new RegistrationController(scope, identityService))) });
+							BaseController.initScope(scope, new RegistrationController(scope, identityService))) })
+				.controller("recoverUsernameController",
+					new object[] { "$scope", "identityService", 
+						(Action<dynamic, IdentityService>)
+						((scope, identityService) => 
+							BaseController.initScope(scope, new RecoverUsernameController(scope, identityService))) })
+				.controller("resetPasswordController",
+					new object[] { "$scope", "identityService", 
+						(Action<dynamic, IdentityService>)
+						((scope, identityService) => 
+							BaseController.initScope(scope, new ResetPasswordController(scope, identityService))) });
 		}
 	}
 }

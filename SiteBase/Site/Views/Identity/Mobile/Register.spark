@@ -19,7 +19,7 @@
 			<sbClientFormRow property="'Country'" required="Model.RequireAddress" />
 		</if>
 		<else>
-			${Html.HiddenFor(m => m.Country)}
+			<sbHidden propertyName="'Country'" />
 		</else>
 		<sbClientFormRow property="'Line1'" required="Model.RequireAddress" />
 		<sbClientFormRow property="'Line2'" />

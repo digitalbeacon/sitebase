@@ -1,0 +1,29 @@
+﻿<viewdata model="PartialNavModel" />
+
+<sbClientMessagePanel />
+
+<%
+NavigationItem navItem = null;
+foreach (var nav in Enum.GetNames(typeof(Navigation)))
+{
+	string key = nav + "Nav";
+	if (ViewData.ContainsKey(key))
+	{
+	navItem = ((IEnumerable<NavigationItem>)ViewData[key]).Where(x => TextUtil.IsEqualIgnoreCase(x.Url, Model.Url)).SingleOrDefault();
+	if (navItem != null)
+	{
+		break;
+	}
+	}
+}
+if (navItem == null)
+{
+	throw new BaseException("Could not locate top level navigation item for url [{0}].", Model.Url);
+}
+%>
+
+<content name="header">${navItem.Text}</content>
+
+<div class="list-group" if="navItem.Items != null">
+	<a class="list-group-item" href="${Url.Content(item.Url)}" each="var item in navItem.Items">${item.Text}</a>
+</div>

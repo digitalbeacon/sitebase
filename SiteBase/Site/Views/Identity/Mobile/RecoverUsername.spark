@@ -1,0 +1,8 @@
+﻿<viewdata model="RecoverUsernameModel" />
+
+<content name="header">${Text("Identity.RecoverUsername.Heading")}</content>
+
+<sbClientFormPanel panelId="'recoverUsernamePanel'" clientController="'recoverUsernameController'">
+	<sbClientFormRow property="'Email'" focus="true" />
+	<sbClientFormRow inputType="submit" />
+</sbClientFormPanel>

@@ -27,7 +27,9 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 							new
 							{
 								signIn = new { method = "POST", @params = new { operation = "signIn" } },
-								register = new { method = "POST", @params = new { operation = "register" } }
+								register = new { method = "POST", @params = new { operation = "register" } },
+								recoverUsername = new { method = "POST", @params = new { operation = "recoverUsername" } },
+								resetPassword = new { method = "POST", @params = new { operation = "resetPassword" } }
 							});
 					})
 				});
@@ -38,5 +40,11 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 
 		[ScriptExternal]
 		public extern void register(dynamic parameters, Action<ApiResponse> responseHandler);
+
+		[ScriptExternal]
+		public extern void recoverUsername(dynamic parameters, Action<ApiResponse> responseHandler);
+
+		[ScriptExternal]
+		public extern void resetPassword(dynamic parameters, Action<ApiResponse> responseHandler);
 	}
 }

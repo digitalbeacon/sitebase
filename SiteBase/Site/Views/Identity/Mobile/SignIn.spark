@@ -2,21 +2,15 @@
 
 <content name="header">${Model.Heading.DefaultTo(Text("Identity.SignIn.Heading"))}</content>
 
-<div ng-controller="signInController">
-	
-	<sbClientFormPanel panelId="'signInPanel'">
-		<sbHidden propertyName="'ReturnUrl'" if="Model.ReturnUrl.HasText()" />
-		<sbClientFormRow property="'Username'" focus="true" />
-		<sbClientFormRow property="'Password'" inputType="password" maxLength="20" />
-		<sbClientFormRow inputType="submit" />
-	#/*	
-		<sbClientFormRow rowClass="'actions'">
-			<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />
-		</sbClientFormRow>
-		<sbClientFormRow rowClass="'actions'">
-			<sbActionLink action="'recoverUsername'" text="'Identity.ForgotUsername.Label'" />
-		</sbClientFormRow>
-	#*/
-	</sbClientFormPanel>
-</div>
-
+<sbClientFormPanel panelId="'signInPanel'" clientController="'signInController'">
+	<sbHidden propertyName="'ReturnUrl'" if="Model.ReturnUrl.HasText()" />
+	<sbClientFormRow property="'Username'" focus="true" />
+	<sbClientFormRow property="'Password'" inputType="password" maxLength="20" />
+	<sbClientFormRow inputType="submit" customText="'Identity.SignIn.Label'" />
+	<sbClientFormRow rowClass="'actions'">
+		<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />
+	</sbClientFormRow>
+	<sbClientFormRow rowClass="'actions'">
+		<sbActionLink action="'recoverUsername'" text="'Identity.ForgotUsername.Label'" />
+	</sbClientFormRow>
+</sbClientFormPanel>

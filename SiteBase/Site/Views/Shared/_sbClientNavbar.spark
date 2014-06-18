@@ -12,7 +12,8 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="~/" target="_self">${heading.DefaultTo(Text("Site.Title"))}</a>
+			#//<a class="navbar-brand" href="~/" target="_self">${heading.DefaultTo(Text("Site.Title"))}</a>
+			<span class="navbar-brand">${heading.DefaultTo(Text("Site.Title"))}</span>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->

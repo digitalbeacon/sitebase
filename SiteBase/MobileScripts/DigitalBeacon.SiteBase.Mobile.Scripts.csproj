@@ -46,9 +46,15 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Account\AccountModule.cs" />
+    <Compile Include="Account\AccountService.cs" />
+    <Compile Include="Account\ChangeSecurityQuestionController.cs" />
+    <Compile Include="Account\ChangePasswordController.cs" />
+    <Compile Include="Account\UpdateProfileController.cs" />
     <Compile Include="BaseEntityService.cs" />
     <Compile Include="BaseScopeData.cs" />
-    <Compile Include="Contacts\Contact.cs" />
+    <Compile Include="Identity\ResetPasswordController.cs" />
+    <Compile Include="Identity\RecoverUsernameController.cs" />
     <Compile Include="Identity\RegistrationController.cs" />
     <Compile Include="IEntityService.cs" />
     <Compile Include="BaseController.cs">

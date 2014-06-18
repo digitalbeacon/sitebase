@@ -12,6 +12,7 @@
 <default generateRowId="true" />
 <default rowId="null" type="string" />
 <default rowClass="inputType == submit ? 'form-row-submit' : null" />
+<default inputClass="null" type="string" />
 <default rowStyle="null" type="string" />
 <default mask="null" type="string" />
 <default maxLength="null" type="int?" />
@@ -32,6 +33,7 @@
 <default enableCancel="onCancel.HasText()" />
 <set onDelete="'delete()'" if="onDelete.IsNullOrBlank()" />
 <set onCancel="'cancel()'" if="onCancel.IsNullOrBlank()" />
+<set inputClass="'form-control'" if="inputClass == null && inputType == submit && !enableCancel && !enableDelete" />
 <default initClientModel="false" />
 
 <content name="formRowContent" if="enableRenderContent"><render /></content>
@@ -56,6 +58,7 @@ ${ClientFormRow(new FormRowOptions {
 	GenerateRowId = generateRowId,
 	RowId = rowId,
 	RowClass = rowClass,
+	InputClass = inputClass,
 	RowStyle = rowStyle,
 	Mask = mask,
 	Focus = focus,
