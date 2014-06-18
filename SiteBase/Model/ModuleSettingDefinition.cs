@@ -20,6 +20,7 @@ namespace DigitalBeacon.SiteBase.Model
 		MobileAppName = 6,
 		IdentityShowMiddleName = 51,
 		IdentityRequireAddress = 52,
+		IdentityShowAddress = 53,
 		LoginEmailUsernameRequested = 101,
 		LoginEmailPasswordChanged = 102,
 		RegistrationEnabled = 111,

@@ -224,6 +224,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			var model = new UpdateProfileModel
 			{
 				ShowMiddleName = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityShowMiddleName).ValueAsBoolean ?? false,
+				ShowAddress = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityShowAddress).ValueAsBoolean ?? false,
 				RequireAddress = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityRequireAddress).ValueAsBoolean ?? false
 			};
 			if (forTemplate)

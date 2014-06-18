@@ -20,7 +20,7 @@
 			<sbFormRow property="'SecurityQuestion'" />
 			<sbFormRow property="'SecurityAnswer'" inputType="password" />
 		</div>
-		<div id="col2" class="col">
+		<div id="col2" class="col" if="Model.ShowAddress">
 			<if condition="countryVisible">
 				<sbFormRow property="'Country'" required="Model.RequireAddress" />
 			</if>
@@ -46,35 +46,37 @@
 	</if>
 	${ValidationRule("Password", "registrationPanel", "notEqualTo", "'#Username'", "Identity.Error.Password.Invalid")}
 	${ValidationRule("PasswordConfirm", "registrationPanel", "equalTo", "'#Password'", "Identity.Error.PasswordConfirm.NotMatched")}
-	<if condition="Model.RequireAddress">
-		<if condition="countryVisible">
-			${ValidationRule("Country", "registrationPanel", "required", true, "Validation.Error.Required", "Common.Country.Label")}
+	<if condition="Model.ShowAddress">
+		<if condition="Model.RequireAddress">
+			<if condition="countryVisible">
+				${ValidationRule("Country", "registrationPanel", "required", true, "Validation.Error.Required", "Common.Country.Label")}
+			</if>
+			${ValidationRule("Line1", "registrationPanel", "required", true, "Validation.Error.Required", "Common.Line1.Label")}
+			${ValidationRule("City", "registrationPanel", "required", true, "Validation.Error.Required", "Common.City.Label")}
 		</if>
-		${ValidationRule("Line1", "registrationPanel", "required", true, "Validation.Error.Required", "Common.Line1.Label")}
-		${ValidationRule("City", "registrationPanel", "required", true, "Validation.Error.Required", "Common.City.Label")}
-	</if>
-	<if condition="Model.RequireState && !countryVisible">
-		${ValidationRule("State", "registrationPanel", "required", true, "Validation.Error.Required", "Common.State.Label")}
-	</if>
-	<if condition="Model.RequirePostalCode && !countryVisible">
-		${ValidationRule("PostalCode", "registrationPanel", "required", true, "Validation.Error.Required", "Common.PostalCode.Label")}
-	</if>
-	var country = $('#Country', registrationPanel.element);
-	var state = $('#State', registrationPanel.element);
-	country.change(function() {
-		if (this.value) {
-			$.post($.digitalbeacon.resolveUrl('~/states/list'), { country: this.value }, function(data) {
+		<if condition="Model.RequireState && !countryVisible">
+			${ValidationRule("State", "registrationPanel", "required", true, "Validation.Error.Required", "Common.State.Label")}
+		</if>
+		<if condition="Model.RequirePostalCode && !countryVisible">
+			${ValidationRule("PostalCode", "registrationPanel", "required", true, "Validation.Error.Required", "Common.PostalCode.Label")}
+		</if>
+		var country = $('#Country', registrationPanel.element);
+		var state = $('#State', registrationPanel.element);
+		country.change(function() {
+			if (this.value) {
+				$.post($.digitalbeacon.resolveUrl('~/states/list'), { country: this.value }, function(data) {
+					state.find('option:not(:first)').remove();
+					if (data) {
+						$.each(data, function(i, x) {
+							state.append($('<option/>').attr('value', x.Id).text(x.Name));
+						});
+					}
+				});
+			}
+			else {
 				state.find('option:not(:first)').remove();
-				if (data) {
-					$.each(data, function(i, x) {
-						state.append($('<option/>').attr('value', x.Id).text(x.Name));
-					});
-				}
-			});
-		}
-		else {
-			state.find('option:not(:first)').remove();
-		}
-	});
+			}
+		});
+	</if>
 </content>
 

@@ -8,7 +8,7 @@ declare @MobileAppName varchar(100) = ''
 
 -- sql update
 
-INSERT INTO [SqlUpdate]([Version],[PatchNumber],[Module]) VALUES('3.1.1', 999, 'SiteBase')
+INSERT INTO [SqlUpdate]([Version],[PatchNumber],[Module]) VALUES('3.1.2', 999, 'SiteBase')
 
 -- lookup data
 
@@ -234,7 +234,9 @@ SET IDENTITY_INSERT [sitebase].[ModuleSettingDefinition] ON
 INSERT INTO [sitebase].[ModuleSettingDefinition]([Id],[ModuleDefinitionId],[ModuleSettingTypeId],[DisplayOrder],[Global],[Key],[Name],[IntroducedInVersion],[DefaultValue])
 	VALUES(51, 7, 5, 1, 1, 'Identity.ShowMiddleName', 'Show Middle Name', '1.0.0', 'False')
 INSERT INTO [sitebase].[ModuleSettingDefinition]([Id],[ModuleDefinitionId],[ModuleSettingTypeId],[DisplayOrder],[Global],[Key],[Name],[IntroducedInVersion],[DefaultValue])
-	VALUES(52, 7, 5, 2, 1, 'Identity.RequireAddress', 'Require Address', '1.0.0', 'False')
+	VALUES(52, 7, 5, 3, 1, 'Identity.RequireAddress', 'Require Address', '1.0.0', 'False')
+INSERT INTO [sitebase].[ModuleSettingDefinition]([Id],[ModuleDefinitionId],[ModuleSettingTypeId],[DisplayOrder],[Global],[Key],[Name],[IntroducedInVersion],[DefaultValue])
+	VALUES(53, 7, 5, 2, 1, 'Identity.ShowAddress', 'Show Address', '3.1.2', 'False')
 SET IDENTITY_INSERT [sitebase].[ModuleSettingDefinition] OFF
 
 -- login

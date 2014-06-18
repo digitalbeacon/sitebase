@@ -15,17 +15,17 @@
 				<sbFormRow property="'Language'" includeEmptyOption="false" />
 			</if>
 			<else>
-				${Html.HiddenFor(m => m.Language)}
+				${this.Hidden(m => m.Language)}
 			</else>
 			#//<sbFormRow property="'NotificationPreference'" />
 			<sbFormRow inputType="submit" />
 		</div>
-		<div id="col2" class="col">
+		<div id="col2" class="col" if="Model.ShowAddress">
 			<if condition="countryVisible">
 				<sbFormRow property="'Country'" required="Model.RequireAddress" />
 			</if>
 			<else>
-				${Html.HiddenFor(m => m.Country)}
+				${this.Hidden(m => m.Country)}
 			</else>
 			<sbFormRow property="'Line1'" required="Model.RequireAddress" />
 			<sbFormRow property="'Line2'" />
@@ -33,6 +33,14 @@
 			<sbFormRow property="'State'" required="Model.RequireState && !countryVisible" />
 			<sbFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
 		</div>
+		<if condition="!Model.ShowAddress">
+			${this.Hidden(m => m.Country)}
+			${this.Hidden(m => m.Line1)}
+			${this.Hidden(m => m.Line2)}
+			${this.Hidden(m => m.City)}
+			${this.Hidden(m => m.State)}
+			${this.Hidden(m => m.PostalCode)}
+		</if>
 	</div>			
 </sbFormPanel>
 

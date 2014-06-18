@@ -15,17 +15,19 @@
 		<sbClientFormRow property="'PasswordConfirm'" inputType="password" />
 		<sbClientFormRow property="'SecurityQuestion'" />
 		<sbClientFormRow property="'SecurityAnswer'" inputType="password" />
-		<if condition="countryVisible">
-			<sbClientFormRow property="'Country'" required="Model.RequireAddress" />
+		<if condition="Model.ShowAddress">
+			<if condition="countryVisible">
+				<sbClientFormRow property="'Country'" required="Model.RequireAddress" />
+			</if>
+			<else>
+				<sbHidden propertyName="'Country'" />
+			</else>
+			<sbClientFormRow property="'Line1'" required="Model.RequireAddress" />
+			<sbClientFormRow property="'Line2'" />
+			<sbClientFormRow property="'City'" required="Model.RequireAddress" />
+			<sbClientFormRow property="'State'" required="Model.RequireState && !countryVisible" />
+			<sbClientFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
 		</if>
-		<else>
-			<sbHidden propertyName="'Country'" />
-		</else>
-		<sbClientFormRow property="'Line1'" required="Model.RequireAddress" />
-		<sbClientFormRow property="'Line2'" />
-		<sbClientFormRow property="'City'" required="Model.RequireAddress" />
-		<sbClientFormRow property="'State'" required="Model.RequireState && !countryVisible" />
-		<sbClientFormRow property="'PostalCode'" required="Model.RequirePostalCode && !countryVisible" />
 		<sbClientFormRow inputType="submit" />
 	</sbClientFormPanel>
 </div>

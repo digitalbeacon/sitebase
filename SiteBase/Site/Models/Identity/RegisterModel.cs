@@ -23,11 +23,14 @@ namespace DigitalBeacon.SiteBase.Models.Identity
 		public bool ShowMiddleName { get; set; }
 
 		[ReadOnly(true)]
+		public bool ShowAddress { get; set; }
+
+		[ReadOnly(true)]
 		public bool RequireAddress { get; set; }
 
 		public bool RequirePostalCode
 		{
-			get { return RequireAddress && Country.HasValue && Country.Value == (long)DigitalBeacon.SiteBase.Model.Country.UnitedStates; }
+			get { return ShowAddress && RequireAddress && Country.HasValue && Country.Value == (long)DigitalBeacon.SiteBase.Model.Country.UnitedStates; }
 		}
 
 		public bool RequireState
@@ -120,15 +123,15 @@ namespace DigitalBeacon.SiteBase.Models.Identity
 				.WithLocalizedMessage("Identity.Error.Password.Invalid");
 			RuleFor(x => x.Country)
 				.NotNull()
-				.When(x => x.RequireAddress)
+				.When(x => x.ShowAddress && x.RequireAddress)
 				.WithLocalizedMessage("Validation.Error.Required", "Common.Country.Label");
 			RuleFor(x => x.Line1)
 				.NotNullOrBlank()
-				.When(x => x.RequireAddress)
+				.When(x => x.ShowAddress && x.RequireAddress)
 				.WithLocalizedMessage("Validation.Error.Required", "Common.Line1.Label");
 			RuleFor(x => x.City)
 				.NotNullOrBlank()
-				.When(x => x.RequireAddress)
+				.When(x => x.ShowAddress && x.RequireAddress)
 				.WithLocalizedMessage("Validation.Error.Required", "Common.City.Label");
 			RuleFor(x => x.State)
 				.NotNull()

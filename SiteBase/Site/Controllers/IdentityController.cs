@@ -123,6 +123,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			return View(PopulateListItems(new RegisterModel {
 				ShowMiddleName = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityShowMiddleName).ValueAsBoolean ?? false,
+				ShowAddress = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityShowAddress).ValueAsBoolean ?? false,
 				RequireAddress = ModuleService.GetGlobalModuleSetting(ModuleSettingDefinition.IdentityRequireAddress).ValueAsBoolean ?? false
 			}));
 		}
