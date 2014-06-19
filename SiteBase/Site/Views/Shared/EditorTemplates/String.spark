@@ -5,15 +5,15 @@
 MvcContrib.FluentHtml.Elements.IElement input;
 if (inputType == "Email")
 {
-	input = this.EmailBox(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
+	input = this.EmailBox(ViewData.TemplateInfo.GetFullHtmlFieldName(String.Empty)).Value(ViewData.TemplateInfo.FormattedModelValue);
 }
 else if (inputType == "Password")
 {
-	input = this.Password(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
+	input = this.Password(ViewData.TemplateInfo.GetFullHtmlFieldName(String.Empty)).Value(ViewData.TemplateInfo.FormattedModelValue);
 }
 else
 {
-	input = this.TextBox(ViewData.ModelMetadata.PropertyName).Value(ViewData.TemplateInfo.FormattedModelValue);
+	input = this.TextBox(ViewData.TemplateInfo.GetFullHtmlFieldName(String.Empty)).Value(ViewData.TemplateInfo.FormattedModelValue);
 }
 foreach (var attr in htmlAttributes)
 {

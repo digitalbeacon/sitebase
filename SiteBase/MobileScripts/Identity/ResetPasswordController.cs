@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------- //
 
 using System;
+using jQueryLib;
 using ng;
 
 namespace DigitalBeacon.SiteBase.Mobile.Identity
@@ -39,6 +40,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 				{
 					Angular.extend(ScopeData.model, response.Data);
 					resetForm("resetPasswordPanel");
+					window.setTimeout(new Action(() => { jQuery.Select("#SecurityAnswer").focus(); }), 0);
 				}
 			}));
 		}
@@ -46,6 +48,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 		public void back()
 		{
 			ScopeData.model.Step = 1;
+			((Form)Scope["resetPasswordPanel"]).setDirty();
 		}
 	}
 }

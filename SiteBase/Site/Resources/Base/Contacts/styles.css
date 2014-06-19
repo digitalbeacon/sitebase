@@ -74,4 +74,7 @@
 	margin-left: 10px;
 	background-position-y: 6px;
 }
-
+.mobile .contactContainer .photoContainer img
+{
+	max-width: 22em;
+}

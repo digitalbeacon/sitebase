@@ -140,6 +140,8 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
         } else {
             this.get_ScopeData().fileInput = null;
         }
+        (this.get_Scope()[fileInput.form.name]).$setDirty();
+        this.get_Scope().$apply();
     };
     p.handleResponse = function (response) {
         DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
@@ -910,11 +912,15 @@ DigitalBeacon.SiteBase.Mobile.Identity.ResetPasswordController = (function() {
             if (response.Data.Step > 1) {
                 angular.extend(this.get_ScopeData().model, response.Data);
                 this.resetForm('resetPasswordPanel');
+                setTimeout(Blade.del(this, function() {
+                    $('#SecurityAnswer').focus();
+                }), 0);
             }
         })));
     };
     p.back = function () {
         this.get_ScopeData().model.Step = 1;
+        (this.get_Scope()['resetPasswordPanel']).$setDirty();
     };
     return ResetPasswordController;
 })();

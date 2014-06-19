@@ -787,6 +787,7 @@
     <EmbeddedResource Include="Views\Shared\Mobile\PartialNav.spark" />
     <EmbeddedResource Include="Views\Account\Mobile\ChangePassword.spark" />
     <EmbeddedResource Include="Views\Account\Mobile\ChangeSecurityQuestion.spark" />
+    <EmbeddedResource Include="Views\Shared\Mobile\Message.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

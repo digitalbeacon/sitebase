@@ -23,6 +23,11 @@ namespace DigitalBeacon.SiteBase.Controllers
 	[Precompile("EditorTemplates/DateTime")]
 	public class DefaultController : SiteBaseController
 	{
+		public DefaultController()
+		{
+			MobileModuleName = "sitebase";
+		}
+		
 		public ActionResult Index(string id)
 		{
 			return new TransferResult(Url.Action("flexible", "content", new { id = id.HasText() ? id : "default" }));

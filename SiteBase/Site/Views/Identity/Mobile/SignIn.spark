@@ -10,7 +10,7 @@
 	<sbClientFormRow rowClass="'actions'">
 		<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />
 	</sbClientFormRow>
-	<sbClientFormRow rowClass="'actions'">
+	<sbClientFormRow rowClass="'actions'" if="!WebConstants.UseEmailForUsername">
 		<sbActionLink action="'recoverUsername'" text="'Identity.ForgotUsername.Label'" />
 	</sbClientFormRow>
 </sbClientFormPanel>

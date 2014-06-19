@@ -1,0 +1,8 @@
+﻿<viewdata model="BaseViewModel" />
+
+<content name="header">${Text(Model.Heading)}</content>
+
+<div id="messageContent">
+	<sbClientMessagePanel />
+	!{ExpandSiteRelativeText(Model.Content)}
+</div>

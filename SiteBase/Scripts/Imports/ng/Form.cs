@@ -17,5 +17,8 @@ namespace ng
 	{
 		[ScriptName("$setPristine")]
 		public extern void setPristine();
+
+		[ScriptName("$setDirty")]
+		public extern void setDirty();
 	}
 }

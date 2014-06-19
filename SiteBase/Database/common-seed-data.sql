@@ -218,8 +218,8 @@ INSERT INTO [sitebase].[ModuleSettingDefinition]([Id],[ModuleDefinitionId],[Modu
 	VALUES(5, 0, 7, 5, 1, 'Global.List.PageSize', 'Default List Page Size', '1.0.0', '10', 1, 100)
 SET IDENTITY_INSERT [sitebase].[ModuleSettingDefinition] OFF
 
-INSERT INTO [sitebase].[ModuleSettingDefinition]([ModuleDefinitionId],[ModuleSettingTypeId],[DisplayOrder],[Global],[Key],[Name],[IntroducedInVersion],[DefaultValue])
-	VALUES(0, 1, 100, 1, 'MobileAppName', 'Mobile Application Name', '4.0.0', @MobileAppName)
+INSERT INTO [sitebase].[ModuleSettingDefinition]([ModuleDefinitionId],[ModuleSettingTypeId],[DisplayOrder],[Global],[Key],[Name],[IntroducedInVersion],[DefaultValue],[Required])
+	VALUES(0, 1, 100, 1, 'MobileAppName', 'Mobile Application Name', '4.0.0', @MobileAppName, 0)
 
 INSERT INTO [sitebase].[ModuleSettingSubstitution]([ModuleSettingDefinitionId], [SubstitutionDefinitionId])
 	SELECT 4, [Id] FROM [sitebase].[SubstitutionDefinition] WHERE [Name] = 'DYNAMIC_CONTENT'

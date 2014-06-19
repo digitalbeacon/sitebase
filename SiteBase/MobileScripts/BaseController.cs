@@ -166,6 +166,8 @@ namespace DigitalBeacon.SiteBase.Mobile
 			{
 				ScopeData.fileInput = null;
 			}
+			((Form)Scope[fileInput.form.name]).setDirty();
+			Scope.apply();
 		}
 
 		protected bool HasFileInput
