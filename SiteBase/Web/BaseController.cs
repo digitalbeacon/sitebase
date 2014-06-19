@@ -380,7 +380,7 @@ namespace DigitalBeacon.SiteBase.Web
 			{
 				mobileParam = GetCookieValue(WebConstants.MobileKey).ToBoolean();
 			}
-			ControllerContext.HttpContext.Items[WebConstants.MobileKey] = mobileParam ?? false;
+			ControllerContext.HttpContext.Items[WebConstants.MobileKey] = mobileParam ?? Request.Browser.IsMobileDevice;
 
 			// language
 			CultureInfo culture = null;
@@ -878,10 +878,15 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <returns></returns>
 		protected internal T GetParam<T>(string key)
 		{
-			var value = ControllerContext.IsChildAction ? RouteData.Values[key] : Request[key];
+			var value = ControllerContext.IsChildAction ? RouteData.Values[key] : Request.QueryString[key];
 			if (value == null && !ControllerContext.IsChildAction)
 			{
 				value = RouteData.Values[key];
+			}
+
+			if (value == null)
+			{
+				value = Request.Form[key];
 			}
 
 			if (value == null)
@@ -948,7 +953,10 @@ namespace DigitalBeacon.SiteBase.Web
 		protected void SetCookieValue(string key, object value, DateTime? expiration = null)
 		{
 			var c = new HttpCookie(key, value.ToStringSafe());
-			c.Expires = expiration ?? DateTime.MaxValue;
+			if (expiration.HasValue)
+			{
+				c.Expires = expiration.Value;
+			}
 			Response.SetCookie(c);
 		}
 

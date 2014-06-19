@@ -156,12 +156,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				model.TotalCount = ContentService.GetEntryCount(group.Id, true, new SearchInfo<ContentEntryEntity>());
 			}
 
-			if (IsMobile)
-			{
-				return View("Content/Mobile/FlexibleContent", AddTransientMessages(model));
-			}
-
-			return View("Content/FlexibleContent", AddTransientMessages(model));
+			return View(IsMobile ? "Content/Mobile/FlexibleContent" : "Content/FlexibleContent", AddTransientMessages(model));
 		}
 
 		#endregion

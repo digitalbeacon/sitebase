@@ -172,6 +172,8 @@ Html.Telerik().ScriptRegistrar().Globalization(true).jQuery(!IsMobile).Render();
 	<use content="application-head"/>
 	</head>
 	<body>
+		#//<h1>${Request.UserAgent}</h1>
+		#//<h1>${Request.Browser.IsMobileDevice}</h1>
 	<use content="application-content"/>
 	</body>
 </html>

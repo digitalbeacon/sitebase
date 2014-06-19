@@ -104,7 +104,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				baseViewName = RouteData.Values["action"].ToStringSafe();
 			}
 			return "{0}{1}{2}".FormatWith(
-				(IsMobile && MobileModuleName != null) ? "Mobile/" : string.Empty, 
+				IsMobile ? "Mobile/" : string.Empty, 
 				baseViewName,
 				RenderTemplate ? "Template" : string.Empty);
 		}
@@ -190,6 +190,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 				var navEntities = ModuleService.GetNavigationItems(CurrentAssociationId, nav, IsAuthenticated ? CurrentUserId : (long?)null);
 				foreach (var e in navEntities)
 				{
+					if (IsMobile && e.Text.EqualsIgnoreCase("admin"))
+					{
+						continue;
+					}
 					var item = new NavigationItem
 					{
 						Id = e.Id,

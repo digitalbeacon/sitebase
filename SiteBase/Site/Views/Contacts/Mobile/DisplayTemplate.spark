@@ -32,7 +32,7 @@
 			</a>
 			<div collapse="data.isCollapsedCommentEditor">
 				<li class="list-group-item">
-					<sbClientFormPanel clientModel="'comment'" panelId="'commentEditPanel'">
+					<sbClientFormPanel clientModel="'comment'" panelId="'commentEditPanel'" displayMessagePanel="false">
 						<sbClientFormRow property="'CommentType'" includeEmptyOption="false" required="true" />
 						<sbClientFormRow property="'CommentText'" inputType="textArea" />
 						<sbClientFormRow property="'CommentDate'" helpText="'Comments.Date.HelpText'" />
@@ -41,7 +41,6 @@
 				</li>
 			</div>
 			<div collapse="data.isCollapsedComments || !data.isCollapsedCommentEditor">
-			#//<div ng-hide="data.isCollapsedComments">
 				<li class="list-group-item" ng-class="{ 'list-group-item-danger' : c.Flagged }" ng-if="data.comments && data.comments.length" ng-repeat="c in data.comments">
 					<a href="#" ng-click="deleteComment(c.Id)" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="glyphicon glyphicon-trash"></span></a>
 					<a href="#" ng-click="editComment(c.Id)" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Edit.Label')}"><span class="glyphicon glyphicon-pencil"></span></a>
