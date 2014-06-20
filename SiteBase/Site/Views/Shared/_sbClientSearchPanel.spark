@@ -4,13 +4,13 @@
 <default heading="''" />
 
 <div class="search-panel">
-	<button class="btn pull-left new" type="button" ng-click="addNew()" tooltip-placement="right" tooltip="${Text('Common.NewEntity.Label', singularLabel)}"><span class="glyphicon glyphicon-plus-sign"></span></button>
+	<button class="btn pull-left new" type="button" ng-click="addNew()" tooltip-placement="right" tooltip="${Text('Common.NewEntity.Label', singularLabel)}"><span class="fa fa-plus"></span></button>
 	<form role="search">
 		<span class="input-group">
 			<input type="text" class="form-control" placeholder="Search" ng-model="data.searchText" />
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="button" ng-click="clearSearchText()" ng-show="data.searchText || data.isFiltered"><span class="glyphicon glyphicon-ban-circle"></span></button>
-				<button class="btn btn-default" type="submit" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+				<button class="btn btn-default" type="button" ng-click="clearSearchText()" ng-show="data.searchText || data.isFiltered"><span class="fa fa-ban"></span></button>
+				<button class="btn btn-default" type="submit" ng-click="search()"><span class="fa fa-search"></span></button>
 			</span>
 		</span>
 	</form>
@@ -28,11 +28,11 @@
 <form class="navbar-form navbar-left" role="search">
 	<span class="input-group">
 		#//<span class="input-group-btn">
-		#//	<button class="btn btn-default" type="submit" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+		#//	<button class="btn btn-default" type="submit" ng-click="search()"><span class="fa fa-search"></span></button>
 		#//</span>
 		<input type="text" class="form-control" placeholder="Search" ng-model="SearchText" />
 		<span class="input-group-btn">
-			<button class="btn btn-default" type="button" ng-show="SearchText || IsFiltered" ng-click="clearSearchText()"><span class="glyphicon glyphicon-ban-circle"></span></button>
+			<button class="btn btn-default" type="button" ng-show="SearchText || IsFiltered" ng-click="clearSearchText()"><span class="fa fa-ban-circle"></span></button>
 		</span>
 	</span>
 </form>

@@ -658,10 +658,10 @@
     <value>Rotate Counterclockwise</value>
   </data>
   <data name="Common.DesktopSiteSelector.Label" xml:space="preserve">
-    <value>Switch to Desktop Site</value>
+    <value>View Desktop Site</value>
   </data>
   <data name="Common.MobileSiteSelector.Label" xml:space="preserve">
-    <value>Switch to Mobile Site</value>
+    <value>View Mobile Site</value>
   </data>
   <data name="Common.UseEditor.Label" xml:space="preserve">
     <value>Switch to Editor</value>

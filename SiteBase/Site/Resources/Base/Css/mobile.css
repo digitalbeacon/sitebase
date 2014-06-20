@@ -10,6 +10,10 @@ input
 
 body
 {
+	background-color: #fff;
+	background-image: url(../../images/background.gif);
+	background-repeat: repeat;
+	margin: 0px;
 }
 
 h1
@@ -34,10 +38,17 @@ img
 
 #pageBox
 {
+	padding: 5px 7px 7px 5px;
 }
 
 #pageContainer
 {
+	border: solid 1px black;
+	background: #fff;
+	overflow: visible;
+	-moz-box-shadow: 3px 3px 4px #666;
+	-webkit-box-shadow: 3px 3px 4px #666;
+	box-shadow: 3px 3px 4px #666;
 }
 
 #header
@@ -48,16 +59,24 @@ img
 	{
 	}
 
-#topNav a
-{
+#topNav li a {
+	text-decoration: none !important;
+	color: black !important;
+	background-color: transparent !important;
 }
-
-	#topNav a:hover
-	{
-	}
+#topNav li a:hover {
+	text-decoration: underline !important;
+	background-color: transparent !important;
+}
+#topNav li a.inactive {
+	text-decoration: none !important;
+}
 
 #topNav
 {
+	margin: 3px 3px 0 3px;
+	border: solid 1px black;
+	background-color: lightgrey;
 }
 
 	#topNav .navItem
@@ -119,6 +138,16 @@ img
 #footerLinks a {
 	color: black;
 }
+
+#languageSelector, #siteTypeSelector {
+	text-align: center;
+}
+#languageSelector a, #siteTypeSelector a {
+	color: black;
+	margin-right: 15px;
+	text-decoration: none;
+}
+
 #copyright {
 	float: left;
 	width: 100%;
@@ -154,7 +183,7 @@ img
 	margin-bottom: 10px;
 }
 .first {
-	margin-top: 10px;
+	/*margin-top: 10px;*/
 }
 .last {
 }
@@ -310,4 +339,26 @@ div.list-group-item-heading
 .panel .collapse .list-group-item:first-child {
   /*border-top: 1px;*/
   margin-top: 1px;
+}
+
+.form-row-required
+{
+	font-size: 0.8em;
+	position: relative;
+	top: -0.2em;
+}
+
+.navbar-toggle
+{
+	margin: 3px;
+}
+
+.actions a
+{
+	color: black;
+}
+
+.form-group:last-child
+{
+	margin-bottom: 5px;
 }

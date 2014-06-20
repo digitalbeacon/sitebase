@@ -60,11 +60,11 @@
 		
 		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group has-feedback${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}"
 			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || data.${clientModel}.submitted) }">
-			<if condition="propMetadata.DisplayName.HasText()">
+			<span class="form-row-label" if="propMetadata.DisplayName.HasText()">
 				${Html.Label(propName, new { class = "control-label" })}
-				<small if="propRequired"><span class="glyphicon glyphicon-asterisk" tooltip="${Text('Common.Required.Label')}"></span></small>
-			</if>
-			#//<span class="glyphicon glyphicon-info-sign" if="options.HelpText.HasText()"></span>
+				<span class="form-row-required"><span class="fa fa-asterisk" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span></span>
+			</span>
+			#//<span class="fa fa-info-sign" if="options.HelpText.HasText()"></span>
 			<span class="form-row-content">
 				<if condition="options.InputType == textArea">
 					${this.TextArea(propName).DoNotAutoLabel().Class("form-control").Attr("ng-model", clientPropName).Attr("ng-required", propRequired ? "true" : "false")}
@@ -78,7 +78,7 @@
 						<sbSet dictionary="attr" key="'is-open'" value="'data.isOpen' + propName" />
 						${Html.Editor(propName, "string", new { htmlAttributes = attr })}
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="toggle($event, 'isOpen${propName}')"><i class="glyphicon glyphicon-calendar"></i></button>
+							<button type="button" class="btn btn-default" ng-click="toggle($event, 'isOpen${propName}')"><i class="fa fa-calendar"></i></button>
 						</span>
 					</span>
 				</else>
@@ -118,7 +118,7 @@
 			<for each="var v in validationErrors">
 				<span ng-show="${ngFormProp}.$error.${v.Key} && (!${ngFormProp}.$pristine || data.${clientModel}.submitted)" class="ng-hide help-block">${v.Value}</span>
 			</for>
-			#//<span class="glyphicon glyphicon-asterisk form-control-feedback" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
+			#//<span class="fa fa-asterisk form-control-feedback" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span>
 		</div>
 		<content name="readyScript" if="options.Focus">
 			setTimeout(function() { $('#${options.FormPanelId} #${propName.Replace(".", "_")}').focus(); }, 0);
