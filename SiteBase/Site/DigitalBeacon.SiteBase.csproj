@@ -304,9 +304,11 @@
     <Content Include="Resources\Base\Css\bootstrap-theme.min.css" />
     <Content Include="Resources\Base\Css\bootstrap.css" />
     <Content Include="Resources\Base\Css\bootstrap.min.css" />
+    <Content Include="Resources\Base\Css\font-awesome.css" />
+    <Content Include="Resources\Base\Css\font-awesome.min.css" />
     <Content Include="Resources\Base\Css\mobile.css" />
     <Content Include="Resources\Base\Css\mobile.min.css" />
-    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Resources\Base\Fonts\fontawesome-webfont.svg" />
     <Content Include="Resources\Base\Scripts\angular-animate.js" />
     <Content Include="Resources\Base\Scripts\angular-animate.min.js" />
     <Content Include="Resources\Base\Scripts\angular-csp.css" />
@@ -315,6 +317,8 @@
     <Content Include="Resources\Base\Scripts\angular-route.min.js" />
     <Content Include="Resources\Base\Scripts\angular-touch.js" />
     <Content Include="Resources\Base\Scripts\angular-touch.min.js" />
+    <Content Include="Resources\Base\Scripts\angular-ui-router.js" />
+    <Content Include="Resources\Base\Scripts\angular-ui-router.min.js" />
     <Content Include="Resources\Base\Scripts\DigitalBeacon.Scripts.js" />
     <Content Include="Resources\Base\Scripts\DigitalBeacon.Scripts.min.js" />
     <Content Include="Resources\Base\Scripts\DigitalBeacon.SiteBase.Mobile.Scripts.js" />
@@ -418,18 +422,12 @@
     <Content Include="Resources\Base\Scripts\jquery.modalbox-1.0.9.min.js" />
     <Content Include="Resources\Base\Scripts\jquery.modalbox-1.4.1-min.js" />
     <Content Include="Resources\Base\Scripts\jquery.modalbox-1.4.1.js" />
-    <Content Include="Resources\Base\Scripts\angular-animate.min.js.map" />
-    <Content Include="Resources\Base\Scripts\angular-cookies.min.js.map" />
-    <Content Include="Resources\Base\Scripts\angular-loader.min.js.map" />
-    <Content Include="Resources\Base\Scripts\angular-resource.min.js.map" />
     <Content Include="Resources\Base\Scripts\angular-route.min.js.map" />
-    <Content Include="Resources\Base\Scripts\angular-sanitize.min.js.map" />
-    <Content Include="Resources\Base\Scripts\angular-touch.min.js.map" />
-    <Content Include="Resources\Base\Scripts\angular.min.js.map" />
     <Content Include="Resources\Base\Scripts\errors.json" />
-    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Resources\Base\Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Resources\Base\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Resources\Base\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Resources\Base\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Resources\Base\Fonts\FontAwesome.otf" />
     <None Include="Resources\Base\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Resources\Base\Scripts\jquery.validate.js" />
     <Content Include="Resources\Base\Scripts\jquery.validate.min.js" />
@@ -1006,7 +1004,7 @@
       <JavaScriptFilesToSkip Include="Resources\**\*.min.js" />
       <JavaScriptFilesToSkip Include="Resources\**\jquery*.js" />
       <JavaScriptFilesToSkip Include="Resources\**\angular*.js" />
-      <JavaScriptFilesToSkip Include="Resources\**\ui-bootstrap*.js" />
+      <JavaScriptFilesToSkip Include="Resources\**\ui-*.js" />
       <JavaScriptFilesToSkip Include="Resources\Base\telerik\**\*.js" />
       <!--<JavaScriptFilesToMinify Include="Resources\**\*.js" Exclude="@(JavaScriptFilesToSkip)" />-->
       <JavaScriptFilesToMinify Include="Resources\**\digitalbeacon*.js" Exclude="@(JavaScriptFilesToSkip)" />
@@ -1014,10 +1012,11 @@
       <JavaScriptFilesToMinify Include="Resources\**\scripts.js" Exclude="@(JavaScriptFilesToSkip)" />
       <JavaScriptFilesToMinify Include="Resources\**\Scripts\*.js" Exclude="@(JavaScriptFilesToSkip)" />
     </ItemGroup>
-    <JavaScriptCompressorTask SourceFiles="%(JavaScriptFilesToMinify.Identity)" OutputFile="Resources\%(JavaScriptFilesToMinify.RecursiveDir)%(JavaScriptFilesToMinify.Filename).min.js" EncodingType="UTF8" IsEvalIgnored="true" LineBreakPosition="-1" PreserveAllSemicolons="false" DisableOptimizations="false" ObfuscateJavaScript="true" />
+    <JavaScriptCompressorTask SourceFiles="%(JavaScriptFilesToMinify.Identity)" OutputFile="Resources\%(JavaScriptFilesToMinify.RecursiveDir)%(JavaScriptFilesToMinify.Filename).min.js" EncodingType="UTF8" IsEvalIgnored="true" LineBreakPosition="-1" PreserveAllSemicolons="false" DisableOptimizations="false" ObfuscateJavaScript="true" LoggingType="Debug" />
     <!-- Minify the CSS files -->
     <ItemGroup>
       <CssFilesToSkip Include="Resources\**\*.min.css" />
+      <CssFilesToSkip Include="Resources\**\font-awesome.css" />
       <CssFilesToSkip Include="Resources\Base\telerik\**\*.css" />
       <CssFilesToMinify Include="Resources\**\*.css" Exclude="@(CssFilesToSkip)" />
     </ItemGroup>

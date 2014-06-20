@@ -36,6 +36,7 @@
     <DefineConstants>TRACE;BLADE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>626</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jQuery" />

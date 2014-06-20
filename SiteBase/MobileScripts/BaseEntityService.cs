@@ -38,6 +38,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			}
 		}
 
+		[ScriptName("$delete")] // work-around for issue with minification
 		public virtual void delete(string id, Action<ApiResponse> responseHandler = null)
 		{
 			Resource.delete(new { id = id }, responseHandler);

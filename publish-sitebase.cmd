@@ -40,6 +40,8 @@ for %%i in (SiteBase\Site\*.csproj) do (
 	%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\msbuild %%i /t:%BuildTarget% /p:Configuration=%Configuration%;WebProjectOutputDir=%cd%\Publish\Site\;OutDir=%cd%\Publish\Site\Bin\
 )
 
+if "%BuildTarget%"=="CompressWebAssets" goto done
+
 copy /y SiteBase\Site\Bin\*.dll Publish\Site\Bin
 copy /y SiteBase\Site\Bin\*.pdb Publish\Site\Bin
 
@@ -77,5 +79,7 @@ if not defined zipexe (
 echo.
 echo Deployment files are located in the Publish folder.
 echo.
+
+:done
 
 if not "%NoPause%"=="nopause" pause

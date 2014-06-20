@@ -92,6 +92,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			}
 		}
 
+		[ScriptName("$delete")] // work-around for issue with minification
 		public override void delete()
 		{
 			if (ScopeData.model.Id && window.confirm(localization.confirmText))

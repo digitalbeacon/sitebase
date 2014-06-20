@@ -206,9 +206,9 @@ DigitalBeacon.SiteBase.Mobile.BaseEntityService = (function() {
             this.get_Resource().save(postData, responseHandler);
         }
     };
-    p.delete = function (id, responseHandler) {
+    p.$delete = function (id, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
-        this.get_Resource().delete({
+        this.get_Resource().$delete({
             id: id
         }, responseHandler);
     };
@@ -427,7 +427,7 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     };
     p.save = function () {
     };
-    p.delete = function () {
+    p.$delete = function () {
     };
     p.cancel = function () {
         if (this.get_RouterState().is('list.edit')) {
@@ -611,10 +611,10 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
             this._contactService.save(this.get_ScopeData().model.Id, this.get_ScopeData().model, this.get_SaveHandler());
         }
     };
-    p.delete = function () {
+    p.$delete = function () {
         if (this.get_ScopeData().model.Id && confirm($.sb.localization.confirmText)) {
             this.detailsChanged();
-            this._contactService.delete(this.get_ScopeData().model.Id, this.get_ReturnToList());
+            this._contactService.$delete(this.get_ScopeData().model.Id, this.get_ReturnToList());
         }
     };
     p.deletePhoto = function () {
@@ -839,7 +839,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
     };
     p.deleteComment = function (commentId, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
-        this._commentsResource.delete({
+        this._commentsResource.$delete({
             id: commentId
         }, responseHandler);
     };
