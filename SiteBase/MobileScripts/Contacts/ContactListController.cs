@@ -15,6 +15,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 	public class ContactListController : BaseListController
 	{
 		private ContactService _contactService;
+		private const string DefaultSortText = "LastName";
 
 		protected new ContactListScopeData ScopeData
 		{
@@ -33,12 +34,9 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		protected override void init()
 		{
 			base.init();
-			//jQuery.extend(data, new ContactListScopeData());
-			ScopeData.sortTextOptions = new[] { new Option("Last Name", "LastName") };
-			ScopeData.sortText = ScopeData.sortTextOptions[0].value;
-			ScopeData.sortDirection = ScopeData.sortDirectionOptions[1].value;
-			//SearchFields = new Option[0];
-			//SearchFields.push(new Option("Last Name", "LastName"));
+			ScopeData.sortText = DefaultSortText;
+			ScopeData.CommentTypeId = "";
+			ScopeData.Inactive = "";
 			if (isListState())
 			{
 				search();
@@ -60,10 +58,20 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 					SearchText = ScopeData.searchText,
 					SortValue = getSortValue(),
 					CommentTypeId = ScopeData.CommentTypeId,
-					BirthMonth = ScopeData.BirthMonth,
 					Inactive = ScopeData.Inactive
 				}, 
 				(Action<dynamic>)(x => handleResponse(x, requestMore)));
+		}
+
+		protected override void clearSearch()
+		{
+			if (!ScopeData.isCollapsedAdvancedSearch)
+			{
+				ScopeData.sortText = DefaultSortText;
+				ScopeData.CommentTypeId = "";
+				ScopeData.Inactive = "";
+			}
+			base.clearSearch();
 		}
 
 		private void handleResponse(dynamic response, bool isRequestForMore)
@@ -94,7 +102,6 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		public class ContactListScopeData : ListScopeData
 		{
 			public string CommentTypeId;
-			public string BirthMonth;
 			public string Inactive;
 			public dynamic[] contacts;
 		}

@@ -31,7 +31,7 @@
 <default enableSave="true" />
 <default enableDelete="onDelete.HasText()" />
 <default enableCancel="onCancel.HasText()" />
-<set onDelete="'delete()'" if="onDelete.IsNullOrBlank()" />
+<set onDelete="'remove()'" if="onDelete.IsNullOrBlank()" />
 <set onCancel="'cancel()'" if="onCancel.IsNullOrBlank()" />
 <set inputClass="'form-control'" if="inputClass == null && inputType == submit && !enableCancel && !enableDelete" />
 <default initClientModel="false" />

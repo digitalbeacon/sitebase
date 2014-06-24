@@ -195,6 +195,14 @@ namespace DigitalBeacon.SiteBase.Controllers
 			AddSelectList(model, model.PropertyName(x => x.CommentTypeId), 
 				LookupService.GetNameList<ContactCommentTypeEntity>());
 
+			if (RenderTemplate)
+			{
+				model.ListItems[WebConstants.AvailableSortFieldsKey] = new[] { 
+					new SelectListItem { Value = ContactEntity.LastNameProperty, Text = GetLocalizedText("Common.LastName.Label") },
+					new SelectListItem { Value = ContactEntity.FirstNameProperty, Text = GetLocalizedText("Common.FirstName.Label") }
+				};
+			}
+
 			model.CanDelete = PermissionService.HasPermissionToSitePath(CurrentUser, DeletePath);
 			return model;
 		}

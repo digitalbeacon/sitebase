@@ -4,16 +4,20 @@
 
 <sbClientMessagePanel />
 
-<div id="contactDisplayContainer" class="contactContainer" ng-show="data.model.Id">
+<div id="contactDisplayContainer" class="display-panel contactContainer" ng-show="data.model.Id">
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<a ui-sref="list" class="display-action pull-right" tooltip-placement="left" tooltip="${Text('Common.ReturnToEntity.Label', Text('Contacts.Plural.Label'))}"><span class="fa fa-list"></span></a>
-			<a href="#" ng-click="delete()" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="fa fa-trash-o"></span></a>
+			<a href="#" ng-click="remove()" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="fa fa-trash-o"></span></a>
 			<a ui-sref="list.edit({ id: data.model.Id })" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Edit.Label')}"><span class="fa fa-pencil"></span></a>
 			<h3>{{data.model.DisplayName}}</h3>
 		</div>
 		<ul class="list-group">
+			<li class="list-group-item" ng-if="data.model.Inactive">
+				#//<div class="list-group-item-heading">${Text("Common.DateOfBirth.Label")}</div>
+				<p class="list-group-item-text text-danger">${Text("Contacts.Inactive.Warning")}</p>
+			</li>
 			<li class="list-group-item" ng-if="data.model.PhotoId">
 				<div class="photoContainer">
 					<div class="btn-group" dropdown is-open="data.isOpenPhotoActions">
@@ -27,7 +31,7 @@
 				</div>
 			</li>
 			<a class="list-group-item" href="#" ng-click="data.isCollapsedComments = !data.isCollapsedCommentEditor ? data.isCollapsedComments : !data.isCollapsedComments">
-				<span ng-show="data.isCollapsedCommentEditor" ng-click="newComment()" class="display-action pull-right" tooltip="${Text('Common.New.Label')}"><span class="fa fa-plus-sign"></span></span>
+				<span ng-show="data.isCollapsedCommentEditor" ng-click="newComment()" class="display-action pull-right" tooltip="${Text('Common.New.Label')}"><span class="fa fa-plus"></span></span>
 				<h4>${Text('Comments.Plural.Label')} <span ng-if="data.comments && data.comments.length && data.isCollapsedCommentEditor" ng-class="{ 'dropup' : data.isCollapsedComments }"><span class="caret caret-reversed"</span></span></h4>
 			</a>
 			<div collapse="data.isCollapsedCommentEditor">
@@ -81,11 +85,11 @@
 		</ul>
 		<div class="panel-footer">
 			<a ui-sref="list" class="display-action pull-right" tooltip-placement="left" tooltip="${Text('Common.ReturnToEntity.Label', Text('Contacts.Plural.Label'))}"><span class="fa fa-list"></span></a>
-			<a href="#" ng-click="delete()" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="fa fa-trash-o"></span></a>
+			<a href="#" ng-click="remove()" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="fa fa-trash-o"></span></a>
 			<a ui-sref="list.edit({ id: data.model.Id })" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Edit.Label')}"><span class="fa fa-pencil"></span></a>
 			<h3>&nbsp;</h3>
 		</div>
 	</div>
 </div>
 
-<button class="btn ng-hide" ng-click="cancel()" ng-hide="data.model.Id">${Text("Common.ReturnToEntity.Label", Text("Contacts.Plural.Label"))}</button>
+<button class="btn ng-hide" ng-click="cancel()" ng-hide="data.model.Id || data.isLoading">${Text("Common.ReturnToEntity.Label", Text("Contacts.Plural.Label"))}</button>

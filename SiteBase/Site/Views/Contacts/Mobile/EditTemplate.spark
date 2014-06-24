@@ -22,9 +22,10 @@
 		<sbClientFormRow property="P(m => m.City)" />
 		<sbClientFormRow property="P(m => m.StateId)" includeEmptyOption="true" />
 		<sbClientFormRow property="P(m => m.Photo)" inputType="file" />
+		<sbClientFormRow property="P(m => m.Inactive)" />
 		<sbClientFormRow inputType="submit" />
 	</sbClientFormPanel>
 	
 </div>
 
-<button class="btn ng-hide" ng-click="cancel()" ng-hide="data.model.Id">${Text("Common.ReturnToEntity.Label", Text("Contacts.Plural.Label"))}</button>
+<button class="btn ng-hide" ng-click="cancel()" ng-hide="data.model.Id || data.isLoading">${Text("Common.ReturnToEntity.Label", Text("Contacts.Plural.Label"))}</button>

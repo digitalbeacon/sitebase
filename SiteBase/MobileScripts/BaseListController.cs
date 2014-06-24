@@ -28,10 +28,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 			jQuery.extend(data,
 				new ListScopeData
 				{
-					sortDirectionOptions = new[] { new Option("Ascending", ""), new Option("Descending", "-DESC") },
 					page = 1,
 					pageSize = 10,
 					pageCount = -1,
+					sortDirection = "",
+					isCollapsedAdvancedSearch = true,
 					footerHeight = 140,
 					listVisible = true
 				});
@@ -50,6 +51,15 @@ namespace DigitalBeacon.SiteBase.Mobile
 		}
 
 		public abstract void search(bool requestMore = false);
+
+		public virtual void queueSearch()
+		{
+			window.setTimeout(new Action(() => 
+			{
+				search();
+				Scope.apply();
+			}), 100);
+		}
 
 		public virtual void loadMore()
 		{
@@ -100,13 +110,14 @@ namespace DigitalBeacon.SiteBase.Mobile
 			return RouterState.current.name == "list";
 		}
 
-		protected virtual void clearSearchText()
+		protected virtual void clearSearch()
 		{
 			ScopeData.searchText = "";
-			if (ScopeData.isFiltered)
-			{
+			ScopeData.sortDirection = "";
+			//if (ScopeData.isFiltered)
+			//{
 				search();
-			}
+			//}
 			ScopeData.isFiltered = false;
 			ScopeData.page = 1;
 		}

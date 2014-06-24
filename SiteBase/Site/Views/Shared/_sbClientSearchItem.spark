@@ -1,4 +1,45 @@
 ﻿<default includeEmptyOption="false" />
 <default emptyOptionText="string.Empty" />
+<default label="string.Empty" />
+<default clientModel="''" />
+<default clientPropertyName="clientModel.HasText() ? 'data.{0}.{1}'.FormatWith(clientModel, propertyName) : 'data.{0}'.FormatWith(propertyName)" />
+<default renderRadioButtons="Model.ListItems[propertyName].Count() <= 3" />
+<default searchOnChange="true" />
 
-${Html.DropDownList(propertyName, Model.ListItems[propertyName], includeEmptyOption ? emptyOptionText : null, new { @class = "form-control", ng_model = propertyName })}
+<div class="form-group">
+	<if condition="renderRadioButtons">
+		<div class="btn-group btn-group-justified input-group" popover="${Text(label)}?{label.HasText()}" popover-trigger="mouseenter?{label.HasText()}">
+			<for each="var listItem in Model.ListItems[propertyName]">
+				<%
+					var l = this.Label(propertyName).Value(listItem.Text).Class("btn btn-default").Attr("ng-model", clientPropertyName).Attr("btn-radio", "'{0}'".FormatWith(listItem.Value));
+					if (includeEmptyOption)
+					{
+						l.Attr("uncheckable", string.Empty);
+					}
+					if (searchOnChange)
+					{
+						l.Attr("ng-click", "queueSearch()");
+					}
+				%>${l}
+			</for>
+		</div>
+	</if>
+	<else>
+		<%
+			var s = this.Select(propertyName).Options(Model.ListItems[propertyName]).Class("form-control").Attr("ng-model", clientPropertyName);
+			if (label.HasText())
+			{
+				s.Attr("popover", Text(label));
+				s.Attr("popover-trigger", "mouseenter");
+			}
+			if (searchOnChange)
+			{
+				s.Attr("ng-change", "queueSearch()");
+			}
+			if (includeEmptyOption)
+			{
+				s.FirstOption(string.Empty, string.Empty);
+			}
+		%>${s}
+	</else>
+</div>

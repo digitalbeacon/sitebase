@@ -51,6 +51,7 @@
     <Compile Include="ApiResponse.cs" />
     <Compile Include="ControllerHelper.cs" />
     <Compile Include="Imports\ng\Form.cs" />
+    <Compile Include="Imports\ng\IResource.cs" />
     <Compile Include="Imports\ng\ui\router\IState.cs" />
     <Compile Include="Imports\SiteBase.cs" />
     <Compile Include="Imports\ng\Angular.cs" />

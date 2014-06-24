@@ -5,8 +5,8 @@
 #//<sbClientListPanel items="'contacts'" item="'contact'">"{0} {1} ({2})".formatWith(contact.FirstName, contact.LastName, contact.Id)</sbClientListPanel>
 
 <content name="searchPanelFilters">
-	<sbClientSearchItem propertyName="'CommentTypeId'" includeEmptyOption="true" />
-	<sbClientSearchItem propertyName="'Inactive'" />
+	<sbClientSearchItem propertyName="'Inactive'" label="'Common.Status.Label'" />
+	<sbClientSearchItem propertyName="'CommentTypeId'" includeEmptyOption="true" label="'Comments.Type.Label'" />
 </content>
 
 <content var="itemContent">
@@ -24,4 +24,4 @@
 	</a>
 </content>
 
-<sbClientListPanel items="'contacts'" item="'contact'" />
+<sbClientListPanel items="'contacts'" item="'contact'" enableAdvancedSearch="true" />

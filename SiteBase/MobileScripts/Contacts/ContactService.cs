@@ -56,8 +56,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				new { id = "@id" },
 				new
 				{
-					update = new { method = "PUT" },
-					search = new { method = "POST", @params = new { action = "search" } }
+					update = new { method = "PUT" }
 				});
 		}
 
@@ -93,7 +92,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 
 		public void deleteComment(string commentId, Action<ApiResponse> responseHandler = null)
 		{
-			_commentsResource.delete(new { id = commentId }, responseHandler);
+			((IResource)_commentsResource).delete(new { id = commentId }, responseHandler);
 		}
 
 		public void saveComment(string id, object comment, Action<ApiResponse> responseHandler = null)

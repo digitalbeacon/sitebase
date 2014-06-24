@@ -17,12 +17,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public string searchText;
 		public string sortText;
 		public string sortDirection;
-		public Option[] sortTextOptions;
-		public Option[] sortDirectionOptions;
 		public int page;
 		public int pageSize;
 		public int pageCount;
 		public int footerHeight;
 		public bool listVisible;
+		public bool isCollapsedAdvancedSearch;
 	}
 }

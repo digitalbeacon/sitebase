@@ -33,6 +33,7 @@ namespace DigitalBeacon.SiteBase.Web
 		public const string IdKey = "Id";
 		public const string CancelKey = "Cancel";
 		public const string DeleteKey = "Delete";
+		public const string AvailableSortFieldsKey = "AvailableSortFields";
 
 		public const string MessageModelKey = "SiteBase.MessageModel";
 		public const string TransientMessagesKey = "SiteBase.TransientMessagesKey";

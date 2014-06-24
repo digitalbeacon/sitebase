@@ -1,19 +1,62 @@
 ﻿<default listModel="Model" />
 <default listAction="Url.Action('index')" />
 <default hideSearchPanelWhenEmpty="true" />
+<default enableAdvancedSearch="false" />
 <default heading="''" />
-
+<default renderSortOptionsAsRadioButtons="true" />
+<default searchOnChange="true" />
+	
 <div class="search-panel">
 	<button class="btn pull-left new" type="button" ng-click="addNew()" tooltip-placement="right" tooltip="${Text('Common.NewEntity.Label', singularLabel)}"><span class="fa fa-plus"></span></button>
 	<form role="search">
 		<span class="input-group">
 			<input type="text" class="form-control" placeholder="Search" ng-model="data.searchText" />
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="button" ng-click="clearSearchText()" ng-show="data.searchText || data.isFiltered"><span class="fa fa-ban"></span></button>
+				<button class="btn btn-default" type="button" ng-click="clearSearch()" ng-show="data.searchText || data.isFiltered || !data.isCollapsedAdvancedSearch"><span class="fa fa-ban"></span></button>
 				<button class="btn btn-default" type="submit" ng-click="search()"><span class="fa fa-search"></span></button>
+				<button if="enableAdvancedSearch" class="btn btn-default" type="button" ng-click="data.isCollapsedAdvancedSearch = !data.isCollapsedAdvancedSearch"><span class="fa" ng-class="{'fa-caret-down': data.isCollapsedAdvancedSearch, 'fa-caret-up': !data.isCollapsedAdvancedSearch}"></span></button>
 			</span>
 		</span>
 	</form>
+	<div if="enableAdvancedSearch" class="well advanced-search-panel" collapse="data.isCollapsedAdvancedSearch">
+		<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
+		<div class="form-group" if="Model.ListItems.ContainsKey(WebConstants.AvailableSortFieldsKey)">
+			<if condition="renderSortOptionsAsRadioButtons">
+				<div class="btn-group btn-group-justified input-group" popover="${Text('Common.SortField.Label')}" popover-trigger="mouseenter">
+					<for each="var listItem in Model.ListItems[WebConstants.AvailableSortFieldsKey]">
+						<%
+							var l = this.Label("SortText").Value(listItem.Text).Class("btn btn-default").Attr("ng-model", "data.sortText").Attr("btn-radio", "'{0}'".FormatWith(listItem.Value));
+							if (searchOnChange)
+							{
+								l.Attr("ng-click", "queueSearch()");
+							}
+						%>${l}
+					</for>
+					<label class="btn btn-default" ng-model="data.sortDirection" btn-checkbox="" btn-checkbox-true="'-DESC'" btn-checkbox-false="''" ng-click="queueSearch()?{searchOnChange}">${Text("Common.Descending.Label")}</label>
+				</div>
+			</if>
+			<else>
+				<div class="input-group">
+					#//<select class="form-control" ng-model="data.sortText" ng-options="o.value as o.text for o in data.sortTextOptions" popover="${Text('Common.SortField.Label')}" popover-trigger="mouseenter" ng-change="queueSearch()?{searchOnChange}" />
+					<%
+						var s = this.Select("SortText")
+									.Options(Model.ListItems[WebConstants.AvailableSortFieldsKey])
+									.Class("form-control")
+									.Attr("ng-model", "data.sortText")
+									.Attr("popover", Text("Common.SortField.Label"))
+									.Attr("popover-trigger", "mouseenter");
+						if (searchOnChange)
+						{
+							s.Attr("ng-change", "queueSearch()");
+						}
+					%>${s}					
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" ng-model="data.sortDirection" btn-checkbox="" btn-checkbox-true="'-DESC'" btn-checkbox-false="''" ng-click="queueSearch()?{searchOnChange}">${Text("Common.Descending.Label")}</button>
+					</span>
+				</div>
+			</else>
+		</div>
+	</div>
 </div>
 
 #/*

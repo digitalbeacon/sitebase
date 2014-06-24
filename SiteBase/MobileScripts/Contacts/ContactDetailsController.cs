@@ -38,6 +38,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			jQuery.extend(data, new ContactDetailsScopeData 
 			{ 
 				comment = new { },
+				isLoading = true,
 				isCollapsedCommentEditor = true
 			});
 			//Scope.watch("data.isCollapsedComments", new Action<object>(arg =>
@@ -58,11 +59,16 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 
 		protected override void load(string id)
 		{
-			ScopeData.model = _contactService.get(id, createHandler(response =>
+			ScopeData.model = _contactService.get(id, new Action<dynamic>(response =>
 			{
-				if (response.Id)
+				ScopeData.isLoading = false;
+				if (response.Success && response.Id)
 				{
 					ScopeData.photoUrl = digitalbeacon.resolveUrl("~/contacts/{0}/photo?x={1}".formatWith((object)response.Id, (object)response.PhotoId));
+				}
+				else
+				{
+					ControllerHelper.handleResponse(response, Scope);
 				}
 			}));
 			getComments(id);
@@ -92,8 +98,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			}
 		}
 
-		[ScriptName("$delete")] // work-around for issue with minification
-		public override void delete()
+		public override void remove()
 		{
 			if (ScopeData.model.Id && window.confirm(localization.confirmText))
 			{
@@ -194,6 +199,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			public bool isOpenPhotoActions;
 			public bool isCollapsedComments;
 			public bool isCollapsedCommentEditor;
+			public bool isLoading;
 		}
 	}
 }

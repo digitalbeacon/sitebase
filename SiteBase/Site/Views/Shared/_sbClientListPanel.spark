@@ -9,12 +9,13 @@
 
 <default displayMessagePanel="true" />
 <default displaySearchPanel="true" />
+<default enableAdvancedSearch="false" />
 
 <default onClick="'showDetails({0}.Id)'.FormatWith(item)" type="string" />
 
 #//<content name="header" if="listModel != null && listModel.Heading.HasText()">${listModel.Heading}</content>
 
-<div ng-show="data.listVisible">
+<div class="list-panel" ng-show="data.listVisible">
 	<sbClientMessagePanel if="displayMessagePanel" />
 
 	<sbClientSearchPanel if="displaySearchPanel" />

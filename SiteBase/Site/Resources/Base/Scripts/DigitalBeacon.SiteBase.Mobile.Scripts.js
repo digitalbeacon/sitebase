@@ -208,7 +208,7 @@ DigitalBeacon.SiteBase.Mobile.BaseEntityService = (function() {
     };
     p.$delete = function (id, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
-        this.get_Resource().$delete({
+        (this.get_Resource()).delete({
             id: id
         }, responseHandler);
     };
@@ -427,7 +427,7 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     };
     p.save = function () {
     };
-    p.$delete = function () {
+    p.remove = function () {
     };
     p.cancel = function () {
         if (this.get_RouterState().is('list.edit')) {
@@ -463,10 +463,11 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
     p.init = function () {
         $base.init.call(this);
         $.extend(this.data, {
-            sortDirectionOptions: [new Option('Ascending', ''), new Option('Descending', '-DESC')],
             page: 1,
             pageSize: 10,
             pageCount: -1,
+            sortDirection: '',
+            isCollapsedAdvancedSearch: true,
             footerHeight: 140,
             listVisible: true
         });
@@ -493,6 +494,12 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
     };
     p.search = function (requestMore) {
         requestMore = (requestMore !== undefined) ? requestMore : false;
+    };
+    p.queueSearch = function () {
+        setTimeout(Blade.del(this, function() {
+            this.search();
+            this.get_Scope().$apply();
+        }), 100);
     };
     p.loadMore = function () {
         if (this.get_ScopeData().page < this.get_ScopeData().pageCount) {
@@ -532,11 +539,10 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
     p.isListState = function () {
         return this.get_RouterState().current.name === 'list';
     };
-    p.clearSearchText = function () {
+    p.clearSearch = function () {
         this.get_ScopeData().searchText = '';
-        if (this.get_ScopeData().isFiltered) {
-            this.search();
-        }
+        this.get_ScopeData().sortDirection = '';
+        this.search();
         this.get_ScopeData().isFiltered = false;
         this.get_ScopeData().page = 1;
     };
@@ -579,6 +585,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
         $.extend(this.data, {
             comment: {
             },
+            isLoading: true,
             isCollapsedCommentEditor: true
         });
     };
@@ -590,11 +597,14 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
         $base.handleResponse.call(this, response);
     };
     p.load = function (id) {
-        this.get_ScopeData().model = this._contactService.get(id, this.createHandler(Blade.del(this, function(response) {
-            if (response.Id) {
+        this.get_ScopeData().model = this._contactService.get(id, Blade.del(this, function(response) {
+            this.get_ScopeData().isLoading = false;
+            if (response.Success && response.Id) {
                 this.get_ScopeData().photoUrl = $.digitalbeacon.resolveUrl('~/contacts/{0}/photo?x={1}'.formatWith(response.Id, response.PhotoId));
+            } else {
+                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
             }
-        })));
+        }));
         this.getComments(id);
     };
     p.submit = function (modelName) {
@@ -611,7 +621,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
             this._contactService.save(this.get_ScopeData().model.Id, this.get_ScopeData().model, this.get_SaveHandler());
         }
     };
-    p.$delete = function () {
+    p.remove = function () {
         if (this.get_ScopeData().model.Id && confirm($.sb.localization.confirmText)) {
             this.detailsChanged();
             this._contactService.$delete(this.get_ScopeData().model.Id, this.get_ReturnToList());
@@ -694,9 +704,9 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
     };
     p.init = function () {
         $base.init.call(this);
-        this.get_ScopeData().sortTextOptions = [new Option('Last Name', 'LastName')];
-        this.get_ScopeData().sortText = this.get_ScopeData().sortTextOptions[0].value;
-        this.get_ScopeData().sortDirection = this.get_ScopeData().sortDirectionOptions[1].value;
+        this.get_ScopeData().sortText = DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController.DefaultSortText;
+        this.get_ScopeData().CommentTypeId = '';
+        this.get_ScopeData().Inactive = '';
         if (this.isListState()) {
             this.search();
         }
@@ -713,10 +723,17 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
             SearchText: this.get_ScopeData().searchText,
             SortValue: this.getSortValue(),
             CommentTypeId: this.get_ScopeData().CommentTypeId,
-            BirthMonth: this.get_ScopeData().BirthMonth,
             Inactive: this.get_ScopeData().Inactive
         }, (Blade.del(this, function(x) {
             this.handleResponse(x, requestMore)})));
+    };
+    p.clearSearch = function () {
+        if (!this.get_ScopeData().isCollapsedAdvancedSearch) {
+            this.get_ScopeData().sortText = DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController.DefaultSortText;
+            this.get_ScopeData().CommentTypeId = '';
+            this.get_ScopeData().Inactive = '';
+        }
+        $base.clearSearch.call(this);
     };
     p.handleResponse = function (response, isRequestForMore) {
         var c = null;
@@ -742,6 +759,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
     };
     return ContactListController;
 })();
+DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController.DefaultSortText = 'LastName';
 
 DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
     Blade.derive(ContactService, DigitalBeacon.SiteBase.Mobile.BaseEntityService);
@@ -791,12 +809,6 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
         }, {
             update: {
                 method: 'PUT'
-            },
-            search: {
-                method: 'POST',
-                params: {
-                    action: 'search'
-                }
             }
         });
     }
@@ -839,7 +851,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
     };
     p.deleteComment = function (commentId, responseHandler) {
         responseHandler = (responseHandler !== undefined) ? responseHandler : null;
-        this._commentsResource.$delete({
+        (this._commentsResource).delete({
             id: commentId
         }, responseHandler);
     };

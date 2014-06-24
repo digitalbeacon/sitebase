@@ -58,9 +58,11 @@
 		<sbSet dictionary="attr" key="'popover'" value="Text(options.HelpText)" if="options.HelpText.HasText()" />
 		<sbSet dictionary="attr" key="'popover-trigger'" value="'focus'" if="options.HelpText.HasText()" />
 		
+		<var displayLabel="options.InputType != checkBox" />
+		
 		<div id="${options.RowId}?{options.RowId.HasText()}" class="form-row form-group has-feedback${options.RowClass}" style="${options.RowStyle}?{options.RowStyle.HasText()}"
 			 ng-class="{ 'has-error' : ${ngFormProp}.$invalid && (!${ngFormProp}.$pristine || data.${clientModel}.submitted) }">
-			<span class="form-row-label" if="propMetadata.DisplayName.HasText()">
+			<span class="form-row-label" if="displayLabel && propMetadata.DisplayName.HasText()">
 				${Html.Label(propName, new { class = "control-label" })}
 				<span class="form-row-required"><span class="fa fa-asterisk" tooltip="${Text('Common.Required.Label')}" if="propRequired"></span></span>
 			</span>
@@ -100,7 +102,12 @@
 					<div class="ng-hide" ng-init="${ngInitValue}" if="initClientModel"></div>
 				</else>
 				<else if="options.InputType == checkBox">
-					${this.CheckBox(propName).LabelAfter(propMetadata.DisplayName)}
+					<div class="checkbox">
+						<label>
+							${this.CheckBox(propName).Attr("ng-model", clientPropName)}
+							${propMetadata.DisplayName}
+						</label>
+					</div>
 				</else>
 				<else if="options.InputType == file">
 					<if condition="options.InputSize > 0">

@@ -74,8 +74,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		protected abstract void save();
 
-		[ScriptName("$delete")] // work-around for issue with minification
-		public virtual void delete() { }
+		public virtual void remove() { } // work-around for issue with minification, delete is a reserved word
 
 		public virtual void cancel()
 		{

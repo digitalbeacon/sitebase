@@ -786,6 +786,9 @@
     <EmbeddedResource Include="Views\Account\Mobile\ChangePassword.spark" />
     <EmbeddedResource Include="Views\Account\Mobile\ChangeSecurityQuestion.spark" />
     <EmbeddedResource Include="Views\Shared\Mobile\Message.spark" />
+    <EmbeddedResource Include="Views\Shared\_sbClientSearchItem.spark">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -794,8 +797,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\_sbViewBag.spark" />
-    <EmbeddedResource Include="Views\Shared\_sbClientListPanel.spark" />
-    <EmbeddedResource Include="Views\Shared\_sbClientSearchPanel.spark" />
+    <EmbeddedResource Include="Views\Shared\_sbClientListPanel.spark">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shared\_sbClientSearchPanel.spark">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="Resources\Base\Scripts\version.json" />
     <EmbeddedResource Include="Views\Shared\_sbEditor.spark">
       <SubType>Designer</SubType>
