@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Web.Caching;
 using System.Web.Mvc;
 using AutoMapper;
 using DigitalBeacon.Business;
@@ -36,6 +37,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		private const string ImageMaxWidthPath = "/contacts/image/maxWidth";
 		private const string ImageMaxHeightPath = "/contacts/image/maxHeight";
 		private const string DeletePath = "/contacts/delete";
+		private const string ThumbnailCacheKeyFormat = "contact-thumbnail-{0}";
 
 		private const int DefaultImageMaxWidth = 400;
 		private const int DefaultImageMaxHeight = 300;
@@ -77,6 +79,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 		{
 			ActionResult retVal = null;
 			ContactService.DeleteContactPhoto(id);
+			HttpContext.Cache.Remove(ThumbnailCacheKeyFormat.FormatWith(id));
 			if (RenderJson)
 			{
 				retVal = Json(new ApiResponse { Success = true, Message = GetLocalizedTextWithFormatting("Common.DeletePhoto.Confirmation").ToHtmlString() });
@@ -107,17 +110,33 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		public ActionResult Thumbnail(long id, int size = 90)
 		{
-			var contact = ContactService.GetContact(id);
-			if (contact != null && contact.Photo != null)
+			var cacheKey = ThumbnailCacheKeyFormat.FormatWith(id);
+			var t = HttpContext.Cache.Get(cacheKey) as Tuple<byte[], string, int>;
+			if (t == null || t.Item3 != size)
 			{
-				if (size <= 0)
+				var contact = ContactService.GetContact(id);
+				if (contact != null && contact.Photo != null)
 				{
-					size = 90;
+					if (size <= 0)
+					{
+						size = 90;
+					}
+					var file = FileService.GetFile(contact.Photo.Id);
+					using (var photo = Image.FromStream(new MemoryStream(file.FileData.Data)))
+					using (var thumbnail = ImageUtil.CreateThumbnail(photo, size))
+					{
+						t = Tuple.Create(ImageUtil.GetBytes(thumbnail), file.ContentType, size);
+					}
+					HttpContext.Cache.Insert(cacheKey, t);
 				}
-				var file = FileService.GetFile(contact.Photo.Id);
-				var image = Image.FromStream(new MemoryStream(file.FileData.Data));
-				image = ImageUtil.CreateThumbnail(image, size);
-				return new FileStreamResult(new MemoryStream(ImageUtil.GetBytes(image)), file.ContentType);
+				else
+				{
+					HttpContext.Cache.Insert(cacheKey, Tuple.Create<byte[], string, int>(null, null, size));
+				}
+			}
+			if (t != null && t.Item1 != null && t.Item2.HasText())
+			{
+				return new FileStreamResult(new MemoryStream(t.Item1), t.Item2);
 			}
 			return new FilePathResult("~/resources/base/images/transparent.gif", "image/gif");
 		}
@@ -159,6 +178,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				};
 
 				ContactService.SaveContact(contact);
+				HttpContext.Cache.Remove(ThumbnailCacheKeyFormat.FormatWith(id));
 			}
 			if (RenderJson)
 			{
@@ -353,6 +373,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 				};
 				entity.PhotoWidth = _photoWidth;
 				entity.PhotoHeight = _photoHeight;
+				if (entity.Id > 0)
+				{
+					HttpContext.Cache.Remove(ThumbnailCacheKeyFormat.FormatWith(entity.Id));
+				}
 			}
 			if (entity.AssociationId <= 0)
 			{
