@@ -38,10 +38,9 @@ namespace DigitalBeacon.SiteBase.Mobile
 			}
 		}
 
-		[ScriptName("$delete")] // work-around for issue with minification
-		public virtual void delete(string id, Action<ApiResponse> responseHandler = null)
+		public virtual void remove(string id, Action<ApiResponse> responseHandler = null)
 		{
-			((IResource)Resource).delete(new { id = id }, responseHandler);
+			Resource.remove(new { id = id }, responseHandler);
 		}
 
 		protected void sendFormData(dynamic http, string entityTarget, string id, object model, object[] files, Action<ApiResponse> responseHandler = null)

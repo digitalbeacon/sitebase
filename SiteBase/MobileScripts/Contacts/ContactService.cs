@@ -45,6 +45,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				new
 				{
 					update = new { method = "PUT" },
+					remove = new { method = "DELETE" },
 					search = new { method = "POST", @params = new { action = "search" } },
 					deletePhoto = new { method = "POST", @params = new { action = "deletePhoto" } },
 					rotatePhotoCounterclockwise = new { method = "POST", @params = new { action = "rotatePhotoCounterclockwise" } },
@@ -56,7 +57,8 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				new { id = "@id" },
 				new
 				{
-					update = new { method = "PUT" }
+					update = new { method = "PUT" },
+					remove = new { method = "DELETE" }
 				});
 		}
 
@@ -92,7 +94,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 
 		public void deleteComment(string commentId, Action<ApiResponse> responseHandler = null)
 		{
-			((IResource)_commentsResource).delete(new { id = commentId }, responseHandler);
+			_commentsResource.remove(new { id = commentId }, responseHandler);
 		}
 
 		public void saveComment(string id, object comment, Action<ApiResponse> responseHandler = null)

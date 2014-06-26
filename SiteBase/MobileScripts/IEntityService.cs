@@ -14,6 +14,6 @@ namespace DigitalBeacon.SiteBase.Mobile
 		dynamic get(string id, Action<dynamic> responseHandler = null);
 		void search(object parameters, dynamic response);
 		void save(string id, object postData, Action<ApiResponse> responseHandler = null);
-		void delete(string id, Action<ApiResponse> responseHandler = null);
+		void remove(string id, Action<ApiResponse> responseHandler = null);
 	}
 }

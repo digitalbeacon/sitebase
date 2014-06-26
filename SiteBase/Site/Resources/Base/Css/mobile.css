@@ -97,12 +97,13 @@ img {
 }
 
 .button-panel {
-	margin: 10px 0;
+	margin-top: 10px;
 }
 
-	.button-panel button {
-		margin-bottom: 5px;
-	}
+.button-panel button,
+.button-panel input {
+	margin-right: 5px;
+}
 
 #languageSelector,
 #siteTypeSelector,
@@ -267,10 +268,44 @@ a.inactive {
 
 .navbar-collapse {
 	border-top: 0;
+	box-shadow: none;
 }
 
 .navbar-separator {
 	border-top: solid black 1px;
+}
+
+@media (min-width: 768px) {
+	.navbar-separator {
+		border-top: none;
+	}
+}
+
+.navbar-brand .home span
+{
+	/*display: inline-block;
+	width: 42px;
+	height: 40px;
+	float: left;
+	position: relative;
+	top: -10px;
+	left: -5px;
+	background: url(../../images/logo.png)*/
+
+	/*-webkit-font-smoothing: antialiased;
+	box-sizing: border-box;
+	color: black;
+	display: inline-block;
+	font-family: FontAwesome;
+	font-size: 30px;
+	height: 24px;
+	line-height: 24px;
+	vertical-align: -15%;
+	width: 40px;*/
+}
+
+.navbar-brand .home span:before {
+	/*content: "\f1b3";*/
 }
 
 .alert {
@@ -367,4 +402,21 @@ div.list-group-item-heading {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding: 10px;
+}
+
+div#modalBox {
+	max-width: 95%;
+	margin-left: -2px;
+}
+
+div#modalBox h1 {
+	font-size: 18px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding-bottom: 2px;
+}
+
+.modalBoxOpen {
+	overflow: hidden;
+	position: fixed;
 }

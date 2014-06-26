@@ -72,11 +72,11 @@ $(document).ready(function() {
 			$.sitebase.modalBox({
 				content: '<h1>' + heading + '</h1><div class="message-panel">'
 						+ (cssClass ? '<div class="' + cssClass + '">' : '<div>')
-						+ message + '</div>' + additionalButtonText 
-						+ '<input type="submit" id="close" class="close cancel" value="'
-						+ $.sitebase.localization.closeLabel + '" /></div>',
+						+ message + '</div><div class="button-panel">' + additionalButtonText 
+						+ '<input type="submit" id="close" class="close-message-panel cancel" value="'
+						+ $.sitebase.localization.closeLabel + '" /></div></div>',
 				success: function() {
-					var close = $('#modalBox input.close:last')
+					var close = $('#modalBox input.close-message-panel:last')
 						.click(function() { $.sitebase.closeModalBox(); })
 						.keyup(function(e) { if (e.keyCode == '27') { return this.click(); } });
 					if (additionalButtonText && additionalButtonAction)

@@ -103,7 +103,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			if (ScopeData.model.Id && window.confirm(localization.confirmText))
 			{
 				detailsChanged();
-				_contactService.delete(ScopeData.model.Id, ReturnToList);
+				_contactService.remove(ScopeData.model.Id, ReturnToList);
 			}
 		}
 

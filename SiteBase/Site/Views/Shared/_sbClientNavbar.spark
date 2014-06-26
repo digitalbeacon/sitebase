@@ -13,7 +13,7 @@
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div collapse="!navExpanded">
+		<div class="navbar-collapse collapse" collapse="!navExpanded">
 			<div class="navbar-separator"></div>
 			<var navItems="(IList[[NavigationItem]])ViewData['TopLeftNav']" />
 			<ul class="nav navbar-nav" if="navItems != null && navItems.Count > 0">

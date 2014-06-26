@@ -652,8 +652,8 @@
 		/************ centerModalBox - BEGIN ************/
 		function centerModalBox(){
 			
-			if( jQuery(globaloptions.setNameOfPreCacheContainer).size() == 0 ){
-				if( jQuery(globaloptions.setModalboxContainer).size() != 0 ){
+			//if( jQuery(globaloptions.setNameOfPreCacheContainer).size() == 0 ){
+			//	if( jQuery(globaloptions.setModalboxContainer).size() != 0 ){
 					
 					if( jQuery("body a.modalBoxTopLink").size() == 0 ){
 						jQuery("body").prepend('<a class="modalBoxTopLink"></a>');
@@ -727,13 +727,13 @@
 					}
 					
 					showFaderLayer();
-				}
+				//}
 				
 				if ( obsoleteBrowsers ) {
 					var getHeightOfTopRightContainer = jQuery("div.modalboxStyleContainerTopRight", globaloptions.setModalboxContainer).height();
 					jQuery("div.modalboxStyleContainerTopLeft", globaloptions.setModalboxContainer).height( getHeightOfTopRightContainer );
 				}
-			}
+			//}
 		}
 		/************ centerModalBox - END ************/
 		

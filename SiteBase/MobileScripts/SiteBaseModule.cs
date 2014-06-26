@@ -40,6 +40,13 @@ namespace DigitalBeacon.SiteBase.Mobile
 						datepickerConfig.showWeeks = false;
 					})
 				});
+				//.run(new object[]
+				//{
+				//	new Action(() => 
+				//	{
+				//		sitebase.displayMessage("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Test", "", "Test");
+				//	})
+				//});
 		}
 	}
 }
