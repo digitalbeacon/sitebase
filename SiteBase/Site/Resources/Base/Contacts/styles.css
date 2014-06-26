@@ -79,3 +79,7 @@
 {
 	max-width: 100%;
 }*/
+.mobile .contactContainer > .panel
+{
+	margin-bottom: 0px;
+}

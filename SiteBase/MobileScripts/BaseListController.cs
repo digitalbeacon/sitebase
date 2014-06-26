@@ -29,7 +29,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 				new ListScopeData
 				{
 					page = 1,
-					pageSize = 10,
+					pageSize = 20,
 					pageCount = -1,
 					sortDirection = "",
 					isCollapsedAdvancedSearch = true,
@@ -39,6 +39,8 @@ namespace DigitalBeacon.SiteBase.Mobile
 			ScopeData.listVisible = isListState();
 			Scope.on("hideDetails", new Action<object, ApiResponse>((evt, args) => { showList(args); }));
 			Scope.on("showDetails", new Action(() => { hideList(); }));
+			Scope.on("showPrevious", new Action<object, int>((evt, currentId) => { showPrevious(currentId); }));
+			Scope.on("showNext", new Action<object, int>((evt, currentId) => { showNext(currentId); }));
 			Scope.on("detailsChanged", new Action(() => { getStateData("list").refresh = true; }));
 			Scope.on("alerts", new Action<object, Alert[]>((evt, args) => { ScopeData.alerts = args; }));
 			Scope.watch(new Func<string>(() => Location.url()), new Action<string>(url =>
@@ -47,6 +49,12 @@ namespace DigitalBeacon.SiteBase.Mobile
 				{
 					showList();
 				}
+				if (!RouterState.@is("list.display"))
+				{
+					ScopeData.transitionPrevious = false;
+					ScopeData.transitionNext = false;
+				}
+				window.scrollTo(0, 0);
 			}));
 		}
 
@@ -81,6 +89,53 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 			clearAlerts();
 			RouterState.go("list.display", new { id = id });
+			for (int i = 0; i < ScopeData.items.length; i++)
+			{
+				if (ScopeData.items[i].Id == id)
+				{
+					if (i >= ScopeData.items.length - 2)
+					{
+						loadMore();
+					}
+					break;
+				}
+			}
+		}
+
+		public virtual void showPrevious(int currentId)
+		{
+			if (!ScopeData.items || ScopeData.items.length < 2)
+			{
+				return;
+			}
+			ScopeData.transitionPrevious = true;
+			ScopeData.transitionNext = false;
+			for (int i = 1; i < ScopeData.items.length; i++)
+			{
+				if (ScopeData.items[i].Id == currentId)
+				{
+					showDetails(ScopeData.items[i - 1].Id);
+					break;
+				}
+			}
+		}
+
+		public virtual void showNext(int currentId)
+		{
+			if (!ScopeData.items || ScopeData.items.length < 2)
+			{
+				return;
+			}
+			ScopeData.transitionPrevious = false;
+			ScopeData.transitionNext = true;
+			for (int i = 0; i < ScopeData.items.length - 1; i++)
+			{
+				if (ScopeData.items[i].Id == currentId)
+				{
+					showDetails(ScopeData.items[i + 1].Id);
+					break;
+				}
+			}
 		}
 
 		public virtual void hideList()

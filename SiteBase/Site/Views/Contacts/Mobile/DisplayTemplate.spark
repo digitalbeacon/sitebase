@@ -2,11 +2,11 @@
 
 <viewdata model="EditModel" />
 
-<sbClientMessagePanel />
-
 <div id="contactDisplayContainer" class="display-panel contactContainer" ng-show="data.model.Id">
 
-	<div class="panel panel-default">
+	<sbClientMessagePanel />
+
+	<div class="panel panel-default" ng-swipe-right="previous()" ng-swipe-left="next()">
 		<div class="panel-heading">
 			<a ui-sref="list" class="display-action pull-right" tooltip-placement="left" tooltip="${Text('Common.ReturnToEntity.Label', Text('Contacts.Plural.Label'))}"><span class="fa fa-list"></span></a>
 			<a href="#" ng-click="remove()" class="display-action pull-right" tooltip-placement="bottom" tooltip="${Text('Common.Delete.Label')}"><span class="fa fa-trash-o"></span></a>

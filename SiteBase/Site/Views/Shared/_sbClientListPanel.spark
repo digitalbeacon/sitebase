@@ -34,4 +34,6 @@
 	</div>
 </div>
 
-<div ui-view></div>
+<div ng-show="!data.listVisible" class="detail-view-container" ng-class="{ 'transition-previous' : data.transitionPrevious, 'transition-next' : data.transitionNext }">
+	<div ui-view class="detail-view"></div>
+</div>

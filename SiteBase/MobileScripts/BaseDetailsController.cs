@@ -88,6 +88,16 @@ namespace DigitalBeacon.SiteBase.Mobile
 			}
 		}
 
+		public virtual void previous()
+		{
+			Scope.emit("showPrevious", ScopeData.model.Id);
+		}
+
+		public virtual void next()
+		{
+			Scope.emit("showNext", ScopeData.model.Id);
+		}
+
 		protected override void submit(string modelName)
 		{
 			save();

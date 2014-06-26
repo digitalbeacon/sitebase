@@ -37,10 +37,10 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			ScopeData.sortText = DefaultSortText;
 			ScopeData.CommentTypeId = "";
 			ScopeData.Inactive = "";
-			if (isListState())
-			{
+			//if (isListState())
+			//{
 				search();
-			}
+			//}
 		}
 
 		public override void search(bool requestMore = false)
@@ -87,12 +87,12 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			{
 				foreach (dynamic c in response.Data)
 				{
-					ScopeData.contacts.push((object)c);
+					ScopeData.items.push((object)c);
 				}
 			}
 			else
 			{
-				ScopeData.contacts = response.Data;
+				ScopeData.items = response.Data;
 				ScopeData.pageCount = Math.ceil(response.Total / ScopeData.pageSize);
 				enableLoadMoreOnScroll();
 			}
@@ -103,7 +103,6 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		{
 			public string CommentTypeId;
 			public string Inactive;
-			public dynamic[] contacts;
 		}
 	}
 }

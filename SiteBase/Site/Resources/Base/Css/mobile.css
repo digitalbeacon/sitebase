@@ -35,7 +35,7 @@ img {
 #pageContainer {
 	border: solid 1px black;
 	background: #fff;
-	overflow: visible;
+	overflow: hidden;
 	-moz-box-shadow: 3px 3px 4px #666;
 	-webkit-box-shadow: 3px 3px 4px #666;
 	box-shadow: 3px 3px 4px #666;
@@ -419,4 +419,75 @@ div#modalBox h1 {
 .modalBoxOpen {
 	overflow: hidden;
 	position: fixed;
+	width: 100%;
+}
+
+.detail-view-container {
+  position: relative;
+}
+
+.detail-view.ng-enter, .detail-view.ng-leave {
+	position: relative;
+	/*-webkit-transition: all .5s ease-in-out;
+	-moz-transition: all .5s ease-in-out;
+	-o-transition: all .5s ease-in-out;*/
+	transition: all 0.5s ease-in-out;
+}
+
+.detail-view.ng-enter {
+	opacity: 0;
+}
+
+.detail-view.ng-enter-active {
+	opacity: 1;
+}
+
+.detail-view.ng-leave {
+	opacity: 1;
+}
+
+.detail-view.ng-leave-active {
+	opacity: 0;
+}
+
+.transition-previous .ng-enter {
+	opacity: 1;
+	right: 1300px;
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.transition-previous .ng-enter-active {
+	right: 0;
+}
+
+.transition-previous .ng-leave {
+	left: 0;
+}
+
+.transition-previous .ng-leave-active {
+	opacity: 1;
+	left: 1300px;
+}
+
+.transition-next .ng-enter {
+	opacity: 1;
+	right: -1300px;
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.transition-next .ng-enter-active {
+	right: 0;
+}
+
+.transition-next .ng-leave {
+	left: 0;
+}
+
+.transition-next .ng-leave-active {
+	opacity: 1;
+	left: -1300px;
 }

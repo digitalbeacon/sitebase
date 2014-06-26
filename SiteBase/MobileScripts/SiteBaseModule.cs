@@ -15,7 +15,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 	{
 		static SiteBaseModule()
 		{
-			Angular.module("sitebase", new[] { "ngSanitize", "ui.bootstrap", "ui.mask" })
+			Angular.module("sitebase", new[] { "ngSanitize", "ngAnimate", "ngTouch", "ui.bootstrap", "ui.mask" })
 				.config(new dynamic[] 
 				{ 
 					"$httpProvider",

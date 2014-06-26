@@ -2,7 +2,7 @@
 
 <viewdata model="ListModel" />
 
-#//<sbClientListPanel items="'contacts'" item="'contact'">"{0} {1} ({2})".formatWith(contact.FirstName, contact.LastName, contact.Id)</sbClientListPanel>
+#//<sbClientListPanel item="'contact'">"{0} {1} ({2})".formatWith(contact.FirstName, contact.LastName, contact.Id)</sbClientListPanel>
 
 <content name="searchPanelFilters">
 	<sbClientSearchItem propertyName="'Inactive'" label="'Common.Status.Label'" />
@@ -10,7 +10,7 @@
 </content>
 
 <content var="itemContent">
-	<a class="list-group-item" ng-repeat="contact in data.contacts" ng-click="showDetails(contact.Id)" ng-class="{ 'list-group-item-warning': contact.HasFlaggedComment }">
+	<a class="list-group-item" ng-repeat="contact in data.items" ng-click="showDetails(contact.Id)" ng-class="{ 'list-group-item-warning': contact.HasFlaggedComment }">
 		#//<span class="badge" ng-show="contact.Flagged"><span class="fa fa-flag"></span></span>
 		<img ng-src="{{ contact.photoUrl }}" class="img-thumbnail list-thumbnail pull-right" ng-show="contact.photoUrl" />
 		<div class="row">
@@ -24,4 +24,4 @@
 	</a>
 </content>
 
-<sbClientListPanel items="'contacts'" item="'contact'" enableAdvancedSearch="true" />
+<sbClientListPanel item="'contact'" enableAdvancedSearch="true" />

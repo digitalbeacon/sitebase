@@ -21,6 +21,9 @@ namespace ng
 		[ScriptName("$apply")]
 		public extern void apply();
 
+		[ScriptName("$digest")]
+		public extern void digest();
+
 		[ScriptName("$emit")]
 		public extern void emit(string eventName, object args = null);
 

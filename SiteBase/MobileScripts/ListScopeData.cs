@@ -23,5 +23,8 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public int footerHeight;
 		public bool listVisible;
 		public bool isCollapsedAdvancedSearch;
+		public dynamic[] items;
+		public bool transitionPrevious;
+		public bool transitionNext;
 	}
 }
