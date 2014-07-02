@@ -70,6 +70,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 			Scope.emit("detailsChanged");
 		}
 
+		protected override void submit(string modelName)
+		{
+			save();
+		}
+
 		protected abstract void load(string id);
 
 		protected abstract void save();
@@ -98,11 +103,6 @@ namespace DigitalBeacon.SiteBase.Mobile
 			Scope.emit("showNext", ScopeData.model.Id);
 		}
 
-		protected override void submit(string modelName)
-		{
-			save();
-		}
-
 		protected override void handleResponse(ApiResponse response)
 		{
 			ControllerHelper.handleResponse(response, Scope);
@@ -112,43 +112,22 @@ namespace DigitalBeacon.SiteBase.Mobile
 			}
 		}
 
+		protected virtual void onSaveSuccess(object response)
+		{
+			detailsChanged();
+			ScopeData.fileInput = null;
+			getStateData("list.display").alerts = ControllerHelper.getAlerts((dynamic)response);
+			RouterState.go("list.display", new { id = ScopeData.model.Id ?? ((dynamic)response).Data });
+		}
+
 		protected Action<ApiResponse> ReturnToList
 		{
-			get
-			{
-				return new Action<ApiResponse>(response =>
-				{
-					if (response.Success)
-					{
-						hide(response);
-					}
-					else
-					{
-						ControllerHelper.handleResponse(response, Scope);
-					}
-				});
-			}
+			get { return createHandler(response => hide(response)); }
 		}
 
 		protected Action<ApiResponse> SaveHandler
 		{
-			get
-			{
-				return new Action<ApiResponse>(response =>
-				{
-					if (response.Success)
-					{
-						detailsChanged();
-						ScopeData.fileInput = null;
-						getStateData("list.display").alerts = ControllerHelper.getAlerts(response);
-						RouterState.go("list.display", new { id = ScopeData.model.Id ?? response.Data });
-					}
-					else
-					{
-						ControllerHelper.handleResponse(response, Scope);
-					}
-				});
-			}
+			get { return createHandler(response => onSaveSuccess(response)); }
 		}
 	}
 }

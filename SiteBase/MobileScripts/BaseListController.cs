@@ -145,6 +145,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 			ScopeData.listVisible = false;
 			disableLoadMoreOnScroll();
+			ScopeData.lastScrollTop = window.scrollY;
 		}
 
 		public virtual void showList(ApiResponse response = null)
@@ -160,6 +161,14 @@ namespace DigitalBeacon.SiteBase.Mobile
 			if (response)
 			{
 				ControllerHelper.handleResponse(response, Scope);
+			}
+			if (ScopeData.lastScrollTop)
+			{
+				window.setTimeout(new Action(() =>
+					{
+						window.scroll(0, ScopeData.lastScrollTop);
+						ScopeData.lastScrollTop = 0;
+					}), 0);
 			}
 		}
 

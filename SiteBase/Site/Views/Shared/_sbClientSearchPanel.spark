@@ -7,7 +7,8 @@
 <default searchOnChange="true" />
 	
 <div class="search-panel">
-	<button class="btn pull-left new" type="button" ng-click="addNew()" tooltip-placement="right" tooltip="${Text('Common.NewEntity.Label', singularLabel)}"><span class="fa fa-plus"></span></button>
+	#//<button class="btn pull-left new" type="button" ng-click="addNew()" tooltip-placement="right" tooltip="${Text('Common.NewEntity.Label', singularLabel)}"><span class="fa fa-plus"></span></button>
+	<button class="btn pull-left new" type="button" ng-click="addNew()"><span class="fa fa-plus"></span></button>
 	<form role="search">
 		<span class="input-group">
 			<input type="text" class="form-control" placeholder="Search" ng-model="data.searchText" />
@@ -22,7 +23,8 @@
 		<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
 		<div class="form-group" if="Model.ListItems.ContainsKey(WebConstants.AvailableSortFieldsKey)">
 			<if condition="renderSortOptionsAsRadioButtons">
-				<div class="btn-group btn-group-justified input-group" popover="${Text('Common.SortField.Label')}" popover-trigger="mouseenter">
+				#//<div class="btn-group btn-group-justified input-group" popover="${Text('Common.SortField.Label')}" popover-trigger="mouseenter">
+				<div class="btn-group btn-group-justified input-group">
 					<for each="var listItem in Model.ListItems[WebConstants.AvailableSortFieldsKey]">
 						<%
 							var l = this.Label("SortText").Value(listItem.Text).Class("btn btn-default").Attr("ng-model", "data.sortText").Attr("btn-radio", "'{0}'".FormatWith(listItem.Value));
@@ -42,9 +44,9 @@
 						var s = this.Select("SortText")
 									.Options(Model.ListItems[WebConstants.AvailableSortFieldsKey])
 									.Class("form-control")
-									.Attr("ng-model", "data.sortText")
-									.Attr("popover", Text("Common.SortField.Label"))
-									.Attr("popover-trigger", "mouseenter");
+									.Attr("ng-model", "data.sortText");
+									//.Attr("popover", Text("Common.SortField.Label"))
+									//.Attr("popover-trigger", "mouseenter");
 						if (searchOnChange)
 						{
 							s.Attr("ng-change", "queueSearch()");

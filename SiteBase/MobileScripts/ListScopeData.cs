@@ -26,5 +26,6 @@ namespace DigitalBeacon.SiteBase.Mobile
 		public dynamic[] items;
 		public bool transitionPrevious;
 		public bool transitionNext;
+		public int lastScrollTop;
 	}
 }

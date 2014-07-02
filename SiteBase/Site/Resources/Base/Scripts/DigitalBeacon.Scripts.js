@@ -130,7 +130,7 @@ DigitalBeacon.Utils.convertDateStringsToDates = function (input, level) {
         if (DigitalBeacon.Utils.isString(value) && DigitalBeacon.StringUtils.isDateString(value)) {
             input[key] = DigitalBeacon.StringUtils.toDate(value);
         } else if (value && DigitalBeacon.Utils.isObject(value) && level < 10) {
-            DigitalBeacon.Utils.convertDateStringsToDates(value, level++);
+            DigitalBeacon.Utils.convertDateStringsToDates(value, level + 1);
         }
     }
     return input;

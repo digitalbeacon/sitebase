@@ -372,27 +372,12 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     }
     var p = BaseDetailsController.prototype;
     p.get_ReturnToList = function() {
-        return Blade.del(this, function(response) {
-            if (response.Success) {
-                this.hide(response);
-            } else {
-                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
-            }
-        });
+        return this.createHandler(Blade.del(this, function(response) {
+            this.hide(response)}));
     };
     p.get_SaveHandler = function() {
-        return Blade.del(this, function(response) {
-            if (response.Success) {
-                this.detailsChanged();
-                this.get_ScopeData().fileInput = null;
-                this.getStateData('list.display').alerts = DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response);
-                this.get_RouterState().go('list.display', {
-                    id: this.get_ScopeData().model.Id || response.Data
-                });
-            } else {
-                DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
-            }
-        });
+        return this.createHandler(Blade.del(this, function(response) {
+            this.onSaveSuccess(response)}));
     };
     p.init = function () {
         $base.init.call(this);
@@ -429,6 +414,9 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     p.detailsChanged = function () {
         this.get_Scope().$emit('detailsChanged');
     };
+    p.submit = function (modelName) {
+        this.save();
+    };
     p.load = function (id) {
     };
     p.save = function () {
@@ -450,14 +438,19 @@ DigitalBeacon.SiteBase.Mobile.BaseDetailsController = (function() {
     p.next = function () {
         this.get_Scope().$emit('showNext', this.get_ScopeData().model.Id);
     };
-    p.submit = function (modelName) {
-        this.save();
-    };
     p.handleResponse = function (response) {
         DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
         if (response.Success) {
             this.load(this.get_ScopeData().model.Id);
         }
+    };
+    p.onSaveSuccess = function (response) {
+        this.detailsChanged();
+        this.get_ScopeData().fileInput = null;
+        this.getStateData('list.display').alerts = DigitalBeacon.SiteBase.ControllerHelper.getAlerts(response);
+        this.get_RouterState().go('list.display', {
+            id: this.get_ScopeData().model.Id || (response).Data
+        });
     };
     return BaseDetailsController;
 })();
@@ -579,6 +572,7 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
     p.hideList = function () {
         this.get_ScopeData().listVisible = false;
         this.disableLoadMoreOnScroll();
+        this.get_ScopeData().lastScrollTop = scrollY;
     };
     p.showList = function (response) {
         response = (response !== undefined) ? response : null;
@@ -591,6 +585,12 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
         this.enableLoadMoreOnScroll();
         if (response) {
             DigitalBeacon.SiteBase.ControllerHelper.handleResponse(response, this.get_Scope());
+        }
+        if (this.get_ScopeData().lastScrollTop) {
+            setTimeout(Blade.del(this, function() {
+                scroll(0, this.get_ScopeData().lastScrollTop);
+                this.get_ScopeData().lastScrollTop = 0;
+            }), 0);
         }
     };
     p.isListState = function () {

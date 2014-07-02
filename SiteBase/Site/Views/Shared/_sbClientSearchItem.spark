@@ -8,7 +8,8 @@
 
 <div class="form-group">
 	<if condition="renderRadioButtons">
-		<div class="btn-group btn-group-justified input-group" popover="${Text(label)}?{label.HasText()}" popover-trigger="mouseenter?{label.HasText()}">
+		#//<div class="btn-group btn-group-justified input-group" popover="${Text(label)}?{label.HasText()}" popover-trigger="mouseenter?{label.HasText()}">
+		<div class="btn-group btn-group-justified input-group">
 			<for each="var listItem in Model.ListItems[propertyName]">
 				<%
 					var l = this.Label(propertyName).Value(listItem.Text).Class("btn btn-default").Attr("ng-model", clientPropertyName).Attr("btn-radio", "'{0}'".FormatWith(listItem.Value));
@@ -27,11 +28,11 @@
 	<else>
 		<%
 			var s = this.Select(propertyName).Options(Model.ListItems[propertyName]).Class("form-control").Attr("ng-model", clientPropertyName);
-			if (label.HasText())
-			{
-				s.Attr("popover", Text(label));
-				s.Attr("popover-trigger", "mouseenter");
-			}
+			//if (label.HasText())
+			//{
+			//	s.Attr("popover", Text(label));
+			//	s.Attr("popover-trigger", "mouseenter");
+			//}
 			if (searchOnChange)
 			{
 				s.Attr("ng-change", "queueSearch()");

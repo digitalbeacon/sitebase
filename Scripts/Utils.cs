@@ -68,7 +68,7 @@ namespace DigitalBeacon
 				}
 				else if (value && isObject(value) && level < 10)
 				{
-					convertDateStringsToDates(value, level++);
+					convertDateStringsToDates(value, level + 1);
 				}
 			}
 			return input;
