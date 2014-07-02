@@ -35,6 +35,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 		{
 			base.init();
 			ScopeData.sortText = DefaultSortText;
+			ScopeData.sortDirection = SortDirectionAscending;
 			ScopeData.CommentTypeId = "";
 			ScopeData.Inactive = "";
 			//if (isListState())
@@ -63,15 +64,19 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				(Action<dynamic>)(x => handleResponse(x, requestMore)));
 		}
 
-		protected override void clearSearch()
+		protected override void clearSearch(bool resetSort = true)
 		{
 			if (!ScopeData.isCollapsedAdvancedSearch)
 			{
-				ScopeData.sortText = DefaultSortText;
+				if (resetSort)
+				{
+					ScopeData.sortText = DefaultSortText;
+					ScopeData.sortDirection = SortDirectionAscending;
+				}
 				ScopeData.CommentTypeId = "";
 				ScopeData.Inactive = "";
 			}
-			base.clearSearch();
+			base.clearSearch(false);
 		}
 
 		private void handleResponse(dynamic response, bool isRequestForMore)

@@ -57,6 +57,7 @@
 		<sbSet dictionary="attr" key="'ui-mask'" value="options.Mask" if="options.Mask.HasText()" />
 		<sbSet dictionary="attr" key="'popover'" value="Text(options.HelpText)" if="options.HelpText.HasText()" />
 		<sbSet dictionary="attr" key="'popover-trigger'" value="'focus'" if="options.HelpText.HasText()" />
+		<sbSet dictionary="attr" key="'ng-readonly'" value="clientEvents.clientInputReadOnly" if="(clientEvents as IDictionary[[string,object]]).ContainsKey('clientInputReadOnly')" />
 		
 		<var displayLabel="options.InputType != checkBox" />
 		
@@ -117,10 +118,10 @@
 						${this.FileUpload(propName).DoNotAutoLabel().Attr("onchange", "angular.element(this).scope().fileChanged(this)")}
 					</else>
 				</else>
-				<else>
-					${Html.Editor(propName, null, new { htmlAttributes = attr })}
+				<else if="options.InputType != renderContent">
+					${Html.Editor(propName, "string", new { htmlAttributes = attr })}
 				</else>
-				${options.RenderContent}
+				!{options.RenderContent}
 			</span>
 			<for each="var v in validationErrors">
 				<span ng-show="${ngFormProp}.$error.${v.Key} && (!${ngFormProp}.$pristine || data.${clientModel}.submitted)" class="ng-hide help-block">${v.Value}</span>
@@ -141,7 +142,7 @@
 					<div>
 						<button if="options.EnableSave" type="submit" id="save" class="btn btn-primary ${options.InputClass}?{options.InputClass.HasText()}" name="Save" ng-click="${clientEvents.onSubmit}?{clientEvents.onSubmit != null}" ng-disabled="${options.FormPanelId}.$pristine || ${options.FormPanelId}.$invalid">${Text(customText)}</button>
 						!{options.RenderContent}
-						<button if="options.EnableDelete" type="button" id="delete" class="delete btn btn-danger" name="Delete" ng-click="${clientEvents.onDelete}?{clientEvents.onDelete != null}">${Text('Common.Delete.Label')}</button>
+						<button if="options.EnableDelete" type="button" id="delete" class="delete btn btn-danger pull-right" name="Delete" ng-click="${clientEvents.onDelete}?{clientEvents.onDelete != null}">${Text('Common.Delete.Label')}</button>
 						<button if="options.EnableCancel" type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancel}?{clientEvents.onCancel != null}">${Text('Common.Cancel.Label')}</button>
 					</div>
 				</if>

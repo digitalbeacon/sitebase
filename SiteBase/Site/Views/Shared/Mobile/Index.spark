@@ -1,2 +1,2 @@
-﻿<content name="header">${ViewBag.Heading}</content>
+﻿<content name="header" if="((string)ViewBag.Heading).HasText()">${ViewBag.Heading}</content>
 <div ui-view></div>

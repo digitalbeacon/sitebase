@@ -92,6 +92,15 @@ namespace DigitalBeacon.SiteBase.Mobile
 		{
 		}
 
+		public void setAlerts(Alert[] alerts)
+		{
+			ScopeData.alerts = alerts;
+			if (alerts && alerts.length > 0)
+			{
+				window.scrollTo(0, 0);
+			}
+		}
+
 		public bool hasAlert(string key)
 		{
 			if (!ScopeData.alerts || ScopeData.alerts.length == 0)

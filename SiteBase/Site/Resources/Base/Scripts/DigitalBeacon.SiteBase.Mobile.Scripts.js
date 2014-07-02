@@ -86,6 +86,12 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     };
     p.submit = function (modelName) {
     };
+    p.setAlerts = function (alerts) {
+        this.get_ScopeData().alerts = alerts;
+        if (alerts && alerts.length > 0) {
+            scrollTo(0, 0);
+        }
+    };
     p.hasAlert = function (key) {
         if (!this.get_ScopeData().alerts || this.get_ScopeData().alerts.length === 0) {
             return false;
@@ -590,9 +596,13 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
     p.isListState = function () {
         return this.get_RouterState().current.name === 'list';
     };
-    p.clearSearch = function () {
+    p.clearSearch = function (resetSort) {
+        resetSort = (resetSort !== undefined) ? resetSort : true;
         this.get_ScopeData().searchText = '';
-        this.get_ScopeData().sortDirection = '';
+        if (resetSort) {
+            this.get_ScopeData().sortText = '';
+            this.get_ScopeData().sortDirection = '';
+        }
         this.search();
         this.get_ScopeData().isFiltered = false;
         this.get_ScopeData().page = 1;
@@ -618,6 +628,8 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
     };
     return BaseListController;
 })();
+DigitalBeacon.SiteBase.Mobile.BaseListController.SortDirectionAscending = '';
+DigitalBeacon.SiteBase.Mobile.BaseListController.SortDirectionDescending = '-DESC';
 
 DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
     Blade.derive(ContactDetailsController, DigitalBeacon.SiteBase.Mobile.BaseDetailsController);
@@ -756,6 +768,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
     p.init = function () {
         $base.init.call(this);
         this.get_ScopeData().sortText = DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController.DefaultSortText;
+        this.get_ScopeData().sortDirection = DigitalBeacon.SiteBase.Mobile.BaseListController.SortDirectionAscending;
         this.get_ScopeData().CommentTypeId = '';
         this.get_ScopeData().Inactive = '';
         this.search();
@@ -776,13 +789,17 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
         }, (Blade.del(this, function(x) {
             this.handleResponse(x, requestMore)})));
     };
-    p.clearSearch = function () {
+    p.clearSearch = function (resetSort) {
+        resetSort = (resetSort !== undefined) ? resetSort : true;
         if (!this.get_ScopeData().isCollapsedAdvancedSearch) {
-            this.get_ScopeData().sortText = DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController.DefaultSortText;
+            if (resetSort) {
+                this.get_ScopeData().sortText = DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController.DefaultSortText;
+                this.get_ScopeData().sortDirection = DigitalBeacon.SiteBase.Mobile.BaseListController.SortDirectionAscending;
+            }
             this.get_ScopeData().CommentTypeId = '';
             this.get_ScopeData().Inactive = '';
         }
-        $base.clearSearch.call(this);
+        $base.clearSearch.call(this, false);
     };
     p.handleResponse = function (response, isRequestForMore) {
         var c = null;

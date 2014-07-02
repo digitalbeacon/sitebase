@@ -17,6 +17,9 @@ namespace DigitalBeacon.SiteBase.Mobile
 {
 	public abstract class BaseListController : BaseController
 	{
+		protected const string SortDirectionAscending = "";
+		protected const string SortDirectionDescending = "-DESC";
+
 		protected new ListScopeData ScopeData
 		{
 			get { return (ListScopeData)data; }
@@ -165,10 +168,14 @@ namespace DigitalBeacon.SiteBase.Mobile
 			return RouterState.current.name == "list";
 		}
 
-		protected virtual void clearSearch()
+		protected virtual void clearSearch(bool resetSort = true)
 		{
 			ScopeData.searchText = "";
-			ScopeData.sortDirection = "";
+			if (resetSort)
+			{
+				ScopeData.sortText = "";
+				ScopeData.sortDirection = "";
+			}
 			//if (ScopeData.isFiltered)
 			//{
 				search();

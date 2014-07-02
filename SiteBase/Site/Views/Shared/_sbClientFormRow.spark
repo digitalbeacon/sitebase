@@ -35,6 +35,7 @@
 <set onCancel="'cancel()'" if="onCancel.IsNullOrBlank()" />
 <set inputClass="'form-control'" if="inputClass == null && inputType == submit && !enableCancel && !enableDelete" />
 <default initClientModel="false" />
+<default clientInputReadOnly="null" type="string" />
 
 <content name="formRowContent" if="enableRenderContent"><render /></content>
 
@@ -42,6 +43,7 @@
 <set clientEvents.onSubmit="onSubmit" />
 <set clientEvents.onDelete="onDelete" if="onDelete.HasText()" />
 <set clientEvents.onCancel="onCancel" if="onCancel.HasText()" />
+<set clientEvents.clientInputReadOnly="clientInputReadOnly" if="clientInputReadOnly.HasText()" />
 
 ${ClientFormRow(new FormRowOptions {
 	Property = property, 
