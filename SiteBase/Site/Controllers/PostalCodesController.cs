@@ -29,7 +29,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 			Mapper.CreateMap<EditModel, PostalCodeEntity>();
 		}
 
-		public ActionResult Json(long id)
+		public ActionResult Code(long id)
 		{
 			var item = LookupService.GetByCode<PostalCodeEntity>(id.ToString()).IfNotNull(x => Mapper.Map<ListItem>(x));
 			if (item != null && item.StateCode.HasText())

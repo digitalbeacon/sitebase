@@ -42,7 +42,7 @@
 	postalCode.change(function() {
 		if (postalCode.val() && $.trim(postalCode.val()).length == 5 && postalCode.data('last-value') != postalCode.val()) {
 			postalCode.data('last-value', postalCode.val());
-			$.get($.digitalbeacon.resolveUrl('~/postalCodes/' + postalCode.val() + '/json'), null, function(response) {
+			$.get($.digitalbeacon.resolveUrl('~/postalCodes/code/' + postalCode.val()), null, function(response) {
 				if (response) {
 					$('#City', contactEditPanel.element).val(response.City);
 					$('#StateId', contactEditPanel.element).val(response.StateId);
