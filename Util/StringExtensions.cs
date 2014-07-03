@@ -63,6 +63,11 @@ namespace DigitalBeacon.Util
 			return TextUtil.IsNullOrBlank(s) ? s : s.Replace("'", @"\'");
 		}
 
+		public static string EscapeForCsv(this string s)
+		{
+			return TextUtil.IsNullOrBlank(s) ? s : s.Replace("\"", "\"\"");
+		}
+
 		public static bool HasText(this string s)
 		{
 			return TextUtil.HasText(s);

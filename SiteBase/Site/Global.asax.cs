@@ -205,17 +205,17 @@ namespace DigitalBeacon.SiteBase
 			);
 
 			routes.MapRoute(
-				"Action",
-				"{controller}/{action}/{renderType}",
-				new { renderType = UrlParameter.Optional },
-				new { action = notRenderTypeRegex, renderType = renderTypeRegex }
-			);
-
-			routes.MapRoute(
 				"Controller",
 				"{controller}/{renderType}",
 				new { action = "index", renderType = UrlParameter.Optional },
 				new { controller = notRenderTypeRegex, renderType = renderTypeRegex }
+			);
+
+			routes.MapRoute(
+				"Action",
+				"{controller}/{action}/{renderType}",
+				new { renderType = UrlParameter.Optional },
+				new { action = notRenderTypeRegex, renderType = renderTypeRegex }
 			);
 
 			routes.MapRoute(

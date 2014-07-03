@@ -789,6 +789,7 @@
     <EmbeddedResource Include="Views\Shared\_sbClientSearchItem.spark">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shared\_sbAdd.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

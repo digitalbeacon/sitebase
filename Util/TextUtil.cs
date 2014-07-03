@@ -196,6 +196,9 @@ namespace DigitalBeacon.Util
 					case '-':
 						flag = true;
 						break;
+					case ',':
+						flag = true;
+						break;
 					default:
 						if (flag)
 						{
