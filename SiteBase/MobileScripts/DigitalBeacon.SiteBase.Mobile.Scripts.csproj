@@ -54,6 +54,7 @@
     <Compile Include="Account\UpdateProfileController.cs" />
     <Compile Include="BaseEntityService.cs" />
     <Compile Include="BaseScopeData.cs" />
+    <Compile Include="Identity\ChangePasswordController.cs" />
     <Compile Include="Identity\ResetPasswordController.cs" />
     <Compile Include="Identity\RecoverUsernameController.cs" />
     <Compile Include="Identity\RegistrationController.cs" />

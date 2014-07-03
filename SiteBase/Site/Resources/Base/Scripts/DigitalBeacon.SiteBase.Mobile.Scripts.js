@@ -941,6 +941,30 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactService = (function() {
     return ContactService;
 })();
 
+DigitalBeacon.SiteBase.Mobile.Identity.ChangePasswordController = (function() {
+    Blade.derive(ChangePasswordController, DigitalBeacon.SiteBase.Mobile.BaseController);
+    var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
+    function ChangePasswordController(scope, identityService) {
+        $base.constructor.call(this);
+        this.set_Scope(scope);
+        this._identityService = identityService;
+    }
+    var p = ChangePasswordController.prototype;
+    p._identityService = null;
+    p.submit = function (modelName) {
+        if (this.get_ScopeData().model.PasswordConfirm !== this.get_ScopeData().model.Password) {
+            this.setAlert($.sb.localization.passwordConfirmNotMatched);
+            return;
+        }
+        if (this.get_ScopeData().model.Password === this.get_ScopeData().model.Username) {
+            this.setAlert($.sb.localization.passwordInvalid);
+            return;
+        }
+        this._identityService.changePassword(this.get_ScopeData().model, this.get_DefaultHandler());
+    };
+    return ChangePasswordController;
+})();
+
 DigitalBeacon.SiteBase.Mobile.Identity.RecoverUsernameController = (function() {
     Blade.derive(RecoverUsernameController, DigitalBeacon.SiteBase.Mobile.BaseController);
     var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
@@ -1083,7 +1107,8 @@ angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config([
     state.transitionTo('list');
 }]);
 angular.module('identity', ['sitebase', 'identityService']).controller('signInController', ['$scope', 'identityService', (function(scope, identityService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.SignInController(scope, identityService))})]).controller('registrationController', ['$scope', 'identityService', (function(scope, identityService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.SignInController(scope, identityService))})]).controller('changePasswordController', ['$scope', 'identityService', (function(scope, identityService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.ChangePasswordController(scope, identityService))})]).controller('registrationController', ['$scope', 'identityService', (function(scope, identityService) {
     DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.RegistrationController(scope, identityService))})]).controller('recoverUsernameController', ['$scope', 'identityService', (function(scope, identityService) {
     DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.RecoverUsernameController(scope, identityService))})]).controller('resetPasswordController', ['$scope', 'identityService', (function(scope, identityService) {
     DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Identity.ResetPasswordController(scope, identityService))})]);
@@ -1094,6 +1119,12 @@ angular.module('identityService', ['ngResource']).factory('identityService', ['$
             method: 'POST',
             params: {
                 operation: 'signIn'
+            }
+        },
+        changePassword: {
+            method: 'POST',
+            params: {
+                operation: 'changePassword'
             }
         },
         register: {

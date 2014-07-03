@@ -67,6 +67,7 @@ namespace DigitalBeacon.SiteBase.Web
 		public const string GoogleAnalyticsIdKey = "GoogleAnalyticsId";
 		public const string UseDatabaseResourcesKey = "UseDatabaseResources";
 		public const string HtmlToPdfExePathKey = "HtmlToPdfExePath";
+		public const string HtmlToPdfTempPathKey = "HtmlToPdfTempPath"; 
 		public const string SupportsMobileKey = "SupportsMobile";
 		public const string UseEmailForUsernameKey = "UseEmailForUsername";
 

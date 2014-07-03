@@ -1223,12 +1223,15 @@ namespace DigitalBeacon.SiteBase.Web
 			try
 			{
 				p.StartInfo.CreateNoWindow = true;
-				p.StartInfo.RedirectStandardOutput = true;
+				p.StartInfo.RedirectStandardOutput = false;
 				p.StartInfo.RedirectStandardError = true;
 				//p.StartInfo.RedirectStandardInput = true;
 				p.StartInfo.UseShellExecute = false;
 				p.StartInfo.FileName = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfExePathKey];
 				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(p.StartInfo.FileName);
+
+				var tempPath = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfTempPathKey];
+				var tempFile = tempPath != null ? Path.Combine(tempPath, Guid.NewGuid() + ".pdf") : Path.GetTempFileName();
 
 				var sb = new StringBuilder();
 				var pref = PreferenceService.GetPreference(CurrentAssociationId, HtmlToPdfOptionsKey);
@@ -1251,31 +1254,24 @@ namespace DigitalBeacon.SiteBase.Web
 					sb.Append(x);
 					sb.Append("\"");
 				}
-				sb.Append(" -");
+				sb.Append(" \"");
+				sb.Append(tempFile);
+				sb.Append("\"");
+				//sb.Append(" -");
 				p.StartInfo.Arguments = sb.ToString();
 				p.Start();
 
-				//read output
-				var buffer = new byte[32768];
-				var ms = new MemoryStream();
-				while (true)
-				{
-					int read = p.StandardOutput.BaseStream.Read(buffer, 0, buffer.Length);
-					if (read <= 0)
-					{
-						break;
-					}
-					ms.Write(buffer, 0, read);
-				}
-				ms.Position = 0;
+				var errorMsg = p.StandardError.ReadToEnd();
 
-				// wait or exit
-				p.WaitForExit(60000);
+				// wait for exit
+				p.WaitForExit(300000);
 				// read the exit code, close process
 				int returnCode = p.ExitCode;
 				if (returnCode == 0)
 				{
-					var result = new FileStreamResult(ms, MediaTypeNames.Application.Pdf);
+					var bytes = System.IO.File.ReadAllBytes(tempFile);
+					System.IO.File.Delete(tempFile);
+					var result = new FileContentResult(bytes, MediaTypeNames.Application.Pdf);
 					if (filename.HasText())
 					{
 						result.FileDownloadName = filename;
@@ -1284,7 +1280,7 @@ namespace DigitalBeacon.SiteBase.Web
 				}
 				else
 				{
-					throw new BaseException(p.StandardError.ReadToEnd());
+					throw new BaseException(errorMsg);
 				}
 			}
 			finally

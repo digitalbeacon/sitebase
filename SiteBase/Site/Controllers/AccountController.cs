@@ -73,7 +73,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 				if (IdentityService.ChangePassword(model.Username, model.CurrentPassword, model.NewPassword))
 				{
 					AddTransientMessage("Identity.Message.PasswordChanged");
-					retVal = RedirectToAction(DefaultActionName);
+					retVal = RedirectToAction(DefaultActionName, new { renderType = String.Empty });
 				}
 				else
 				{
@@ -112,7 +112,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 					CurrentUsername, model.CurrentPassword, model.SecurityQuestion, model.SecurityAnswer))
 				{
 					AddTransientMessage("Identity.Message.SecurityQuestionChanged");
-					retVal = RedirectToAction(DefaultActionName);
+					retVal = RedirectToAction(DefaultActionName, new { renderType = String.Empty });
 				}
 				else
 				{
@@ -184,6 +184,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 					}
 					AddTransientMessage("Account.UpdateProfile.Confirmation");
 					var routeValues = new RouteValueDictionary();
+					routeValues[WebConstants.RenderTypeKey] = String.Empty;
 					if (model.Language != null)
 					{
 						routeValues[BusinessConstants.PersistentLanguageKey] = model.Language.Value;
