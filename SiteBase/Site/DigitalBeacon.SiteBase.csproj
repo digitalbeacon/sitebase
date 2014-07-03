@@ -755,29 +755,29 @@
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Resources\Base\Scripts\i18n\angular-locale_zu.js" />
-    <Content Include="Views\Contacts\Edit.spark" />
-    <Content Include="Views\Contacts\List.spark" />
-    <Content Include="Views\Contacts\New.spark">
+    <EmbeddedResource Include="Views\Contacts\Edit.spark" />
+    <EmbeddedResource Include="Views\Contacts\List.spark" />
+    <EmbeddedResource Include="Views\Contacts\New.spark">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Contacts\_global.spark" />
-    <Content Include="Views\Contacts\CommentTypeEdit.spark" />
-    <Content Include="Views\Contacts\CommentTypeList.spark" />
-    <Content Include="Views\Contacts\Mobile\EditTemplate.spark" />
-    <Content Include="Views\Contacts\Mobile\ListTemplate.spark" />
-    <Content Include="Views\Contacts\Mobile\_global.spark" />
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Contacts\_global.spark" />
+    <EmbeddedResource Include="Views\Contacts\CommentTypeEdit.spark" />
+    <EmbeddedResource Include="Views\Contacts\CommentTypeList.spark" />
+    <EmbeddedResource Include="Views\Contacts\Mobile\EditTemplate.spark" />
+    <EmbeddedResource Include="Views\Contacts\Mobile\ListTemplate.spark" />
+    <EmbeddedResource Include="Views\Contacts\Mobile\_global.spark" />
     <EmbeddedResource Include="Views\Shared\_sbHidden.spark" />
     <EmbeddedResource Include="Views\Shared\_sbClientNavbar.spark" />
-    <Content Include="Views\Contacts\Mobile\NewTemplate.spark">
+    <EmbeddedResource Include="Views\Contacts\Mobile\NewTemplate.spark">
       <SubType>Designer</SubType>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\EditorTemplates\String.spark" />
     <EmbeddedResource Include="Views\Identity\Mobile\Register.spark">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Content Include="Views\Contacts\Mobile\DisplayTemplate.spark">
+    <EmbeddedResource Include="Views\Contacts\Mobile\DisplayTemplate.spark">
       <SubType>Designer</SubType>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Identity\Mobile\ResetPassword.spark" />
     <EmbeddedResource Include="Views\Identity\Mobile\RecoverUsername.spark" />
     <EmbeddedResource Include="Views\Account\Mobile\_global.spark" />

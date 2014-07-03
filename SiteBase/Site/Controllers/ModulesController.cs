@@ -20,8 +20,9 @@ using Spark;
 
 namespace DigitalBeacon.SiteBase.Controllers
 {
-	[Precompile("Modules/List")]
 	[Precompile("Modules/Edit")]
+	[Precompile("Modules/Editor")]
+	[Precompile("Modules/List")]
 	[Authorization(Role.Administrator)]
 	public class ModulesController : SiteBaseController
 	{

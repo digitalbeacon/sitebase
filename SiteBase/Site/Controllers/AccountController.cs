@@ -17,9 +17,13 @@ using DigitalBeacon.SiteBase.Models;
 using DigitalBeacon.SiteBase.Models.Account;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.Util;
+using Spark;
 
 namespace DigitalBeacon.SiteBase.Controllers
 {
+	[Precompile("Mobile/ChangePassword")]
+	[Precompile("Mobile/ChangeSecurityQuestion")]
+	[Precompile("Mobile/UpdateProfile")]
 	[Authorization(false)]
 	public class AccountController : SiteBaseController
 	{

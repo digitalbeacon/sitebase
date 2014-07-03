@@ -20,10 +20,16 @@ using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.Util;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Validation;
+using Spark;
 
 namespace DigitalBeacon.SiteBase.Controllers
 {
-	[Authorization(RequireUnauthenticated=true,Exclude="SignOut")]
+	[Precompile("Mobile/ChangePassword")]
+	[Precompile("Mobile/RecoverUsername")]
+	[Precompile("Mobile/Register")]
+	[Precompile("Mobile/ResetPassword")]
+	[Precompile("Mobile/SignIn")]
+	[Authorization(RequireUnauthenticated = true, Exclude = "SignOut")]
 	public class IdentityController : SiteBaseController
 	{
 		public const string PasswordUpdateRequiredUsernameKey = "Identity.PasswordUpdateRequiredUsername";

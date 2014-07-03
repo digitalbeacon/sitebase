@@ -28,9 +28,14 @@ using DigitalBeacon.Util;
 using DigitalBeacon.Web;
 using DigitalBeacon.Web.Formatters;
 using DigitalBeacon.Web.Util;
+using Spark;
 
 namespace DigitalBeacon.SiteBase.Controllers
 {
+	[Precompile("Mobile/DisplayTemplate")]
+	[Precompile("Mobile/EditTemplate")]
+	[Precompile("Mobile/ListTemplate")]
+	[Precompile("Mobile/NewTemplate")]
 	[Authorization(Role.Administrator)]
 	public class ContactsController : EntityController<ContactEntity, EditModel>
 	{

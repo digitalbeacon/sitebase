@@ -13,14 +13,17 @@ using Spark;
 namespace DigitalBeacon.SiteBase.Controllers
 {
 	[Precompile("Blank")]
-	[Precompile("PartialNav")]
-	[Precompile("Message")]
 	[Precompile("Delete")]
-	[Precompile("LookupList")]
 	[Precompile("LookupEdit")]
-	[Precompile("EditorTemplates/String")]
-	[Precompile("EditorTemplates/ReadOnlyField")]
+	[Precompile("LookupList")]
+	[Precompile("Message")]
+	[Precompile("PartialNav")]
 	[Precompile("EditorTemplates/DateTime")]
+	[Precompile("EditorTemplates/ReadOnlyField")]
+	[Precompile("EditorTemplates/String")]
+	[Precompile("Mobile/Index")]
+	[Precompile("Mobile/Message")]
+	[Precompile("Mobile/PartialNav")]
 	public class DefaultController : SiteBaseController
 	{
 		public DefaultController()
