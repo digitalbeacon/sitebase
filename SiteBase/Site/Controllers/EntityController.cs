@@ -424,12 +424,13 @@ namespace DigitalBeacon.SiteBase.Controllers
 			}
 			var entities = GetEntities(searchInfo, model);
 			var count = entities.Cast<object>().LongCount();
-			var gridModel = new GridModel
+			var searchResults = new
 			{
+				Success = true,
 				Data = ConstructGridItems(entities, model),
 				Total = (int)((model.PageSize > 1 || count == model.PageSize) ? GetEntityCount(searchInfo, model) : count)
 			};
-			return Json(gridModel, JsonRequestBehavior.AllowGet);
+			return Json(searchResults, JsonRequestBehavior.AllowGet);
 		}
 
 		protected virtual IEnumerable<SortItem> ParseSortValue(string sortValue)

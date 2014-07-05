@@ -491,3 +491,7 @@ div#modalBox h1 {
 	opacity: 1;
 	left: -1300px;
 }
+
+.pagination {
+	margin: 10px 0;
+}
