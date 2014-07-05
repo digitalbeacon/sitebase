@@ -6,7 +6,6 @@
 <default displayMessagePanel="true" />
 <default isEntityModel="typeof(EntityModel).IsAssignableFrom(Model.GetType())" />
 <default initClientModel="false" />
-<default enableClientValidation="true" />
 <default clientController="null" type="string" />
 
 # HtmlHelper.UnobtrusiveJavaScriptEnabled = true;

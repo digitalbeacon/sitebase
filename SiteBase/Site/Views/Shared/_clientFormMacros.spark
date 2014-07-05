@@ -1,4 +1,4 @@
-﻿<macro name="ClientFormRow" options="FormRowOptions" clientEvents="dynamic" clientModel="string" initClientModel="bool">
+﻿<macro name="ClientFormRow" options="FormRowOptions" clientAttributes="Dictionary[[string,string]]" clientModel="string" initClientModel="bool">
 
 	<set options.RowId="'form-row-' + options.Property.ToLowerHyphenated()" if="options.GenerateRowId && options.Property.HasText()" />
 	<set options.RowId="options.RowId + '-' + options.SubProperty.ToLowerHyphenated()" if="options.GenerateRowId && options.SubProperty.HasText()" />
@@ -57,7 +57,8 @@
 		<sbSet dictionary="attr" key="'ui-mask'" value="options.Mask" if="options.Mask.HasText()" />
 		<sbSet dictionary="attr" key="'popover'" value="Text(options.HelpText)" if="options.HelpText.HasText()" />
 		<sbSet dictionary="attr" key="'popover-trigger'" value="'focus'" if="options.HelpText.HasText()" />
-		<sbSet dictionary="attr" key="'ng-readonly'" value="clientEvents.clientInputReadOnly" if="(clientEvents as IDictionary[[string,object]]).ContainsKey('clientInputReadOnly')" />
+		<sbSet dictionary="attr" key="'ng-readonly'" value="clientAttributes['readonly']" if="clientAttributes.ContainsKey('readonly')" />
+		<sbSet dictionary="attr" key="'autocomplete'" value="clientAttributes['autocomplete']" if="clientAttributes.ContainsKey('autocomplete')" />
 		
 		<var displayLabel="options.InputType != checkBox" />
 		
@@ -140,10 +141,12 @@
 					<set customText="'Common.Save.Label'" if="customText == null && options.IsEntityModel" />
 					<set customText="'Common.Submit.Label'" if="customText == null && !options.IsEntityModel" />
 					<div>
-						<button if="options.EnableSave" type="submit" id="save" class="btn btn-primary ${options.InputClass}?{options.InputClass.HasText()}" name="Save" ng-click="${clientEvents.onSubmit}?{clientEvents.onSubmit != null}" ng-disabled="${options.FormPanelId}.$pristine || ${options.FormPanelId}.$invalid">${Text(customText)}</button>
+						<var submitDisabled="clientAttributes.ContainsKey('disabled') ? clientAttributes['disabled'] : null" />
+						<set submitDisabled="'{0}.$pristine || {0}.$invalid'.FormatWith(options.FormPanelId)" if="submitDisabled == null" />
+						<button if="options.EnableSave" type="submit" id="save" class="btn btn-primary ${options.InputClass}?{options.InputClass.HasText()}" name="Save" ng-click="${clientAttributes['onSubmit']}?{clientAttributes.ContainsKey('onSubmit')}" ng-disabled="${submitDisabled}?{submitDisabled.HasText()}">${Text(customText)}</button>
 						!{options.RenderContent}
-						<button if="options.EnableDelete" type="button" id="delete" class="delete btn btn-danger pull-right" name="Delete" ng-click="${clientEvents.onDelete}?{clientEvents.onDelete != null}">${Text('Common.Delete.Label')}</button>
-						<button if="options.EnableCancel" type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientEvents.onCancel}?{clientEvents.onCancel != null}">${Text('Common.Cancel.Label')}</button>
+						<button if="options.EnableDelete" type="button" id="delete" class="delete btn btn-danger pull-right" name="Delete" ng-click="${clientAttributes['onDelete']}?{clientAttributes.ContainsKey('onDelete')}">${Text('Common.Delete.Label')}</button>
+						<button if="options.EnableCancel" type="button" id="cancel" class="cancel btn" name="Cancel" ng-click="${clientAttributes['onCancel']}?{clientAttributes.ContainsKey('onCancel')}">${Text('Common.Cancel.Label')}</button>
 					</div>
 				</if>
 				<else>

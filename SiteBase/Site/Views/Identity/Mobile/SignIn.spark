@@ -4,9 +4,9 @@
 
 <sbClientFormPanel panelId="'signInPanel'" clientController="'signInController'">
 	<sbHidden propertyName="'ReturnUrl'" if="Model.ReturnUrl.HasText()" />
-	<sbClientFormRow property="'Username'" focus="true" />
-	<sbClientFormRow property="'Password'" inputType="password" maxLength="20" />
-	<sbClientFormRow inputType="submit" customText="'Identity.SignIn.Label'" />
+	<sbClientFormRow property="'Username'" focus="true" autocomplete="'on'" />
+	<sbClientFormRow property="'Password'" inputType="password" maxLength="20" autocomplete="'on'" />
+	<sbClientFormRow inputType="submit" customText="'Identity.SignIn.Label'" clientDisabled="string.Empty" />
 	<sbClientFormRow rowClass="'actions'">
 		<sbActionLink action="'resetPassword'" text="'Identity.ForgotPassword.Label'" />
 	</sbClientFormRow>

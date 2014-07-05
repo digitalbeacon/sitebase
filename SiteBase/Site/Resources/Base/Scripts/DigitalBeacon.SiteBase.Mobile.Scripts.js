@@ -1046,6 +1046,17 @@ DigitalBeacon.SiteBase.Mobile.Identity.SignInController = (function() {
     p.submit = function (modelName) {
         this._identityService.signIn(this.get_ScopeData().model, this.get_DefaultHandler());
     };
+    p.submitForm = function (modelName, isValid) {
+        if (!isValid) {
+            if (!this.get_ScopeData().model.Username) {
+                this.get_ScopeData().model.Username = $('#Username').val();
+            }
+            if (!this.get_ScopeData().model.Password) {
+                this.get_ScopeData().model.Password = $('#Password').val();
+            }
+        }
+        this.submit(modelName);
+    };
     return SignInController;
 })();
 

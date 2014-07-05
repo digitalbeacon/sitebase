@@ -36,14 +36,18 @@
 <set inputClass="'form-control'" if="inputClass == null && inputType == submit && !enableCancel && !enableDelete" />
 <default initClientModel="false" />
 <default clientInputReadOnly="null" type="string" />
+<default autocomplete="null" type="string" />
+<default clientDisabled="null" type="string" />
 
 <content name="formRowContent" if="enableRenderContent"><render /></content>
 
-<var clientEvents="new ExpandoObject()" type="dynamic" />
-<set clientEvents.onSubmit="onSubmit" />
-<set clientEvents.onDelete="onDelete" if="onDelete.HasText()" />
-<set clientEvents.onCancel="onCancel" if="onCancel.HasText()" />
-<set clientEvents.clientInputReadOnly="clientInputReadOnly" if="clientInputReadOnly.HasText()" />
+<var clientAttributes="new Dictionary[[string,string]]()" />
+<sbSet dictionary="clientAttributes" key="'onSubmit'" value="onSubmit" />
+<sbSet dictionary="clientAttributes" key="'onDelete'" value="onDelete" if="onDelete.HasText()" />
+<sbSet dictionary="clientAttributes" key="'onCancel'" value="onCancel" if="onCancel.HasText()" />
+<sbSet dictionary="clientAttributes" key="'readonly'" value="clientInputReadOnly" if="clientInputReadOnly.HasText()" />
+<sbSet dictionary="clientAttributes" key="'autocomplete'" value="autocomplete" if="autocomplete.HasText()" />
+<sbSet dictionary="clientAttributes" key="'disabled'" value="clientDisabled" if="clientDisabled != null" />
 
 ${ClientFormRow(new FormRowOptions {
 	Property = property, 
@@ -78,7 +82,7 @@ ${ClientFormRow(new FormRowOptions {
 	PluralLabel = pluralLabel,
 	ViewData = ViewData,
 	RenderContent = enableRenderContent ? Content["formRowContent"].ToString() : null
-}, clientEvents, clientModel, initClientModel)}
+}, clientAttributes, clientModel, initClientModel)}
 
 <if condition="enableRenderContent">
 # Content.Remove("formRowContent");

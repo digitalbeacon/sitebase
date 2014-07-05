@@ -7,6 +7,7 @@
 
 using System;
 using jQueryLib;
+using ng;
 
 namespace DigitalBeacon.SiteBase.Mobile.Identity
 {
@@ -23,6 +24,25 @@ namespace DigitalBeacon.SiteBase.Mobile.Identity
 		protected override void submit(string modelName)
 		{
 			_identityService.signIn(ScopeData.model, DefaultHandler);
+		}
+
+		public override void submitForm(string modelName, bool isValid)
+		{
+			//base.submitForm(modelName, isValid);
+			if (!isValid)
+			{
+				// handle browser autocomplete implementations that do not trigger a change event
+				// to update the model binding
+				if (!ScopeData.model.Username)
+				{
+					ScopeData.model.Username = jQuery.Select("#Username").val();
+				}
+				if (!ScopeData.model.Password)
+				{
+					ScopeData.model.Password = jQuery.Select("#Password").val();
+				}
+			}
+			submit(modelName);
 		}
 	}
 }
