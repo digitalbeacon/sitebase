@@ -69,10 +69,13 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
             }
         };
     };
+    p.scrollToTop = function () {
+        scrollTo(0, 0);
+    };
     p.submitForm = function (modelName, isValid) {
         this.get_ScopeData()[modelName].submitted = true;
         if (!isValid) {
-            scrollTo(0, 0);
+            this.scrollToTop();
             return;
         }
         this.submit(modelName);
@@ -89,7 +92,7 @@ DigitalBeacon.SiteBase.Mobile.BaseController = (function() {
     p.setAlerts = function (alerts) {
         this.get_ScopeData().alerts = alerts;
         if (alerts && alerts.length > 0) {
-            scrollTo(0, 0);
+            this.scrollToTop();
         }
     };
     p.hasAlert = function (key) {
@@ -529,7 +532,7 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
                 this.get_ScopeData().transitionPrevious = false;
                 this.get_ScopeData().transitionNext = false;
             }
-            scrollTo(0, 0);
+            this.scrollToTop();
         }));
     };
     p.search = function (requestMore) {

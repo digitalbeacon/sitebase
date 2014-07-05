@@ -702,4 +702,7 @@
   <data name="Common.Descending.Label" xml:space="preserve">
     <value>Descending</value>
   </data>
+  <data name="Common.BackToTop.Label" xml:space="preserve">
+    <value>Back to Top</value>
+  </data>
 </root>

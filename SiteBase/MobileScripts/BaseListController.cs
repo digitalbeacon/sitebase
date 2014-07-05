@@ -57,7 +57,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 					ScopeData.transitionPrevious = false;
 					ScopeData.transitionNext = false;
 				}
-				window.scrollTo(0, 0);
+				scrollToTop();
 			}));
 		}
 
@@ -204,7 +204,6 @@ namespace DigitalBeacon.SiteBase.Mobile
 			{
 				return;
 			}
-			//window.scrollTo(0, 0);
 			jQuery.Select(window.self).on("scroll.sbClientListPanel", null, null,
 				(Action<jQueryLib.Event>)(e =>
 				{
@@ -214,8 +213,6 @@ namespace DigitalBeacon.SiteBase.Mobile
 					//console.log("{0}, {1}".formatWith(w.scrollTop(), d.height() - w.height() - ScopeData.loadMoreThreshold));
 					if (d.height() > w.height() && (w.scrollTop() >= d.height() - w.height() - ScopeData.loadMoreThreshold))
 					{
-						//console.log("{0}, {1}, {2}".formatWith(w.scrollTop(), d.height(), w.height()));
-						//console.log("{0}, {1}".formatWith(w.scrollTop(), d.height() - w.height() - ScopeData.loadMoreThreshold));
 						loadMore();
 					}
 				})

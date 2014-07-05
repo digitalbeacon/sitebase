@@ -68,12 +68,17 @@ namespace DigitalBeacon.SiteBase.Mobile
 			data = new BaseScopeData { model = new { } };
 		}
 
+		public virtual void scrollToTop()
+		{
+			window.scrollTo(0, 0);
+		}
+
 		public virtual void submitForm(string modelName, bool isValid)
 		{
 			ScopeData[modelName].submitted = true;
 			if (!isValid)
 			{
-				window.scrollTo(0, 0);
+				scrollToTop();
 				return;
 			}
 			submit(modelName);
@@ -97,7 +102,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 			ScopeData.alerts = alerts;
 			if (alerts && alerts.length > 0)
 			{
-				window.scrollTo(0, 0);
+				scrollToTop();
 			}
 		}
 
