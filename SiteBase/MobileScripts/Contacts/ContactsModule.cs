@@ -21,7 +21,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 	{
 		static ContactsModule()
 		{
-			Angular.module("contacts", new[] { "sitebase", "ui.router", "contactService" })
+			Angular.module("contacts", new[] { "sitebase", "ui.router", "siteBaseService", "contactService" })
 				.config(new object[] 
 				{ 
 					"$stateProvider",
@@ -61,10 +61,10 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 						((scope, state, location, contactService) => 
 							BaseController.initScope(scope, new ContactListController(scope, state, location, contactService))) })
 				.controller("contactDetailsController",
-					new object[] { "$scope", "$state", "$location", "contactService", 
-						(Action<Scope, State, ILocation, ContactService>)
-						((scope, state, location, contactService) => 
-							BaseController.initScope(scope, new ContactDetailsController(scope, state, location, contactService))) })
+					new object[] { "$scope", "$state", "$location", "siteBaseService", "contactService", 
+						(Action<Scope, State, ILocation, SiteBaseService, ContactService>)
+						((scope, state, location, siteBaseService, contactService) => 
+							BaseController.initScope(scope, new ContactDetailsController(scope, state, location, siteBaseService, contactService))) })
 				.run(new object[]
 				{
 					"$state",

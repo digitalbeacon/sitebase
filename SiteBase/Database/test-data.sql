@@ -30,7 +30,7 @@ INSERT INTO [sitebase].[NavigationItem] ([ModificationCounter],[AssociationId],[
 INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
 	VALUES('SitePath','/',4,1,1)
 INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
-	VALUES('SitePath','/postalCodes/json',4,1,1)
+	VALUES('SitePath','/postalCodes/code',4,1,1)
 INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])
 	VALUES('SitePath','/identity/signIn',4,2,1)
 INSERT [sitebase].[Permission] ([Key1],[Key3],[EntityTypeId],[EntityId],[Mask])

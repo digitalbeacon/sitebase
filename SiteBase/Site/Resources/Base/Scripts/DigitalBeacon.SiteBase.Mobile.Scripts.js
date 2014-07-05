@@ -294,6 +294,30 @@ DigitalBeacon.SiteBase.Mobile.SiteBaseModule = (function() {
     return SiteBaseModule;
 })();
 
+DigitalBeacon.SiteBase.Mobile.SiteBaseService = (function() {
+    function SiteBaseService(resource) {
+        this._postalCodesResource = resource($.digitalbeacon.resolveUrl('~/postalCodes/:id/:action/json'), {
+            id: '@id'
+        }, {
+            code: {
+                method: 'GET',
+                params: {
+                    action: 'code'
+                }
+            }
+        });
+    }
+    var p = SiteBaseService.prototype;
+    p._postalCodesResource = null;
+    p.getPostalCodeData = function (postalCode, responseHandler) {
+        responseHandler = (responseHandler !== undefined) ? responseHandler : null;
+        return this._postalCodesResource.code({
+            id: postalCode
+        }, responseHandler);
+    };
+    return SiteBaseService;
+})();
+
 DigitalBeacon.SiteBase.Mobile.Account.ChangePasswordController = (function() {
     Blade.derive(ChangePasswordController, DigitalBeacon.SiteBase.Mobile.BaseController);
     var $base = DigitalBeacon.SiteBase.Mobile.BaseController.prototype;
@@ -473,7 +497,7 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
             pageCount: -1,
             sortDirection: '',
             isCollapsedAdvancedSearch: true,
-            footerHeight: 140,
+            loadMoreThreshold: 200,
             listVisible: true
         });
         this.get_ScopeData().listVisible = this.isListState();
@@ -518,7 +542,7 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
         }), 100);
     };
     p.loadMore = function () {
-        if (this.get_ScopeData().page < this.get_ScopeData().pageCount) {
+        if (!this.get_ScopeData().isLoading && this.get_ScopeData().page < this.get_ScopeData().pageCount) {
             this.get_ScopeData().page++;
             this.search(true);
         }
@@ -614,11 +638,10 @@ DigitalBeacon.SiteBase.Mobile.BaseListController = (function() {
         if (this.get_ScopeData().pageCount <= 1 || !this.get_ScopeData().listVisible) {
             return;
         }
-        scrollTo(0, 0);
         $(self).on('scroll.sbClientListPanel', null, null, (Blade.del(this, function(e) {
             var w = $(self);
             var d = $(document);
-            if (d.height() > w.height() && ((w.scrollTop() >= d.height() - w.height() - this.get_ScopeData().footerHeight) || (w.scrollTop() >= d.height() / 2))) {
+            if (d.height() > w.height() && (w.scrollTop() >= d.height() - w.height() - this.get_ScopeData().loadMoreThreshold)) {
                 this.loadMore();
             }
         })));
@@ -634,11 +657,13 @@ DigitalBeacon.SiteBase.Mobile.BaseListController.SortDirectionDescending = '-DES
 DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
     Blade.derive(ContactDetailsController, DigitalBeacon.SiteBase.Mobile.BaseDetailsController);
     var $base = DigitalBeacon.SiteBase.Mobile.BaseDetailsController.prototype;
-    function ContactDetailsController(scope, state, location, contactService) {
+    function ContactDetailsController(scope, state, location, siteBaseService, contactService) {
         $base.constructor.call(this, scope, state, location);
+        this._siteBaseService = siteBaseService;
         this._contactService = contactService;
     }
     var p = ContactDetailsController.prototype;
+    p._siteBaseService = null;
     p._contactService = null;
     p.get_ScopeData = function() {
         return this.data;
@@ -651,6 +676,17 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController = (function() {
             isLoading: true,
             isCollapsedCommentEditor: true
         });
+        this.get_Scope().$watch('data.model.PostalCode', Blade.del(this, function(postalCode) {
+            if (!postalCode) {
+                return;
+            }
+            this._siteBaseService.getPostalCodeData(postalCode, Blade.del(this, function(response) {
+                if (response && response.Success) {
+                    this.get_ScopeData().model.City = response.City || this.get_ScopeData().model.City;
+                    this.get_ScopeData().model.StateId = response.StateId || this.get_ScopeData().model.StateId;
+                }
+            }));
+        }));
     };
     p.handleResponse = function (response) {
         this.get_ScopeData().isOpenPhotoActions = false;
@@ -1093,7 +1129,7 @@ angular.module('accountService', ['ngResource']).factory('accountService', ['$re
         }
     });
 })]);
-angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config(['$stateProvider', (function(stateProvider) {
+angular.module('contacts', ['sitebase', 'ui.router', 'siteBaseService', 'contactService']).config(['$stateProvider', (function(stateProvider) {
     stateProvider.state('list', {
         url: $.digitalbeacon.resolveUrl('~/contacts'),
         templateUrl: $.digitalbeacon.resolveUrl('~/contacts/template'),
@@ -1112,8 +1148,8 @@ angular.module('contacts', ['sitebase', 'ui.router', 'contactService']).config([
         controller: 'contactDetailsController'
     });
 })]).controller('contactListController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController(scope, state, location, contactService))})]).controller('contactDetailsController', ['$scope', '$state', '$location', 'contactService', (function(scope, state, location, contactService) {
-    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController(scope, state, location, contactService))})]).run(['$state', function(state) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController(scope, state, location, contactService))})]).controller('contactDetailsController', ['$scope', '$state', '$location', 'siteBaseService', 'contactService', (function(scope, state, location, siteBaseService, contactService) {
+    DigitalBeacon.SiteBase.Mobile.BaseController.initScope(scope, new DigitalBeacon.SiteBase.Mobile.Contacts.ContactDetailsController(scope, state, location, siteBaseService, contactService))})]).run(['$state', function(state) {
     $.digitalbeacon.loadCssFile('~/resources/base/contacts/styles.css');
     state.transitionTo('list');
 }]);
@@ -1169,6 +1205,9 @@ angular.module('sitebase', ['ngSanitize', 'ngAnimate', 'ngTouch', 'ui.bootstrap'
         return DigitalBeacon.Utils.convertDateStringsToDates(data);
     });
     datepickerConfig.showWeeks = false;
+})]);
+angular.module('siteBaseService', ['ngResource']).factory('siteBaseService', ['$resource', (function(resource) {
+    return new DigitalBeacon.SiteBase.Mobile.SiteBaseService(resource);
 })]);
 angular.module('contactService', ['ngResource']).factory('contactService', ['$http', '$resource', (function(http, resource) {
     return new DigitalBeacon.SiteBase.Mobile.Contacts.ContactService(http, resource);

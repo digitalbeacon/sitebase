@@ -19,7 +19,7 @@
 			</span>
 		</span>
 	</form>
-	<div if="enableAdvancedSearch" class="well advanced-search-panel" collapse="data.isCollapsedAdvancedSearch">
+	<div if="enableAdvancedSearch" class="well advanced-search-panel" ng-hide="data.isCollapsedAdvancedSearch">
 		<span class="custom-filters"><use content="searchPanelFilters" if="Content.ContainsKey('searchPanelFilters')" /><render /></span>
 		<div class="form-group" if="Model.ListItems.ContainsKey(WebConstants.AvailableSortFieldsKey)">
 			<if condition="renderSortOptionsAsRadioButtons">

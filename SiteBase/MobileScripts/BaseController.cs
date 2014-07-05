@@ -227,5 +227,11 @@ namespace DigitalBeacon.SiteBase.Mobile
 				}
 			});
 		}
+
+		[ScriptExternal]
+		protected Action<T> createTypedHandler<T>(Action<T> handler) where T : class
+		{
+			return (Action<T>)createHandler((dynamic)handler);
+		}
 	}
 }

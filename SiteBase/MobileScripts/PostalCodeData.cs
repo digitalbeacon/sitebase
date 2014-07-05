@@ -6,28 +6,18 @@
 // ---------------------------------------------------------------------- //
 
 using System;
-using System.Html;
 
 namespace DigitalBeacon.SiteBase.Mobile
 {
 	[ScriptObjectLiteral]
-	public class ListScopeData : BaseScopeData
+	public class PostalCodeData
 	{
-		public bool isFiltered;
-		public string searchText;
-		public string sortText;
-		public string sortDirection;
-		public int page;
-		public int pageSize;
-		public int pageCount;
-		public int totalCount;
-		public int loadMoreThreshold;
-		public bool listVisible;
-		public bool isCollapsedAdvancedSearch;
-		public dynamic[] items;
-		public bool transitionPrevious;
-		public bool transitionNext;
-		public int lastScrollTop;
-		public bool isLoading;
+		public bool Success;
+		public int Id;
+		public string Code;
+		public string City;
+		public string StateCode;
+		public int StateId;
+		public string County;
 	}
 }

@@ -6,6 +6,7 @@
 <default enableNew="!listModel.ParentId.HasValue || listModel.ParentId.Value > 0" />
 <default singularLabel="listModel.SingularLabel" />
 <default pluralLabel="listModel.PluralLabel" />
+<default noItemsMessage="'Common.NoEntities.Text'" />
 
 <default displayMessagePanel="true" />
 <default displaySearchPanel="true" />
@@ -27,6 +28,8 @@
 	<div class="list-group">
 		<if condition="itemContent.HasText()">!{itemContent}</if>
 		<else><a class="list-group-item" ng-repeat="${item} in data.${items}" ng-click="${onClick}?{onClick.HasText()}"><render /></a></else>
+		<div ng-if="data.isLoading" class="list-group-item text-center"><span class="fa fa-spinner fa-spin"></span></div>
+		<div ng-if="!data.isLoading && !data.totalCount" class="list-group-item text-center">${Text(noItemsMessage, pluralLabel)}</div>
 	</div>
 
 	<div class="btn-group btn-group-justified">

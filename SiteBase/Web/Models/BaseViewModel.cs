@@ -17,6 +17,7 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		private List<string> _messages;
 		private List<string> _errors;
 		private Dictionary<string, IEnumerable<SelectListItem>> _listItems;
+		private bool _success = true;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BaseViewModel"/> class.
@@ -37,7 +38,8 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		/// </summary>
 		public bool Success 
 		{ 
-			get { return true; }
+			get { return _success; }
+			set { _success = value; }
 		}
 
 		/// <summary>

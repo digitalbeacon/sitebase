@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using DigitalBeacon.Model;
 using DigitalBeacon.SiteBase.Model;
+using DigitalBeacon.SiteBase.Models;
 using DigitalBeacon.SiteBase.Models.PostalCodes;
 using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.SiteBase.Web.Models;
@@ -31,12 +32,12 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		public ActionResult Code(long id)
 		{
-			var item = LookupService.GetByCode<PostalCodeEntity>(id.ToString()).IfNotNull(x => Mapper.Map<ListItem>(x));
+			var item = LookupService.GetByCode<PostalCodeEntity>(id.ToString()).IfNotNull(x => Mapper.Map<EditModel>(x));
 			if (item != null && item.StateCode.HasText())
 			{
 				item.StateId = LookupService.GetByCode<StateEntity>(item.StateCode).IfNotNull(x => (long?)x.Id);
 			}
-			return Json(item, JsonRequestBehavior.AllowGet);
+			return Json(item ?? new EditModel { Success = false }, JsonRequestBehavior.AllowGet);
 		}
 
 		protected override EditModel ConstructModel(PostalCodeEntity entity)

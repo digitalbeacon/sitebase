@@ -5,6 +5,7 @@
 //                                                                        //
 // ---------------------------------------------------------------------- //
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using DigitalBeacon.SiteBase.Model;
 using DigitalBeacon.SiteBase.Web.Models;
@@ -32,5 +33,8 @@ namespace DigitalBeacon.SiteBase.Models.PostalCodes
 		[StringLength(PostalCodeEntity.CountyMaxLength)]
 		[LocalizedDisplayName("Common.County.Label")]
 		public string County { get; set; }
+
+		[ReadOnly(true)]
+		public string StateCode { get; set; }
 	}
 }

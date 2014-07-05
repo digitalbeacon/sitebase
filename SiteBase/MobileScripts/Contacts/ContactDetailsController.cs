@@ -20,6 +20,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 {
 	public class ContactDetailsController : BaseDetailsController
 	{
+		private SiteBaseService _siteBaseService;
 		private ContactService _contactService;
 
 		protected new ContactDetailsScopeData ScopeData
@@ -27,8 +28,9 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			get { return (ContactDetailsScopeData)data; }
 		}
 
-		public ContactDetailsController(Scope scope, State state, ILocation location, ContactService contactService) : base(scope, state, location)
+		public ContactDetailsController(Scope scope, State state, ILocation location, SiteBaseService siteBaseService, ContactService contactService) : base(scope, state, location)
 		{
+			_siteBaseService = siteBaseService;
 			_contactService = contactService;
 		}
 
@@ -41,10 +43,21 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 				isLoading = true,
 				isCollapsedCommentEditor = true
 			});
-			//Scope.watch("data.isCollapsedComments", new Action<object>(arg =>
-			//{
-			//	console.log("data.isCollapsedComments: " + arg);
-			//}));
+			Scope.watch("data.model.PostalCode", new Action<string>(postalCode =>
+			{
+				if (!postalCode)
+				{
+					return;
+				}
+				_siteBaseService.getPostalCodeData(postalCode, new Action<PostalCodeData>(response =>
+				{
+					if (response && response.Success)
+					{
+						ScopeData.model.City = response.City || ScopeData.model.City;
+						ScopeData.model.StateId = response.StateId || ScopeData.model.StateId;
+					}
+				}));
+			}));
 		}
 
 		protected override void handleResponse(ApiResponse response)

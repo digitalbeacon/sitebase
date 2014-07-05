@@ -36,7 +36,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 					pageCount = -1,
 					sortDirection = "",
 					isCollapsedAdvancedSearch = true,
-					footerHeight = 140,
+					loadMoreThreshold = 200,
 					listVisible = true
 				});
 			ScopeData.listVisible = isListState();
@@ -74,7 +74,7 @@ namespace DigitalBeacon.SiteBase.Mobile
 
 		public virtual void loadMore()
 		{
-			if (ScopeData.page < ScopeData.pageCount)
+			if (!ScopeData.isLoading && ScopeData.page < ScopeData.pageCount)
 			{
 				ScopeData.page++;
 				search(true);
@@ -204,16 +204,18 @@ namespace DigitalBeacon.SiteBase.Mobile
 			{
 				return;
 			}
-			window.scrollTo(0, 0);
+			//window.scrollTo(0, 0);
 			jQuery.Select(window.self).on("scroll.sbClientListPanel", null, null,
 				(Action<jQueryLib.Event>)(e =>
 				{
 					var w = jQuery.Select(window.self);
 					var d = jQuery.Select(window.document);
 					//console.log("{0}, {1}, {2}".formatWith(w.scrollTop(), d.height(), w.height()));
-					//console.log("{0}, {1}".formatWith(w.scrollTop(), jQuery.Select(window.document).height() - w.height() - list.footerHeight));
-					if (d.height() > w.height() && ((w.scrollTop() >= d.height() - w.height() - ScopeData.footerHeight) || (w.scrollTop() >= d.height() / 2)))
+					//console.log("{0}, {1}".formatWith(w.scrollTop(), d.height() - w.height() - ScopeData.loadMoreThreshold));
+					if (d.height() > w.height() && (w.scrollTop() >= d.height() - w.height() - ScopeData.loadMoreThreshold))
 					{
+						//console.log("{0}, {1}, {2}".formatWith(w.scrollTop(), d.height(), w.height()));
+						//console.log("{0}, {1}".formatWith(w.scrollTop(), d.height() - w.height() - ScopeData.loadMoreThreshold));
 						loadMore();
 					}
 				})
