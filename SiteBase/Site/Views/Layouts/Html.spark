@@ -101,6 +101,7 @@ Html.Telerik().StyleSheetRegistrar().Render();
 			</content>
 
 			<script type="text/javascript" if="Request.ApplicationPath != '/'">document.appContextPath = '${Request.ApplicationPath}';</script>
+			<script type="text/javascript" if="WebConstants.AssetVersion.HasText()">document.assetVersion = '${WebConstants.AssetVersion}';</script>
 			<script type="text/javascript" if="IsMobile">document.isMobile = true;</script>
 			<% 
 if (Content.ContainsKey("readyScript"))

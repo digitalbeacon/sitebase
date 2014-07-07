@@ -11,6 +11,7 @@
 	-----------------------------------------------------------------------------*/
 	$.digitalbeacon = new function () {
 		this.appContextPath = document.appContextPath || '';
+		this.assetVersion = document.assetVersion || '';
 		this.importedFiles = {};
 		/*-----------------------------------------------------------------------------
 		Log message to console
@@ -45,7 +46,12 @@
 			}
 			var scriptElement = document.createElement('script');
 			scriptElement.type = 'text/javascript';
-			scriptElement.src = this.resolveUrl(jsFile);
+			if (this.assetVersion) {
+				scriptElement.src = this.mergeParams(this.resolveUrl(jsFile), { v : this.assetVersion });
+			}
+			else {
+				scriptElement.src = this.resolveUrl(jsFile);
+			}
 			this.log('loaded: ' + scriptElement.src);
 			$('head')[0].appendChild(scriptElement);
 			this.importedFiles[jsFile] = true;
@@ -60,7 +66,12 @@
 			var linkElement = document.createElement('link');
 			linkElement.type = 'text/css';
 			linkElement.rel = 'stylesheet';
-			linkElement.href = this.resolveUrl(cssFile);
+			if (this.assetVersion) {
+				linkElement.href = this.mergeParams(this.resolveUrl(cssFile), { v: this.assetVersion });
+			}
+			else {
+				linkElement.href = this.resolveUrl(cssFile);
+			}
 			this.log('loaded: ' + linkElement.href);
 			$('head')[0].appendChild(linkElement);
 			this.importedFiles[cssFile] = true;
@@ -87,6 +98,10 @@
 		Merge parameters to url
 		-----------------------------------------------------------------------------*/
 		this.mergeParams = function (url, args) {
+			if (DigitalBeacon.Utils)
+			{
+				return DigitalBeacon.Utils.mergeParams(url, args);
+			}
 			for (var key in args) {
 				var regExp = new RegExp($.telerik.formatString('({0})=([^&]*)', key), 'gi');
 				if (regExp.test(url)) {

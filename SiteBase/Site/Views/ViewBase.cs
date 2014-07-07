@@ -10,6 +10,7 @@ using System.Configuration;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using DigitalBeacon.Business;
+using DigitalBeacon.SiteBase.Web;
 using DigitalBeacon.Util;
 using Telerik.Web.Mvc.UI;
 
@@ -21,6 +22,13 @@ namespace DigitalBeacon.SiteBase.Views
 	/// <typeparam name="T"></typeparam>
 	public abstract class ViewBase<T> : DigitalBeacon.SiteBase.Web.ViewBase<T> where T : class
 	{
+		private static readonly string _assetHandlerPath;
+
+		static ViewBase()
+		{
+			_assetHandlerPath = "~/combined-assets{0}.axd".FormatWith(WebConstants.AssetVersion.HasText() ? "-" + WebConstants.AssetVersion : String.Empty);
+		}
+
 		/// <summary>
 		/// Sets the view context.
 		/// </summary>
@@ -33,9 +41,9 @@ namespace DigitalBeacon.SiteBase.Views
 			// layouts are handled in reverse order which causes the registrars to be
 			// associated with the first child ViewContext when using the Html.Action
 			// or Html.RenderAction helpers.
-			Html.Telerik().ScriptRegistrar()
+			Html.Telerik().ScriptRegistrar().AssetHandlerPath(_assetHandlerPath)
 				.DefaultGroup(group => group.DefaultPath("~/resources/base/telerik"));
-			Html.Telerik().StyleSheetRegistrar()
+			Html.Telerik().StyleSheetRegistrar().AssetHandlerPath(_assetHandlerPath)
 				.DefaultGroup(group => group.DefaultPath("~/resources/base/telerik"));
 		}
 	}

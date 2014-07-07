@@ -6,12 +6,16 @@
 // ---------------------------------------------------------------------- //
 
 using System.Configuration;
+using System.Reflection;
+using System.Web.Compilation;
 using DigitalBeacon.Util;
 
 namespace DigitalBeacon.SiteBase.Web
 {
 	public static class WebConstants
 	{
+		private static string _assetVersion;
+
 		public const string PreferencesKey = "SiteBase.Preferences";
 		public const string CurrentUserKey = "SiteBase.CurrentUser";
 		public const string CurrentAssociationIdKey = "SiteBase.CurrentAssociationId";
@@ -70,6 +74,7 @@ namespace DigitalBeacon.SiteBase.Web
 		public const string HtmlToPdfTempPathKey = "HtmlToPdfTempPath"; 
 		public const string SupportsMobileKey = "SupportsMobile";
 		public const string UseEmailForUsernameKey = "UseEmailForUsername";
+		public const string AssetVersionKey = "AssetVersion";
 
 		public const string DefaultErrorHeadingKey = "Error.Heading";
 
@@ -81,6 +86,19 @@ namespace DigitalBeacon.SiteBase.Web
 		public static bool IsPdfGenerationEnabled
 		{
 			get { return ConfigurationManager.AppSettings[HtmlToPdfExePathKey].HasText(); }
+		}
+
+		public static string AssetVersion
+		{
+			get 
+			{
+				if (_assetVersion != null)
+				{
+					return _assetVersion;
+				}
+				_assetVersion = ConfigurationManager.AppSettings[AssetVersionKey] ?? new AssemblyName(BuildManager.GetGlobalAsaxType().BaseType.Assembly.FullName).Version.Revision.ToString();
+				return _assetVersion;
+			}
 		}
 	}
 }
