@@ -814,6 +814,7 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
     };
     p.search = function (requestMore) {
         requestMore = (requestMore !== undefined) ? requestMore : false;
+        this.get_ScopeData().isLoading = true;
         if (!requestMore) {
             this.get_ScopeData().page = 1;
         }
@@ -841,6 +842,11 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
         $base.clearSearch.call(this, false);
     };
     p.handleResponse = function (response, isRequestForMore) {
+        if (!response.Success) {
+            this.get_DefaultHandler()(response);
+            this.get_ScopeData().isLoading = false;
+            return;
+        }
         var c = null;
         var $c_enum = response.Data.GetEnumerator();
         while($c_enum.MoveNext()) {
@@ -858,9 +864,11 @@ DigitalBeacon.SiteBase.Mobile.Contacts.ContactListController = (function() {
             }
         } else {
             this.get_ScopeData().items = response.Data;
+            this.get_ScopeData().totalCount = response.Total;
             this.get_ScopeData().pageCount = Math.ceil(response.Total / this.get_ScopeData().pageSize);
             this.enableLoadMoreOnScroll();
         }
+        this.get_ScopeData().isLoading = false;
     };
     return ContactListController;
 })();

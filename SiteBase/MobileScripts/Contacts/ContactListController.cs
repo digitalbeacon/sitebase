@@ -46,6 +46,7 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 
 		public override void search(bool requestMore = false)
 		{
+			ScopeData.isLoading = true;
 			if (!requestMore)
 			{
 				ScopeData.page = 1;
@@ -81,6 +82,12 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 
 		private void handleResponse(dynamic response, bool isRequestForMore)
 		{
+			if (!response.Success)
+			{
+				DefaultHandler((ApiResponse)response);
+				ScopeData.isLoading = false;
+				return;
+			}
 			foreach (dynamic c in response.Data)
 			{
 				if (c.PhotoId)
@@ -98,9 +105,11 @@ namespace DigitalBeacon.SiteBase.Mobile.Contacts
 			else
 			{
 				ScopeData.items = response.Data;
+				ScopeData.totalCount = response.Total;
 				ScopeData.pageCount = Math.ceil(response.Total / ScopeData.pageSize);
 				enableLoadMoreOnScroll();
 			}
+			ScopeData.isLoading = false;
 		}
 
 		[ScriptObjectLiteral]
