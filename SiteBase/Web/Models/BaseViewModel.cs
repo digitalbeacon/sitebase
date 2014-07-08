@@ -90,6 +90,12 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		public string AdditionalReturnText { get; set; }
 
 		/// <summary>
+		/// Gets or sets the redirect URL.
+		/// </summary>
+		/// <value>The redirect URL.</value>
+		public string RedirectUrl { get; set; }
+
+		/// <summary>
 		/// Gets the messages.
 		/// </summary>
 		/// <value>The messages.</value>

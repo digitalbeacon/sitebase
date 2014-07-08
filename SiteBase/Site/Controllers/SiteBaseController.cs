@@ -48,7 +48,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		protected JsonResult ApiResponse(BaseViewModel model = null)
 		{
-			var response = new ApiResponse();
+			var response = new ApiResponse { RedirectUrl = model.RedirectUrl };
 			response.Success = ModelState.IsValid && (model == null || model.Errors == null || model.Errors.Count == 0);
 			if (response.Success)
 			{

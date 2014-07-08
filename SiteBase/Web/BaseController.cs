@@ -1313,7 +1313,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value><c>true</c> if request is for partial display; otherwise, <c>false</c>.</value>
 		protected bool RenderPartial
 		{
-			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()); }
+			get { return RenderType.ToStringSafe().StartsWith(WebConstants.RenderTypePartial, StringComparison.InvariantCultureIgnoreCase); }
 		}
 
 		/// <summary>
@@ -1322,7 +1322,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value>The JSON request flag</value>
 		protected bool RenderJson
 		{
-			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypeJson.ToLowerInvariant())
+			get { return RenderType.ToStringSafe().StartsWith(WebConstants.RenderTypeJson, StringComparison.InvariantCultureIgnoreCase)
 							|| (RenderType.IsNullOrBlank() && HttpContext.Request.AcceptTypes.Contains("application/json"));
 			}
 		}
@@ -1333,7 +1333,7 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <value><c>true</c> if request is for client template; otherwise, <c>false</c>.</value>
 		protected bool RenderTemplate
 		{
-			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypeTemplate.ToLowerInvariant()); }
+			get { return RenderType.ToStringSafe().StartsWith(WebConstants.RenderTypeTemplate, StringComparison.InvariantCultureIgnoreCase); }
 		}
 
 		#endregion

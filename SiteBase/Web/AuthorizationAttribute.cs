@@ -177,7 +177,7 @@ namespace DigitalBeacon.SiteBase.Web
 				}
 				else
 				{
-					filterContext.Result = RenderPartial ? (ActionResult)new HttpForbiddenResult() : new HttpUnauthorizedResult();
+					filterContext.Result = ReturnForbiddenResult(filterContext.HttpContext.Request) ? (ActionResult)new HttpForbiddenResult() : new HttpUnauthorizedResult();
 				}
 			}
 			else if (IsAuthorized(filterContext))
@@ -248,12 +248,16 @@ namespace DigitalBeacon.SiteBase.Web
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether request is for partial display.
+		/// Returning HTTP unauthorized (401) will result in an automatic redirect to the login page.
+		/// This is not desirable for AJAX requests so we will return HTTP forbidden (403) instead.
 		/// </summary>
-		/// <value><c>true</c> if request is for partial display; otherwise, <c>false</c>.</value>
-		public bool RenderPartial
+		public bool ReturnForbiddenResult(HttpRequestBase request)
 		{
-			get { return RenderType.ToStringSafe().ToLowerInvariant().StartsWith(WebConstants.RenderTypePartial.ToLowerInvariant()) ; }
+			var renderType = RenderType.ToStringSafe();
+			return renderType.StartsWith(WebConstants.RenderTypePartial, StringComparison.InvariantCultureIgnoreCase)
+				|| renderType.StartsWith(WebConstants.RenderTypeTemplate, StringComparison.InvariantCultureIgnoreCase)
+				|| renderType.StartsWith(WebConstants.RenderTypeJson, StringComparison.InvariantCultureIgnoreCase)
+				|| (RenderType.IsNullOrBlank() && request.AcceptTypes.Contains("application/json"));
 		}
 
 		/// <summary>

@@ -6,8 +6,10 @@
 // ---------------------------------------------------------------------- //
 
 using System.Web.Mvc;
-using DigitalBeacon.Web;
+using System.Web.Security;
+using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
+using DigitalBeacon.Web;
 using Spark;
 
 namespace DigitalBeacon.SiteBase.Controllers
@@ -38,7 +40,14 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		public ActionResult Unavailable()
 		{
-			return ErrorAction("Error.ActionUnavailable.Heading", "Error.ActionUnavailable");
+			AllowJsonGet = true;
+			var model = new BaseViewModel("Error.ActionUnavailable.Heading");
+			AddError(model, "Error.ActionUnavailable");
+			if (!IsAuthenticated)
+			{
+				model.RedirectUrl = FormsAuthentication.DefaultUrl;
+			}
+			return MessageAction(model);
 		}
 
 		public ActionResult NotFound()
