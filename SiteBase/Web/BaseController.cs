@@ -1323,7 +1323,7 @@ namespace DigitalBeacon.SiteBase.Web
 		protected bool RenderJson
 		{
 			get { return RenderType.ToStringSafe().StartsWith(WebConstants.RenderTypeJson, StringComparison.InvariantCultureIgnoreCase)
-							|| (RenderType.IsNullOrBlank() && HttpContext.Request.AcceptTypes.Contains("application/json"));
+							|| (RenderType.IsNullOrBlank() && HttpContext.Request.AcceptTypes != null && HttpContext.Request.AcceptTypes.Contains("application/json"));
 			}
 		}
 

@@ -23,6 +23,10 @@
 <default pluralLabel="listModel.PluralLabel" />
 #//<default alwaysShowNewLink="false" />
 <default selectClass="null" type="string" />
+<default selectClass="null" type="string" />
+<default displayFooter="true" />
+<default sortable="false" />
+<default autoRenderGrid="false" />
 
 <set noItemsMessage="'Common.NoEntities.Text'" if="noItemsMessage.IsNullOrBlank()" />
 <default gridId="nestedPanelId + '-grid'" />
@@ -72,8 +76,8 @@ var grid = Html.Telerik().Grid(listModel.Items)
 	})
 	.PrefixUrlParameters(false)
 	.EnableCustomBinding(enableCustomBinding)
-	.Footer(true)
-	.Sortable();
+	.Footer(displayFooter)
+	.Sortable(sorting => sorting.Enabled(sortable));
 if (enableAjaxBinding)
 {
 	grid.DataBinding(dataBinding =>
@@ -105,6 +109,12 @@ if (enableNoItemsMessage && listModel.TotalCount == 0)
 		</div>
 	</div>
 	<render />
+<%
+if (autoRenderGrid)
+{
+	grid.Render();
+}
+%>
 </div>
 
 <content name="readyScript">
