@@ -16,6 +16,7 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 	public class ContactSearchInfo : SearchInfo<ContactEntity>
 	{
 		public long? ContactId { get; set; }
+		public ContactType? ContactType { get; set; }
 		public bool? Inactive { get; set; }
 		public long? CommentTypeId { get; set; }
 		public bool? HasFlaggedComment { get; set; }

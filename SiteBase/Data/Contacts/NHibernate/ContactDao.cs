@@ -32,6 +32,10 @@ namespace DigitalBeacon.SiteBase.Data.Contacts.NHibernate
 			{
 				c.Add(Restrictions.Eq(ContactEntity.EnabledProperty, !clientSearch.Inactive.Value));
 			}
+			if (clientSearch.ContactType.HasValue)
+			{
+				c.Add(Restrictions.Eq(ContactEntity.ContactTypeProperty, clientSearch.ContactType.Value));
+			}
 			if (clientSearch.ContactId.HasValue)
 			{
 				c.Add(Restrictions.Eq(ContactEntity.IdProperty, clientSearch.ContactId.Value));
