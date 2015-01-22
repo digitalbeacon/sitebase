@@ -75,6 +75,7 @@
     <Compile Include="Contacts\ContactEntity.cs" />
     <Compile Include="Contacts\ContactType.cs" />
     <Compile Include="Contacts\ContactTypeEntity.cs" />
+    <Compile Include="Contacts\GeneratedContactCommentEntity.cs" />
     <Compile Include="FileArchiveEntity.cs" />
     <Compile Include="FileDataEntity.cs" />
     <Compile Include="FileEntity.cs" />
