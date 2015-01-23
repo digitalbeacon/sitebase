@@ -26,7 +26,7 @@
 <default selectClass="null" type="string" />
 <default displayFooter="true" />
 <default sortable="false" />
-<default autoRenderGrid="false" />
+<default autoRenderGrid="null" type="bool?" />
 
 <set noItemsMessage="'Common.NoEntities.Text'" if="noItemsMessage.IsNullOrBlank()" />
 <default gridId="nestedPanelId + '-grid'" />
@@ -110,7 +110,7 @@ if (enableNoItemsMessage && listModel.TotalCount == 0)
 	</div>
 	<render />
 <%
-if (autoRenderGrid)
+if (autoRenderGrid as bool? ?? false)
 {
 	grid.Render();
 }

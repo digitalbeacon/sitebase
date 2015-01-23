@@ -72,6 +72,9 @@
 				<else if="options.InputType == null">
 					${Html.Editor(propName)}
 				</else>
+				<else if="options.InputType == time">
+					${Html.Editor(propName, "Time")}
+				</else>
 				<else if="options.InputType == textBox">
 					<sbTextBox propertyName="propName" readOnly="propReadOnly" maxLength="options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty" />
 				</else>

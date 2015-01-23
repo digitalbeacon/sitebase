@@ -793,6 +793,7 @@
     <EmbeddedResource Include="Views\Identity\Mobile\ChangePassword.spark" />
     <EmbeddedResource Include="Views\Shared\_sbGridColumn.spark" />
     <EmbeddedResource Include="Views\ContactCommentTypes\_global.spark" />
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\Time.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

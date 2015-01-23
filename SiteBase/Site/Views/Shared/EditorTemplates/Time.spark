@@ -1,0 +1,22 @@
+﻿<use master="" />
+<%
+Dictionary<string, object> attributes = new Dictionary<string, object>();
+if (ViewData.ModelMetadata.IsReadOnly)
+{
+	attributes["readonly"] = "true";
+	attributes["class"] = "readOnly";
+}
+DateTime? dt;
+var val = ViewData.ModelMetadata.Model;
+if (val is String)
+{
+	dt = (val as String).ToDate();
+}
+else
+{
+	dt = val as DateTime?;
+}
+%>${Html.Telerik().TimePicker()
+	.Name(ViewData.ModelMetadata.PropertyName)
+	.HtmlAttributes(attributes)
+	.Value(dt)}

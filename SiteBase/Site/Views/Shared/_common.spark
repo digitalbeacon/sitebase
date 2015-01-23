@@ -12,6 +12,7 @@
 <global checkBox="'CheckBox'" type="string" />
 <global radioButtonList="'RadioButtonList'" type="string" />
 <global date="'Date'" type="string" />
+<global time="'Time'" type="string" />
 <global email="'Email'" type="string" />
 <global phone="'Phone'" type="string" />
 <global file="'File'" type="string" />
