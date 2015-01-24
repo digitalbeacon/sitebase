@@ -15,6 +15,7 @@
 <default rowStyle="null" type="string" />
 <default mask="null" type="string" />
 <default maxLength="null" type="int?" />
+<default autoCompleteUrl="String.Empty" />
 <default isEntityModel="false" />
 <default enableSave="true" />
 <default enableDelete="false" />
@@ -44,6 +45,7 @@ ${FormRow(new FormRowOptions {
 	Mask = mask,
 	Focus = focus,
 	MaxLength = maxLength,
+	AutoCompleteUrl = autoCompleteUrl,
 	IsEntityModel = isEntityModel,
 	EnableSave = enableSave,
 	EnableDelete = enableDelete,

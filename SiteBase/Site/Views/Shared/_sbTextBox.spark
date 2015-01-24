@@ -3,6 +3,6 @@
 <default maxLength="String.Empty" />
 <default ngModel="String.Empty" />
 <default ngInit="String.Empty" />
-<default autoComplete="HttpContext.Current.IsDebuggingEnabled" />
+<default autocomplete="HttpContext.Current.IsDebuggingEnabled" />
 
-${Html.Editor(propertyName, "string", new { readOnly = inputReadOnly, cssClass = cssClass, maxLength = maxLength, autoComplete = autoComplete, ngModel = ngModel, ngInit = ngInit })}
+${Html.Editor(propertyName, "string", new { readOnly = inputReadOnly, cssClass = cssClass, maxLength = maxLength, autoComplete = autocomplete, ngModel = ngModel, ngInit = ngInit })}

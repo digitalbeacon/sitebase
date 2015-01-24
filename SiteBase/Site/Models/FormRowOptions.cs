@@ -33,6 +33,7 @@ namespace DigitalBeacon.SiteBase.Models
 		public string Mask { get; set; }
 		public bool Focus { get; set; }
 		public int? MaxLength { get; set; }
+		public string AutoCompleteUrl { get; set; }
 		public bool IsEntityModel { get; set; }
 		public bool EnableSave { get; set; }
 		public bool EnableDelete { get; set; }

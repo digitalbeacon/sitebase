@@ -9,6 +9,7 @@
 <global editor="'Editor'" type="string" />
 <global password="'Password'" type="string" />
 <global dropDownList="'DropDownList'" type="string" />
+<global autoComplete="'AutoComplete'" type="string" />
 <global checkBox="'CheckBox'" type="string" />
 <global radioButtonList="'RadioButtonList'" type="string" />
 <global date="'Date'" type="string" />

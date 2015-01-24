@@ -53,7 +53,12 @@
 					<set options.InputType="checkBox" />
 				</if>
 				<else if="options.Model.ListItems.ContainsKey(propName)">
-					<set options.InputType="dropDownList" />
+					<if condition="options.AutoCompleteUrl.HasText()">
+						<set options.InputType="autoComplete" />
+					</if>
+					<else>
+						<set options.InputType="dropDownList" />
+					</else>
 				</else>
 			</if>
 			<span class="form-row-label">
@@ -93,6 +98,19 @@
 					</if>
 					<else>
 						${Html.DropDownList(propName, options.Model.ListItems[propName])}
+					</else>
+				</else>
+				<else if="options.InputType == autoComplete">
+					<if condition="options.AutoCompleteUrl.IsNullOrBlank()">
+						${Html.Telerik().ComboBox().Name(propName).BindTo(Model.ListItems[propName])
+							.DataBinding(dataBinding => dataBinding.Ajax().Select(
+								"autoComplete",
+								(string)ViewContext.RouteData.Values["controller"],
+								new { property = propName }))}
+					</if>
+					<else>
+						${Html.Telerik().ComboBox().Name(propName).BindTo(Model.ListItems[propName])
+							.DataBinding(dataBinding => dataBinding.WebService().Select(options.AutoCompleteUrl))}
 					</else>
 				</else>
 				<else if="options.InputType == checkBox">
