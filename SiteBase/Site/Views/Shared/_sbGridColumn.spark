@@ -5,6 +5,7 @@
 <default displayCheckBox="false" />
 <default allowSorting="null" type="bool?" />
 <default encoded="null" type="bool?" />
+<default renderGrid="false" />
 
 <%
 grid.Columns(columns =>
@@ -32,7 +33,11 @@ grid.Columns(columns =>
 		c.ClientTemplate("<input type='checkbox' disabled='disabled' <#= {0} ? \"checked='checked'\" : \"\" #> />".FormatWith(property));
 	}
 });
-if (autoRenderGrid == null) {
+if (renderGrid) {
+	grid.Render();
+	autoRenderGrid = false;
+}
+else if (autoRenderGrid == null) {
 	autoRenderGrid = true;
 }
 %>
