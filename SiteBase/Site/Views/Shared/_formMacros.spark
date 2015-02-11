@@ -93,23 +93,31 @@
 					${Html.Password(propName)}
 				</else>
 				<else if="options.InputType == dropDownList">
+					<var selectList="options.Model.ListItems.ContainsKey(propName) ? options.Model.ListItems[propName] : Enumerable.Empty[[SelectListItem]]()" />
 					<if condition="options.IncludeEmptyOption">
-						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty)}
+						${Html.DropDownList(propName, selectList, String.Empty)}
 					</if>
 					<else>
-						${Html.DropDownList(propName, options.Model.ListItems[propName])}
+						${Html.DropDownList(propName, selectList)}
 					</else>
 				</else>
 				<else if="options.InputType == autoComplete">
+					<% 
+						var comboBox = Html.Telerik().ComboBox().Name(propName);
+						if (options.DataBindingClientFunction.HasText())
+						{
+							comboBox.ClientEvents(events => events.OnDataBinding(options.DataBindingClientFunction));
+						}
+					%> 
 					<if condition="options.AutoCompleteUrl.IsNullOrBlank()">
-						${Html.Telerik().ComboBox().Name(propName).BindTo(Model.ListItems[propName])
+						${comboBox.BindTo(Model.ListItems[propName])
 							.DataBinding(dataBinding => dataBinding.Ajax().Select(
 								"autoComplete",
 								(string)ViewContext.RouteData.Values["controller"],
 								new { property = propName }))}
 					</if>
 					<else>
-						${Html.Telerik().ComboBox().Name(propName).BindTo(Model.ListItems[propName])
+						${comboBox.BindTo(Model.ListItems[propName])
 							.DataBinding(dataBinding => dataBinding.WebService().Select(options.AutoCompleteUrl))}
 					</else>
 				</else>

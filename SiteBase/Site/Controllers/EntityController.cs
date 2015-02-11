@@ -299,7 +299,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 
 		protected virtual string GetIndexUrl(TModel model)
 		{
-			return Url.Action(ListActionName, new { id = String.Empty });
+			return Url.Action(ListActionName, new { id = String.Empty, parentId = ParentId });
 		}
 
 		#endregion
@@ -539,6 +539,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 			{
 				return RedirectToAction(DeleteActionName);
 			}
+			if (ParentId == null && form[this.PropertyName(m => m.ParentId)].IsInt64())
+			{
+				ParentId = form[this.PropertyName(m => m.ParentId)].ToInt64().Value;
+			}
 			ActionResult retVal = null;
 			var model = ConstructUpdateModel(form);
 			if (ModelState.IsValid)
@@ -670,6 +674,10 @@ namespace DigitalBeacon.SiteBase.Controllers
 			if (model.Cancel.HasText())
 			{
 				return GetIndexAction(model);
+			}
+			if (ParentId == null && form[this.PropertyName(m => m.ParentId)].IsInt64())
+			{
+				ParentId = form[this.PropertyName(m => m.ParentId)].ToInt64().Value;
 			}
 			ActionResult retVal = null;
 			if (ModelState.IsValid)

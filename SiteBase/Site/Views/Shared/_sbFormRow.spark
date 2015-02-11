@@ -16,6 +16,7 @@
 <default mask="null" type="string" />
 <default maxLength="null" type="int?" />
 <default autoCompleteUrl="String.Empty" />
+<default dataBindingClientFunction="String.Empty" />
 <default isEntityModel="false" />
 <default enableSave="true" />
 <default enableDelete="false" />
@@ -46,6 +47,7 @@ ${FormRow(new FormRowOptions {
 	Focus = focus,
 	MaxLength = maxLength,
 	AutoCompleteUrl = autoCompleteUrl,
+	DataBindingClientFunction = dataBindingClientFunction,
 	IsEntityModel = isEntityModel,
 	EnableSave = enableSave,
 	EnableDelete = enableDelete,
