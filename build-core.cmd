@@ -14,6 +14,10 @@ goto setargs
 
 3rdParty\Nuget\Bin\NuGet.exe restore DigitalBeacon.sln
 
-%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\msbuild DigitalBeacon.sln /m /t:%BuildTarget% /p:Configuration=%Configuration%
+SET MsBuildPath=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\msbuild
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" SET MsBuildPath=%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\msbuild
+echo Using MSBuild path: %MsBuildPath%
+
+%MsBuildPath% DigitalBeacon.sln /m /t:%BuildTarget% /p:Configuration=%Configuration%
 
 if not "%NoPause%"=="nopause" pause
