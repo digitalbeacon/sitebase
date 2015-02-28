@@ -43,10 +43,15 @@ grid.Render();
 	<content name="readyScript" if="!Model.ShowTextInline">
 		var ${Model.PanelPrefix}CommentListPanel$ = $('#${Model.PanelPrefix}CommentListPanel');
 		${Model.PanelPrefix}CommentListPanel$.bind('dataBound', function() {
-			$('tbody td .flagged', this).bt('${Text("Comments.Flagged.Tooltip").EscapeForJavaScript()}');
+			$('tbody td .flagged', this).bt('${JsText("Comments.Flagged.Tooltip")}');
 			setTimeout(function() {
 				var grid = ${Model.PanelPrefix}CommentListPanel$.data('sbListPanel').grid;
-				grid.$rows().each(function() { grid.expandRow(this); });
+				grid.$rows().each(function() {
+					grid.expandRow(this);
+					if (!$(this).next().text().trim()) {
+						grid.collapseRow(this);
+					}
+				});
 			}, 0);
 		});
 	</content>
