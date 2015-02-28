@@ -6,6 +6,7 @@
 <default nestedPanelId="panelId" />
 <default listAction="Url.Action('index')" />
 <default enableSelect="true" />
+<default selectReplacesList="false" />
 <default enableRemove="true" />
 <default enableNew="!listModel.ParentId.HasValue || listModel.ParentId.Value > 0" />
 <default selectAction="String.Empty" />
@@ -121,6 +122,7 @@ if (autoRenderGrid as bool? ?? false)
 	<var options="new Dictionary[[string, object]]()" />
 	<sbSet dictionary="options" key="'gridId'" value="'#' + gridId" />
 	<sbSet dictionary="options" key="'enableSelect'" value="enableSelect" />
+	<sbSet dictionary="options" key="'selectReplacesList'" value="selectReplacesList" />
 	<sbSet dictionary="options" key="'selectClass'" value="selectClass" if="selectClass.HasText()" />	
 	<sbSet dictionary="options" key="'maintainSelection'" value="maintainSelection" />
 	<sbSet dictionary="options" key="'hideSearchPanelWhenEmpty'" value="hideSearchPanelWhenEmpty" />

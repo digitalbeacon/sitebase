@@ -288,7 +288,7 @@ Initialize list panel with search
 				if (this.itemSequencer) {
 					this.itemSequencer.setCurrent($selectLinks.attr('data-id'));
 				}
-				$.sb.modalBox({ ajax: this.getAugmentedUrl($selectLinks.attr('href')), replace: false, width: this.modalBoxWidth });
+				$.sb.modalBox({ ajax: this.getAugmentedUrl($selectLinks.attr('href')), replace: this.selectReplacesList, width: this.modalBoxWidth });
 			}
 		},
 
@@ -348,6 +348,7 @@ Initialize list panel with search
 		gridId: '#grid',
 		enableSelect: true,
 		maintainSelection: false,
+		selectReplacesList: false,
 		selectClass: 'select',
 		newId: '#new',
 		newClass: 'new',
