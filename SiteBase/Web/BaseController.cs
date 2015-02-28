@@ -1290,12 +1290,32 @@ namespace DigitalBeacon.SiteBase.Web
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether site supports alternate rendering for mobile devices.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if site supports alternate rendering for mobile devices; otherwise, <c>false</c>.
+		/// </value>
+		protected bool SupportsMobile
+		{
+			get
+			{
+				var val = HttpContext.Application[WebConstants.SupportsMobileKey] as bool?;
+				if (val == null)
+				{
+					val = ConfigurationManager.AppSettings[WebConstants.SupportsMobileKey].ToBoolean() ?? false;
+					HttpContext.Application[WebConstants.SupportsMobileKey] = val;
+				}
+				return (bool)val;
+			}
+		}
+
+		/// <summary>
 		/// Gets the mobile flag.
 		/// </summary>
 		/// <value>The mobile flag.</value>
 		protected bool IsMobile
 		{
-			get { return HttpContext.Items[WebConstants.MobileKey] as bool? ?? false; }
+			get { return SupportsMobile && (HttpContext.Items[WebConstants.MobileKey] as bool? ?? false); }
 		}
 
 		/// <summary>
