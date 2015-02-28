@@ -18,7 +18,7 @@
 <default validationSummaryLabel="'Validation.Summary.Label'" type="string" />
 <default excludePropertyErrorsFromSummary="false" />
 <default displayRequiredMessage="true" />
-<default deleteUrl="modelId > 0 ? Url.Action('delete') : null" />
+<default deleteUrl="modelId > 0 ? Url.Action('delete', new {id = modelId}) : null" />
 <default isEntityModel="typeof(EntityModel).IsAssignableFrom(Model.GetType())" />
 <default operation="isEntityModel ? (modelId == 0 ? create : update) : null" />
 <default enableItemSequencer="RenderPartial && isEntityModel" />
