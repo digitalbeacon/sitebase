@@ -1,1 +1,1 @@
-call build-sitebase.cmd /debug
+call build-sitebase.cmd /debug %*

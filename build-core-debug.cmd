@@ -1,1 +1,1 @@
-call build-core.cmd /debug
+call build-core.cmd /debug %*

@@ -257,7 +257,7 @@ namespace DigitalBeacon.SiteBase.Web
 			return renderType.StartsWith(WebConstants.RenderTypePartial, StringComparison.InvariantCultureIgnoreCase)
 				|| renderType.StartsWith(WebConstants.RenderTypeTemplate, StringComparison.InvariantCultureIgnoreCase)
 				|| renderType.StartsWith(WebConstants.RenderTypeJson, StringComparison.InvariantCultureIgnoreCase)
-				|| (RenderType.IsNullOrBlank() && request.AcceptTypes.Contains("application/json"));
+				|| (RenderType.IsNullOrBlank() && request.AcceptTypes != null && request.AcceptTypes.Contains("application/json"));
 		}
 
 		/// <summary>
