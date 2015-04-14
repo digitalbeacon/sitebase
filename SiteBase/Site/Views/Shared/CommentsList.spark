@@ -4,7 +4,8 @@
 
 <sbMessagePanel if="!ViewContext.IsChildAction" />
 
-<sbListPanel panelId="Model.PanelPrefix + 'CommentListPanel'" panelClass="'comment-list-panel'" displaySearchPanel="false" enableNew="Model.CanAdd" enableSelect="Model.CanUpdate" enableRemove="Model.CanDelete">
+<var panelId="Model.PanelPrefix + 'CommentListPanel'" />
+<sbListPanel panelClass="'comment-list-panel'" displaySearchPanel="false" enableNew="Model.CanAdd" enableSelect="Model.CanUpdate" enableRemove="Model.CanDelete">
 <%
 grid.Columns(columns =>
 {
@@ -41,11 +42,11 @@ if (!Model.ShowTextInline)
 grid.Render();
 %>
 	<content name="readyScript" if="!Model.ShowTextInline">
-		var ${Model.PanelPrefix}CommentListPanel$ = $('#${Model.PanelPrefix}CommentListPanel');
-		${Model.PanelPrefix}CommentListPanel$.bind('dataBound', function() {
+		var ${panelId}$ = $('#${panelId}');
+		${panelId}$.bind('dataBound', function() {
 			$('tbody td .flagged', this).bt('${JsText("Comments.Flagged.Tooltip")}');
 			setTimeout(function() {
-				var grid = ${Model.PanelPrefix}CommentListPanel$.data('sbListPanel').grid;
+				var grid = ${panelId}$.data('sbListPanel').grid;
 				grid.$rows().each(function() {
 					grid.expandRow(this);
 					if (!$(this).next().text().trim()) {
@@ -53,6 +54,14 @@ grid.Render();
 					}
 				});
 			}, 0);
+		});
+	</content>
+	<content name="readyScript" if="ViewContext.IsChildAction">
+		$('#${panelId}').bind('dataBound', function() {
+			var ${panelId}ListPanel = $(this).data('sbListPanel');
+			if (${panelId}ListPanel) {
+				$('.commentListContainer').trigger('refresh');
+			}
 		});
 	</content>
 </sbListPanel>
