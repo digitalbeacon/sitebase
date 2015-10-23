@@ -54,6 +54,12 @@ namespace DigitalBeacon.SiteBase.Web
 		public bool RequireLocal { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether action allows an unauthenticated local request.
+		/// </summary>
+		/// <value><c>true</c> if action allows an unauthenticated local request; otherwise, <c>false</c>.</value>
+		public bool AllowLocalUnauthenticated { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthorizationAttribute"/> class.
 		/// </summary>
 		public AuthorizationAttribute() : this(true)
@@ -157,6 +163,10 @@ namespace DigitalBeacon.SiteBase.Web
 			else if (RequireLocal && !filterContext.HttpContext.Request.IsLocal)
 			{
 				filterContext.Result = new HttpForbiddenResult();
+			}
+			else if (AllowLocalUnauthenticated && filterContext.HttpContext.Request.IsLocal)
+			{
+				SetCachePolicy(filterContext);
 			}
 			else if (RequireUnauthenticated)
 			{
