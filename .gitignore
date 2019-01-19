@@ -4,6 +4,9 @@ obj
 *.user
 *.log
 
+**/.idea
+**/.vs
+
 /3rdParty/Nuget
 
 /SiteBase/Config/Dev
