@@ -120,6 +120,13 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CaptchaConstants.cs" />
+    <Content Include="Scripts\@types\digitalbeacon\digitalbeacon.d.ts" />
+    <Content Include="Scripts\digitalbeacon.ts" />
+    <Content Include="Scripts\digitalbeacon.modalBox.ts" />
+    <Content Include="Scripts\digitalbeacon.mvcValidate.ts" />
+    <Content Include="Scripts\Utils.ts" />
+    <Content Include="Scripts\StringExtensions.ts" />
+    <Content Include="Scripts\StringUtils.ts" />
     <Compile Include="SessionAuditorModule.cs" />
     <Compile Include="DecimalModelBinder.cs" />
     <Compile Include="HtmlHelperExtensions.cs" />
@@ -175,6 +182,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\StringBuilder.ts" />
+    <Content Include="Scripts\tsconfig.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

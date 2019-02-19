@@ -137,8 +137,25 @@
     <Compile Include="Models\EntityModel.cs" />
     <Compile Include="Models\ListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\@types\digitalbeacon\digitalbeacon.d.ts" />
+    <Content Include="Scripts\@types\digitalbeacon\sitebase.d.ts" />
+    <Content Include="Scripts\@types\string.d.ts" />
+    <Content Include="Scripts\SessionAuditor.ts" />
+    <Content Include="Scripts\Editor.ts" />
     <Compile Include="ViewBase.cs" />
     <Compile Include="WebConstants.cs" />
+    <Content Include="Scripts\sitebase.formPanel.js" />
+    <Content Include="Scripts\sitebase.formPanel.min.js">
+      <DependentUpon>sitebase.formPanel.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\sitebase.ts" />
+    <Content Include="Scripts\sitebase.listPanel.js" />
+    <Content Include="Scripts\sitebase.listPanel.min.js">
+      <DependentUpon>sitebase.listPanel.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\sitebase.min.js">
+      <DependentUpon>sitebase.ts</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Base\DigitalBeacon.csproj">
@@ -172,6 +189,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\package.json" />
+    <Content Include="Scripts\tsconfig.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,3 +15,5 @@ obj
 /SiteBase/Site/Resources/Base/telerik
 
 /Publish
+
+**/node_modules/

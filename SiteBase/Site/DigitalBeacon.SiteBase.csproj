@@ -399,14 +399,6 @@
     <Content Include="Resources\Base\QueuedEmails\styles.min.css" />
     <Content Include="Resources\Base\Roles\styles.css" />
     <Content Include="Resources\Base\Roles\styles.min.css" />
-    <Content Include="Resources\Base\Scripts\blade.js" />
-    <Content Include="Resources\Base\Scripts\blade.min.js" />
-    <Content Include="Resources\Base\Scripts\digitalbeacon.js" />
-    <Content Include="Resources\Base\Scripts\digitalbeacon.min.js" />
-    <Content Include="Resources\Base\Scripts\digitalbeacon.modalBox.js" />
-    <Content Include="Resources\Base\Scripts\digitalbeacon.modalBox.min.js" />
-    <Content Include="Resources\Base\Scripts\digitalbeacon.mvcValidate.js" />
-    <Content Include="Resources\Base\Scripts\digitalbeacon.mvcValidate.min.js" />
     <Content Include="Resources\Base\Scripts\DigitalBeacon.SiteBase.Scripts.js" />
     <Content Include="Resources\Base\Scripts\DigitalBeacon.SiteBase.Scripts.min.js" />
     <Content Include="Resources\Base\Scripts\excanvas.js" />
