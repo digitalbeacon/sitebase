@@ -22,10 +22,9 @@ namespace DigitalBeacon.Util
 			T? retVal = null;
 			if (TextUtil.HasText(value) && (typeof(T).IsEnum || typeof(T) == typeof(Int32) || typeof(T) == typeof(Int64)))
 			{
-				long val;
-				if (Int64.TryParse(value, out val))
+				if (Int64.TryParse(value, out var val))
 				{
-					retVal = (T)val;
+					retVal = (T)(object)val;
 				}
 				else if (typeof(T).IsEnum && Enum.IsDefined(typeof(T), value))
 				{
