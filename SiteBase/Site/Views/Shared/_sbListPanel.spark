@@ -23,6 +23,7 @@
 <default pluralLabel="listModel.PluralLabel" />
 #//<default alwaysShowNewLink="false" />
 <default selectClass="null" type="string" />
+<default anchorSelectModal="false" />
 
 <set noItemsMessage="'Common.NoEntities.Text'" if="noItemsMessage.IsNullOrBlank()" />
 <default gridId="nestedPanelId + '-grid'" />
@@ -122,6 +123,7 @@ if (enableNoItemsMessage && listModel.TotalCount == 0)
 	<sbSet dictionary="options" key="'enableNoItemsMessage'" value="enableNoItemsMessage" />
 	<sbSet dictionary="options" key="'defaultSearchText'" value="Text('Common.Search.Label').EscapeForJavaScript()" />
 	<sbSet dictionary="options" key="'noMatchesText'" value="Text('Common.NoMatchingEntities.Text', pluralLabel).EscapeForJavaScript()" />
+	<sbSet dictionary="options" key="'anchorSelectModal'" value="anchorSelectModal" />
 	$('#${nestedPanelId}').sbListPanel(!{Json(options)});
 </content>
 

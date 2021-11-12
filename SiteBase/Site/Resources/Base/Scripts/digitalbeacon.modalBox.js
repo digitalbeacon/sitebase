@@ -103,6 +103,9 @@
 					if (options.success) {
 						$.extend(settings, { callFunctionAfterSuccess: options.success });
 					}
+					if (options.anchorTop) {
+						$.extend(settings, { anchorTop: options.anchorTop });
+					}
 					$.fn.modalBox(settings);
 					modalBox = $('#modalBox');
 					//modalBox.fadeTo(0, 0.01);
@@ -197,7 +200,7 @@
 				modalBox = $.digitalbeacon.getModalBox();
 			}
 			if (modalBox.length) {
-			$(window).resize();
+				$(window).resize();
 			}
 		};
 		/*-----------------------------------------------------------------------------

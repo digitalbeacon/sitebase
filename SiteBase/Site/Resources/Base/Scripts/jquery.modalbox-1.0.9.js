@@ -106,6 +106,7 @@
 			},
 			
 			minimalTopSpacingOfModalbox 		: 50, // sets the minimum space between modalbox and visible area in the browser window
+			anchorTop							: false,
 			usejqueryuidragable					: false, //options: true, false (the modalbox is draggable, Requires jQuery v1.2.6 or later, jQuery UI  and components: jQuery UI Widget, jQuery UI Mouse, jQuery UI Draggable)
 			
 			callFunctionAfterSuccess			: null,
@@ -663,8 +664,8 @@
 					if( setPositionLeft <= 0 ){
 						setPositionLeft = 0;
 					}
-					
-					var setPositionTop = parseInt( jQuery(window).height() - jQuery(globaloptions.setModalboxContainer).height() - 70 ) / 2;
+
+					var setPositionTop = globaloptions.anchorTop ? 0 : parseInt( jQuery(window).height() - jQuery(globaloptions.setModalboxContainer).height() - 70 ) / 2;
 					
 					if ( obsoleteBrowsers ) {
 						

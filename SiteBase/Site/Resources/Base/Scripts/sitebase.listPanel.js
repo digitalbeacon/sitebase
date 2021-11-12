@@ -288,7 +288,7 @@ Initialize list panel with search
 				if (this.itemSequencer) {
 					this.itemSequencer.setCurrent($selectLinks.attr('data-id'));
 				}
-				$.sb.modalBox({ ajax: this.getAugmentedUrl($selectLinks.attr('href')), replace: false, width: this.modalBoxWidth });
+				$.sb.modalBox({ ajax: this.getAugmentedUrl($selectLinks.attr('href')), replace: false, width: this.modalBoxWidth, anchorTop: this.anchorSelectModal });
 			}
 		},
 
@@ -364,7 +364,8 @@ Initialize list panel with search
 		enableNoItemsMessage: true,
 		defaultSearchText: '',
 		augmentParams: null,
-		modalBoxWidth: null
+		modalBoxWidth: null,
+		anchorSelectModal: false
 	};
 
 	$.sb.itemSequencer = function (listPanel, urlFormat) {

@@ -11,9 +11,9 @@ using System.Reflection;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyCompany("Digital Beacon, LLC")]
-[assembly: AssemblyProduct("http://digitalbeacon.com")]
-[assembly: AssemblyCopyright("Copyright © 2007-2014 Digital Beacon, LLC")]
+[assembly: AssemblyProduct("https://digitalbeacon.com")]
+[assembly: AssemblyCopyright("Copyright © 2007-2021 Digital Beacon, LLC")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("3.1.7.*")]
-[assembly: AssemblyFileVersion("3.1.7.0")]
+[assembly: AssemblyVersion("3.1.8.*")]
+[assembly: AssemblyFileVersion("3.1.8.0")]
