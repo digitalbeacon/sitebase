@@ -28,6 +28,7 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 		private FileEntity _photo;
 		private int? _photoWidth;
 		private int? _photoHeight;
+		private IList<ContactCommentEntity> _comments;
 		#endregion
 		
 		#region Properties Names
@@ -40,6 +41,7 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 		public const string PhotoProperty = "Photo";
 		public const string PhotoWidthProperty = "PhotoWidth";
 		public const string PhotoHeightProperty = "PhotoHeight";
+		public const string CommentsProperty = "Comments";
 			
 		#endregion
 
@@ -134,6 +136,15 @@ namespace DigitalBeacon.SiteBase.Model.Contacts
 			set { _photoHeight = value; }
 		}
 			
+		/// <summary>
+		/// Comments collection
+		/// </summary>		
+		public virtual IList<ContactCommentEntity> Comments
+		{
+			get { return _comments; }
+			set { _comments = value; }
+		}
+		
 		#endregion
 	}
 }

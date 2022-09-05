@@ -1,0 +1,43 @@
+﻿<default headerClass="String.Empty" />
+<default cellClass="String.Empty" />
+<default format="String.Empty" />
+<default title="null" type="String" />
+<default displayCheckBox="false" />
+<default allowSorting="null" type="bool?" />
+<default encoded="null" type="bool?" />
+<default renderGrid="false" />
+
+<%
+grid.Columns(columns =>
+{
+	var c = columns.Bound(property);
+	if (title != null) {
+		c.Title(title);
+	}
+	if (headerClass.HasText()) {
+		c.HeaderHtmlAttributes(new { @class = headerClass });
+	}
+	if (cellClass.HasText()) {
+		c.HtmlAttributes(new { @class = cellClass });
+	}
+	if (format.HasText()) {
+		c.Format(format);
+	}
+	if ((encoded as bool?).HasValue) {
+		c.Encoded((bool)encoded);
+	}
+	if ((allowSorting as bool?).HasValue) {
+		c.Sortable((bool)allowSorting);
+	}
+	if (displayCheckBox) {
+		c.ClientTemplate("<input type='checkbox' disabled='disabled' <#= {0} ? \"checked='checked'\" : \"\" #> />".FormatWith(property));
+	}
+});
+if (renderGrid) {
+	grid.Render();
+	autoRenderGrid = false;
+}
+else if (autoRenderGrid == null) {
+	autoRenderGrid = true;
+}
+%>

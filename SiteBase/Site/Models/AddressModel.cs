@@ -102,9 +102,29 @@ namespace DigitalBeacon.SiteBase.Models
 			set { DefaultPhoneId = value.HasValue ? (long)value.Value : (long?)null; }
 		}
 
+		public virtual string DefaultPhoneDisplayValue
+		{
+			get { return DefaultPhone.ToStringSafe().ToDisplayCase(); }
+		}
+
 		public virtual string PhoneDisplayValue
 		{
 			get { return PhoneFormatter.Format(MobilePhone.DefaultTo(HomePhone).DefaultTo(WorkPhone)); }
+		}
+
+		public virtual string MobilePhoneDisplayValue
+		{
+			get { return PhoneFormatter.Format(MobilePhone); }
+		}
+
+		public virtual string HomePhoneDisplayValue
+		{
+			get { return PhoneFormatter.Format(HomePhone); }
+		}
+
+		public virtual string WorkPhoneDisplayValue
+		{
+			get { return PhoneFormatter.Format(WorkPhone); }
 		}
 	}
 }

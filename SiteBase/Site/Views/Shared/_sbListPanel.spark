@@ -6,6 +6,7 @@
 <default nestedPanelId="panelId" />
 <default listAction="Url.Action('index')" />
 <default enableSelect="true" />
+<default selectReplacesList="false" />
 <default enableRemove="true" />
 <default enableNew="!listModel.ParentId.HasValue || listModel.ParentId.Value > 0" />
 <default selectAction="String.Empty" />
@@ -23,6 +24,10 @@
 <default pluralLabel="listModel.PluralLabel" />
 #//<default alwaysShowNewLink="false" />
 <default selectClass="null" type="string" />
+<default selectClass="null" type="string" />
+<default displayFooter="true" />
+<default sortable="false" />
+<default autoRenderGrid="null" type="bool?" />
 <default anchorSelectModal="false" />
 
 <set noItemsMessage="'Common.NoEntities.Text'" if="noItemsMessage.IsNullOrBlank()" />
@@ -73,8 +78,8 @@ var grid = Html.Telerik().Grid(listModel.Items)
 	})
 	.PrefixUrlParameters(false)
 	.EnableCustomBinding(enableCustomBinding)
-	.Footer(true)
-	.Sortable();
+	.Footer(displayFooter)
+	.Sortable(sorting => sorting.Enabled(sortable));
 if (enableAjaxBinding)
 {
 	grid.DataBinding(dataBinding =>
@@ -106,12 +111,19 @@ if (enableNoItemsMessage && listModel.TotalCount == 0)
 		</div>
 	</div>
 	<render />
+<%
+if (autoRenderGrid as bool? ?? false)
+{
+	grid.Render();
+}
+%>
 </div>
 
 <content name="readyScript">
 	<var options="new Dictionary[[string, object]]()" />
 	<sbSet dictionary="options" key="'gridId'" value="'#' + gridId" />
 	<sbSet dictionary="options" key="'enableSelect'" value="enableSelect" />
+	<sbSet dictionary="options" key="'selectReplacesList'" value="selectReplacesList" />
 	<sbSet dictionary="options" key="'selectClass'" value="selectClass" if="selectClass.HasText()" />	
 	<sbSet dictionary="options" key="'maintainSelection'" value="maintainSelection" />
 	<sbSet dictionary="options" key="'hideSearchPanelWhenEmpty'" value="hideSearchPanelWhenEmpty" />

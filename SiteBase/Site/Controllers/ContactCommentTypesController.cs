@@ -27,26 +27,6 @@ namespace DigitalBeacon.SiteBase.Controllers
 			Mapper.CreateMap<CommentTypeEditModel, ContactCommentTypeEntity>();
 		}
 
-		#region Overrides of EntityController
-
-		protected override string EditView
-		{
-			get { return @"..\Contacts\CommentTypeEdit"; }
-		}
-
-		protected override string DisplayView
-		{
-			get { return @"..\Contacts\CommentTypeEdit"; }
-		}
-
-		protected override string ListView
-
-		{
-			get { return @"..\Contacts\CommentTypeList"; }
-		}
-
-		#endregion
-
 		#region Overrides of NamedEntityController
 
 		protected override ListModelBase ConstructListModel()

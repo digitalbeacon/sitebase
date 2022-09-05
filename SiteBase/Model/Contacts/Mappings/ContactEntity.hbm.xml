@@ -18,5 +18,9 @@
 		<many-to-one name="Photo" column="`PhotoId`" class="DigitalBeacon.SiteBase.Model.FileEntity, DigitalBeacon.SiteBase.Model" cascade="all" />
 		<property name="PhotoWidth" column="`PhotoWidth`" type="Int32" />
 		<property name="PhotoHeight" column="`PhotoHeight`" type="Int32" />
+		<bag name="Comments" table="`ContactComment`" lazy="true" schema="`sitebase`" cascade="none" inverse="true">
+			<key column="`ContactId`" />
+			<one-to-many class="DigitalBeacon.SiteBase.Model.Contacts.ContactCommentEntity, DigitalBeacon.SiteBase.Model" />
+		</bag>
 	</joined-subclass>
 </hibernate-mapping>

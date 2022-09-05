@@ -761,8 +761,8 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Contacts\_global.spark" />
-    <EmbeddedResource Include="Views\Contacts\CommentTypeEdit.spark" />
-    <EmbeddedResource Include="Views\Contacts\CommentTypeList.spark" />
+    <EmbeddedResource Include="Views\ContactCommentTypes\Edit.spark" />
+    <EmbeddedResource Include="Views\ContactCommentTypes\List.spark" />
     <EmbeddedResource Include="Views\Contacts\Mobile\EditTemplate.spark" />
     <EmbeddedResource Include="Views\Contacts\Mobile\ListTemplate.spark" />
     <EmbeddedResource Include="Views\Contacts\Mobile\_global.spark" />
@@ -791,6 +791,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\_sbAdd.spark" />
     <EmbeddedResource Include="Views\Identity\Mobile\ChangePassword.spark" />
+    <EmbeddedResource Include="Views\Shared\_sbGridColumn.spark" />
+    <EmbeddedResource Include="Views\ContactCommentTypes\_global.spark" />
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\Time.spark" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

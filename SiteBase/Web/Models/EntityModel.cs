@@ -22,7 +22,6 @@ namespace DigitalBeacon.SiteBase.Web.Models
 		[ScriptIgnore]
 		public string Delete { get; set; }
 
-		[ReadOnly(true)]
 		[ScriptIgnore]
 		public bool BulkCreate { get; set; }
 

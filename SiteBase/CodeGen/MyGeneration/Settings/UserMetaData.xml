@@ -55,8 +55,8 @@
 				<Table p="Contact" n="">
 					<Properties>
 						<Property k="LogicalGroup" v="Contacts" />
-						<Property k="Collection2TableRef" v="ContactComment" />
-						<Property k="Collection2Name" v="Comments" />
+						<Property k="Collection1TableRef" v="ContactComment" />
+						<Property k="Collection1Name" v="Comments" />
 					</Properties>
 					<Columns>
 						<Column p="PhotoId" n="">
@@ -70,6 +70,7 @@
 				<Table p="ContactComment" n="">
 					<Properties>
 						<Property k="LogicalGroup" v="Contacts" />
+						<Property k="EntityPrefix" v="Generated" />
 					</Properties>
 					<Columns>
 						<Column p="CommentTypeId" n="">

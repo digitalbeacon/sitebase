@@ -145,6 +145,17 @@ namespace DigitalBeacon.SiteBase.Web
 		}
 
 		/// <summary>
+		/// Gets localized text escaped for JavaScript.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="args">The args.</param>
+		/// <returns></returns>
+		protected string JsText(string key, params object[] args)
+		{
+			return Text(key, args).EscapeForJavaScript();
+		}
+
+		/// <summary>
 		/// Expands the site relative text.
 		/// </summary>
 		/// <param name="text">The text.</param>

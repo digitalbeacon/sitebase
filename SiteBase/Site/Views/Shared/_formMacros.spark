@@ -53,7 +53,12 @@
 					<set options.InputType="checkBox" />
 				</if>
 				<else if="options.Model.ListItems.ContainsKey(propName)">
-					<set options.InputType="dropDownList" />
+					<if condition="options.AutoCompleteUrl.HasText()">
+						<set options.InputType="autoComplete" />
+					</if>
+					<else>
+						<set options.InputType="dropDownList" />
+					</else>
 				</else>
 			</if>
 			<span class="form-row-label">
@@ -72,6 +77,9 @@
 				<else if="options.InputType == null">
 					${Html.Editor(propName)}
 				</else>
+				<else if="options.InputType == time">
+					${Html.Editor(propName, "Time")}
+				</else>
 				<else if="options.InputType == textBox">
 					<sbTextBox propertyName="propName" readOnly="propReadOnly" maxLength="options.MaxLength.HasValue ? options.MaxLength.ToString() : String.Empty" />
 				</else>
@@ -85,11 +93,32 @@
 					${Html.Password(propName)}
 				</else>
 				<else if="options.InputType == dropDownList">
+					<var selectList="options.Model.ListItems.ContainsKey(propName) ? options.Model.ListItems[propName] : Enumerable.Empty[[SelectListItem]]()" />
 					<if condition="options.IncludeEmptyOption">
-						${Html.DropDownList(propName, options.Model.ListItems[propName], String.Empty)}
+						${Html.DropDownList(propName, selectList, String.Empty)}
 					</if>
 					<else>
-						${Html.DropDownList(propName, options.Model.ListItems[propName])}
+						${Html.DropDownList(propName, selectList)}
+					</else>
+				</else>
+				<else if="options.InputType == autoComplete">
+					<% 
+						var comboBox = Html.Telerik().ComboBox().Name(propName);
+						if (options.DataBindingClientFunction.HasText())
+						{
+							comboBox.ClientEvents(events => events.OnDataBinding(options.DataBindingClientFunction));
+						}
+					%> 
+					<if condition="options.AutoCompleteUrl.IsNullOrBlank()">
+						${comboBox.BindTo(Model.ListItems[propName])
+							.DataBinding(dataBinding => dataBinding.Ajax().Select(
+								"autoComplete",
+								(string)ViewContext.RouteData.Values["controller"],
+								new { property = propName }))}
+					</if>
+					<else>
+						${comboBox.BindTo(Model.ListItems[propName])
+							.DataBinding(dataBinding => dataBinding.WebService().Select(options.AutoCompleteUrl))}
 					</else>
 				</else>
 				<else if="options.InputType == checkBox">

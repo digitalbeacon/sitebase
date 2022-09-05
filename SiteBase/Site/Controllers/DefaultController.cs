@@ -15,6 +15,8 @@ using Spark;
 namespace DigitalBeacon.SiteBase.Controllers
 {
 	[Precompile("Blank")]
+	[Precompile("CommentsEdit")]
+	[Precompile("CommentsList")]
 	[Precompile("Delete")]
 	[Precompile("LookupEdit")]
 	[Precompile("LookupList")]
@@ -23,6 +25,7 @@ namespace DigitalBeacon.SiteBase.Controllers
 	[Precompile("EditorTemplates/DateTime")]
 	[Precompile("EditorTemplates/ReadOnlyField")]
 	[Precompile("EditorTemplates/String")]
+	[Precompile("EditorTemplates/Time")]
 	[Precompile("Mobile/Index")]
 	[Precompile("Mobile/Message")]
 	[Precompile("Mobile/PartialNav")]
