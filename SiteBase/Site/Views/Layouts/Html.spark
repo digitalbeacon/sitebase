@@ -52,6 +52,9 @@
 		<var cultureCode="ResourceManager.ClientCulture.Name != ResourceManager.SystemCulture.Name ? ResourceManager.ClientCulture.Name : null" />
 		<content name="application-head">
 			<title><if condition="Content.ContainsKey('title') || Content.ContainsKey('header')"><use content="title"><use content="header"/></use> | </if>${Text('Site.Title')}</title>
+			#//<if condition="Text('Site.FavIconUrl').HasText()">
+            <link if="Text('Site.FavIconUrl').HasText()" rel="shortcut icon" href="${Url.Content(Text('Site.FavIconUrl'))}" type="image/x-icon" />
+			#//</if>
 <%
 if (IsMobile)
 {
