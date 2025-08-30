@@ -72,6 +72,7 @@ namespace DigitalBeacon.SiteBase.Web
 		public const string UseDatabaseResourcesKey = "UseDatabaseResources";
 		public const string HtmlToPdfExePathKey = "HtmlToPdfExePath";
 		public const string HtmlToPdfTempPathKey = "HtmlToPdfTempPath"; 
+		public const string HtmlToPdfApiEndpointKey = "HtmlToPdfApiEndpoint";
 		public const string SupportsMobileKey = "SupportsMobile";
 		public const string UseEmailForUsernameKey = "UseEmailForUsername";
 		public const string AssetVersionKey = "AssetVersion";
@@ -85,7 +86,8 @@ namespace DigitalBeacon.SiteBase.Web
 
 		public static bool IsPdfGenerationEnabled
 		{
-			get { return ConfigurationManager.AppSettings[HtmlToPdfExePathKey].HasText(); }
+			get { return ConfigurationManager.AppSettings[HtmlToPdfExePathKey].HasText()
+					||  ConfigurationManager.AppSettings[HtmlToPdfApiEndpointKey].HasText(); }
 		}
 
 		public static string AssetVersion

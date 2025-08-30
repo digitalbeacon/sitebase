@@ -31,6 +31,7 @@ using DigitalBeacon.SiteBase.Web.Models;
 using DigitalBeacon.Util;
 using DigitalBeacon.Web;
 using MarkdownSharp;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Spark;
 using Spring.Data.NHibernate.Support;
@@ -1202,6 +1203,8 @@ namespace DigitalBeacon.SiteBase.Web
 		{
 			url.Guard("url");
 
+			FileContentResult result = null;
+			
 			if (!WebConstants.IsPdfGenerationEnabled)
 			{
 				var webClient = new WebClient();
@@ -1209,7 +1212,7 @@ namespace DigitalBeacon.SiteBase.Web
 				using (var ms = new MemoryStream())
 				{
 					stream.CopyTo(ms);
-					var result = new FileContentResult(ms.ToArray(), MediaTypeNames.Text.Html);
+					result = new FileContentResult(ms.ToArray(), MediaTypeNames.Text.Html);
 					if (filename.HasText())
 					{
 						result.FileDownloadName = filename;
@@ -1217,7 +1220,58 @@ namespace DigitalBeacon.SiteBase.Web
 					return result;
 				}
 			}
+			
+			var htmlToPdfExePath = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfExePathKey];
+			var htmlToPdfApiEndpoint = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfApiEndpointKey];
+			byte[] pdfBytes;
+			if (htmlToPdfExePath.HasText())
+			{
+				pdfBytes = HtmlToPdfUsingExe(htmlToPdfExePath, landscape, options, filename, url, additionalUrls);
+			}
+			else
+			{
+				pdfBytes = HtmlToPdfUsingApi(htmlToPdfApiEndpoint, landscape, options, filename, url, additionalUrls);
+			}
 
+			if (pdfBytes == null)
+			{
+				throw new BaseException("Could not generate PDF");
+			}
+
+			result = new FileContentResult(pdfBytes, MediaTypeNames.Application.Pdf);
+			if (filename.HasText())
+			{
+				result.FileDownloadName = filename;
+			}
+			return result;
+		}
+
+		private byte[] HtmlToPdfUsingApi(string apiEndpoint, bool landscape, string options, string filename, string url, params string[] additionalUrls)
+		{
+			try
+			{
+				// webClient.Headers[HttpRequestHeader.Accept] = "application/pdf";
+					
+				using (var client = new WebClient())
+				{
+					client.Headers[HttpRequestHeader.ContentType] = "application/json"; // Set content type for JSON
+					var data = new { url };
+					var json = JsonConvert.SerializeObject(data);
+					// JsonSerializer.SerializeToUtf8Bytes(data);
+					// var bytes = client.UploadData(apiEndpoint, "POST", new JsonSerializer().SerializeToUtf8Bytes(data));
+					var bytes = client.UploadData(apiEndpoint, "POST", System.Text.Encoding.UTF8.GetBytes(json));
+					return bytes;
+				}					
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
+		}
+		
+		private byte[] HtmlToPdfUsingExe(string exePath, bool landscape, string options, string filename, string url, params string[] additionalUrls)
+		{
 			var p = new System.Diagnostics.Process();
 
 			try
@@ -1227,7 +1281,7 @@ namespace DigitalBeacon.SiteBase.Web
 				p.StartInfo.RedirectStandardError = true;
 				//p.StartInfo.RedirectStandardInput = true;
 				p.StartInfo.UseShellExecute = false;
-				p.StartInfo.FileName = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfExePathKey];
+				p.StartInfo.FileName = exePath;
 				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(p.StartInfo.FileName);
 
 				var tempPath = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfTempPathKey];
@@ -1271,12 +1325,13 @@ namespace DigitalBeacon.SiteBase.Web
 				{
 					var bytes = System.IO.File.ReadAllBytes(tempFile);
 					System.IO.File.Delete(tempFile);
-					var result = new FileContentResult(bytes, MediaTypeNames.Application.Pdf);
-					if (filename.HasText())
-					{
-						result.FileDownloadName = filename;
-					}
-					return result;
+					return bytes;
+					// var result = new FileContentResult(bytes, MediaTypeNames.Application.Pdf);
+					// if (filename.HasText())
+					// {
+					// 	result.FileDownloadName = filename;
+					// }
+					// return result;
 				}
 				else
 				{
