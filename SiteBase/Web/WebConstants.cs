@@ -90,6 +90,11 @@ namespace DigitalBeacon.SiteBase.Web
 					||  ConfigurationManager.AppSettings[HtmlToPdfApiEndpointKey].HasText(); }
 		}
 
+		public static bool DoesPdfGenerationUseApiEndpoint
+		{
+			get { return ConfigurationManager.AppSettings[HtmlToPdfApiEndpointKey].HasText(); }
+		}
+
 		public static string AssetVersion
 		{
 			get 

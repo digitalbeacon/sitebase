@@ -1250,15 +1250,14 @@ namespace DigitalBeacon.SiteBase.Web
 		{
 			try
 			{
-				// webClient.Headers[HttpRequestHeader.Accept] = "application/pdf";
-					
 				using (var client = new WebClient())
 				{
 					client.Headers[HttpRequestHeader.ContentType] = "application/json"; // Set content type for JSON
-					var data = new { url };
+					var data = JsonConvert.DeserializeObject(options ?? "{}") as JObject ?? new JObject();
+					data["url"] = url;
+					data["landscape"] = landscape;
+					data["filename"] = filename;
 					var json = JsonConvert.SerializeObject(data);
-					// JsonSerializer.SerializeToUtf8Bytes(data);
-					// var bytes = client.UploadData(apiEndpoint, "POST", new JsonSerializer().SerializeToUtf8Bytes(data));
 					var bytes = client.UploadData(apiEndpoint, "POST", System.Text.Encoding.UTF8.GetBytes(json));
 					return bytes;
 				}					
