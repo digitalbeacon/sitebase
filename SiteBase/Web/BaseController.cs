@@ -1250,15 +1250,21 @@ namespace DigitalBeacon.SiteBase.Web
 		{
 			try
 			{
+				var pref = PreferenceService.GetPreference(CurrentAssociationId, HtmlToPdfOptionsKey);
+				var pdfGenOptions = JsonConvert.DeserializeObject(pref != null ? pref.Value : "{}") as JObject ?? new JObject();
 				using (var client = new WebClient())
 				{
 					client.Headers[HttpRequestHeader.ContentType] = "application/json"; // Set content type for JSON
 					var data = JsonConvert.DeserializeObject(options ?? "{}") as JObject ?? new JObject();
-					data["url"] = url;
-					data["landscape"] = landscape;
-					data["filename"] = filename;
-					var json = JsonConvert.SerializeObject(data);
-					var bytes = client.UploadData(apiEndpoint, "POST", System.Text.Encoding.UTF8.GetBytes(json));
+					foreach (var prop in data.Properties())
+					{
+						pdfGenOptions[prop.Name] = prop.Value;
+					}
+					pdfGenOptions["url"] = url;
+					pdfGenOptions["landscape"] = landscape;
+					pdfGenOptions["filename"] = filename;
+					var pdfGenOptionsJson = JsonConvert.SerializeObject(pdfGenOptions);
+					var bytes = client.UploadData(apiEndpoint, "POST", System.Text.Encoding.UTF8.GetBytes(pdfGenOptionsJson));
 					return bytes;
 				}					
 			}
