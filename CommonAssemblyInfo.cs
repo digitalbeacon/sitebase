@@ -15,5 +15,5 @@ using System.Reflection;
 [assembly: AssemblyCopyright("Copyright © 2007-2021 Digital Beacon, LLC")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("3.3.1.*")]
-[assembly: AssemblyFileVersion("3.3.1.0")]
+[assembly: AssemblyVersion("3.3.2.*")]
+[assembly: AssemblyFileVersion("3.3.2.0")]

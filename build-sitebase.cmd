@@ -15,10 +15,27 @@ goto setargs
 
 3rdParty\Nuget\Bin\NuGet.exe restore DigitalBeacon.SiteBase.sln
 
-SET MsBuildPath=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\msbuild
-if "%PROCESSOR_ARCHITECTURE%"=="AMD64" SET MsBuildPath=%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\msbuild
-echo Using MSBuild path: %MsBuildPath%
+@REM SET MsBuildPath=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\msbuild
+@REM if "%PROCESSOR_ARCHITECTURE%"=="AMD64" SET MsBuildPath=%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\msbuild
+@REM echo Using MSBuild path: %MsBuildPath%
 
-%MsBuildPath% DigitalBeacon.SiteBase.sln /m /t:%BuildTarget% /p:Configuration=%Configuration%
+setlocal enabledelayedexpansion
+set VSWHERE="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+for /f "usebackq tokens=*" %%i in (`"!VSWHERE!" -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe`) do (
+    set "MSBUILD_EXE=%%i"
+    goto :found_msbuild
+)
+
+:found_msbuild
+if defined MSBUILD_EXE (
+    echo MSBuild found at: !MSBUILD_EXE!
+) else (
+    echo MSBuild not found.
+    goto exitscript
+)
+
+"!MSBUILD_EXE!" DigitalBeacon.SiteBase.sln /m /t:%BuildTarget% /p:Configuration=%Configuration%
+
+:exitscript
 
 if not "%NoPause%"=="nopause" pause

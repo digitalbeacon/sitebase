@@ -14,11 +14,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -56,6 +58,8 @@ namespace DigitalBeacon.SiteBase.Web
 
 		private const string HtmlToPdfOptionsKey = "HtmlToPdfOptions";
 		private const string DefaultHtmlToPdfOptions = "--print-media-type --page-size Letter --javascript-delay 100 --margin-bottom 12mm --footer-font-size 8 --footer-right \"Page [page] of [toPage]\"";
+		private const string HtmlToPdfTimeoutInSecondsKey = "HtmlToPdfTimeoutInSeconds";
+		private const int DefaultHtmlToPdfTimeoutInSeconds = 300;
 
 		private JObject _jsonData;
 
@@ -1185,9 +1189,9 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <param name="landscape">if set to <c>true</c> use landscape orientation.</param>
 		/// <param name="options">The options.</param>
 		/// <returns></returns>
-		protected ActionResult HtmlToPdfAction(string filename, string url, bool landscape = false, string options = null)
+		protected async Task<ActionResult> HtmlToPdfAction(string filename, string url, bool landscape = false, string options = null)
 		{
-			return HtmlToPdfAction(landscape, options, filename, url);
+			return await HtmlToPdfAction(landscape, options, filename, url);
 		}
 
 		/// <summary>
@@ -1199,20 +1203,18 @@ namespace DigitalBeacon.SiteBase.Web
 		/// <param name="url">The URL.</param>
 		/// <param name="additionalUrls">The additional urls.</param>
 		/// <returns></returns>
-		protected ActionResult HtmlToPdfAction(bool landscape, string options, string filename, string url, params string[] additionalUrls)
+		protected async Task<ActionResult> HtmlToPdfAction(bool landscape, string options, string filename, string url, params string[] additionalUrls)
 		{
 			url.Guard("url");
 
-			FileContentResult result = null;
+			FileResult result = null;
 			
 			if (!WebConstants.IsPdfGenerationEnabled)
 			{
 				var webClient = new WebClient();
 				using (var stream = webClient.OpenRead(url))
-				using (var ms = new MemoryStream())
 				{
-					stream.CopyTo(ms);
-					result = new FileContentResult(ms.ToArray(), MediaTypeNames.Text.Html);
+					result = new FileStreamResult(stream, MediaTypeNames.Text.Html);
 					if (filename.HasText())
 					{
 						result.FileDownloadName = filename;
@@ -1223,22 +1225,24 @@ namespace DigitalBeacon.SiteBase.Web
 			
 			var htmlToPdfExePath = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfExePathKey];
 			var htmlToPdfApiEndpoint = ConfigurationManager.AppSettings[WebConstants.HtmlToPdfApiEndpointKey];
-			byte[] pdfBytes;
+			Stream pdfByteStream;
 			if (htmlToPdfExePath.HasText())
 			{
-				pdfBytes = HtmlToPdfUsingExe(htmlToPdfExePath, landscape, options, filename, url, additionalUrls);
+				pdfByteStream = HtmlToPdfUsingExe(htmlToPdfExePath, landscape, options, filename, url,
+					additionalUrls);
 			}
 			else
 			{
-				pdfBytes = HtmlToPdfUsingApi(htmlToPdfApiEndpoint, landscape, options, filename, url, additionalUrls);
+				pdfByteStream = await HtmlToPdfUsingApi(htmlToPdfApiEndpoint, landscape, options, filename, url,
+					additionalUrls);
 			}
 
-			if (pdfBytes == null)
+			if (pdfByteStream == null)
 			{
 				throw new BaseException("Could not generate PDF");
 			}
 
-			result = new FileContentResult(pdfBytes, MediaTypeNames.Application.Pdf);
+			result = new FileStreamResult(pdfByteStream, MediaTypeNames.Application.Pdf);
 			if (filename.HasText())
 			{
 				result.FileDownloadName = filename;
@@ -1246,15 +1250,20 @@ namespace DigitalBeacon.SiteBase.Web
 			return result;
 		}
 
-		private byte[] HtmlToPdfUsingApi(string apiEndpoint, bool landscape, string options, string filename, string url, params string[] additionalUrls)
+		private async Task<Stream> HtmlToPdfUsingApi(string apiEndpoint, bool landscape, string options, string filename, string url, params string[] additionalUrls)
 		{
 			try
 			{
-				var pref = PreferenceService.GetPreference(CurrentAssociationId, HtmlToPdfOptionsKey);
+				var pref = PreferenceService.GetPreference(CurrentAssociationId, HtmlToPdfTimeoutInSecondsKey);
+				var timeOutInSeconds = pref?.Value.ToInt32() ?? DefaultHtmlToPdfTimeoutInSeconds;
+				pref = PreferenceService.GetPreference(CurrentAssociationId, HtmlToPdfOptionsKey);
 				var pdfGenOptions = JsonConvert.DeserializeObject(pref != null ? pref.Value : "{}") as JObject ?? new JObject();
-				using (var client = new WebClient())
+				using (var client = new HttpClient())
 				{
-					client.Headers[HttpRequestHeader.ContentType] = "application/json"; // Set content type for JSON
+					client.Timeout = TimeSpan.FromSeconds(timeOutInSeconds);
+					var request = new HttpRequestMessage(HttpMethod.Post, apiEndpoint);
+					// request.Headers.
+					// client.Headers[HttpRequestHeader.ContentType] = "application/json"; // Set content type for JSON
 					var data = JsonConvert.DeserializeObject(options ?? "{}") as JObject ?? new JObject();
 					foreach (var prop in data.Properties())
 					{
@@ -1264,8 +1273,15 @@ namespace DigitalBeacon.SiteBase.Web
 					pdfGenOptions["landscape"] = landscape;
 					pdfGenOptions["filename"] = filename;
 					var pdfGenOptionsJson = JsonConvert.SerializeObject(pdfGenOptions);
-					var bytes = client.UploadData(apiEndpoint, "POST", System.Text.Encoding.UTF8.GetBytes(pdfGenOptionsJson));
-					return bytes;
+					request.Content = new StringContent(pdfGenOptionsJson, Encoding.UTF8, "application/json");
+					var response = await client.SendAsync(request);
+					if (response.IsSuccessStatusCode)
+					{
+						var stream = await response.Content.ReadAsStreamAsync();
+						return stream;
+					}
+					var errorMsg = await response.Content.ReadAsStringAsync();
+					throw new BaseException("PDF generation failed. " + errorMsg);
 				}					
 			}
 			catch (Exception e)
@@ -1275,7 +1291,7 @@ namespace DigitalBeacon.SiteBase.Web
 			}
 		}
 		
-		private byte[] HtmlToPdfUsingExe(string exePath, bool landscape, string options, string filename, string url, params string[] additionalUrls)
+		private Stream HtmlToPdfUsingExe(string exePath, bool landscape, string options, string filename, string url, params string[] additionalUrls)
 		{
 			var p = new System.Diagnostics.Process();
 
@@ -1328,9 +1344,10 @@ namespace DigitalBeacon.SiteBase.Web
 				int returnCode = p.ExitCode;
 				if (returnCode == 0)
 				{
-					var bytes = System.IO.File.ReadAllBytes(tempFile);
-					System.IO.File.Delete(tempFile);
-					return bytes;
+					return new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
+					// var bytes = System.IO.File.ReadAllBytes(tempFile);
+					// System.IO.File.Delete(tempFile);
+					// return bytes;
 					// var result = new FileContentResult(bytes, MediaTypeNames.Application.Pdf);
 					// if (filename.HasText())
 					// {

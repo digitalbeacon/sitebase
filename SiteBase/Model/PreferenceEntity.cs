@@ -13,6 +13,25 @@ namespace DigitalBeacon.SiteBase.Model
 	public class PreferenceEntity : GeneratedPreferenceEntity
 	{
 		/// <summary>
+		/// Get value as an Int32
+		/// </summary>
+		public virtual int? ValueAsInt32
+		{
+			get
+			{
+				int? retVal = null;
+				if (!String.IsNullOrEmpty(Value))
+				{
+					if (Int32.TryParse(Value, out var intVal))
+					{
+						retVal = intVal;
+					}
+				}
+				return retVal;
+			}
+		}
+		
+		/// <summary>
 		/// Get value as an Int64
 		/// </summary>
 		public virtual long? ValueAsInt64
@@ -22,8 +41,7 @@ namespace DigitalBeacon.SiteBase.Model
 				long? retVal = null;
 				if (!String.IsNullOrEmpty(Value))
 				{
-					long longVal;
-					if (Int64.TryParse(Value, out longVal))
+					if (Int64.TryParse(Value, out var longVal))
 					{
 						retVal = longVal;
 					}
@@ -42,8 +60,7 @@ namespace DigitalBeacon.SiteBase.Model
 				DateTime? retVal = null;
 				if (!String.IsNullOrEmpty(Value))
 				{
-					long longVal;
-					if (Int64.TryParse(Value, out longVal))
+					if (Int64.TryParse(Value, out var longVal))
 					{
 						retVal = new DateTime(longVal);
 					}
@@ -62,7 +79,7 @@ namespace DigitalBeacon.SiteBase.Model
 				bool? retVal = null;
 				if (!String.IsNullOrEmpty(Value))
 				{
-					retVal = (Value.ToLower() == "true" || Value == "1") ? true : false;
+					retVal = (Value.ToLower() == "true" || Value == "1");
 				}
 				return retVal;
 			}
